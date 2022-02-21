@@ -1,0 +1,35 @@
+{
+  "canisters": {
+    "prixelart": {
+      "main": "src/prixelart/main.mo",
+      "type": "motoko"
+    },
+    "prixelart_assets": {
+      "dependencies": [
+        "prixelart"
+      ],
+      "frontend": {
+        "entrypoint": "src/prixelart_assets/src/index.html"
+      },
+      "source": [
+        "src/prixelart_assets/assets",
+        "dist/prixelart_assets/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "dfx": "0.8.4",
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    }
+  },
+  "version": 1
+}
