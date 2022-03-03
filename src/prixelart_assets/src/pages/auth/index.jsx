@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,16 +18,34 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
+import Loading from "../../components/loading";
+import service from "../service";
+
 const toolbarHeight = 68;
 
 function Auth() {
   const [isWalletAuth, setIsWalletAuth] = useState(
-    Boolean(localStorage.getItem("isWalletAuth"))
+    Boolean(localStorage.getItem("wallet"))
   );
   const [isUserData, setIsUserData] = useState(false);
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [givenName, setGivenName] = useState("");
+  const [familyName, setFamilyName] = useState("");
+  const [location, setLocation] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [about, setAbout] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  return (
+  useEffect(() => {
+    if (isWalletAuth) navigate("/main");
+  }, []);
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div>
       {!isWalletAuth && (
         <div
@@ -58,7 +76,7 @@ function Auth() {
               <Button
                 variant="contained"
                 style={{ textTransform: "capitalize" }}
-                onClick={onConnectWallet}
+                onClick={onSignInStoic}
               >
                 Connect stoic
               </Button>
@@ -99,6 +117,8 @@ function Auth() {
                           variant="outlined"
                           required
                           fullWidth
+                          value={username}
+                          onChange={(event) => setUsername(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
@@ -107,6 +127,10 @@ function Auth() {
                           label="Display name"
                           variant="outlined"
                           required
+                          value={displayName}
+                          onChange={(event) =>
+                            setDisplayName(event.target.value)
+                          }
                           fullWidth
                         />
                       </Grid>
@@ -116,6 +140,8 @@ function Auth() {
                           label="Given name"
                           variant="outlined"
                           fullWidth
+                          value={givenName}
+                          onChange={(event) => setGivenName(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
@@ -124,6 +150,10 @@ function Auth() {
                           label="Family name"
                           variant="outlined"
                           fullWidth
+                          value={familyName}
+                          onChange={(event) =>
+                            setFamilyName(event.target.value)
+                          }
                         />
                       </Grid>
                       <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
@@ -132,6 +162,8 @@ function Auth() {
                           label="Location"
                           variant="outlined"
                           fullWidth
+                          value={location}
+                          onChange={(event) => setLocation(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
@@ -139,6 +171,8 @@ function Auth() {
                           fullWidth
                           type="text"
                           label="Email"
+                          value={email}
+                          onChange={(event) => setEmail(event.target.value)}
                           variant="outlined"
                         />
                       </Grid>
@@ -148,6 +182,8 @@ function Auth() {
                           type="text"
                           label="Phone"
                           variant="outlined"
+                          value={phone}
+                          onChange={(event) => setPhone(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -158,6 +194,8 @@ function Auth() {
                           variant="outlined"
                           multiline
                           rows={3}
+                          value={about}
+                          onChange={(event) => setAbout(event.target.value)}
                         />
                       </Grid>
                     </Grid>
@@ -256,8 +294,39 @@ function Auth() {
             aria-label="add"
             style={{ position: "absolute", bottom: 16, right: 16 }}
             onClick={() => {
-              navigate("/main");
-              localStorage.setItem("isAuth", true);
+              onCreateProfile({
+                bio: {
+                  givenName: [givenName],
+                  familyName: [familyName],
+                  username: [username],
+                  displayName: [displayName],
+                  location: [location],
+                  about: [about],
+                  email: [email],
+                  phone: [phone],
+                  socials: [
+                    {
+                      deSo: [
+                        {
+                          distrikt: [],
+                          dscvr: [],
+                          openChat: [],
+                        },
+                      ],
+                      ceSo: [
+                        {
+                          discord: [],
+                          twitter: [],
+                          instagram: [],
+                          facebook: [],
+                          tiktok: [],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              });
+              // localStorage.setItem("isAuth", true);
             }}
           >
             <ChevronRightIcon />
@@ -267,20 +336,43 @@ function Auth() {
     </div>
   );
 
-  function onConnectWallet() {
-    localStorage.setItem("isWalletAuth", true);
-    setIsWalletAuth(true);
-  }
-
   function onHandleScreem(screen) {
     setIsUserData(screen);
   }
 
-  function onLogout() {
-    localStorage.removeItem("isWalletAuth");
-    localStorage.removeItem("isAuth");
-    setIsWalletAuth(false);
-    setIsUserData(false);
+  async function onLogout() {
+    const wallet = localStorage.getItem("wallet");
+    if (wallet) {
+      const isDisconnected = await service.onSignOutStoic();
+      if (isDisconnected) {
+        localStorage.removeItem("wallet");
+        setIsWalletAuth(false);
+        setIsUserData(false);
+      }
+    }
+  }
+
+  async function onSignInStoic() {
+    setIsLoading(true);
+    const identity = await service.onSignInStoic();
+    if (identity) {
+      localStorage.setItem("wallet", "Stoic");
+      setIsWalletAuth(true);
+      const profile = await service.getProfile();
+      if (Object.keys(profile)[0] !== "err") navigate("/main");
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      alert("not");
+    }
+  }
+
+  async function onCreateProfile(profileData) {
+    setIsLoading(true);
+    await service.createProfile(profileData);
+    navigate("/main");
+
+    setIsLoading(false);
   }
 }
 

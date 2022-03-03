@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import * as React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -24,6 +24,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
+import MuiAlert from "@mui/material/Alert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -38,18 +43,44 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
 import SettingsInputCompositeOutlinedIcon from "@mui/icons-material/SettingsInputCompositeOutlined";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+
+import service from "../service";
+import Loading from "../../components/loading";
 
 const toolbarHeight = 68;
 
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 function Main() {
   const [isArtDone] = useState(Boolean(localStorage.getItem("isArtDone")));
+  const [currentProfile, setCurrentProfile] = useState();
   const [searchParams] = useSearchParams();
   const [isArtSelected, setIsArtSelected] = useState(true);
   const [isEditProfile, setIsEditProfile] = useState(true);
   const [showPrixerList, setShowPrixerList] = useState(false);
+
+  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [givenName, setGivenName] = useState("");
+  const [familyName, setFamilyName] = useState("");
+  const [location, setLocation] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [about, setAbout] = useState("");
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [message, setMessage] = useState(undefined);
+  const [severity, setSeverity] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
   const navigate = useNavigate();
   const theme = useTheme();
   const mobileBreakpoint = useMediaQuery(theme.breakpoints.up("md"));
+
   useEffect(() => {
     if (isArtDone) {
       if (searchParams.get("isEdit") === "true") {
@@ -62,6 +93,29 @@ function Main() {
     }
   }, [searchParams]);
 
+  useEffect(async () => {
+    if (!Boolean(localStorage.getItem("wallet"))) navigate("/login");
+    const profile = await service.getProfile();
+    if (Object.keys(profile)[0] === "err") {
+      navigate("/login");
+      localStorage.clear();
+    } else {
+      setCurrentProfile(profile.ok.bio);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (currentProfile) {
+      setUsername(currentProfile.username[0]);
+      setDisplayName(currentProfile.displayName[0]);
+      setGivenName(currentProfile.givenName[0]);
+      setFamilyName(currentProfile.familyName[0]);
+      setLocation(currentProfile.location[0]);
+      setEmail(currentProfile.email[0]);
+      setPhone(currentProfile.phone[0]);
+      setAbout(currentProfile.about[0]);
+    }
+  }, [currentProfile]);
   const images = [
     {
       img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
@@ -132,8 +186,9 @@ function Main() {
       title: "Bike",
     },
   ];
-
-  return (
+  return !currentProfile || isLoading ? (
+    <Loading />
+  ) : (
     <div
       style={{
         height: "100vh",
@@ -187,7 +242,9 @@ function Main() {
                         type="text"
                         label="Username"
                         variant="outlined"
+                        value={username}
                         required
+                        onChange={(event) => setUsername(event.target.value)}
                         fullWidth
                       />
                     </Grid>
@@ -197,6 +254,8 @@ function Main() {
                         label="Display name"
                         variant="outlined"
                         required
+                        value={displayName}
+                        onChange={(event) => setDisplayName(event.target.value)}
                         fullWidth
                       />
                     </Grid>
@@ -204,6 +263,8 @@ function Main() {
                       <TextField
                         type="text"
                         label="Given name"
+                        value={givenName}
+                        onChange={(event) => setGivenName(event.target.value)}
                         variant="outlined"
                         fullWidth
                       />
@@ -212,7 +273,9 @@ function Main() {
                       <TextField
                         type="text"
                         label="Family name"
+                        onChange={(event) => setFamilyName(event.target.value)}
                         variant="outlined"
+                        value={familyName}
                         fullWidth
                       />
                     </Grid>
@@ -222,6 +285,8 @@ function Main() {
                         label="Location"
                         variant="outlined"
                         fullWidth
+                        onChange={(event) => setLocation(event.target.value)}
+                        value={location}
                       />
                     </Grid>
                     <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
@@ -229,7 +294,9 @@ function Main() {
                         fullWidth
                         type="text"
                         label="Email"
+                        value={email}
                         variant="outlined"
+                        onChange={(event) => setEmail(event.target.value)}
                       />
                     </Grid>
                     <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
@@ -237,6 +304,8 @@ function Main() {
                         fullWidth
                         type="text"
                         label="Phone"
+                        value={phone}
+                        onChange={(event) => setPhone(event.target.value)}
                         variant="outlined"
                       />
                     </Grid>
@@ -246,6 +315,8 @@ function Main() {
                         type="text"
                         label="About"
                         variant="outlined"
+                        value={about}
+                        onChange={(event) => setAbout(event.target.value)}
                         multiline
                         rows={3}
                       />
@@ -303,6 +374,49 @@ function Main() {
                     </Grid>
                   </Grid>
                 </>
+              )}
+              {isEditProfile && (
+                <Box style={{ marginTop: 12 }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() =>
+                      onUpdateProfile({
+                        bio: {
+                          givenName: [givenName],
+                          familyName: [familyName],
+                          username: [username],
+                          displayName: [displayName],
+                          location: [location],
+                          about: [about],
+                          email: [email],
+                          phone: [phone],
+                          socials: [
+                            {
+                              deSo: [
+                                {
+                                  distrikt: [],
+                                  dscvr: [],
+                                  openChat: [],
+                                },
+                              ],
+                              ceSo: [
+                                {
+                                  discord: [],
+                                  twitter: [],
+                                  instagram: [],
+                                  facebook: [],
+                                  tiktok: [],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      })
+                    }
+                  >
+                    Update
+                  </Button>
+                </Box>
               )}
 
               <Box
@@ -495,26 +609,57 @@ function Main() {
                     </Box>
                     <Box>
                       <Box>
-                        <Typography variant="body1">Gleiber Granado</Typography>
+                        <Typography variant="body1">{`${currentProfile.givenName[0]} ${currentProfile.familyName[0]}`}</Typography>
                       </Box>
                       <Box>
-                        <Typography variant="body2">ggranado</Typography>
+                        <Typography variant="body2">{`${currentProfile.displayName[0]}`}</Typography>
                       </Box>
                       <Box>
                         <Typography variant="body2">
-                          Una informacion corta del prixer asdalsdlasd
+                          {`${currentProfile.about[0]}`}
                         </Typography>
                       </Box>
                     </Box>
-                    <Box>
-                      <IconButton
-                        color="primary"
-                        onClick={() =>
-                          navigate("/main?page=profile&isEdit=true")
-                        }
-                      >
-                        <EditIcon color="primary" />
-                      </IconButton>
+                    <Box style={{ marginLeft: "auto" }}>
+                      <Box>
+                        <IconButton
+                          size="small"
+                          color="primary"
+                          onClick={() =>
+                            navigate("/main?page=profile&isEdit=true")
+                          }
+                        >
+                          <EditIcon fontFamily="small" color="primary" />
+                        </IconButton>
+                      </Box>
+                      <Box>
+                        <IconButton
+                          size="small"
+                          color="primary"
+                          aria-controls={open ? "basic-menu" : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? "true" : undefined}
+                          onClick={handleClick}
+                        >
+                          <MoreHorizIcon color="primary" fontFamily="small" />
+                        </IconButton>
+                        <Menu
+                          id="basic-menu"
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={}
+                          MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                          }}
+                        >
+                          <MenuItem
+                            style={{ color: "red" }}
+                            onClick={()=> deleteProfile()}
+                          >
+                            Delete profile
+                          </MenuItem>
+                        </Menu>
+                      </Box>
                     </Box>
                   </Box>
                 </Paper>
@@ -873,13 +1018,56 @@ function Main() {
           </Box>
         )}
       </Box>
+      <Snackbar
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        onClose={handleCloseSnackbar}
+        open={isSnackbarOpen}
+        TransitionComponent={SlideTransition}
+      >
+        <Alert severity={severity}>{message}</Alert>
+      </Snackbar>
     </div>
   );
+
+  function SlideTransition(props) {
+    return <Slide {...props} direction="left" />;
+  }
+
+  function handleCloseSnackbar(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+    setIsSnackbarOpen(false);
+  }
+
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  }
+  function handleClose() {
+    setAnchorEl(null);
+  }
 
   function onLogout() {
     localStorage.removeItem("isWalletAuth");
     localStorage.removeItem("isAuth");
     navigate("/login");
+  }
+
+  async function onUpdateProfile(profileData) {
+    setIsLoading(true);
+    await service.updateProfile(profileData);
+    setIsLoading(false);
+    setIsSnackbarOpen(true);
+    setMessage("Perfil actualizado correctamente");
+    setSeverity("success");
+  }
+
+  async function deleteProfile(){
+    setIsLoading(true);
+    await service.deleteProfile();
+    localStorage.clear();
+    navigate("/login")
   }
 }
 

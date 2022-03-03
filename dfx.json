@@ -1,20 +1,10 @@
 {
   "canisters": {
-    "prixelart": {
-      "main": "src/prixelart/main.mo",
-      "type": "motoko"
-    },
     "prixelart_assets": {
-      "dependencies": [
-        "prixelart"
-      ],
       "frontend": {
         "entrypoint": "src/prixelart_assets/src/index.html"
       },
-      "source": [
-        "src/prixelart_assets/assets",
-        "dist/prixelart_assets/"
-      ],
+      "source": ["src/prixelart_assets/assets", "dist/prixelart_assets/"],
       "type": "assets"
     }
   },

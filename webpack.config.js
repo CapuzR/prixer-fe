@@ -96,8 +96,12 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
-      ...canisterEnvVariables,
+      PRIXELART_CANISTER_ID: "rrkah-fqaaa-aaaaa-aaaaq-cai", // production Internet Identity canister
     }),
+    // new webpack.EnvironmentPlugin({
+    //   NODE_ENV: "development",
+    //   WEAVEPROFILEFE_ASSETS_CANISTER_ID: canisters["prixerlat_assets"],
+    // }),
     new webpack.ProvidePlugin({
       Buffer: [require.resolve("buffer/"), "Buffer"],
       process: require.resolve("process/browser"),
