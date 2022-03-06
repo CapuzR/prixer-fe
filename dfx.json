@@ -1,5 +1,11 @@
 {
   "canisters": {
+    "prixelart": {
+      "candid": "src/prixelart/prixelart.did",
+      "type": "custom",
+      "wasm": "src/prixelart/prixelart.wasm"
+    },
+
     "prixelart_assets": {
       "frontend": {
         "entrypoint": "src/prixelart_assets/src/index.html"

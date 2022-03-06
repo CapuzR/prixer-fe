@@ -37,6 +37,10 @@ function Auth() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [about, setAbout] = useState("");
+  const [asset, setAsset] = useState();
+  const [image, setImage] = useState(
+    "https://via.placeholder.com/300.png/09f/fff"
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -105,8 +109,11 @@ function Auth() {
                   <>
                     <Box style={{ display: "flex", justifyContent: "center" }}>
                       <IconButton component="label">
-                        <Avatar style={{ width: "120px", height: "120px" }} />
-                        <input hidden type="file" />
+                        <Avatar
+                          style={{ width: "120px", height: "120px" }}
+                          src={image}
+                        />
+                        <input hidden type="file" onChange={handleChange} />
                       </IconButton>
                     </Box>
                     <Grid container spacing={1} style={{ marginTop: "32px" }}>
@@ -325,8 +332,17 @@ function Auth() {
                     },
                   ],
                 },
+                avatarRequest: {
+                  Put: {
+                    key: JSON.parse(localStorage.getItem("_scApp")).principal,
+                    contentType: "image/jpeg",
+                    payload: {
+                      Payload: asset,
+                    },
+                    callback: [],
+                  },
+                },
               });
-              // localStorage.setItem("isAuth", true);
             }}
           >
             <ChevronRightIcon />
@@ -335,6 +351,28 @@ function Auth() {
       )}
     </div>
   );
+
+  function convertToBase64(blob) {
+    return new Promise((resolve) => {
+      var reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function handleChange(e) {
+    const file = e.target.files[0];
+
+    const resizedString = await convertToBase64(file);
+    console.log(resizedString);
+
+    const data = [...new Uint8Array(await file.arrayBuffer())];
+    setImage(resizedString);
+    setAsset(data);
+    console.log(resizedString);
+  }
 
   function onHandleScreem(screen) {
     setIsUserData(screen);

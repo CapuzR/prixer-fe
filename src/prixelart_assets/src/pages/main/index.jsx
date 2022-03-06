@@ -1,6 +1,7 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import * as React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { encode, decode } from 'uint8-to-base64';
 
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -57,6 +58,7 @@ const Alert = forwardRef(function Alert(props, ref) {
 function Main() {
   const [isArtDone] = useState(Boolean(localStorage.getItem("isArtDone")));
   const [currentProfile, setCurrentProfile] = useState();
+  const [avatar, setAvatar] = useState();
   const [searchParams] = useSearchParams();
   const [isArtSelected, setIsArtSelected] = useState(true);
   const [isEditProfile, setIsEditProfile] = useState(true);
@@ -75,6 +77,8 @@ function Main() {
   const [severity, setSeverity] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [asset, setAsset] = useState();
+  
   const open = Boolean(anchorEl);
 
   const navigate = useNavigate();
@@ -92,7 +96,6 @@ function Main() {
       }
     }
   }, [searchParams]);
-
   useEffect(async () => {
     if (!Boolean(localStorage.getItem("wallet"))) navigate("/login");
     const profile = await service.getProfile();
@@ -100,10 +103,11 @@ function Main() {
       navigate("/login");
       localStorage.clear();
     } else {
-      setCurrentProfile(profile.ok.bio);
+      setCurrentProfile(profile.ok[0][0].bio);
+      setAvatar("data:image/jpeg;base64," + encode(profile.ok[1][0].payload[0]))
+        
     }
   }, []);
-
   useEffect(() => {
     if (currentProfile) {
       setUsername(currentProfile.username[0]);
@@ -232,8 +236,8 @@ function Main() {
                     }}
                   >
                     <IconButton component="label">
-                      <Avatar style={{ width: "120px", height: "120px" }} />
-                      <input hidden type="file" />
+                      <Avatar src={avatar && avatar} style={{ width: "120px", height: "120px" }} />
+                      <input hidden type="file" onChange={handleChange}/>
                     </IconButton>
                   </Box>
                   <Grid container spacing={1} style={{ marginTop: "32px" }}>
@@ -411,6 +415,16 @@ function Main() {
                             },
                           ],
                         },
+                        avatarRequest: {
+                  Put: {
+                    key: JSON.parse(localStorage.getItem("_scApp")).principal,
+                    contentType: "image/jpeg",
+                    payload: {
+                      Payload: asset,
+                    },
+                    callback: [],
+                  },
+                },
                       })
                     }
                   >
@@ -605,7 +619,7 @@ function Main() {
                 >
                   <Box style={{ display: "flex" }}>
                     <Box style={{ marginRight: "12px" }}>
-                      <Avatar style={{ width: 48, height: 48 }} />
+                      <Avatar src={avatar && avatar} style={{ width: 48, height: 48 }} />
                     </Box>
                     <Box>
                       <Box>
@@ -1030,6 +1044,27 @@ function Main() {
     </div>
   );
 
+  function convertToBase64(blob) {
+    return new Promise((resolve) => {
+      var reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function handleChange(e) {
+    const file = e.target.files[0];
+
+    const resizedString = await convertToBase64(file);
+    console.log(resizedString);
+
+    const data = [...new Uint8Array(await file.arrayBuffer())];
+    setAvatar(resizedString);
+    setAsset(data);
+  }
+
   function SlideTransition(props) {
     return <Slide {...props} direction="left" />;
   }
@@ -1065,7 +1100,7 @@ function Main() {
 
   async function deleteProfile(){
     setIsLoading(true);
-    await service.deleteProfile();
+    await service.deleteProfile(JSON.parse(localStorage.getItem("_scApp")).principal);
     localStorage.clear();
     navigate("/login")
   }

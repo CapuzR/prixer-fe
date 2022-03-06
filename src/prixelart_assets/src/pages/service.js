@@ -34,7 +34,7 @@ async function onSignOutStoic() {
 }
 
 async function wPActor(identity) {
-  return await wPCreateActor("rrkah-fqaaa-aaaaa-aaaaq-cai", {
+  return await wPCreateActor("rkp4c-7iaaa-aaaaa-aaaca-cai", {
     agentOptions: {
       identity: identity,
     },
@@ -44,11 +44,13 @@ async function wPActor(identity) {
 async function getProfile() {
   const identity = await onSignInStoic();
   const actor = await wPActor(identity);
+  console.log(await actor.readProfile());
   return await actor.readProfile();
 }
 
 async function createProfile(profileData) {
   const identity = await onSignInStoic();
+  console.log(identity);
   const actor = await wPActor(identity);
   const result = await actor.createProfile(profileData);
   console.log(result);
@@ -68,9 +70,14 @@ async function updateProfile(profileData) {
   return result;
 }
 
-async function deleteProfile() {
+async function deleteProfile(key) {
   const identity = await onSignInStoic();
   const actor = await wPActor(identity);
 
-  return await actor.deleteProfile();
+  return await actor.deleteProfile({
+    Remove: {
+      key: key,
+      callback: [],
+    },
+  });
 }

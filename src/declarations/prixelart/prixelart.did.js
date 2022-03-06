@@ -26,11 +26,45 @@ export const idlFactory = ({ IDL }) => {
     'phone' : IDL.Opt(IDL.Text),
     'location' : IDL.Opt(IDL.Text),
   });
-  const ProfileUpdate = IDL.Record({ 'bio' : Bio });
+  const Callback = IDL.Func([], [], []);
+  const WriteAsset = IDL.Variant({
+    'Init' : IDL.Record({
+      'id' : IDL.Text,
+      'size' : IDL.Nat,
+      'callback' : IDL.Opt(Callback),
+    }),
+    'Chunk' : IDL.Record({
+      'id' : IDL.Text,
+      'chunk' : IDL.Vec(IDL.Nat8),
+      'callback' : IDL.Opt(Callback),
+    }),
+  });
+  const AssetRequest = IDL.Variant({
+    'Put' : IDL.Record({
+      'key' : IDL.Text,
+      'contentType' : IDL.Text,
+      'callback' : IDL.Opt(Callback),
+      'payload' : IDL.Variant({
+        'StagedData' : IDL.Null,
+        'Payload' : IDL.Vec(IDL.Nat8),
+      }),
+    }),
+    'Remove' : IDL.Record({ 'key' : IDL.Text, 'callback' : IDL.Opt(Callback) }),
+    'StagedWrite' : WriteAsset,
+  });
+  const ProfileUpdate = IDL.Record({
+    'bio' : Bio,
+    'avatarRequest' : AssetRequest,
+  });
   const Error = IDL.Variant({
+    'Immutable' : IDL.Null,
     'NotFound' : IDL.Null,
     'NotAuthorized' : IDL.Null,
+    'Unauthorized' : IDL.Null,
     'AlreadyExists' : IDL.Null,
+    'InvalidRequest' : IDL.Null,
+    'AuthorizedPrincipalLimitReached' : IDL.Nat,
+    'FailedToWrite' : IDL.Text,
   });
   const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
   const TokenIdentifier = IDL.Text;
@@ -43,12 +77,19 @@ export const idlFactory = ({ IDL }) => {
     'err' : CommonError,
   });
   const Profile = IDL.Record({ 'id' : IDL.Principal, 'bio' : Bio });
-  const Result_1 = IDL.Variant({ 'ok' : Profile, 'err' : Error });
+  const Asset = IDL.Record({
+    'contentType' : IDL.Text,
+    'payload' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+  });
+  const Result_1 = IDL.Variant({
+    'ok' : IDL.Tuple(IDL.Opt(Profile), IDL.Opt(Asset)),
+    'err' : Error,
+  });
   return IDL.Service({
     'createProfile' : IDL.Func([ProfileUpdate], [Result], []),
-    'deleteProfile' : IDL.Func([], [Result], []),
+    'deleteProfile' : IDL.Func([AssetRequest], [Result], []),
     'getDiscordHolders' : IDL.Func([IDL.Text], [Result_2], []),
-    'readProfile' : IDL.Func([], [Result_1], []),
+    'readProfile' : IDL.Func([], [Result_1], ['query']),
     'updateProfile' : IDL.Func([ProfileUpdate], [Result], []),
   });
 };
