@@ -45,6 +45,7 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
 import SettingsInputCompositeOutlinedIcon from "@mui/icons-material/SettingsInputCompositeOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import service from "../service";
 import Loading from "../../components/loading";
@@ -78,13 +79,19 @@ function Main() {
   const [isLoading, setIsLoading] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [asset, setAsset] = useState();
+  const [assetArt, setAssetArt] = useState();
+  const [arts, setArts] = useState([])
+  const [isCreateArt, setIsCreateArt] = useState(false);
+
+  const [anchorElCreation, setAnchorElCreation] = React.useState(null);
+  const openCreation = Boolean(anchorElCreation);
+ 
   
   const open = Boolean(anchorEl);
 
   const navigate = useNavigate();
   const theme = useTheme();
   const mobileBreakpoint = useMediaQuery(theme.breakpoints.up("md"));
-
   useEffect(() => {
     if (isArtDone) {
       if (searchParams.get("isEdit") === "true") {
@@ -96,18 +103,28 @@ function Main() {
       }
     }
   }, [searchParams]);
+
   useEffect(async () => {
     if (!Boolean(localStorage.getItem("wallet"))) navigate("/login");
     const profile = await service.getProfile();
+    const arts = await getArtsPrincipal();
+    if(arts.ok.length > 0) navigate("/main?page=profile");
+    
     if (Object.keys(profile)[0] === "err") {
       navigate("/login");
       localStorage.clear();
     } else {
       setCurrentProfile(profile.ok[0][0].bio);
       setAvatar("data:image/jpeg;base64," + encode(profile.ok[1][0].payload[0]))
+      setArts(arts.ok.map(result => ({
+        image:"data:image/jpeg;base64," + encode(result[2].payload[0]),
+        id:result[0],
+        info:result[1]
+      })))
         
     }
   }, []);
+
   useEffect(() => {
     if (currentProfile) {
       setUsername(currentProfile.username[0]);
@@ -120,76 +137,11 @@ function Main() {
       setAbout(currentProfile.about[0]);
     }
   }, [currentProfile]);
-  const images = [
-    {
-      img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-      title: "Fern",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f",
-      title: "Snacks",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-      title: "Mushrooms",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383",
-      title: "Tower",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-      title: "Sea star",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-      title: "Honey",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-      title: "Basketball",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-      title: "Breakfast",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1627328715728-7bcc1b5db87d",
-      title: "Tree",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-      title: "Burger",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-      title: "Camera",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-      title: "Coffee",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1627000086207-76eabf23aa2e",
-      title: "Camping Car",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-      title: "Hats",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-      title: "Tomato basil",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1627328561499-a3584d4ee4f7",
-      title: "Mountain",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-      title: "Bike",
-    },
-  ];
+
+  useEffect(async () => {
+    }, [])
+
+  console.log(arts)
   return !currentProfile || isLoading ? (
     <Loading />
   ) : (
@@ -237,7 +189,7 @@ function Main() {
                   >
                     <IconButton component="label">
                       <Avatar src={avatar && avatar} style={{ width: "120px", height: "120px" }} />
-                      <input hidden type="file" onChange={handleChange}/>
+                      <input hidden type="file" onChange={(event) => handleChange(event, true)}/>
                     </IconButton>
                   </Box>
                   <Grid container spacing={1} style={{ marginTop: "32px" }}>
@@ -485,10 +437,8 @@ function Main() {
                 </Box>
               </Box>
               <img
-                src={`${searchParams.get("image")}?w=162&auto=format`}
-                srcSet={`${searchParams.get(
-                  "image"
-                )}?w=162&auto=format&dpr=2 2x`}
+                src={arts.find(art => art.id === searchParams.get("image"))?.image}
+                srcSet={arts.find(art => art.id === searchParams.get("image"))?.image}
                 alt={"image"}
                 loading="lazy"
                 style={{
@@ -502,15 +452,15 @@ function Main() {
                 <Box style={{ display: "flex" }}>
                   <Box>
                     <Box>
-                      <Typography variant="h5">Camino de Dios</Typography>
+                      <Typography variant="h5">{arts.find(art => art.id === searchParams.get("image"))?.info?.artBasics?.title}</Typography>
                     </Box>
                     <Box>
-                      <Typography variant="body1">short description</Typography>
+                      <Typography variant="body1">{arts.find(art => art.id === searchParams.get("image")).info?.artBasics?.about}</Typography>
                     </Box>
                   </Box>
                   <Box style={{ marginLeft: "auto" }}>
                     <IconButton color="primary">
-                      <MoreHorizIcon />
+                      <DeleteIcon onClick={() => deleteArt(searchParams.get("image"))}/>
                     </IconButton>
                   </Box>
                 </Box>
@@ -597,7 +547,214 @@ function Main() {
                 </Grid>
               </Box>
             </>
-          ) : (
+          ) : isCreateArt ? <Box style={{ padding: 24 }}>
+                <Box style={{ display: "flex", alignItems: "center" }}>
+                  <Typography variant="h4">Create Art</Typography>
+
+                  <IconButton
+                    color="primary"
+                    onClick={() => setIsCreateArt(false)}
+                    style={{ marginLeft: "auto" }}
+                  >
+                    <ArrowCircleLeftOutlinedIcon fontSize="large" />
+                  </IconButton>
+                </Box>
+                <Grid container spacing={1}>
+                    <Paper elevation={5} style={{ padding: 24, marginTop: 14 }}>
+                      <Grid container spacing={1}>
+                        <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+                          {assetArt ?  
+                            <Button component="label">
+                              <img 
+                                src={ assetArt} 
+                                alt="image" 
+                                srcSet={`${assetArt}`}
+                                loading="lazy"
+                                style={{
+                                  borderBottomLeftRadius: 4,
+                                  borderBottomRightRadius: 4,
+                                  display: "block",
+                                  width: "100%",
+                                }} />
+                              <input type="file" hidden onChange={(event) => handleChange(event, false)}/>
+                            </Button>
+                        : <Button fullWidth component="label">
+                              <AddPhotoAlternateIcon style={{ height: 230, width:80 }} />
+                              <input type="file" hidden onChange={(event) => handleChange(event, false)}/>
+                          </Button> }
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6} lg={8} xl={8}>
+                          <Box style={{ display: "flex" }}>
+                            <Box style={{ width: "50%", marginRight: 4 }}>
+                              <TextField
+                                type="text"
+                                label="Title"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                style={{ marginBottom: 4 }}
+                              />
+                            </Box>
+                            <Box style={{ width: "50%" }}>
+                              <FormControl
+                                style={{ marginBottom: 4 }}
+                                required
+                                fullWidth
+                              >
+                                <InputLabel id="type-label">Type</InputLabel>
+                                <Select
+                                  labelId="type-label"
+                                  id="type-label-select"
+                                  value={""}
+                                  label="Type"
+                                >
+                                  <MenuItem value={10}>Ten</MenuItem>
+                                  <MenuItem value={20}>Twenty</MenuItem>
+                                  <MenuItem value={30}>Thirty</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Box>
+                          </Box>
+                          <Box style={{ display: "flex" }}>
+                            <Box style={{ width: "50%", marginRight: 4 }}>
+                              <FormControl
+                                style={{ marginBottom: 4 }}
+                                required
+                                fullWidth
+                              >
+                                <InputLabel id="category-label">Category</InputLabel>
+                                <Select
+                                  labelId="category-label"
+                                  id="category-select"
+                                  value={""}
+                                  label="Category"
+                                >
+                                  <MenuItem value={10}>Ten</MenuItem>
+                                  <MenuItem value={20}>Twenty</MenuItem>
+                                  <MenuItem value={30}>Thirty</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Box>
+                            <Box style={{ width: "50%" }}>
+                              <TextField
+                                type="text"
+                                label="Location"
+                                variant="outlined"
+                                fullWidth
+                                style={{ marginBottom: 4 }}
+                              />
+                            </Box>
+                          </Box>
+                          <Box style={{ display: "flex" }}>
+                            <Box style={{ width: "50%", marginRight: 4 }}>
+                              <FormControl style={{ marginBottom: 4 }} fullWidth>
+                                <InputLabel id="camera-label">Camera</InputLabel>
+                                <Select
+                                  labelId="camera-label"
+                                  id="category-select"
+                                  value={""}
+                                  label="Camera"
+                                >
+                                  <MenuItem value={10}>Ten</MenuItem>
+                                  <MenuItem value={20}>Twenty</MenuItem>
+                                  <MenuItem value={30}>Thirty</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Box>
+                            <Box style={{ width: "50%" }}>
+                              <FormControl style={{ marginBottom: 8 }} fullWidth>
+                                <InputLabel id="lens-label">Lens</InputLabel>
+                                <Select
+                                  labelId="lens-label"
+                                  id="lens-select"
+                                  value={""}
+                                  label="Lens"
+                                >
+                                  <MenuItem value={10}>Ten</MenuItem>
+                                  <MenuItem value={20}>Twenty</MenuItem>
+                                  <MenuItem value={30}>Thirty</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Box>
+                          </Box>
+                          <FormControl style={{ marginBottom: 4 }} fullWidth>
+                            <InputLabel id="labels-label">Labels</InputLabel>
+                            <Select
+                              labelId="labels-label"
+                              id="labels-select"
+                              value={["label1", "label2"]}
+                              label="Labels"
+                              multiple
+                            >
+                              <MenuItem value={"label1"}>Ten</MenuItem>
+                              <MenuItem value={"label2"}>Twenty</MenuItem>
+                              <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                          <TextField
+                            type="text"
+                            label="About the art"
+                            variant="outlined"
+                            fullWidth
+                            style={{ marginBottom: 4 }}
+                            multiline
+                            rows={4}
+                          />
+                        </Grid>
+                      </Grid>
+                      <Box style={{ marginTop: 12 }}>
+                        <Button
+                          variant="outlined"
+
+                          onClick={() => {
+onCreateArt({
+                            artBasics:{
+                              artGalleries: [],
+                              artType: {
+                              description: "LOL",
+                              id: "1",
+                              name: "photography",
+                            },
+                            title: "Titulo de arte de prueba",
+                            about: "Esto es un sobre que corto",
+                            artCategory: {
+                              description: "Description category",
+                              id: "LOL",
+                              name: "Name in category"  
+                            },
+                            tags:[],
+                            tools:[]
+                          },
+                          artRequest: {
+                            Put: {
+                              key: "lol",
+                              contentType: "image/jpeg",
+                              payload: {
+                                Payload: asset,
+                              },
+                              callback: [],
+                            },
+                          }
+                          })
+                            navigate("/main?page=profile")
+                         }}
+                  >
+                    Create
+                  </Button>
+                      </Box>
+                      <Box
+                        style={{
+                          marginTop: "32px",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                    </Box>
+            </Paper>
+                </Grid>
+              </Box> : (
             <>
               <div
                 style={{
@@ -717,17 +874,17 @@ function Main() {
                 <Box style={{ padding: 16, paddingBottom: 72 }}>
                   {isArtSelected ? (
                     <Masonry columns={3} spacing={0.2}>
-                      {images.map((item, index) => (
+                      {arts.map((item, index) => (
                         <div
                           key={index}
                           onClick={() =>
-                            navigate("/main?page=profile&image=" + item.img)
+                            navigate("/main?page=profile&image=" + item.id)
                           }
                         >
                           <img
-                            src={`${item.img}?w=162&auto=format`}
-                            srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
-                            alt={item.title}
+                            src={`${item.image}`}
+                            srcSet={`${item.image}`}
+                            alt={item.id}
                             loading="lazy"
                             style={{
                               borderBottomLeftRadius: 4,
@@ -841,9 +998,32 @@ function Main() {
                         marginTop: -45,
                       }}
                     >
-                      <Fab color="primary">
+                      <Fab 
+                        color="primary"   
+                        id="basic-button"
+                        aria-controls={openCreation ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openCreation ? 'true' : undefined}
+                        onClick={handleClickCreation}>
                         <AddIcon />
                       </Fab>
+                      <Menu
+                        id="basic-menu"
+                        anchorEl={anchorElCreation}
+                        open={openCreation}
+                        onClose={() => setAnchorElCreation(null)}
+                        MenuListProps={{
+                          'aria-labelledby': 'basic-button',
+                        }}
+                      >
+                        <MenuItem onClick={() => {
+                          setIsCreateArt(true);
+                          setAnchorElCreation(null)
+                        }}>
+                          Create Art
+                        </MenuItem>
+                        <MenuItem onClick={console.log}>Create Gallery</MenuItem>
+                      </Menu>
                     </Box>
                     <Box style={{ width: "20%", textAlign: "center" }}>
                       <IconButton color="primary">
@@ -866,10 +1046,25 @@ function Main() {
             <Paper elevation={5} style={{ padding: 24, marginTop: 8 }}>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-                  <Button fullWidth component="label">
-                    <AddPhotoAlternateIcon style={{ height: 230 }} />
-                    <input type="file" hidden />
-                  </Button>
+                  {assetArt ?  
+                    <Button component="label">
+                      <img 
+                        src={ assetArt} 
+                        alt="image" 
+                        srcSet={`${assetArt}`}
+                        loading="lazy"
+                        style={{
+                          borderBottomLeftRadius: 4,
+                          borderBottomRightRadius: 4,
+                          display: "block",
+                          width: "100%",
+                        }} />
+                      <input type="file" hidden onChange={(event) => handleChange(event, false)}/>
+                    </Button>
+                  : <Button fullWidth component="label">
+                      <AddPhotoAlternateIcon style={{ height: 230, width:80 }} />
+                      <input type="file" hidden onChange={(event) => handleChange(event, false)}/>
+                  </Button> }
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={8} xl={8}>
                   <Box style={{ display: "flex" }}>
@@ -980,6 +1175,7 @@ function Main() {
                     </Select>
                   </FormControl>
                 </Grid>
+                
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                   <TextField
                     type="text"
@@ -992,6 +1188,42 @@ function Main() {
                   />
                 </Grid>
               </Grid>
+              <Box style={{ marginTop: 12 }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => onCreateArt({
+                            artBasics:{
+                              artGalleries: [],
+                              artType: {
+                              description: "LOL",
+                              id: "1",
+                              name: "photography",
+                            },
+                            title: "Titulo de arte de prueba",
+                            about: "Esto es un sobre que corto",
+                            artCategory: {
+                              description: "Description category",
+                              id: "LOL",
+                              name: "Name in category"  
+                            },
+                            tags:[],
+                            tools:[]
+                          },
+                          artRequest: {
+                            Put: {
+                              key: "lol",
+                              contentType: "image/jpeg",
+                              payload: {
+                                Payload: asset,
+                              },
+                              callback: [],
+                            },
+                          }
+                          })}
+                  >
+                    Create
+                  </Button>
+                </Box>
               <Box
                 style={{
                   marginTop: "32px",
@@ -1029,6 +1261,7 @@ function Main() {
                 </Button>
               </Box>
             </Paper>
+             
           </Box>
         )}
       </Box>
@@ -1054,14 +1287,12 @@ function Main() {
     });
   }
 
-  async function handleChange(e) {
+  async function handleChange(e, isAvatar) {
     const file = e.target.files[0];
-
     const resizedString = await convertToBase64(file);
-    console.log(resizedString);
-
     const data = [...new Uint8Array(await file.arrayBuffer())];
-    setAvatar(resizedString);
+    if(isAvatar) setAvatar(resizedString);
+    else setAssetArt(resizedString)    
     setAsset(data);
   }
 
@@ -1079,15 +1310,18 @@ function Main() {
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
   }
-  function handleClose() {
-    setAnchorEl(null);
-  }
 
-  function onLogout() {
+   function handleClickCreation (event){
+    setAnchorElCreation(event.currentTarget);
+  };
+  
+function onLogout() {
     localStorage.removeItem("isWalletAuth");
     localStorage.removeItem("isAuth");
     navigate("/login");
   }
+
+
 
   async function onUpdateProfile(profileData) {
     setIsLoading(true);
@@ -1096,6 +1330,30 @@ function Main() {
     setIsSnackbarOpen(true);
     setMessage("Perfil actualizado correctamente");
     setSeverity("success");
+    setAsset(undefined)
+  }
+
+  async function onCreateArt(artUpdate) {
+    setIsLoading(true);
+    await service.createArt(artUpdate);
+    setAsset(undefined)
+    const arts = await getArtsPrincipal();
+    await setArts(arts.ok.map(result => 
+      ({
+        image:"data:image/jpeg;base64," + encode(result[2].payload[0]),
+        id:result[0],
+        info:result[1]
+      })
+    ))
+    setIsCreateArt(false)
+    setIsLoading(false);
+    setIsSnackbarOpen(true);
+    setMessage("Arte creado correctamente");
+    setSeverity("success");
+  }
+
+  async function getArtsPrincipal(){
+    return await service.getArtsByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal)
   }
 
   async function deleteProfile(){
@@ -1103,6 +1361,24 @@ function Main() {
     await service.deleteProfile(JSON.parse(localStorage.getItem("_scApp")).principal);
     localStorage.clear();
     navigate("/login")
+  }
+
+  async function deleteArt(id){
+    setIsLoading(true);
+    await service.deleteArt(id);
+    const arts = await getArtsPrincipal();
+ 
+    await setArts(arts.ok.map(result => ({
+        image:"data:image/jpeg;base64," + encode(result[2].payload[0]),
+        id:result[0],
+        info:result[1]
+      })))
+    setIsLoading(false);
+    navigate("/main?page=profile");
+    setIsSnackbarOpen(true);
+    setMessage("Arte eliminado correctamente");
+    setSeverity("success");
+    
   }
 }
 

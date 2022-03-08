@@ -1,5 +1,7 @@
 import { StoicIdentity } from "ic-stoic-identity";
 import { createActor as wPCreateActor } from "../../../declarations/prixelart";
+import { createActor as wPCreateActorPrixer } from "../../../declarations/prixelartbe";
+import { Principal } from "@dfinity/principal";
 
 const service = {
   onSignOutStoic,
@@ -9,6 +11,9 @@ const service = {
   createProfile,
   updateProfile,
   deleteProfile,
+  createArt,
+  deleteArt,
+  getArtsByPrincipal,
 };
 
 export default service;
@@ -41,19 +46,24 @@ async function wPActor(identity) {
   });
 }
 
+async function wPActorPrixer(identity) {
+  return await wPCreateActorPrixer("rrkah-fqaaa-aaaaa-aaaaq-cai", {
+    agentOptions: {
+      identity: identity,
+    },
+  });
+}
+
 async function getProfile() {
   const identity = await onSignInStoic();
   const actor = await wPActor(identity);
-  console.log(await actor.readProfile());
   return await actor.readProfile();
 }
 
 async function createProfile(profileData) {
   const identity = await onSignInStoic();
-  console.log(identity);
   const actor = await wPActor(identity);
   const result = await actor.createProfile(profileData);
-  console.log(result);
   if (result.ok) {
     return true;
   } else {
@@ -66,7 +76,6 @@ async function updateProfile(profileData) {
   const actor = await wPActor(identity);
 
   const result = await actor.updateProfile(profileData);
-  console.log(result);
   return result;
 }
 
@@ -80,4 +89,27 @@ async function deleteProfile(key) {
       callback: [],
     },
   });
+}
+
+async function createArt(artUpdate) {
+  console.log(artUpdate);
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.createArt(artUpdate);
+  console.log(result);
+  return result;
+}
+
+async function getArtsByPrincipal(principal) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.readArtsByArtist(Principal.fromText(principal));
+  return result;
+}
+
+async function deleteArt(id) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+
+  return await actor.deleteArt(id);
 }

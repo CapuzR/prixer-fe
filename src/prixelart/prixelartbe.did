@@ -1,0 +1,311 @@
+type WriteAsset = 
+ variant {
+   Chunk: record {
+            callback: opt Callback;
+            chunk: blob;
+            id: text;
+          };
+   Init: record {
+           callback: opt Callback;
+           id: text;
+           size: nat;
+         };
+ };
+type ToolUpdate__1 = 
+ record {
+   category: ToolCategoryUpdate__1;
+   description: text;
+   id: text;
+   name: text;
+ };
+type ToolUpdate = 
+ record {
+   category: ToolCategoryUpdate__1;
+   description: text;
+   id: text;
+   name: text;
+ };
+type ToolCategoryUpdate__1 = 
+ record {
+   artType: ArtTypeUpdate;
+   description: text;
+   id: text;
+   name: text;
+ };
+type ToolCategoryUpdate = 
+ record {
+   artType: ArtTypeUpdate;
+   description: text;
+   id: text;
+   name: text;
+ };
+type ToolCategory = 
+ record {
+   artType: ArtTypeUpdate;
+   description: text;
+   name: text;
+ };
+type Tool = 
+ record {
+   category: ToolCategoryUpdate__1;
+   description: text;
+   name: text;
+ };
+type Result_9 = 
+ variant {
+   err: Error;
+   ok: List;
+ };
+type Result_8 = 
+ variant {
+   err: Error;
+   ok: record {
+         Art;
+         opt Asset;
+       };
+ };
+type Result_7 = 
+ variant {
+   err: Error;
+   ok: ArtCategoryUpdate;
+ };
+type Result_6 = 
+ variant {
+   err: Error;
+   ok: vec record {
+             text;
+             ArtGallery;
+           };
+ };
+type Result_5 = 
+ variant {
+   err: Error;
+   ok: ArtTypeUpdate__1;
+ };
+type Result_4 = 
+ variant {
+   err: Error;
+   ok: Artist;
+ };
+type Result_3 = 
+ variant {
+   err: Error;
+   ok: vec record {
+             text;
+             Art;
+             Asset;
+           };
+ };
+type Result_2 = 
+ variant {
+   err: Error;
+   ok: ToolUpdate;
+ };
+type Result_13 = 
+ variant {
+   err: Error;
+   ok: record {
+         vec record {
+               text;
+               Art;
+             };
+         vec record {
+               text;
+               Asset;
+             };
+       };
+ };
+type Result_12 = 
+ variant {
+   err: Error;
+   ok: List_3;
+ };
+type Result_11 = 
+ variant {
+   err: Error;
+   ok: List_2;
+ };
+type Result_10 = 
+ variant {
+   err: Error;
+   ok: List_1;
+ };
+type Result_1 = 
+ variant {
+   err: Error;
+   ok: ToolCategoryUpdate;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok;
+ };
+type List_3 = 
+ opt record {
+       ArtCategoryUpdate;
+       List_3;
+     };
+type List_2 = 
+ opt record {
+       ArtTypeUpdate__1;
+       List_2;
+     };
+type List_1 = 
+ opt record {
+       ToolCategoryUpdate;
+       List_1;
+     };
+type List = 
+ opt record {
+       ToolUpdate;
+       List;
+     };
+type Error = 
+ variant {
+   AlreadyExists;
+   AuthorizedPrincipalLimitReached: nat;
+   FailedToWrite: text;
+   Immutable;
+   InvalidRequest;
+   NotAuthorized;
+   NotFound;
+   Unauthorized;
+ };
+type Callback = func () -> ();
+type AssetRequest = 
+ variant {
+   Put:
+    record {
+      callback: opt Callback;
+      contentType: text;
+      key: text;
+      payload: variant {
+                 Payload: blob;
+                 StagedData;
+               };
+    };
+   Remove: record {
+             callback: opt Callback;
+             key: text;
+           };
+   StagedWrite: WriteAsset;
+ };
+type Asset = 
+ record {
+   contentType: text;
+   payload: vec blob;
+ };
+type Artist = 
+ record {
+   createdAt: int;
+   tools: vec ToolUpdate__1;
+ };
+type ArtUpdate = 
+ record {
+   artBasics: ArtBasics;
+   artRequest: AssetRequest;
+ };
+type ArtTypeUpdate__1 = 
+ record {
+   description: text;
+   id: text;
+   name: text;
+ };
+type ArtTypeUpdate = 
+ record {
+   description: text;
+   id: text;
+   name: text;
+ };
+type ArtType = 
+ record {
+   description: text;
+   name: text;
+ };
+type ArtGalleryUpdate = 
+ record {
+   artGalleryBanner: opt text;
+   description: text;
+   name: text;
+ };
+type ArtGallery = 
+ record {
+   artGalleryBanner: opt text;
+   artistPpal: principal;
+   description: text;
+   name: text;
+ };
+type ArtCategoryUpdate__1 = 
+ record {
+   description: text;
+   id: text;
+   name: text;
+ };
+type ArtCategoryUpdate = 
+ record {
+   description: text;
+   id: text;
+   name: text;
+ };
+type ArtCategory = 
+ record {
+   description: text;
+   name: text;
+ };
+type ArtBasics = 
+ record {
+   about: text;
+   artCategory: ArtCategoryUpdate__1;
+   artGalleries: opt text;
+   artType: ArtTypeUpdate;
+   tags: vec text;
+   title: text;
+   tools: opt vec ToolUpdate__1;
+ };
+type Art = 
+ record {
+   artBasics: ArtBasics;
+   artistPpal: principal;
+   createdAt: int;
+ };
+service : {
+  createArt: (ArtUpdate) -> (Result);
+  createArtCategory: (ArtCategory) -> (Result);
+  createArtGallery: (ArtGalleryUpdate) -> (Result);
+  createArtType: (ArtType) -> (Result);
+  createArtist: (vec ToolUpdate) -> (Result);
+  createTool: (Tool) -> (Result);
+  createToolCategory: (ToolCategory) -> (Result);
+  deleteArt: (text) -> (Result);
+  deleteArtCategory: (text) -> (Result);
+  deleteArtType: (text) -> (Result);
+  deleteArtist: () -> (Result);
+  deleteTool: (text) -> (Result);
+  deleteToolCategory: (text) -> (Result);
+  getAssets: () -> (vec record {
+                          text;
+                          Asset;
+                        }) query;
+  privReadArt: (text) -> (Result_8) query;
+  readAllArt: () -> (Result_13) query;
+  readAllArtCategorys: () -> (Result_12) query;
+  readAllArtTypes: () -> (Result_11) query;
+  readAllToolCategories: () -> (Result_10) query;
+  readAllTools: () -> (Result_9) query;
+  readArtById: (text) -> (Result_8) query;
+  readArtCategory: (text) -> (Result_7) query;
+  readArtGalleriesByArtist: (principal) -> (Result_6) query;
+  readArtType: (text) -> (Result_5) query;
+  readArtist: () -> (Result_4) query;
+  readArtsByArtGallery: (text) -> (Result_3) query;
+  readArtsByArtist: (principal) -> (Result_3) query;
+  readTool: (text) -> (Result_2) query;
+  readToolCategory: (text) -> (Result_1) query;
+  updateArt: (ArtUpdate, text) -> (Result);
+  updateArtCategory: (ArtCategoryUpdate) -> (Result);
+  updateArtGallery: (ArtGalleryUpdate, text) -> (Result);
+  updateArtType: (ArtTypeUpdate__1) -> (Result);
+  updateArtist: (vec ToolUpdate) -> (Result);
+  updateTool: (ToolUpdate) -> (Result);
+  updateToolCategory: (ToolCategoryUpdate) -> (Result);
+}
