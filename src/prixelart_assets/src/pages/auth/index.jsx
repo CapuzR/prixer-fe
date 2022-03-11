@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +14,13 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Fab from "@mui/material/Fab";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Chip from "@mui/material/Chip";
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
+import MuiAlert from "@mui/material/Alert";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -42,11 +49,22 @@ function Auth() {
     "https://via.placeholder.com/300.png/09f/fff"
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [message, setMessage] = useState(undefined);
+  const [severity, setSeverity] = useState(undefined);
 
-  useEffect(() => {
+  const [tools, setTools] = useState([]);
+  const [camera, setCamera] = useState("");
+  const [lens, setLens] = useState("");
+  const [selectedTools, setSelectedTools] = useState([]);
+
+  const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  useEffect(async () => {
     if (isWalletAuth) navigate("/main");
   }, []);
-
   return isLoading ? (
     <Loading />
   ) : (
@@ -211,13 +229,47 @@ function Auth() {
                   <Grid container spacing={1}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <Typography variant="h5">Cameras</Typography>
-                      <TextField
+                      <FormControl
+                        style={{ marginBottom: 4 }}
+                        required
                         fullWidth
-                        type="text"
-                        label="Camera"
-                        variant="outlined"
-                        style={{ marginTop: "12px" }}
-                      />
+                      >
+                        <Select
+                          labelId="camera-label"
+                          id="camera-label-select"
+                          value={camera}
+                          onChange={(event) => setCamera(event.target.value)}
+                        >
+                          {tools.map(
+                            (type) =>
+                              type.category.name === "Camera" && (
+                                <MenuItem value={type.id} key={type.id}>
+                                  {type.name}
+                                </MenuItem>
+                              )
+                          )}
+                        </Select>
+                      </FormControl>
+                      <Box style={{ marginTop: "8px" }}>
+                        {selectedTools.map(
+                          (tool) =>
+                            tool.category.name === "Camera" && (
+                              <Chip
+                                label={tool.name}
+                                variant="outlined"
+                                style={{ marginBottom: "8px" }}
+                                key={tool.id}
+                                onDelete={() => {
+                                  setSelectedTools(
+                                    selectedTools.filter(
+                                      (tl) => tl.id !== tool.id
+                                    )
+                                  );
+                                }}
+                              />
+                            )
+                        )}
+                      </Box>
                     </Grid>
                     <Grid
                       item
@@ -228,19 +280,58 @@ function Auth() {
                       xl={12}
                       style={{ justifyContent: "center", display: "flex" }}
                     >
-                      <IconButton size="large" color="primary">
+                      <IconButton
+                        size="large"
+                        color="primary"
+                        disabled={camera === "" ? true : false}
+                        onClick={() => addTools(camera)}
+                      >
                         <AddBoxIcon fontSize="large" color="primary" />
                       </IconButton>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <Typography variant="h5">Lenses</Typography>
-                      <TextField
+                      <FormControl
+                        style={{ marginBottom: 4 }}
+                        required
                         fullWidth
-                        type="text"
-                        label="Lenses"
-                        variant="outlined"
-                        style={{ marginTop: "12px" }}
-                      />
+                      >
+                        <Select
+                          labelId="lenses-label"
+                          id="lenses-label-select"
+                          value={lens}
+                          onChange={(event) => setLens(event.target.value)}
+                        >
+                          {tools.map(
+                            (type) =>
+                              type.category.name === "Lens" && (
+                                <MenuItem value={type.id} key={type.id}>
+                                  {type.name}
+                                </MenuItem>
+                              )
+                          )}
+                        </Select>
+                      </FormControl>
+                      <Box style={{ marginTop: "8px" }}>
+                        {selectedTools.map(
+                          (tool) =>
+                            tool.category.name === "Lens" && (
+                              <Chip
+                                label={tool.name}
+                                style={{ marginBottom: "8px" }}
+                                variant="outlined"
+                                key={tool.id}
+                                onDelete={() => {
+                                  setSelectedTools(
+                                    selectedTools.filter(
+                                      (tl) => tl.id !== tool.id
+                                    )
+                                  );
+                                }}
+                              />
+                            )
+                        )}
+                      </Box>
                     </Grid>
                     <Grid
                       item
@@ -251,7 +342,12 @@ function Auth() {
                       xl={12}
                       style={{ justifyContent: "center", display: "flex" }}
                     >
-                      <IconButton size="large" color="primary">
+                      <IconButton
+                        disabled={lens === "" ? true : false}
+                        size="large"
+                        onClick={() => addTools(lens)}
+                        color="primary"
+                      >
                         <AddBoxIcon fontSize="large" color="primary" />
                       </IconButton>
                     </Grid>
@@ -301,54 +397,69 @@ function Auth() {
             aria-label="add"
             style={{ position: "absolute", bottom: 16, right: 16 }}
             onClick={() => {
-              onCreateProfile({
-                bio: {
-                  givenName: [givenName],
-                  familyName: [familyName],
-                  username: [username],
-                  displayName: [displayName],
-                  location: [location],
-                  about: [about],
-                  email: [email],
-                  phone: [phone],
-                  socials: [
-                    {
-                      deSo: [
-                        {
-                          distrikt: [],
-                          dscvr: [],
-                          openChat: [],
-                        },
-                      ],
-                      ceSo: [
-                        {
-                          discord: [],
-                          twitter: [],
-                          instagram: [],
-                          facebook: [],
-                          tiktok: [],
-                        },
-                      ],
+              onCreateProfile(
+                {
+                  bio: {
+                    givenName: [givenName],
+                    familyName: [familyName],
+                    username: [username],
+                    displayName: [displayName],
+                    location: [location],
+                    about: [about],
+                    email: [email],
+                    phone: [phone],
+                    socials: [
+                      {
+                        deSo: [
+                          {
+                            distrikt: [],
+                            dscvr: [],
+                            openChat: [],
+                          },
+                        ],
+                        ceSo: [
+                          {
+                            discord: [],
+                            twitter: [],
+                            instagram: [],
+                            facebook: [],
+                            tiktok: [],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  avatarRequest: {
+                    Put: {
+                      key: JSON.parse(localStorage.getItem("_scApp")).principal,
+                      contentType: "image/jpeg",
+                      payload: {
+                        Payload: asset,
+                      },
+                      callback: [],
                     },
-                  ],
-                },
-                avatarRequest: {
-                  Put: {
-                    key: JSON.parse(localStorage.getItem("_scApp")).principal,
-                    contentType: "image/jpeg",
-                    payload: {
-                      Payload: asset,
-                    },
-                    callback: [],
                   },
                 },
-              });
+                {
+                  tools: selectedTools,
+                }
+              );
             }}
           >
             <ChevronRightIcon />
           </Fab>
         </div>
       )}
+      <Snackbar
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        onClose={handleCloseSnackbar}
+        open={isSnackbarOpen}
+        TransitionComponent={SlideTransition}
+        style={{ display: isSnackbarOpen ? "flex" : "none" }}
+      >
+        <Alert severity={severity}>{message}</Alert>
+      </Snackbar>
     </div>
   );
 
@@ -366,16 +477,25 @@ function Auth() {
     const file = e.target.files[0];
 
     const resizedString = await convertToBase64(file);
-    console.log(resizedString);
 
     const data = [...new Uint8Array(await file.arrayBuffer())];
     setImage(resizedString);
     setAsset(data);
-    console.log(resizedString);
   }
 
   function onHandleScreem(screen) {
     setIsUserData(screen);
+  }
+
+  function SlideTransition(props) {
+    return <Slide {...props} direction="left" />;
+  }
+
+  function handleCloseSnackbar(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+    setIsSnackbarOpen(false);
   }
 
   async function onLogout() {
@@ -397,6 +517,9 @@ function Auth() {
       localStorage.setItem("wallet", "Stoic");
       setIsWalletAuth(true);
       const profile = await service.getProfile();
+      const tools = await service.getTools();
+      setTools(tools.ok);
+
       if (Object.keys(profile)[0] !== "err") navigate("/main");
       setIsLoading(false);
     } else {
@@ -405,12 +528,24 @@ function Auth() {
     }
   }
 
-  async function onCreateProfile(profileData) {
+  async function onCreateProfile(profileData, tools) {
     setIsLoading(true);
     await service.createProfile(profileData);
+    await service.createArtist(tools.tools);
     navigate("/main");
 
     setIsLoading(false);
+  }
+
+  function addTools(id) {
+    const tool = tools.find((tl) => tl.id === id);
+    if (selectedTools.find((tl) => tl.id === tool.id)) {
+      setIsSnackbarOpen(true);
+      setSeverity("error");
+      setMessage("Item already exist");
+    } else {
+      setSelectedTools([...selectedTools, tool]);
+    }
   }
 }
 

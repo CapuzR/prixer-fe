@@ -54,7 +54,7 @@ type Tool =
 type Result_9 = 
  variant {
    err: Error;
-   ok: List;
+   ok: vec ToolUpdate;
  };
 type Result_8 = 
  variant {
@@ -118,17 +118,17 @@ type Result_13 =
 type Result_12 = 
  variant {
    err: Error;
-   ok: List_3;
+   ok: vec ArtCategoryUpdate;
  };
 type Result_11 = 
  variant {
    err: Error;
-   ok: List_2;
+   ok: vec ArtTypeUpdate__1;
  };
 type Result_10 = 
  variant {
    err: Error;
-   ok: List_1;
+   ok: vec ToolCategoryUpdate;
  };
 type Result_1 = 
  variant {
@@ -140,26 +140,6 @@ type Result =
    err: Error;
    ok;
  };
-type List_3 = 
- opt record {
-       ArtCategoryUpdate;
-       List_3;
-     };
-type List_2 = 
- opt record {
-       ArtTypeUpdate__1;
-       List_2;
-     };
-type List_1 = 
- opt record {
-       ToolCategoryUpdate;
-       List_1;
-     };
-type List = 
- opt record {
-       ToolUpdate;
-       List;
-     };
 type Error = 
  variant {
    AlreadyExists;
@@ -278,6 +258,7 @@ service : {
   createToolCategory: (ToolCategory) -> (Result);
   deleteArt: (text) -> (Result);
   deleteArtCategory: (text) -> (Result);
+  deleteArtGallery: (text) -> (Result);
   deleteArtType: (text) -> (Result);
   deleteArtist: () -> (Result);
   deleteTool: (text) -> (Result);
@@ -288,7 +269,7 @@ service : {
                         }) query;
   privReadArt: (text) -> (Result_8) query;
   readAllArt: () -> (Result_13) query;
-  readAllArtCategorys: () -> (Result_12) query;
+  readAllArtCategories: () -> (Result_12) query;
   readAllArtTypes: () -> (Result_11) query;
   readAllToolCategories: () -> (Result_10) query;
   readAllTools: () -> (Result_9) query;

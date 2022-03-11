@@ -1,7 +1,7 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import * as React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { encode, decode } from 'uint8-to-base64';
+import { encode } from 'uint8-to-base64';
 
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -28,6 +28,7 @@ import { CardActionArea } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
+import Chip from "@mui/material/Chip";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
@@ -46,6 +47,8 @@ import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
 import SettingsInputCompositeOutlinedIcon from "@mui/icons-material/SettingsInputCompositeOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from '@mui/icons-material/Delete';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import CameraIcon from '@mui/icons-material/Camera';
 
 import service from "../service";
 import Loading from "../../components/loading";
@@ -81,50 +84,108 @@ function Main() {
   const [asset, setAsset] = useState();
   const [assetArt, setAssetArt] = useState();
   const [arts, setArts] = useState([])
+  const [galleries, setGalleries] = useState([]);
   const [isCreateArt, setIsCreateArt] = useState(false);
+  const [isCreateGallery, setIsCrateGallery] = useState(false);
+  const [isShowToolsInfo, setIsShowToolsInfo] = useState(false);
+  const [camera, setCamera] = useState("");
+  const [lens, setLens] = useState("");
+
+  const [artTitle, setArtTitle] = useState("");
+  const [artType, setArtType] = useState("");
+  const [artCamera, setArtCamera] = useState("")
+  const [artCategory, setArtCategory] = useState("");
+  const [lensArt, setLensArt] = useState("")
+  const [tagsArt, setTagsArt] = useState([]);
+  const [aboutArt, setAboutArt] = useState("")
+  const [galleryArt, setGalleryArt] = useState("")
+  const [titleGallery, setTitleGallery] = useState("");
+  const [aboutGallery, setAboutGallery] = useState("");
 
   const [anchorElCreation, setAnchorElCreation] = React.useState(null);
   const openCreation = Boolean(anchorElCreation);
- 
-  
+
+  const [artistTools, setArtistTools] = useState([])
+  const [artTypes, setArtTypes] = useState([])
+  const [categories, setCategories] = useState([])
+  const [categoriesTools, setCategoriesTools] = useState([])
+  const [tools, setTools] = useState([])
+  const [selectedTools, setSelectedTools] = useState([]);
+  const [currentTools, setCurrentTools] = useState([])
+
   const open = Boolean(anchorEl);
 
   const navigate = useNavigate();
   const theme = useTheme();
   const mobileBreakpoint = useMediaQuery(theme.breakpoints.up("md"));
+  
+
+
   useEffect(() => {
+    setCurrentTools({
+    camera: artistTools?.map(art => tools.find(tl => art.id === tl.id && art.category.name === "Camera")).filter(i => i)[0],
+    lens: artistTools?.map(art => tools.find(tl => art.id === tl.id && art.category.name === "Lens")).filter(i => i)[0]
+  })
     if (isArtDone) {
       if (searchParams.get("isEdit") === "true") {
         navigate("/main?page=profile&isEdit=true");
       } else if (searchParams.get("image")) {
         navigate("/main?page=profile&image=" + searchParams.get("image"));
+      } else if (searchParams.get("gallery")) {
+        navigate("/main?page=profile&gallery=" + searchParams.get("gallery"));
       } else {
         navigate("/main?page=profile");
       }
     }
   }, [searchParams]);
-
   useEffect(async () => {
     if (!Boolean(localStorage.getItem("wallet"))) navigate("/login");
     const profile = await service.getProfile();
     const arts = await getArtsPrincipal();
-    if(arts.ok.length > 0) navigate("/main?page=profile");
-    
+    const artGallery = await service.getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
+    const artist = await service.getArtist();
+    const artTypes = await service.readAllArtTypes()
+    const categories = await service.readAllArtCategories();
+    const toolsCategories = await service.getToolsCategories();
+    const tools = await service.getTools();
+
+    setCurrentTools({
+    camera: artist.ok.tools.map(art => tools.ok.find(tl => art.id === tl.id && art.category.name === "Camera")).filter(i => i)[0],
+    lens: artist.ok.tools.map(art => tools.ok.find(tl => art.id === tl.id && art.category.name === "Lens")).filter(i => i)[0]
+  })
+
+
+    if (arts.ok.length > 0) navigate("/main?page=profile");
+
     if (Object.keys(profile)[0] === "err") {
       navigate("/login");
       localStorage.clear();
     } else {
       setCurrentProfile(profile.ok[0][0].bio);
       setAvatar("data:image/jpeg;base64," + encode(profile.ok[1][0].payload[0]))
-      setArts(arts.ok.map(result => ({
-        image:"data:image/jpeg;base64," + encode(result[2].payload[0]),
-        id:result[0],
-        info:result[1]
-      })))
-        
+
+      const formatArts = arts.ok.map(result => ({
+        image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
+        id: result[0],
+        info: result[1]
+      }))
+
+      setArts(formatArts)
+      setArtTypes(artTypes.ok)
+      setCategories(categories.ok)
+      setCategoriesTools(toolsCategories.ok)
+      setArtistTools(artist.ok.tools)
+      setTools(tools.ok)
+      setSelectedTools(artist.ok.tools.map(art => tools.ok.find(tl => art.id === tl.id)))
+      setGalleries(artGallery.ok.map(result => {
+        return {
+          image: formatArts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+          id: result[0],
+          info: result[1]
+        }
+      }))
     }
   }, []);
-
   useEffect(() => {
     if (currentProfile) {
       setUsername(currentProfile.username[0]);
@@ -138,10 +199,14 @@ function Main() {
     }
   }, [currentProfile]);
 
-  useEffect(async () => {
-    }, [])
+  useEffect(() => {
+    if (isEditProfile) setAsset(avatar)
+  }, [isEditProfile]);
 
-  console.log(arts)
+
+  useEffect(async () => {
+  }, [])
+
   return !currentProfile || isLoading ? (
     <Loading />
   ) : (
@@ -189,7 +254,7 @@ function Main() {
                   >
                     <IconButton component="label">
                       <Avatar src={avatar && avatar} style={{ width: "120px", height: "120px" }} />
-                      <input hidden type="file" onChange={(event) => handleChange(event, true)}/>
+                      <input hidden type="file" onChange={(event) => handleChange(event, true)} />
                     </IconButton>
                   </Box>
                   <Grid container spacing={1} style={{ marginTop: "32px" }}>
@@ -284,13 +349,47 @@ function Main() {
                   <Grid container spacing={1} style={{ marginTop: 24 }}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <Typography variant="h5">Cameras</Typography>
-                      <TextField
+                      <FormControl
+                        style={{ marginBottom: 4 }}
+                        required
                         fullWidth
-                        type="text"
-                        label="Camera"
-                        variant="outlined"
-                        style={{ marginTop: "12px" }}
-                      />
+                      >
+                        <Select
+                          labelId="camera-label"
+                          id="camera-label-select"
+                          value={camera}
+                          onChange={(event) => setCamera(event.target.value)}
+                        >
+                          {tools.map(
+                            (type) =>
+                              type.category.name === "Camera" && (
+                                <MenuItem value={type.id} key={type.id}>
+                                  {type.name}
+                                </MenuItem>
+                              )
+                          )}
+                        </Select>
+                      </FormControl>
+                      <Box style={{ marginTop: "8px" }}>
+                        {selectedTools.map(
+                          (tool) =>
+                            tool.category.name === "Camera" && (
+                              <Chip
+                                label={tool.name}
+                                variant="outlined"
+                                style={{ marginBottom: "8px" }}
+                                key={tool.id}
+                                onDelete={() => {
+                                  setSelectedTools(
+                                    selectedTools.filter(
+                                      (tl) => tl.id !== tool.id
+                                    )
+                                  );
+                                }}
+                              />
+                            )
+                        )}
+                      </Box>
                     </Grid>
                     <Grid
                       item
@@ -302,18 +401,53 @@ function Main() {
                       style={{ justifyContent: "center", display: "flex" }}
                     >
                       <IconButton size="large" color="primary">
-                        <AddBoxIcon fontSize="large" color="primary" />
+                        <AddBoxIcon fontSize="large" color="primary" onClick={() => addTools(camera)}
+                        />
                       </IconButton>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <Typography variant="h5">Lenses</Typography>
-                      <TextField
+                      <FormControl
+                        style={{ marginBottom: 4 }}
+                        required
                         fullWidth
-                        type="text"
-                        label="Lenses"
-                        variant="outlined"
-                        style={{ marginTop: "12px" }}
-                      />
+                      >
+                        <Select
+                          labelId="lenses-label"
+                          id="lenses-label-select"
+                          value={lens}
+                          onChange={(event) => setLens(event.target.value)}
+                        >
+                          {tools.map(
+                            (type) =>
+                              type.category.name === "Lens" && (
+                                <MenuItem value={type.id} key={type.id}>
+                                  {type.name}
+                                </MenuItem>
+                              )
+                          )}
+                        </Select>
+                      </FormControl>
+                      <Box style={{ marginTop: "8px" }}>
+                        {selectedTools.map(
+                          (tool) =>
+                            tool.category.name === "Lens" && (
+                              <Chip
+                                label={tool.name}
+                                style={{ marginBottom: "8px" }}
+                                variant="outlined"
+                                key={tool.id}
+                                onDelete={() => {
+                                  setSelectedTools(
+                                    selectedTools.filter(
+                                      (tl) => tl.id !== tool.id
+                                    )
+                                  );
+                                }}
+                              />
+                            )
+                        )}
+                      </Box>
                     </Grid>
                     <Grid
                       item
@@ -325,17 +459,18 @@ function Main() {
                       style={{ justifyContent: "center", display: "flex" }}
                     >
                       <IconButton size="large" color="primary">
-                        <AddBoxIcon fontSize="large" color="primary" />
+                        <AddBoxIcon fontSize="large" color="primary" onClick={() => addTools(lens)}
+                        />
                       </IconButton>
                     </Grid>
                   </Grid>
                 </>
               )}
-              {isEditProfile && (
+              {
                 <Box style={{ marginTop: 12 }}>
                   <Button
                     variant="outlined"
-                    onClick={() =>
+                    onClick={() => {
                       onUpdateProfile({
                         bio: {
                           givenName: [givenName],
@@ -368,22 +503,25 @@ function Main() {
                           ],
                         },
                         avatarRequest: {
-                  Put: {
-                    key: JSON.parse(localStorage.getItem("_scApp")).principal,
-                    contentType: "image/jpeg",
-                    payload: {
-                      Payload: asset,
-                    },
-                    callback: [],
-                  },
-                },
+                          Put: {
+                            key: JSON.parse(localStorage.getItem("_scApp")).principal,
+                            contentType: "image/jpeg",
+                            payload: {
+                              Payload: asset,
+                            },
+                            callback: [],
+                          },
+                        },
+                      }, {
+                        tools: selectedTools,
                       })
-                    }
+                    }}
+
                   >
                     Update
                   </Button>
                 </Box>
-              )}
+              }
 
               <Box
                 style={{
@@ -455,12 +593,12 @@ function Main() {
                       <Typography variant="h5">{arts.find(art => art.id === searchParams.get("image"))?.info?.artBasics?.title}</Typography>
                     </Box>
                     <Box>
-                      <Typography variant="body1">{arts.find(art => art.id === searchParams.get("image")).info?.artBasics?.about}</Typography>
+                      <Typography variant="body1">{arts.find(art => art.id === searchParams.get("image"))?.info?.artBasics?.about}</Typography>
                     </Box>
                   </Box>
                   <Box style={{ marginLeft: "auto" }}>
                     <IconButton color="primary">
-                      <DeleteIcon onClick={() => deleteArt(searchParams.get("image"))}/>
+                      <DeleteIcon onClick={() => deleteArt(searchParams.get("image"))} />
                     </IconButton>
                   </Box>
                 </Box>
@@ -506,226 +644,287 @@ function Main() {
                 </Box>
               </Box>
             </Box>
-          ) : showPrixerList ? (
-            <>
+          ) : searchParams.get("gallery") ?
+            <Box>
               <Box style={{ padding: 16 }}>
                 <Box style={{ display: "flex", alignItems: "center" }}>
-                  <Typography variant="h4">Prixers</Typography>
+                  <Typography style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis"
+                  }}
+                    variant="h4">{`${galleries.find(gallery => gallery.id === searchParams.get("gallery"))?.info?.name}`}</Typography>
 
                   <IconButton
                     color="primary"
-                    onClick={() => setShowPrixerList(false)}
+                    onClick={() => navigate("/main?page=profile")}
                     style={{ marginLeft: "auto" }}
                   >
                     <ArrowCircleLeftOutlinedIcon fontSize="large" />
                   </IconButton>
                 </Box>
-                <Grid container spacing={1}>
-                  {[1, 2, 3, 4].map((item, index) => (
-                    <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={3}>
-                      <Card>
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            height="200"
-                            image="https://i.pinimg.com/originals/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg?w=162&auto=format"
-                            alt="prixer"
-                          />
-                          <CardContent>
-                            <Typography
-                              gutterBottom
-                              variant="h5"
-                              component="div"
-                            >
-                              Gleiber Granado
-                            </Typography>
-                          </CardContent>
-                        </CardActionArea>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
+                <Masonry columns={3} spacing={0.2}>
+                  {arts.map((item, index) =>
+
+                    item.info.artBasics.artGalleries[0] === searchParams.get("gallery") && <div
+                      key={index}
+                      onClick={() =>
+                        navigate("/main?page=profile&image=" + item.id)
+                      }
+                    >
+                      <img
+                        src={`${item.image}`}
+                        srcSet={`${item.image}`}
+                        alt={item.id}
+                        loading="lazy"
+                        style={{
+                          borderBottomLeftRadius: 4,
+                          borderBottomRightRadius: 4,
+                          display: "block",
+                          width: "100%",
+                        }}
+                      />
+                    </div>
+                  )}
+                </Masonry>
               </Box>
-            </>
-          ) : isCreateArt ? <Box style={{ padding: 24 }}>
-                <Box style={{ display: "flex", alignItems: "center" }}>
-                  <Typography variant="h4">Create Art</Typography>
+            </Box> :
+            showPrixerList ? (
+              <>
+                <Box style={{ padding: 16 }}>
+                  <Box style={{ display: "flex", alignItems: "center" }}>
+                    <Typography variant="h4">Prixers</Typography>
 
-                  <IconButton
-                    color="primary"
-                    onClick={() => setIsCreateArt(false)}
-                    style={{ marginLeft: "auto" }}
-                  >
-                    <ArrowCircleLeftOutlinedIcon fontSize="large" />
-                  </IconButton>
+                    <IconButton
+                      color="primary"
+                      onClick={() => setShowPrixerList(false)}
+                      style={{ marginLeft: "auto" }}
+                    >
+                      <ArrowCircleLeftOutlinedIcon fontSize="large" />
+                    </IconButton>
+                  </Box>
+                  <Grid container spacing={1}>
+                    {[1, 2, 3, 4].map((item, index) => (
+                      <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={3}>
+                        <Card>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              height="200"
+                              image="https://i.pinimg.com/originals/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg?w=162&auto=format"
+                              alt="prixer"
+                            />
+                            <CardContent>
+                              <Typography
+                                gutterBottom
+                                variant="h5"
+                                component="div"
+                              >
+                                Gleiber Granado
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
                 </Box>
-                <Grid container spacing={1}>
-                    <Paper elevation={5} style={{ padding: 24, marginTop: 14 }}>
-                      <Grid container spacing={1}>
-                        <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-                          {assetArt ?  
-                            <Button component="label">
-                              <img 
-                                src={ assetArt} 
-                                alt="image" 
-                                srcSet={`${assetArt}`}
-                                loading="lazy"
-                                style={{
-                                  borderBottomLeftRadius: 4,
-                                  borderBottomRightRadius: 4,
-                                  display: "block",
-                                  width: "100%",
-                                }} />
-                              <input type="file" hidden onChange={(event) => handleChange(event, false)}/>
-                            </Button>
+              </>
+            ) : isCreateArt ? <Box style={{ padding: 24 }}>
+              <Box style={{ display: "flex", alignItems: "center" }}>
+                <Typography variant="h4">Create Art</Typography>
+
+                <IconButton
+                  color="primary"
+                  onClick={() => setIsCreateArt(false)}
+                  style={{ marginLeft: "auto" }}
+                >
+                  <ArrowCircleLeftOutlinedIcon fontSize="large" />
+                </IconButton>
+              </Box>
+              <Grid container spacing={1}>
+                <Paper elevation={5} style={{ padding: 24, marginTop: 14 }}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+                      {assetArt ?
+                        <Button component="label">
+                          <img
+                            src={assetArt}
+                            alt="image"
+                            srcSet={`${assetArt}`}
+                            loading="lazy"
+                            style={{
+                              borderBottomLeftRadius: 4,
+                              borderBottomRightRadius: 4,
+                              display: "block",
+                              width: "100%",
+                            }} />
+                          <input type="file" hidden onChange={(event) => handleChange(event, false)} />
+                        </Button>
                         : <Button fullWidth component="label">
-                              <AddPhotoAlternateIcon style={{ height: 230, width:80 }} />
-                              <input type="file" hidden onChange={(event) => handleChange(event, false)}/>
-                          </Button> }
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6} lg={8} xl={8}>
-                          <Box style={{ display: "flex" }}>
-                            <Box style={{ width: "50%", marginRight: 4 }}>
-                              <TextField
-                                type="text"
-                                label="Title"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                style={{ marginBottom: 4 }}
-                              />
-                            </Box>
-                            <Box style={{ width: "50%" }}>
-                              <FormControl
-                                style={{ marginBottom: 4 }}
-                                required
-                                fullWidth
-                              >
-                                <InputLabel id="type-label">Type</InputLabel>
-                                <Select
-                                  labelId="type-label"
-                                  id="type-label-select"
-                                  value={""}
-                                  label="Type"
-                                >
-                                  <MenuItem value={10}>Ten</MenuItem>
-                                  <MenuItem value={20}>Twenty</MenuItem>
-                                  <MenuItem value={30}>Thirty</MenuItem>
-                                </Select>
-                              </FormControl>
-                            </Box>
-                          </Box>
-                          <Box style={{ display: "flex" }}>
-                            <Box style={{ width: "50%", marginRight: 4 }}>
-                              <FormControl
-                                style={{ marginBottom: 4 }}
-                                required
-                                fullWidth
-                              >
-                                <InputLabel id="category-label">Category</InputLabel>
-                                <Select
-                                  labelId="category-label"
-                                  id="category-select"
-                                  value={""}
-                                  label="Category"
-                                >
-                                  <MenuItem value={10}>Ten</MenuItem>
-                                  <MenuItem value={20}>Twenty</MenuItem>
-                                  <MenuItem value={30}>Thirty</MenuItem>
-                                </Select>
-                              </FormControl>
-                            </Box>
-                            <Box style={{ width: "50%" }}>
-                              <TextField
-                                type="text"
-                                label="Location"
-                                variant="outlined"
-                                fullWidth
-                                style={{ marginBottom: 4 }}
-                              />
-                            </Box>
-                          </Box>
-                          <Box style={{ display: "flex" }}>
-                            <Box style={{ width: "50%", marginRight: 4 }}>
-                              <FormControl style={{ marginBottom: 4 }} fullWidth>
-                                <InputLabel id="camera-label">Camera</InputLabel>
-                                <Select
-                                  labelId="camera-label"
-                                  id="category-select"
-                                  value={""}
-                                  label="Camera"
-                                >
-                                  <MenuItem value={10}>Ten</MenuItem>
-                                  <MenuItem value={20}>Twenty</MenuItem>
-                                  <MenuItem value={30}>Thirty</MenuItem>
-                                </Select>
-                              </FormControl>
-                            </Box>
-                            <Box style={{ width: "50%" }}>
-                              <FormControl style={{ marginBottom: 8 }} fullWidth>
-                                <InputLabel id="lens-label">Lens</InputLabel>
-                                <Select
-                                  labelId="lens-label"
-                                  id="lens-select"
-                                  value={""}
-                                  label="Lens"
-                                >
-                                  <MenuItem value={10}>Ten</MenuItem>
-                                  <MenuItem value={20}>Twenty</MenuItem>
-                                  <MenuItem value={30}>Thirty</MenuItem>
-                                </Select>
-                              </FormControl>
-                            </Box>
-                          </Box>
-                          <FormControl style={{ marginBottom: 4 }} fullWidth>
-                            <InputLabel id="labels-label">Labels</InputLabel>
-                            <Select
-                              labelId="labels-label"
-                              id="labels-select"
-                              value={["label1", "label2"]}
-                              label="Labels"
-                              multiple
-                            >
-                              <MenuItem value={"label1"}>Ten</MenuItem>
-                              <MenuItem value={"label2"}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                          <AddPhotoAlternateIcon style={{ height: 230, width: 80 }} />
+                          <input type="file" hidden onChange={(event) => handleChange(event, false)} />
+                        </Button>}
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={8} xl={8}>
+                      <Box style={{ display: "flex" }}>
+                        <Box style={{ width: "50%", marginRight: 4 }}>
                           <TextField
                             type="text"
-                            label="About the art"
+                            label="Title"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            style={{ marginBottom: 4 }}
+                            value={artTitle}
+                            onChange={(event) => setArtTitle(event.target.value)}
+                          />
+                        </Box>
+                        <Box style={{ width: "50%" }}>
+                          <FormControl
+                            style={{ marginBottom: 4 }}
+                            required
+                            fullWidth
+
+                          >
+                            <InputLabel id="type-label">Type</InputLabel>
+                            <Select
+                              labelId="type-label"
+                              id="type-label-select"
+                              value={artType}
+                              onChange={(event) => setArtType(event.target.value)}
+                              label="Type"
+
+                            >
+                              {artTypes.map(type => <MenuItem value={type.id} key={type.id}>{type.name}</MenuItem>)}
+
+                            </Select>
+                          </FormControl>
+                        </Box>
+                      </Box>
+                      <Box style={{ display: "flex" }}>
+                        <Box style={{ width: "50%", marginRight: 4 }}>
+                          <FormControl
+                            style={{ marginBottom: 4 }}
+                            required
+                            fullWidth
+                          >
+                            <InputLabel id="category-label">Category</InputLabel>
+                            <Select
+                              labelId="category-label"
+                              id="category-select"
+                              value={""}
+                              label="Category"
+                              value={artCategory}
+                              onChange={(event) => setArtCategory(event.target.value)}
+
+                            >
+                              {categories.map(type => <MenuItem value={type.id} key={type.id}>{type.name}</MenuItem>)}
+                            </Select>
+                          </FormControl>
+                        </Box>
+                        <Box style={{ width: "50%" }}>
+                          <TextField
+                            type="text"
+                            label="Location"
                             variant="outlined"
                             fullWidth
                             style={{ marginBottom: 4 }}
-                            multiline
-                            rows={4}
                           />
-                        </Grid>
-                      </Grid>
-                      <Box style={{ marginTop: 12 }}>
-                        <Button
-                          variant="outlined"
+                        </Box>
+                      </Box>
+                      <Box style={{ display: "flex" }}>
+                        <Box style={{ width: "50%", marginRight: 4 }}>
+                          <FormControl style={{ marginBottom: 4 }} fullWidth>
+                            <InputLabel id="camera-label">Camera</InputLabel>
+                            <Select
+                              labelId="camera-label"
+                              id="category-select"
+                              value={artCamera}
+                              onChange={(event) => setArtCamera(event.target.value)}
+                              label="Camera"
+                            >
+                              {artistTools.map(art => tools.find(tl => art.id === tl.id) && art.category.name === "Camera" && <MenuItem key={art.id} value={art.id}>{art.name}</MenuItem>)}
 
-                          onClick={() => {
-onCreateArt({
-                            artBasics:{
-                              artGalleries: [],
-                              artType: {
-                              description: "LOL",
-                              id: "1",
-                              name: "photography",
-                            },
-                            title: "Titulo de arte de prueba",
-                            about: "Esto es un sobre que corto",
-                            artCategory: {
-                              description: "Description category",
-                              id: "LOL",
-                              name: "Name in category"  
-                            },
-                            tags:[],
-                            tools:[]
+                            </Select>
+                          </FormControl>
+                        </Box>
+                        <Box style={{ width: "50%" }}>
+                          <FormControl style={{ marginBottom: 4 }} fullWidth>
+                            <InputLabel id="camera-label">Camera</InputLabel>
+                            <Select
+                              labelId="camera-label"
+                              id="category-select"
+                              value={artCamera}
+                              onChange={(event) => setArtCamera(event.target.value)}
+                              label="Camera"
+                            >
+                              {artistTools.map(art => tools.find(tl => art.id === tl.id) && art.category.name === "Lens" && <MenuItem key={art.id} value={art.id}>{art.name}</MenuItem>)}
+
+                            </Select>
+                          </FormControl>
+                        </Box>
+                      </Box>
+                      <FormControl style={{ marginBottom: 4 }} fullWidth>
+                        <InputLabel id="labels-label">Labels</InputLabel>
+                        <Select
+                          labelId="labels-label"
+                          id="labels-select"
+                          value={tagsArt}
+                          onChange={(event) => setTagsArt(event.target.value)}
+                          label="Labels"
+                          multiple
+                        >
+                          <MenuItem value={"label1"}>Ten</MenuItem>
+                          <MenuItem value={"label2"}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <FormControl style={{ marginBottom: 4 }} fullWidth>
+                        <InputLabel id="gallery-label">Gallery</InputLabel>
+                        <Select
+                          labelId="gallery-label"
+                          id="gallery-select"
+                          value={galleryArt}
+                          onChange={(event) => setGalleryArt(event.target.value)}
+                          label="Labels"
+                        >
+                          {galleries.map(gallery => <MenuItem value={gallery.id}>{gallery.info.name}</MenuItem>)}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <TextField
+                        type="text"
+                        label="About the art"
+                        variant="outlined"
+                        fullWidth
+                        style={{ marginBottom: 4 }}
+                        multiline
+                        rows={4}
+                        value={aboutArt}
+                        onChange={(event) => setAboutArt(event.target.value)}
+
+                      />
+                    </Grid>
+                  </Grid>
+                  <Box style={{ marginTop: 12 }}>
+                    <Button
+                      variant="outlined"
+
+                      onClick={() => {
+
+                        onCreateArt({
+                          artBasics: {
+                            artGalleries: galleryArt !== "" ? [`${galleryArt}`] : [],
+                            artType: artTypes.find(type => type.id === artType),
+                            title: artTitle,
+                            about: aboutArt,
+                            artCategory: categories.find(cat => cat.id === artCategory),
+                            tags: tagsArt,
+                            tools: []
                           },
                           artRequest: {
                             Put: {
@@ -737,320 +936,400 @@ onCreateArt({
                               callback: [],
                             },
                           }
-                          })
-                            navigate("/main?page=profile")
-                         }}
+                        })
+                        navigate("/main?page=profile")
+                      }}
+                    >
+                      Create
+                    </Button>
+                  </Box>
+                  <Box
+                    style={{
+                      marginTop: "32px",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
                   >
-                    Create
-                  </Button>
+                  </Box>
+                </Paper>
+              </Grid>
+            </Box> : isCreateGallery ? <Box style={{ padding: 24 }}>
+              <Box style={{ display: "flex", alignItems: "center" }}>
+                <Typography variant="h4">Create Gallery</Typography>
+
+                <IconButton
+                  color="primary"
+                  onClick={() => setIsCrateGallery(false)}
+                  style={{ marginLeft: "auto" }}
+                >
+                  <ArrowCircleLeftOutlinedIcon fontSize="large" />
+                </IconButton>
+              </Box>
+              <Grid container spacing={1}>
+                <Paper elevation={5} style={{ padding: 24, marginTop: 24 }}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <TextField
+                        type="text"
+                        label="title"
+                        variant="outlined"
+                        fullWidth
+                        style={{ marginBottom: 4 }}
+                        value={titleGallery}
+                        onChange={(event) => setTitleGallery(event.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <TextField
+                        type="text"
+                        label="About the gallery"
+                        variant="outlined"
+                        fullWidth
+                        style={{ marginBottom: 4 }}
+                        multiline
+                        rows={4}
+                        value={aboutGallery}
+                        onChange={(event) => setAboutGallery(event.target.value)}
+
+                      />
+                    </Grid>
+                  </Grid>
+                  <Box style={{ marginTop: 12 }}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => onCreateGallery({
+                        artGalleryBanner: [],
+                        description: aboutGallery,
+                        name: titleGallery
+                      })}
+                    >
+                      Create
+                    </Button>
+                  </Box>
+                  <Box
+                    style={{
+                      marginTop: "32px",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                  </Box>
+                </Paper>
+              </Grid>
+            </Box> : (
+              <>
+                <div
+                  style={{
+                    height: 100,
+                    backgroundImage:
+                      "url('https://images.unsplash.com/photo-1643041447984-ff891bdf0815?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTM4NTM1NA&ixlib=rb-1.2.1&q=80&w=1080')",
+                    backgroundSize: "cover",
+                  }}
+                />
+                <Box>
+                  <Paper
+                    elevation={3}
+                    style={{
+                      marginTop: -30,
+                      marginLeft: 16,
+                      marginRight: 16,
+                      padding: 8,
+                    }}
+                  >
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                      <Box style={{ marginRight: "12px" }}>
+                        {!isShowToolsInfo && <Avatar src={avatar && avatar} style={{ width: 48, height: 48 }} />}
+                      </Box>
+                      <Box>
+                        <Box>
+                          <Typography variant="body1">{isShowToolsInfo ? <Box style={{ display: "flex", alignItems: "center" }}><CameraAltIcon fontFamily="small" color="primary" /> {`${currentTools?.camera.name}`}</Box> : `${currentProfile.givenName[0]} ${currentProfile.familyName[0]}`}</Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="body2">{isShowToolsInfo ? <Box style={{ display: "flex", alignItems: "center" }}><CameraIcon fontFamily="small" color="primary" />{`${currentTools?.lens.name}`}</Box> : `${currentProfile.displayName[0]}`}</Typography>
+                        </Box>
+                        {!isShowToolsInfo && <Box>
+                          <Typography variant="body2">
+                            {`${currentProfile.about[0]}`}
+                          </Typography>
+                        </Box>}
+                      </Box>
+                      <Box style={{ marginLeft: "auto" }}>
+                        <Box style={{ display: "flex" }}>
+                          <Box>
+                            <IconButton
+                              size="small"
+                              color="primary"
+                              onClick={() =>
+                                setIsShowToolsInfo(!isShowToolsInfo)
+                              }
+                            >
+                              {isShowToolsInfo ? <AccountCircleIcon fontFamily="small" color="primary" /> : <CameraAltIcon fontFamily="small" color="primary" />}
+                            </IconButton>
+                          </Box><Box>
+                            <IconButton
+                              size="small"
+                              color="primary"
+                              onClick={() =>
+                                navigate("/main?page=profile&isEdit=true")
+                              }
+                            >
+                              <EditIcon fontFamily="small" color="primary" />
+                            </IconButton>
+                          </Box>
+
+                        </Box>
+                        <Box style={{ display: "flex", justifyContent: "end" }}>
+                          <IconButton
+                            size="small"
+                            color="primary"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={handleClick}
+                          >
+                            <MoreHorizIcon color="primary" fontFamily="small" />
+                          </IconButton>
+                          <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={ }
+                            MenuListProps={{
+                              "aria-labelledby": "basic-button",
+                            }}
+                          >
+                            <MenuItem
+                              style={{ color: "red" }}
+                              onClick={() => deleteProfile()}
+                            >
+                              Delete profile
+                            </MenuItem>
+                          </Menu>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Paper>
+                  <Box
+                    style={{
+                      marginTop: 16,
+                      display: "flex",
+                      marginLeft: 16,
+                      marginRight: 16,
+                    }}
+                  >
+                    <Box style={{ width: "50%", marginRight: "16px" }}>
+                      <Button
+                        style={{
+                          textTransform: "capitalize",
+                          background: !isArtSelected && "white",
+                          color: !isArtSelected && "#000000",
+                        }}
+                        variant="contained"
+                        fullWidth
+                        onClick={() => setIsArtSelected(true)}
+                      >
+                        Art
+                      </Button>
+                    </Box>
+                    <Box style={{ width: "50%" }}>
+                      <Button
+                        variant="contained"
+                        fullWidth
+                        style={{
+                          textTransform: "capitalize",
+                          background: isArtSelected && "white",
+                          color: isArtSelected && "#000000",
+                        }}
+                        onClick={() => setIsArtSelected(false)}
+                      >
+                        Gallery
+                      </Button>
+                    </Box>
+                  </Box>
+                  <Box style={{ padding: 16, paddingBottom: 72 }}>
+                    {isArtSelected ? (
+                      <Masonry columns={3} spacing={0.2}>
+                        {arts.map((item, index) => (
+                          <div
+                            key={index}
+                            onClick={() =>
+                              navigate("/main?page=profile&image=" + item.id)
+                            }
+                          >
+                            <img
+                              src={`${item.image}`}
+                              srcSet={`${item.image}`}
+                              alt={item.id}
+                              loading="lazy"
+                              style={{
+                                borderBottomLeftRadius: 4,
+                                borderBottomRightRadius: 4,
+                                display: "block",
+                                width: "100%",
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </Masonry>
+                    ) : (
+                      <Grid container spacing={1}>
+                        {galleries?.map((item, index) => (
+                          <Grid
+                            key={index}
+                            item
+                            xs={12}
+                            sm={4}
+                            md={4}
+                            lg={4}
+                            xl={3}
+                          >
+                            <Card onClick={() => navigate(`/main?page=profile&gallery=${item.id}`)}>
+                              <CardMedia
+                                component="img"
+                                height="180"
+                                image={item.image ? item.image.image : "https://images.unsplash.com/photo-1643310638896-b73dd89c4597?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTQwNjY0MA&ixlib=rb-1.2.1&q=80&w=1080"}
+
+
+                                alt="image"
+                              />
+                              <CardContent>
+                                <Box
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Box style={{
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis"
+                                  }}>
+                                    <Typography
+                                      gutterBottom
+                                      variant="h5"
+                                      component="div"
+                                    >
+                                      {item.info.name}
+                                    </Typography>
+                                  </Box>
+                                  <Box style={{ marginLeft: "auto" }}>
+                                    <IconButton color="primary" onClick={() => deleteGallery(item.id)}>
+                                      <DeleteIcon />
+                                    </IconButton>
+                                  </Box>
+                                </Box>
+
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
+                                  {item.info.description}
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    )}
+                  </Box>
+                  {!mobileBreakpoint && (
+                    <Paper
+                      elevation={5}
+                      style={{
+                        height: 60,
+                        backgroundColor: "#FFFFFF",
+                        width: "100%",
+                        bottom: 0,
+                        position: "fixed",
+                        display: "flex",
+                        alignItems: "center",
+                        // padding: 16,
+                      }}
+                    >
+                      <Box style={{ width: "20%", textAlign: "center" }}>
+                        <IconButton color="primary">
+                          <HomeIcon fontSize="large" />
+                        </IconButton>
+                      </Box>
+                      <Box style={{ width: "20%", textAlign: "center" }}>
+                        <IconButton
+                          color="primary"
+                          onClick={() => setShowPrixerList(true)}
+                        >
+                          <Typography
+                            style={{
+                              fontSize: 32,
+
+                              fontWeight: "bold",
+                            }}
+                          >
+                            P
+                          </Typography>
+                        </IconButton>
                       </Box>
                       <Box
                         style={{
-                          marginTop: "32px",
-                          display: "flex",
-                          justifyContent: "center",
+                          width: "20%",
+                          textAlign: "center",
+                          marginTop: -45,
                         }}
                       >
-                    </Box>
-            </Paper>
-                </Grid>
-              </Box> : (
-            <>
-              <div
-                style={{
-                  height: 100,
-                  backgroundImage:
-                    "url('https://images.unsplash.com/photo-1643041447984-ff891bdf0815?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTM4NTM1NA&ixlib=rb-1.2.1&q=80&w=1080')",
-                  backgroundSize: "cover",
-                }}
-              />
-              <Box>
-                <Paper
-                  elevation={3}
-                  style={{
-                    marginTop: -30,
-                    marginLeft: 16,
-                    marginRight: 16,
-                    padding: 8,
-                  }}
-                >
-                  <Box style={{ display: "flex" }}>
-                    <Box style={{ marginRight: "12px" }}>
-                      <Avatar src={avatar && avatar} style={{ width: 48, height: 48 }} />
-                    </Box>
-                    <Box>
-                      <Box>
-                        <Typography variant="body1">{`${currentProfile.givenName[0]} ${currentProfile.familyName[0]}`}</Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="body2">{`${currentProfile.displayName[0]}`}</Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="body2">
-                          {`${currentProfile.about[0]}`}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box style={{ marginLeft: "auto" }}>
-                      <Box>
-                        <IconButton
-                          size="small"
+                        <Fab
                           color="primary"
-                          onClick={() =>
-                            navigate("/main?page=profile&isEdit=true")
-                          }
-                        >
-                          <EditIcon fontFamily="small" color="primary" />
-                        </IconButton>
-                      </Box>
-                      <Box>
-                        <IconButton
-                          size="small"
-                          color="primary"
-                          aria-controls={open ? "basic-menu" : undefined}
+                          id="basic-button"
+                          aria-controls={openCreation ? 'basic-menu' : undefined}
                           aria-haspopup="true"
-                          aria-expanded={open ? "true" : undefined}
-                          onClick={handleClick}
-                        >
-                          <MoreHorizIcon color="primary" fontFamily="small" />
-                        </IconButton>
+                          aria-expanded={openCreation ? 'true' : undefined}
+                          onClick={handleClickCreation}>
+                          <AddIcon />
+                        </Fab>
                         <Menu
                           id="basic-menu"
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={}
+                          anchorEl={anchorElCreation}
+                          open={openCreation}
+                          onClose={() => setAnchorElCreation(null)}
                           MenuListProps={{
-                            "aria-labelledby": "basic-button",
+                            'aria-labelledby': 'basic-button',
                           }}
                         >
-                          <MenuItem
-                            style={{ color: "red" }}
-                            onClick={()=> deleteProfile()}
-                          >
-                            Delete profile
+                          <MenuItem onClick={() => {
+                            setIsCreateArt(true);
+                            setAnchorElCreation(null)
+                          }}>
+                            Create Art
                           </MenuItem>
+                          <MenuItem onClick={() => {
+                            setIsCrateGallery(true)
+                            setAnchorElCreation(null)
+                          }}>Create Gallery</MenuItem>
                         </Menu>
                       </Box>
-                    </Box>
-                  </Box>
-                </Paper>
-                <Box
-                  style={{
-                    marginTop: 16,
-                    display: "flex",
-                    marginLeft: 16,
-                    marginRight: 16,
-                  }}
-                >
-                  <Box style={{ width: "50%", marginRight: "16px" }}>
-                    <Button
-                      style={{
-                        textTransform: "capitalize",
-                        background: !isArtSelected && "white",
-                        color: !isArtSelected && "#000000",
-                      }}
-                      variant="contained"
-                      fullWidth
-                      onClick={() => setIsArtSelected(true)}
-                    >
-                      Art
-                    </Button>
-                  </Box>
-                  <Box style={{ width: "50%" }}>
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      style={{
-                        textTransform: "capitalize",
-                        background: isArtSelected && "white",
-                        color: isArtSelected && "#000000",
-                      }}
-                      onClick={() => setIsArtSelected(false)}
-                    >
-                      Gallery
-                    </Button>
-                  </Box>
-                </Box>
-                <Box style={{ padding: 16, paddingBottom: 72 }}>
-                  {isArtSelected ? (
-                    <Masonry columns={3} spacing={0.2}>
-                      {arts.map((item, index) => (
-                        <div
-                          key={index}
-                          onClick={() =>
-                            navigate("/main?page=profile&image=" + item.id)
-                          }
-                        >
-                          <img
-                            src={`${item.image}`}
-                            srcSet={`${item.image}`}
-                            alt={item.id}
-                            loading="lazy"
-                            style={{
-                              borderBottomLeftRadius: 4,
-                              borderBottomRightRadius: 4,
-                              display: "block",
-                              width: "100%",
-                            }}
-                          />
-                        </div>
-                      ))}
-                    </Masonry>
-                  ) : (
-                    <Grid container spacing={1}>
-                      {[1, 2, 3].map((item, index) => (
-                        <Grid
-                          key={index}
-                          item
-                          xs={12}
-                          sm={4}
-                          md={4}
-                          lg={4}
-                          xl={3}
-                          // sx={{
-                          //   marginRight: {
-                          //     sm: "4px",
-                          //   },
-                          // }}
-                        >
-                          <Card>
-                            <CardMedia
-                              component="img"
-                              height="180"
-                              image="https://images.unsplash.com/photo-1643310638896-b73dd89c4597?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTQwNjY0MA&ixlib=rb-1.2.1&q=80&w=1080"
-                              alt="image"
-                            />
-                            <CardContent>
-                              <Box
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <Box>
-                                  <Typography
-                                    gutterBottom
-                                    variant="h5"
-                                    component="div"
-                                  >
-                                    Gleiber Granado
-                                  </Typography>
-                                </Box>
-                                <Box style={{ marginLeft: "auto" }}>
-                                  <IconButton color="primary">
-                                    <MoreHorizIcon />
-                                  </IconButton>
-                                </Box>
-                              </Box>
-
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                              >
-                                Explicacion de galeria
-                              </Typography>
-                            </CardContent>
-                          </Card>
-                        </Grid>
-                      ))}
-                    </Grid>
+                      <Box style={{ width: "20%", textAlign: "center" }}>
+                        <IconButton color="primary">
+                          <LocalFireDepartmentIcon fontSize="large" />
+                        </IconButton>
+                      </Box>
+                      <Box style={{ width: "20%", textAlign: "center" }}>
+                        <IconButton color="primary">
+                          <AccountCircleIcon fontSize="large" />
+                        </IconButton>
+                      </Box>
+                    </Paper>
                   )}
                 </Box>
-                {!mobileBreakpoint && (
-                  <Paper
-                    elevation={5}
-                    style={{
-                      height: 60,
-                      backgroundColor: "#FFFFFF",
-                      width: "100%",
-                      bottom: 0,
-                      position: "fixed",
-                      display: "flex",
-                      alignItems: "center",
-                      // padding: 16,
-                    }}
-                  >
-                    <Box style={{ width: "20%", textAlign: "center" }}>
-                      <IconButton color="primary">
-                        <HomeIcon fontSize="large" />
-                      </IconButton>
-                    </Box>
-                    <Box style={{ width: "20%", textAlign: "center" }}>
-                      <IconButton
-                        color="primary"
-                        onClick={() => setShowPrixerList(true)}
-                      >
-                        <Typography
-                          style={{
-                            fontSize: 32,
-
-                            fontWeight: "bold",
-                          }}
-                        >
-                          P
-                        </Typography>
-                      </IconButton>
-                    </Box>
-                    <Box
-                      style={{
-                        width: "20%",
-                        textAlign: "center",
-                        marginTop: -45,
-                      }}
-                    >
-                      <Fab 
-                        color="primary"   
-                        id="basic-button"
-                        aria-controls={openCreation ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={openCreation ? 'true' : undefined}
-                        onClick={handleClickCreation}>
-                        <AddIcon />
-                      </Fab>
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={anchorElCreation}
-                        open={openCreation}
-                        onClose={() => setAnchorElCreation(null)}
-                        MenuListProps={{
-                          'aria-labelledby': 'basic-button',
-                        }}
-                      >
-                        <MenuItem onClick={() => {
-                          setIsCreateArt(true);
-                          setAnchorElCreation(null)
-                        }}>
-                          Create Art
-                        </MenuItem>
-                        <MenuItem onClick={console.log}>Create Gallery</MenuItem>
-                      </Menu>
-                    </Box>
-                    <Box style={{ width: "20%", textAlign: "center" }}>
-                      <IconButton color="primary">
-                        <LocalFireDepartmentIcon fontSize="large" />
-                      </IconButton>
-                    </Box>
-                    <Box style={{ width: "20%", textAlign: "center" }}>
-                      <IconButton color="primary">
-                        <AccountCircleIcon fontSize="large" />
-                      </IconButton>
-                    </Box>
-                  </Paper>
-                )}
-              </Box>
-            </>
-          )
+              </>
+            )
         ) : (
           <Box style={{ padding: "32px" }}>
             <Typography variant="h5">Add your 1st art</Typography>
             <Paper elevation={5} style={{ padding: 24, marginTop: 8 }}>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-                  {assetArt ?  
+                  {assetArt ?
                     <Button component="label">
-                      <img 
-                        src={ assetArt} 
-                        alt="image" 
+                      <img
+                        src={assetArt}
+                        alt="image"
                         srcSet={`${assetArt}`}
                         loading="lazy"
                         style={{
@@ -1059,12 +1338,12 @@ onCreateArt({
                           display: "block",
                           width: "100%",
                         }} />
-                      <input type="file" hidden onChange={(event) => handleChange(event, false)}/>
+                      <input type="file" hidden onChange={(event) => handleChange(event, false)} />
                     </Button>
-                  : <Button fullWidth component="label">
-                      <AddPhotoAlternateIcon style={{ height: 230, width:80 }} />
-                      <input type="file" hidden onChange={(event) => handleChange(event, false)}/>
-                  </Button> }
+                    : <Button fullWidth component="label">
+                      <AddPhotoAlternateIcon style={{ height: 230, width: 80 }} />
+                      <input type="file" hidden onChange={(event) => handleChange(event, false)} />
+                    </Button>}
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={8} xl={8}>
                   <Box style={{ display: "flex" }}>
@@ -1075,6 +1354,8 @@ onCreateArt({
                         variant="outlined"
                         required
                         fullWidth
+                        value={artTitle}
+                        onChange={(event) => setArtTitle(event.target.value)}
                         style={{ marginBottom: 4 }}
                       />
                     </Box>
@@ -1088,13 +1369,15 @@ onCreateArt({
                         <Select
                           labelId="type-label"
                           id="type-label-select"
-                          value={""}
+                          value={artType}
+                          onChange={(event) => setArtType(event.target.value)}
                           label="Type"
+
                         >
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
+                          {artTypes.map(type => <MenuItem value={type.id} key={type.id}>{type.name}</MenuItem>)}
+
                         </Select>
+
                       </FormControl>
                     </Box>
                   </Box>
@@ -1111,10 +1394,11 @@ onCreateArt({
                           id="category-select"
                           value={""}
                           label="Category"
+                          value={artCategory}
+                          onChange={(event) => setArtCategory(event.target.value)}
+
                         >
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
+                          {categories.map(type => <MenuItem value={type.id} key={type.id}>{type.name}</MenuItem>)}
                         </Select>
                       </FormControl>
                     </Box>
@@ -1135,12 +1419,12 @@ onCreateArt({
                         <Select
                           labelId="camera-label"
                           id="category-select"
-                          value={""}
+                          value={artCamera}
+                          onChange={(event) => setArtCamera(event.target.value)}
                           label="Camera"
                         >
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
+                          {artistTools.map(art => tools.find(tl => art.id === tl.id) && art.category.name === "Camera" && <MenuItem key={art.id} value={art.id}>{art.name}</MenuItem>)}
+
                         </Select>
                       </FormControl>
                     </Box>
@@ -1150,12 +1434,11 @@ onCreateArt({
                         <Select
                           labelId="lens-label"
                           id="lens-select"
-                          value={""}
+                          value={lensArt}
+                          onChange={(event) => setLensArt(event.target.value)}
                           label="Lens"
                         >
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
+                          {artistTools.map(art => tools.find(tl => art.id === tl.id) && art.category.name === "Lens" && <MenuItem key={art.id} value={art.id}>{art.name}</MenuItem>)}
                         </Select>
                       </FormControl>
                     </Box>
@@ -1165,7 +1448,8 @@ onCreateArt({
                     <Select
                       labelId="labels-label"
                       id="labels-select"
-                      value={["label1", "label2"]}
+                      value={tagsArt}
+                      onChange={(event) => setTagsArt(event.target.value)}
                       label="Labels"
                       multiple
                     >
@@ -1175,7 +1459,7 @@ onCreateArt({
                     </Select>
                   </FormControl>
                 </Grid>
-                
+
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                   <TextField
                     type="text"
@@ -1185,45 +1469,40 @@ onCreateArt({
                     style={{ marginBottom: 4 }}
                     multiline
                     rows={4}
+                    value={aboutArt}
+                    onChange={(event) => setAboutArt(event.target.value)}
+
                   />
                 </Grid>
               </Grid>
               <Box style={{ marginTop: 12 }}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => onCreateArt({
-                            artBasics:{
-                              artGalleries: [],
-                              artType: {
-                              description: "LOL",
-                              id: "1",
-                              name: "photography",
-                            },
-                            title: "Titulo de arte de prueba",
-                            about: "Esto es un sobre que corto",
-                            artCategory: {
-                              description: "Description category",
-                              id: "LOL",
-                              name: "Name in category"  
-                            },
-                            tags:[],
-                            tools:[]
-                          },
-                          artRequest: {
-                            Put: {
-                              key: "lol",
-                              contentType: "image/jpeg",
-                              payload: {
-                                Payload: asset,
-                              },
-                              callback: [],
-                            },
-                          }
-                          })}
-                  >
-                    Create
-                  </Button>
-                </Box>
+                <Button
+                  variant="outlined"
+                  onClick={() => onCreateArt({
+                    artBasics: {
+                      artGalleries: [],
+                      artType: artTypes.find(type => type.id === artType),
+                      title: artTitle,
+                      about: aboutArt,
+                      artCategory: categories.find(cat => cat.id === artCategory),
+                      tags: tagsArt,
+                      tools: []
+                    },
+                    artRequest: {
+                      Put: {
+                        key: "lol",
+                        contentType: "image/jpeg",
+                        payload: {
+                          Payload: asset,
+                        },
+                        callback: [],
+                      },
+                    }
+                  })}
+                >
+                  Create
+                </Button>
+              </Box>
               <Box
                 style={{
                   marginTop: "32px",
@@ -1261,7 +1540,7 @@ onCreateArt({
                 </Button>
               </Box>
             </Paper>
-             
+
           </Box>
         )}
       </Box>
@@ -1271,6 +1550,8 @@ onCreateArt({
         onClose={handleCloseSnackbar}
         open={isSnackbarOpen}
         TransitionComponent={SlideTransition}
+        style={{ display: isSnackbarOpen ? "flex" : "none" }}
+
       >
         <Alert severity={severity}>{message}</Alert>
       </Snackbar>
@@ -1291,8 +1572,8 @@ onCreateArt({
     const file = e.target.files[0];
     const resizedString = await convertToBase64(file);
     const data = [...new Uint8Array(await file.arrayBuffer())];
-    if(isAvatar) setAvatar(resizedString);
-    else setAssetArt(resizedString)    
+    if (isAvatar) setAvatar(resizedString);
+    else setAssetArt(resizedString)
     setAsset(data);
   }
 
@@ -1311,74 +1592,173 @@ onCreateArt({
     setAnchorEl(event.currentTarget);
   }
 
-   function handleClickCreation (event){
+  function handleClickCreation(event) {
     setAnchorElCreation(event.currentTarget);
   };
-  
-function onLogout() {
-    localStorage.removeItem("isWalletAuth");
-    localStorage.removeItem("isAuth");
+
+  function onLogout() {
+    localStorage.clear();
     navigate("/login");
   }
 
-
-
-  async function onUpdateProfile(profileData) {
+  async function onUpdateProfile(profileData, tools) {
     setIsLoading(true);
-    await service.updateProfile(profileData);
+    const update = await service.updateProfile(profileData);
+    await service.updateArtist(tools.tools);
     setIsLoading(false);
-    setIsSnackbarOpen(true);
-    setMessage("Perfil actualizado correctamente");
-    setSeverity("success");
+    if (Object.keys(update)[0] !== "err") {
+      setIsSnackbarOpen(true);
+      setMessage("Perfil actualizado correctamente");
+      setSeverity("success");
+
+    } else {
+      setIsSnackbarOpen(true);
+      setMessage("Error al actualizar perfil");
+      setSeverity("error");
+    }
+
     setAsset(undefined)
   }
 
   async function onCreateArt(artUpdate) {
     setIsLoading(true);
-    await service.createArt(artUpdate);
+    const create = await service.createArt(artUpdate);
     setAsset(undefined)
-    const arts = await getArtsPrincipal();
-    await setArts(arts.ok.map(result => 
-      ({
-        image:"data:image/jpeg;base64," + encode(result[2].payload[0]),
-        id:result[0],
-        info:result[1]
-      })
-    ))
-    setIsCreateArt(false)
-    setIsLoading(false);
-    setIsSnackbarOpen(true);
-    setMessage("Arte creado correctamente");
-    setSeverity("success");
+    if (Object.keys(create)[0] !== "err") {
+      const arts = await getArtsPrincipal();
+      const formatArts = arts.ok.map(result => ({
+        image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
+        id: result[0],
+        info: result[1]
+      }))
+      setArts(formatArts)
+      const artGallery = await service.getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
+      setGalleries(artGallery.ok.map(result => ({
+        image: formatArts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+        id: result[0],
+        info: result[1]
+      })))
+      setIsCreateArt(false)
+      setIsLoading(false);
+      setIsSnackbarOpen(true);
+      setMessage("Arte creado correctamente");
+      setSeverity("success");
+      setArtTitle("");
+      setArtType("");
+      setArtCategory("")
+      setAboutArt("")
+      setArtCamera("")
+      setLensArt("")
+      setTagsArt([])
+
+    } else {
+      setIsCreateArt(false)
+      setIsLoading(false);
+      setIsSnackbarOpen(true);
+      setMessage("Error al crear arte");
+      setSeverity("error");
+    }
+
   }
 
-  async function getArtsPrincipal(){
+  async function getArtsPrincipal() {
     return await service.getArtsByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal)
   }
 
-  async function deleteProfile(){
+  async function deleteProfile() {
     setIsLoading(true);
     await service.deleteProfile(JSON.parse(localStorage.getItem("_scApp")).principal);
     localStorage.clear();
     navigate("/login")
   }
 
-  async function deleteArt(id){
+  async function deleteArt(id) {
     setIsLoading(true);
     await service.deleteArt(id);
+    const artGallery = await service.getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
     const arts = await getArtsPrincipal();
- 
-    await setArts(arts.ok.map(result => ({
-        image:"data:image/jpeg;base64," + encode(result[2].payload[0]),
-        id:result[0],
-        info:result[1]
-      })))
+
+    const formatArts = arts.ok.map(result => ({
+      image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
+      id: result[0],
+      info: result[1]
+    }))
+    setArts(formatArts)
+
+    setGalleries(artGallery.ok.map(result => {
+      return {
+        image: formatArts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+        id: result[0],
+        info: result[1]
+      }
+    }))
     setIsLoading(false);
     navigate("/main?page=profile");
     setIsSnackbarOpen(true);
     setMessage("Arte eliminado correctamente");
     setSeverity("success");
-    
+
+  }
+
+  async function deleteGallery(id) {
+    setIsLoading(true);
+    await service.deleteGallery(id);
+    const artGallery = await service.getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
+
+    setGalleries(artGallery.ok.map(result => {
+      return {
+        image: formatArts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+        id: result[0],
+        info: result[1]
+      }
+    }))
+    setIsLoading(false);
+    navigate("/main?page=profile");
+    setIsSnackbarOpen(true);
+    setMessage("Galeria eliminada correctamente");
+    setSeverity("success");
+
+  }
+
+  function addTools(id) {
+    const tool = tools.find((tl) => tl.id === id);
+    if (selectedTools.find((tl) => tl.id === tool.id)) {
+      setIsSnackbarOpen(true);
+      setSeverity("error");
+      setMessage("Item already exist");
+    } else {
+      setSelectedTools([...selectedTools, tool]);
+    }
+  }
+
+  async function onCreateGallery(galleryUpdate) {
+    setIsLoading(true);
+    const create = await service.createArtGallery(galleryUpdate);
+
+    if (Object.keys(create)[0] !== "err") {
+      const artGallery = await service.getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
+      setGalleries(artGallery.ok.map(result => {
+        return {
+          image: arts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+          id: result[0],
+          info: result[1]
+        }
+      }))
+      setIsCreateArt(false)
+      setIsLoading(false);
+      setIsSnackbarOpen(true);
+      setMessage("Galeria creada correctamente");
+      setSeverity("success");
+      setIsCrateGallery(false)
+      setTitleGallery("");
+      setAboutGallery("")
+    } else {
+      setIsCreateArt(false)
+      setIsLoading(false);
+      setIsSnackbarOpen(true);
+      setMessage("Error al crear galeria");
+      setSeverity("error");
+    }
   }
 }
 
