@@ -50,6 +50,7 @@
     "@mui/lab": "^5.0.0-alpha.69",
     "@mui/material": "^5.4.2",
     "browser-image-resizer": "^2.2.1",
+    "downshift": "^6.1.7",
     "ic-stoic-identity": "^2.0.0",
     "install": "^0.13.0",
     "npm": "^8.5.1",

@@ -25,6 +25,7 @@ const service = {
   getToolsCategories,
   getTools,
   updateArtist,
+  updateArt,
 };
 
 export default service;
@@ -206,5 +207,12 @@ async function updateArtist(tools) {
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
   const result = await actor.updateArtist(tools);
+  return result;
+}
+
+async function updateArt(artUpdate, id) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.updateArt(artUpdate, id);
   return result;
 }
