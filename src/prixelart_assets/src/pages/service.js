@@ -51,7 +51,7 @@ async function onSignOutStoic() {
 }
 
 async function wPActor(identity) {
-  return await wPCreateActor("rkp4c-7iaaa-aaaaa-aaaca-cai", {
+  return await wPCreateActor("wrcb3-5qaaa-aaaal-qaahq-cai", {
     agentOptions: {
       identity: identity,
     },
@@ -59,7 +59,7 @@ async function wPActor(identity) {
 }
 
 async function wPActorPrixer(identity) {
-  return await wPCreateActorPrixer("rrkah-fqaaa-aaaaa-aaaaq-cai", {
+  return await wPCreateActorPrixer("dffsb-tiaaa-aaaai-qidva-cai", {
     agentOptions: {
       identity: identity,
     },

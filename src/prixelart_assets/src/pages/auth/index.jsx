@@ -518,9 +518,10 @@ function Auth() {
       setIsWalletAuth(true);
       const profile = await service.getProfile();
       const tools = await service.getTools();
+      const artist = await service.getArtist();
       setTools(tools.ok);
 
-      if (Object.keys(profile)[0] !== "err") navigate("/main");
+      if (Object.keys(artist)[0] !== "err") navigate("/main");
       setIsLoading(false);
     } else {
       setIsLoading(false);

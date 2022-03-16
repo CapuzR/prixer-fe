@@ -159,17 +159,26 @@ function Main() {
     const categories = await service.readAllArtCategories();
     const toolsCategories = await service.getToolsCategories();
     const tools = await service.getTools();
+    console.log("tools ", tools);
+    console.log("profile ", profile);
+    console.log("artist ", artist);
+    console.log("arts ", arts);
+    console.log("artsGalerries", artGallery);
+    console.log("artTypes", artTypes);
+    console.log("cageroies", categories);
+
+    // console.log(" ",tools)
 
     setCurrentTools({
       camera: artist.ok.tools
-        .map((art) =>
+        ?.map((art) =>
           tools.ok.find(
             (tl) => art.id === tl.id && art.category.name === "Camera"
           )
         )
         .filter((i) => i)[0],
       lens: artist.ok.tools
-        .map((art) =>
+        ?.map((art) =>
           tools.ok.find(
             (tl) => art.id === tl.id && art.category.name === "Lens"
           )
@@ -188,7 +197,7 @@ function Main() {
         "data:image/jpeg;base64," + encode(profile.ok[1][0].payload[0])
       );
       setAsset(profile.ok[1][0].payload[0]);
-      const formatArts = arts.ok.map((result) => ({
+      const formatArts = arts.ok?.map((result) => ({
         image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
         id: result[0],
         info: result[1],
@@ -202,10 +211,10 @@ function Main() {
       setArtistTools(artist.ok.tools);
       setTools(tools.ok);
       setSelectedTools(
-        artist.ok.tools.map((art) => tools.ok.find((tl) => art.id === tl.id))
+        artist.ok.tools?.map((art) => tools.ok.find((tl) => art.id === tl.id))
       );
       setGalleries(
-        artGallery.ok.map((result) => {
+        artGallery.ok?.map((result) => {
           return {
             image: formatArts.find(
               (art) => art.info.artBasics.artGalleries[0] === result[0]
@@ -431,7 +440,7 @@ function Main() {
                           value={camera}
                           onChange={(event) => setCamera(event.target.value)}
                         >
-                          {tools.map(
+                          {tools?.map(
                             (type) =>
                               type.category.name === "Camera" && (
                                 <MenuItem value={type.id} key={type.id}>
@@ -442,7 +451,7 @@ function Main() {
                         </Select>
                       </FormControl>
                       <Box style={{ marginTop: "8px" }}>
-                        {selectedTools.map(
+                        {selectedTools?.map(
                           (tool) =>
                             tool.category.name === "Camera" && (
                               <Chip
@@ -495,7 +504,7 @@ function Main() {
                           value={lens}
                           onChange={(event) => setLens(event.target.value)}
                         >
-                          {tools.map(
+                          {tools?.map(
                             (type) =>
                               type.category.name === "Lens" && (
                                 <MenuItem value={type.id} key={type.id}>
@@ -506,7 +515,7 @@ function Main() {
                         </Select>
                       </FormControl>
                       <Box style={{ marginTop: "8px" }}>
-                        {selectedTools.map(
+                        {selectedTools?.map(
                           (tool) =>
                             tool.category.name === "Lens" && (
                               <Chip
@@ -855,7 +864,7 @@ function Main() {
                                 }
                                 label="Type"
                               >
-                                {artTypes.map((type) => (
+                                {artTypes?.map((type) => (
                                   <MenuItem value={type.id} key={type.id}>
                                     {type.name}
                                   </MenuItem>
@@ -884,7 +893,7 @@ function Main() {
                                   setArtCategory(event.target.value)
                                 }
                               >
-                                {categories.map((type) => (
+                                {categories?.map((type) => (
                                   <MenuItem value={type.id} key={type.id}>
                                     {type.name}
                                   </MenuItem>
@@ -915,7 +924,7 @@ function Main() {
                                 }
                                 label="Camera"
                               >
-                                {artistTools.map(
+                                {artistTools?.map(
                                   (art) =>
                                     tools.find((tl) => art.id === tl.id) &&
                                     art.category.name === "Camera" && (
@@ -939,7 +948,7 @@ function Main() {
                                 }
                                 label="Lens"
                               >
-                                {artistTools.map(
+                                {artistTools?.map(
                                   (art) =>
                                     tools.find((tl) => art.id === tl.id) &&
                                     art.category.name === "Lens" && (
@@ -965,7 +974,7 @@ function Main() {
                             }
                             label="Labels"
                           >
-                            {galleries.map((gallery) => (
+                            {galleries?.map((gallery) => (
                               <MenuItem value={gallery.id} key={gallery.id}>
                                 {gallery.info.name}
                               </MenuItem>
@@ -1007,7 +1016,7 @@ function Main() {
                         />
                       </Grid>
                       <Box style={{ marginTop: "8px", padding: 8 }}>
-                        {tagsArt.map((tg) => (
+                        {tagsArt?.map((tg) => (
                           <Chip
                             key={tg}
                             label={tg}
@@ -1104,7 +1113,7 @@ function Main() {
                   </IconButton>
                 </Box>
                 <Masonry columns={3} spacing={0.2}>
-                  {arts.map(
+                  {arts?.map(
                     (item, index) =>
                       item.info.artBasics.artGalleries[0] ===
                         searchParams.get("gallery") && (
@@ -1147,7 +1156,7 @@ function Main() {
                   </IconButton>
                 </Box>
                 <Grid container spacing={1}>
-                  {[1, 2, 3, 4].map((item, index) => (
+                  {[1, 2, 3, 4]?.map((item, index) => (
                     <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={3}>
                       <Card>
                         <CardActionArea>
@@ -1192,7 +1201,15 @@ function Main() {
                   style={{ padding: 24, marginTop: 14, width: "100%" }}
                 >
                   <Grid container spacing={1}>
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={4}
+                      xl={4}
+                      style={{ textAlign: "center" }}
+                    >
                       {assetArt ? (
                         <Button component="label">
                           <img
@@ -1205,6 +1222,7 @@ function Main() {
                               borderBottomRightRadius: 4,
                               display: "block",
                               width: "100%",
+                              maxHeight: "232px",
                             }}
                           />
                           <input
@@ -1258,7 +1276,7 @@ function Main() {
                               }
                               label="Type"
                             >
-                              {artTypes.map((type) => (
+                              {artTypes?.map((type) => (
                                 <MenuItem value={type.id} key={type.id}>
                                   {type.name}
                                 </MenuItem>
@@ -1287,7 +1305,7 @@ function Main() {
                                 setArtCategory(event.target.value)
                               }
                             >
-                              {categories.map((type) => (
+                              {categories?.map((type) => (
                                 <MenuItem value={type.id} key={type.id}>
                                   {type.name}
                                 </MenuItem>
@@ -1318,7 +1336,7 @@ function Main() {
                               }
                               label="Camera"
                             >
-                              {artistTools.map(
+                              {artistTools?.map(
                                 (art) =>
                                   tools.find((tl) => art.id === tl.id) &&
                                   art.category.name === "Camera" && (
@@ -1342,7 +1360,7 @@ function Main() {
                               }
                               label="Lens"
                             >
-                              {artistTools.map(
+                              {artistTools?.map(
                                 (art) =>
                                   tools.find((tl) => art.id === tl.id) &&
                                   art.category.name === "Lens" && (
@@ -1368,7 +1386,7 @@ function Main() {
                           }
                           label="Labels"
                         >
-                          {galleries.map((gallery) => (
+                          {galleries?.map((gallery) => (
                             <MenuItem value={gallery.id}>
                               {gallery.info.name}
                             </MenuItem>
@@ -1410,7 +1428,7 @@ function Main() {
                       />
                     </Grid>
                     <Box style={{ marginTop: "8px", padding: 8 }}>
-                      {tagsArt.map((tg) => (
+                      {tagsArt?.map((tg) => (
                         <Chip
                           key={tg}
                           label={tg}
@@ -1491,7 +1509,10 @@ function Main() {
                 </IconButton>
               </Box>
               <Grid container spacing={1}>
-                <Paper elevation={5} style={{ padding: 24, marginTop: 24 }}>
+                <Paper
+                  elevation={5}
+                  style={{ padding: 24, marginTop: 24, width: "100%" }}
+                >
                   <Grid container spacing={1}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <TextField
@@ -1721,7 +1742,7 @@ function Main() {
                 <Box style={{ padding: 16, paddingBottom: 72 }}>
                   {isArtSelected ? (
                     <Masonry columns={3} spacing={0.2}>
-                      {arts.map((item, index) => (
+                      {arts?.map((item, index) => (
                         <div
                           key={index}
                           onClick={() =>
@@ -2025,7 +2046,7 @@ function Main() {
                           onChange={(event) => setArtType(event.target.value)}
                           label="Type"
                         >
-                          {artTypes.map((type) => (
+                          {artTypes?.map((type) => (
                             <MenuItem value={type.id} key={type.id}>
                               {type.name}
                             </MenuItem>
@@ -2052,7 +2073,7 @@ function Main() {
                             setArtCategory(event.target.value)
                           }
                         >
-                          {categories.map((type) => (
+                          {categories?.map((type) => (
                             <MenuItem value={type.id} key={type.id}>
                               {type.name}
                             </MenuItem>
@@ -2081,7 +2102,7 @@ function Main() {
                           onChange={(event) => setArtCamera(event.target.value)}
                           label="Camera"
                         >
-                          {artistTools.map(
+                          {artistTools?.map(
                             (art) =>
                               tools.find((tl) => art.id === tl.id) &&
                               art.category.name === "Camera" && (
@@ -2103,7 +2124,7 @@ function Main() {
                           onChange={(event) => setLensArt(event.target.value)}
                           label="Lens"
                         >
-                          {artistTools.map(
+                          {artistTools?.map(
                             (art) =>
                               tools.find((tl) => art.id === tl.id) &&
                               art.category.name === "Lens" && (
@@ -2152,7 +2173,7 @@ function Main() {
                   />
                 </Grid>
                 <Box style={{ marginTop: "8px", padding: 8 }}>
-                  {tagsArt.map((tg) => (
+                  {tagsArt?.map((tg) => (
                     <Chip
                       key={tg}
                       label={tg}
@@ -2327,7 +2348,7 @@ function Main() {
     setAsset(undefined);
     if (Object.keys(create)[0] !== "err") {
       const arts = await getArtsPrincipal();
-      const formatArts = arts.ok.map((result) => ({
+      const formatArts = arts.ok?.map((result) => ({
         image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
         id: result[0],
         info: result[1],
@@ -2337,7 +2358,7 @@ function Main() {
         JSON.parse(localStorage.getItem("_scApp")).principal
       );
       setGalleries(
-        artGallery.ok.map((result) => ({
+        artGallery.ok?.map((result) => ({
           image: formatArts.find(
             (art) => art.info.artBasics.artGalleries[0] === result[0]
           ),
@@ -2373,7 +2394,7 @@ function Main() {
     setAsset(undefined);
     if (Object.keys(updated)[0] !== "err") {
       const arts = await getArtsPrincipal();
-      const formatArts = arts.ok.map((result) => ({
+      const formatArts = arts.ok?.map((result) => ({
         image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
         id: result[0],
         info: result[1],
@@ -2383,7 +2404,7 @@ function Main() {
         JSON.parse(localStorage.getItem("_scApp")).principal
       );
       setGalleries(
-        artGallery.ok.map((result) => ({
+        artGallery.ok?.map((result) => ({
           image: formatArts.find(
             (art) => art.info.artBasics.artGalleries[0] === result[0]
           ),
@@ -2438,7 +2459,7 @@ function Main() {
     );
     const arts = await getArtsPrincipal();
 
-    const formatArts = arts.ok.map((result) => ({
+    const formatArts = arts.ok?.map((result) => ({
       image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
       id: result[0],
       info: result[1],
@@ -2446,7 +2467,7 @@ function Main() {
     setArts(formatArts);
 
     setGalleries(
-      artGallery.ok.map((result) => {
+      artGallery.ok?.map((result) => {
         return {
           image: formatArts.find(
             (art) => art.info.artBasics.artGalleries[0] === result[0]
@@ -2471,7 +2492,7 @@ function Main() {
     );
 
     setGalleries(
-      artGallery.ok.map((result) => {
+      artGallery.ok?.map((result) => {
         return {
           image: arts.find(
             (art) => art.info.artBasics.artGalleries[0] === result[0]
@@ -2519,7 +2540,7 @@ function Main() {
         JSON.parse(localStorage.getItem("_scApp")).principal
       );
       setGalleries(
-        artGallery.ok.map((result) => {
+        artGallery.ok?.map((result) => {
           return {
             image: arts.find(
               (art) => art.info.artBasics.artGalleries[0] === result[0]
