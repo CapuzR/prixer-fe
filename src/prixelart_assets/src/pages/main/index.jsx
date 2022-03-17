@@ -159,14 +159,6 @@ function Main() {
     const categories = await service.readAllArtCategories();
     const toolsCategories = await service.getToolsCategories();
     const tools = await service.getTools();
-    console.log("tools ", tools);
-    console.log("profile ", profile);
-    console.log("artist ", artist);
-    console.log("arts ", arts);
-    console.log("artsGalerries", artGallery);
-    console.log("artTypes", artTypes);
-    console.log("cageroies", categories);
-
     // console.log(" ",tools)
 
     setCurrentTools({
@@ -2352,6 +2344,7 @@ function Main() {
         image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
         id: result[0],
         info: result[1],
+        asset: result[2].payload[0],
       }));
       setArts(formatArts);
       const artGallery = await service.getGalleriesByPrincipal(
@@ -2398,6 +2391,7 @@ function Main() {
         image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
         id: result[0],
         info: result[1],
+        asset: result[2].payload[0],
       }));
       setArts(formatArts);
       const artGallery = await service.getGalleriesByPrincipal(
@@ -2463,6 +2457,7 @@ function Main() {
       image: "data:image/jpeg;base64," + encode(result[2].payload[0]),
       id: result[0],
       info: result[1],
+      asset: result[2].payload[0],
     }));
     setArts(formatArts);
 
