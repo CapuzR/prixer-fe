@@ -11019,34 +11019,6 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ "./node_modules/@mui/icons-material/SettingsInputCompositeOutlined.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@mui/icons-material/SettingsInputCompositeOutlined.js ***!
-  \****************************************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ "./node_modules/@mui/icons-material/utils/createSvgIcon.js"));
-
-var _jsxRuntime = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-var _default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-  d: "M5 2c0-.55-.45-1-1-1s-1 .45-1 1v4H1v10c0 1.3.84 2.4 2 2.82V23h2v-4.18C6.16 18.4 7 17.3 7 16V6H5V2zM4 17c-.55 0-1-.45-1-1v-2h2v2c0 .55-.45 1-1 1zm-1-5V8h2v4H3zM13 2c0-.55-.45-1-1-1s-1 .45-1 1v4H9v10c0 1.3.84 2.4 2 2.82V23h2v-4.18c1.16-.42 2-1.52 2-2.82V6h-2V2zm-1 15c-.55 0-1-.45-1-1v-2h2v2c0 .55-.45 1-1 1zm-1-5V8h2v4h-2zm10-6V2c0-.55-.45-1-1-1s-1 .45-1 1v4h-2v10c0 1.3.84 2.4 2 2.82V23h2v-4.18c1.16-.42 2-1.52 2-2.82V6h-2zm-1 11c-.55 0-1-.45-1-1v-2h2v2c0 .55-.45 1-1 1zm-1-5V8h2v4h-2z"
-}), 'SettingsInputCompositeOutlined');
-
-exports["default"] = _default;
-
-/***/ }),
-
 /***/ "./node_modules/@mui/icons-material/utils/createSvgIcon.js":
 /*!*****************************************************************!*\
   !*** ./node_modules/@mui/icons-material/utils/createSvgIcon.js ***!
@@ -19374,6 +19346,253 @@ function getInputUtilityClass(slot) {
 }
 const inputClasses = (0,_mui_base__WEBPACK_IMPORTED_MODULE_1__["default"])('MuiInput', ['root', 'formControl', 'focused', 'disabled', 'colorSecondary', 'underline', 'error', 'sizeSmall', 'multiline', 'fullWidth', 'input', 'inputSizeSmall', 'inputMultiline', 'inputTypeSearch']);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (inputClasses);
+
+/***/ }),
+
+/***/ "./node_modules/@mui/material/InputAdornment/InputAdornment.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@mui/material/InputAdornment/InputAdornment.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.m.js");
+/* harmony import */ var _mui_base__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/base */ "./node_modules/@mui/base/composeClasses/composeClasses.js");
+/* harmony import */ var _utils_capitalize__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/capitalize */ "./node_modules/@mui/material/utils/capitalize.js");
+/* harmony import */ var _Typography__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Typography */ "./node_modules/@mui/material/Typography/Typography.js");
+/* harmony import */ var _FormControl_FormControlContext__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../FormControl/FormControlContext */ "./node_modules/@mui/material/FormControl/FormControlContext.js");
+/* harmony import */ var _FormControl_useFormControl__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../FormControl/useFormControl */ "./node_modules/@mui/material/FormControl/useFormControl.js");
+/* harmony import */ var _styles_styled__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/styled */ "./node_modules/@mui/material/styles/styled.js");
+/* harmony import */ var _inputAdornmentClasses__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./inputAdornmentClasses */ "./node_modules/@mui/material/InputAdornment/inputAdornmentClasses.js");
+/* harmony import */ var _styles_useThemeProps__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../styles/useThemeProps */ "./node_modules/@mui/material/styles/useThemeProps.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+var _span;
+
+const _excluded = ["children", "className", "component", "disablePointerEvents", "disableTypography", "position", "variant"];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const overridesResolver = (props, styles) => {
+  const {
+    ownerState
+  } = props;
+  return [styles.root, styles[`position${(0,_utils_capitalize__WEBPACK_IMPORTED_MODULE_5__["default"])(ownerState.position)}`], ownerState.disablePointerEvents === true && styles.disablePointerEvents, styles[ownerState.variant]];
+};
+
+const useUtilityClasses = ownerState => {
+  const {
+    classes,
+    disablePointerEvents,
+    hiddenLabel,
+    position,
+    size,
+    variant
+  } = ownerState;
+  const slots = {
+    root: ['root', disablePointerEvents && 'disablePointerEvents', position && `position${(0,_utils_capitalize__WEBPACK_IMPORTED_MODULE_5__["default"])(position)}`, variant, hiddenLabel && 'hiddenLabel', size && `size${(0,_utils_capitalize__WEBPACK_IMPORTED_MODULE_5__["default"])(size)}`]
+  };
+  return (0,_mui_base__WEBPACK_IMPORTED_MODULE_6__["default"])(slots, _inputAdornmentClasses__WEBPACK_IMPORTED_MODULE_7__.getInputAdornmentUtilityClass, classes);
+};
+
+const InputAdornmentRoot = (0,_styles_styled__WEBPACK_IMPORTED_MODULE_8__["default"])('div', {
+  name: 'MuiInputAdornment',
+  slot: 'Root',
+  overridesResolver
+})(({
+  theme,
+  ownerState
+}) => (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
+  display: 'flex',
+  height: '0.01em',
+  // Fix IE11 flexbox alignment. To remove at some point.
+  maxHeight: '2em',
+  alignItems: 'center',
+  whiteSpace: 'nowrap',
+  color: theme.palette.action.active
+}, ownerState.variant === 'filled' && {
+  // Styles applied to the root element if `variant="filled"`.
+  [`&.${_inputAdornmentClasses__WEBPACK_IMPORTED_MODULE_7__["default"].positionStart}&:not(.${_inputAdornmentClasses__WEBPACK_IMPORTED_MODULE_7__["default"].hiddenLabel})`]: {
+    marginTop: 16
+  }
+}, ownerState.position === 'start' && {
+  // Styles applied to the root element if `position="start"`.
+  marginRight: 8
+}, ownerState.position === 'end' && {
+  // Styles applied to the root element if `position="end"`.
+  marginLeft: 8
+}, ownerState.disablePointerEvents === true && {
+  // Styles applied to the root element if `disablePointerEvents={true}`.
+  pointerEvents: 'none'
+}));
+const InputAdornment = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.forwardRef(function InputAdornment(inProps, ref) {
+  const props = (0,_styles_useThemeProps__WEBPACK_IMPORTED_MODULE_9__["default"])({
+    props: inProps,
+    name: 'MuiInputAdornment'
+  });
+
+  const {
+    children,
+    className,
+    component = 'div',
+    disablePointerEvents = false,
+    disableTypography = false,
+    position,
+    variant: variantProp
+  } = props,
+        other = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(props, _excluded);
+
+  const muiFormControl = (0,_FormControl_useFormControl__WEBPACK_IMPORTED_MODULE_10__["default"])() || {};
+  let variant = variantProp;
+
+  if (variantProp && muiFormControl.variant) {
+    if (true) {
+      if (variantProp === muiFormControl.variant) {
+        console.error('MUI: The `InputAdornment` variant infers the variant prop ' + 'you do not have to provide one.');
+      }
+    }
+  }
+
+  if (muiFormControl && !variant) {
+    variant = muiFormControl.variant;
+  }
+
+  const ownerState = (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({}, props, {
+    hiddenLabel: muiFormControl.hiddenLabel,
+    size: muiFormControl.size,
+    disablePointerEvents,
+    position,
+    variant
+  });
+
+  const classes = useUtilityClasses(ownerState);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_FormControl_FormControlContext__WEBPACK_IMPORTED_MODULE_11__["default"].Provider, {
+    value: null,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(InputAdornmentRoot, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
+      as: component,
+      ownerState: ownerState,
+      className: (0,clsx__WEBPACK_IMPORTED_MODULE_3__["default"])(classes.root, className),
+      ref: ref
+    }, other, {
+      children: typeof children === 'string' && !disableTypography ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Typography__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        color: "text.secondary",
+        children: children
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+        children: [position === 'start' ?
+        /* notranslate needed while Google Translate will not fix zero-width space issue */
+        _span || (_span = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+          className: "notranslate",
+          children: "\u200B"
+        })) : null, children]
+      })
+    }))
+  });
+});
+ true ? InputAdornment.propTypes
+/* remove-proptypes */
+= {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |     To update them edit the d.ts file and run "yarn proptypes"     |
+  // ----------------------------------------------------------------------
+
+  /**
+   * The content of the component, normally an `IconButton` or string.
+   */
+  children: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().node),
+
+  /**
+   * Override or extend the styles applied to the component.
+   */
+  classes: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().object),
+
+  /**
+   * @ignore
+   */
+  className: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().string),
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a HTML element or a component.
+   */
+  component: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().elementType),
+
+  /**
+   * Disable pointer events on the root.
+   * This allows for the content of the adornment to focus the `input` on click.
+   * @default false
+   */
+  disablePointerEvents: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().bool),
+
+  /**
+   * If children is a string then disable wrapping in a Typography component.
+   * @default false
+   */
+  disableTypography: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().bool),
+
+  /**
+   * The position this adornment should appear relative to the `Input`.
+   */
+  position: prop_types__WEBPACK_IMPORTED_MODULE_13___default().oneOf(['end', 'start']).isRequired,
+
+  /**
+   * The system prop that allows defining system overrides as well as additional CSS styles.
+   */
+  sx: prop_types__WEBPACK_IMPORTED_MODULE_13___default().oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_13___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_13___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_13___default().func), (prop_types__WEBPACK_IMPORTED_MODULE_13___default().object), (prop_types__WEBPACK_IMPORTED_MODULE_13___default().bool)])), (prop_types__WEBPACK_IMPORTED_MODULE_13___default().func), (prop_types__WEBPACK_IMPORTED_MODULE_13___default().object)]),
+
+  /**
+   * The variant to use.
+   * Note: If you are using the `TextField` component or the `FormControl` component
+   * you do not have to set this manually.
+   */
+  variant: prop_types__WEBPACK_IMPORTED_MODULE_13___default().oneOf(['filled', 'outlined', 'standard'])
+} : 0;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InputAdornment);
+
+/***/ }),
+
+/***/ "./node_modules/@mui/material/InputAdornment/inputAdornmentClasses.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@mui/material/InputAdornment/inputAdornmentClasses.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getInputAdornmentUtilityClass": () => (/* binding */ getInputAdornmentUtilityClass),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mui_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mui/base */ "./node_modules/@mui/base/generateUtilityClass/generateUtilityClass.js");
+/* harmony import */ var _mui_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mui/base */ "./node_modules/@mui/base/generateUtilityClasses/generateUtilityClasses.js");
+
+function getInputAdornmentUtilityClass(slot) {
+  return (0,_mui_base__WEBPACK_IMPORTED_MODULE_0__["default"])('MuiInputAdornment', slot);
+}
+const inputAdornmentClasses = (0,_mui_base__WEBPACK_IMPORTED_MODULE_1__["default"])('MuiInputAdornment', ['root', 'filled', 'standard', 'outlined', 'positionStart', 'positionEnd', 'disablePointerEvents', 'hiddenLabel', 'sizeSmall']);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (inputAdornmentClasses);
 
 /***/ }),
 
@@ -90716,8 +90935,9 @@ function Auth() {
             setIsWalletAuth(true);
             const profile = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getProfile();
             const tools = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getTools();
+            const artist = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getArtist();
             setTools(tools.ok);
-            if (Object.keys(profile)[0] !== "err")
+            if (Object.keys(artist)[0] !== "err")
                 navigate("/main");
             setIsLoading(false);
         }
@@ -90773,40 +90993,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/Button.js");
 /* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/IconButton.js");
 /* harmony import */ var _mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @mui/material/Typography */ "./node_modules/@mui/material/Typography/Typography.js");
-/* harmony import */ var _mui_material_Paper__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @mui/material/Paper */ "./node_modules/@mui/material/Paper/Paper.js");
+/* harmony import */ var _mui_material_Paper__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @mui/material/Paper */ "./node_modules/@mui/material/Paper/Paper.js");
 /* harmony import */ var _mui_material_Avatar__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @mui/material/Avatar */ "./node_modules/@mui/material/Avatar/Avatar.js");
 /* harmony import */ var _mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @mui/material/Grid */ "./node_modules/@mui/material/Grid/Grid.js");
 /* harmony import */ var _mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @mui/material/TextField */ "./node_modules/@mui/material/TextField/TextField.js");
 /* harmony import */ var _mui_material_Fab__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! @mui/material/Fab */ "./node_modules/@mui/material/Fab/Fab.js");
-/* harmony import */ var _mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @mui/material/InputLabel */ "./node_modules/@mui/material/InputLabel/InputLabel.js");
+/* harmony import */ var _mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @mui/material/InputLabel */ "./node_modules/@mui/material/InputLabel/InputLabel.js");
 /* harmony import */ var _mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @mui/material/MenuItem */ "./node_modules/@mui/material/MenuItem/MenuItem.js");
 /* harmony import */ var _mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @mui/material/FormControl */ "./node_modules/@mui/material/FormControl/FormControl.js");
 /* harmony import */ var _mui_material_Select__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @mui/material/Select */ "./node_modules/@mui/material/Select/Select.js");
-/* harmony import */ var _mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @mui/lab/Masonry */ "./node_modules/@mui/lab/Masonry/Masonry.js");
-/* harmony import */ var _mui_material_Card__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @mui/material/Card */ "./node_modules/@mui/material/Card/Card.js");
-/* harmony import */ var _mui_material_CardContent__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @mui/material/CardContent */ "./node_modules/@mui/material/CardContent/CardContent.js");
-/* harmony import */ var _mui_material_CardMedia__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @mui/material/CardMedia */ "./node_modules/@mui/material/CardMedia/CardMedia.js");
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/CardActionArea/CardActionArea.js");
+/* harmony import */ var _mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @mui/lab/Masonry */ "./node_modules/@mui/lab/Masonry/Masonry.js");
+/* harmony import */ var _mui_material_Card__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @mui/material/Card */ "./node_modules/@mui/material/Card/Card.js");
+/* harmony import */ var _mui_material_CardContent__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @mui/material/CardContent */ "./node_modules/@mui/material/CardContent/CardContent.js");
+/* harmony import */ var _mui_material_CardMedia__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @mui/material/CardMedia */ "./node_modules/@mui/material/CardMedia/CardMedia.js");
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @mui/material */ "./node_modules/@mui/material/CardActionArea/CardActionArea.js");
 /* harmony import */ var _mui_material_Snackbar__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! @mui/material/Snackbar */ "./node_modules/@mui/material/Snackbar/Snackbar.js");
 /* harmony import */ var _mui_material_Slide__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! @mui/material/Slide */ "./node_modules/@mui/material/Slide/Slide.js");
 /* harmony import */ var _mui_material_Alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/material/Alert */ "./node_modules/@mui/material/Alert/Alert.js");
 /* harmony import */ var _mui_material_Chip__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @mui/material/Chip */ "./node_modules/@mui/material/Chip/Chip.js");
 /* harmony import */ var _mui_material_Menu__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @mui/material/Menu */ "./node_modules/@mui/material/Menu/Menu.js");
+/* harmony import */ var _mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @mui/material/InputAdornment */ "./node_modules/@mui/material/InputAdornment/InputAdornment.js");
 /* harmony import */ var _mui_icons_material_ExitToApp__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mui/icons-material/ExitToApp */ "./node_modules/@mui/icons-material/ExitToApp.js");
-/* harmony import */ var _mui_icons_material_AddPhotoAlternate__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @mui/icons-material/AddPhotoAlternate */ "./node_modules/@mui/icons-material/AddPhotoAlternate.js");
-/* harmony import */ var _mui_icons_material_Edit__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @mui/icons-material/Edit */ "./node_modules/@mui/icons-material/Edit.js");
+/* harmony import */ var _mui_icons_material_AddPhotoAlternate__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @mui/icons-material/AddPhotoAlternate */ "./node_modules/@mui/icons-material/AddPhotoAlternate.js");
+/* harmony import */ var _mui_icons_material_Edit__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @mui/icons-material/Edit */ "./node_modules/@mui/icons-material/Edit.js");
 /* harmony import */ var _mui_icons_material_Home__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @mui/icons-material/Home */ "./node_modules/@mui/icons-material/Home.js");
 /* harmony import */ var _mui_icons_material_LocalFireDepartment__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! @mui/icons-material/LocalFireDepartment */ "./node_modules/@mui/icons-material/LocalFireDepartment.js");
-/* harmony import */ var _mui_icons_material_AccountCircle__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @mui/icons-material/AccountCircle */ "./node_modules/@mui/icons-material/AccountCircle.js");
+/* harmony import */ var _mui_icons_material_AccountCircle__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @mui/icons-material/AccountCircle */ "./node_modules/@mui/icons-material/AccountCircle.js");
 /* harmony import */ var _mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @mui/icons-material/Add */ "./node_modules/@mui/icons-material/Add.js");
 /* harmony import */ var _mui_icons_material_MoreHoriz__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @mui/icons-material/MoreHoriz */ "./node_modules/@mui/icons-material/MoreHoriz.js");
 /* harmony import */ var _mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @mui/icons-material/ArrowCircleLeftOutlined */ "./node_modules/@mui/icons-material/ArrowCircleLeftOutlined.js");
 /* harmony import */ var _mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @mui/icons-material/AddBox */ "./node_modules/@mui/icons-material/AddBox.js");
-/* harmony import */ var _mui_icons_material_CameraAlt__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @mui/icons-material/CameraAlt */ "./node_modules/@mui/icons-material/CameraAlt.js");
-/* harmony import */ var _mui_icons_material_CameraOutlined__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @mui/icons-material/CameraOutlined */ "./node_modules/@mui/icons-material/CameraOutlined.js");
-/* harmony import */ var _mui_icons_material_SettingsInputCompositeOutlined__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @mui/icons-material/SettingsInputCompositeOutlined */ "./node_modules/@mui/icons-material/SettingsInputCompositeOutlined.js");
+/* harmony import */ var _mui_icons_material_CameraAlt__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @mui/icons-material/CameraAlt */ "./node_modules/@mui/icons-material/CameraAlt.js");
+/* harmony import */ var _mui_icons_material_CameraOutlined__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @mui/icons-material/CameraOutlined */ "./node_modules/@mui/icons-material/CameraOutlined.js");
 /* harmony import */ var _mui_icons_material_Delete__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @mui/icons-material/Delete */ "./node_modules/@mui/icons-material/Delete.js");
-/* harmony import */ var _mui_icons_material_Camera__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @mui/icons-material/Camera */ "./node_modules/@mui/icons-material/Camera.js");
+/* harmony import */ var _mui_icons_material_Camera__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @mui/icons-material/Camera */ "./node_modules/@mui/icons-material/Camera.js");
 /* harmony import */ var _service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../service */ "./src/prixelart_assets/src/pages/service.js");
 /* harmony import */ var _components_loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/loading */ "./src/prixelart_assets/src/components/loading.jsx");
 
@@ -90861,7 +91081,7 @@ const Alert = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function Alert(p
     return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Alert__WEBPACK_IMPORTED_MODULE_4__["default"], { elevation: 6, ref: ref, variant: "filled", ...props });
 });
 function Main() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
     const [isArtDone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(Boolean(localStorage.getItem("isArtDone")));
     const [currentProfile, setCurrentProfile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
     const [avatar, setAvatar] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
@@ -90869,6 +91089,7 @@ function Main() {
     const [isArtSelected, setIsArtSelected] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
     const [isEditProfile, setIsEditProfile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
     const [showPrixerList, setShowPrixerList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [isEditArt, setIsEditArt] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const [username, setUsername] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [displayName, setDisplayName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [givenName, setGivenName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
@@ -90897,6 +91118,7 @@ function Main() {
     const [artCategory, setArtCategory] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [lensArt, setLensArt] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [tagsArt, setTagsArt] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+    const [tagValue, setTagValue] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [aboutArt, setAboutArt] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [galleryArt, setGalleryArt] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [titleGallery, setTitleGallery] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
@@ -90916,8 +91138,8 @@ function Main() {
     const mobileBreakpoint = (0,_mui_material_useMediaQuery__WEBPACK_IMPORTED_MODULE_8__["default"])(theme.breakpoints.up("md"));
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         setCurrentTools({
-            camera: artistTools === null || artistTools === void 0 ? void 0 : artistTools.map(art => tools.find(tl => art.id === tl.id && art.category.name === "Camera")).filter(i => i)[0],
-            lens: artistTools === null || artistTools === void 0 ? void 0 : artistTools.map(art => tools.find(tl => art.id === tl.id && art.category.name === "Lens")).filter(i => i)[0]
+            camera: artistTools === null || artistTools === void 0 ? void 0 : artistTools.map((art) => tools.find((tl) => art.id === tl.id && art.category.name === "Camera")).filter((i) => i)[0],
+            lens: artistTools === null || artistTools === void 0 ? void 0 : artistTools.map((art) => tools.find((tl) => art.id === tl.id && art.category.name === "Lens")).filter((i) => i)[0],
         });
         if (isArtDone) {
             if (searchParams.get("isEdit") === "true") {
@@ -90935,6 +91157,7 @@ function Main() {
         }
     }, [searchParams]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(async () => {
+        var _a, _b, _c, _d, _e;
         if (!Boolean(localStorage.getItem("wallet")))
             navigate("/login");
         const profile = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getProfile();
@@ -90945,9 +91168,10 @@ function Main() {
         const categories = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].readAllArtCategories();
         const toolsCategories = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getToolsCategories();
         const tools = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getTools();
+        // console.log(" ",tools)
         setCurrentTools({
-            camera: artist.ok.tools.map(art => tools.ok.find(tl => art.id === tl.id && art.category.name === "Camera")).filter(i => i)[0],
-            lens: artist.ok.tools.map(art => tools.ok.find(tl => art.id === tl.id && art.category.name === "Lens")).filter(i => i)[0]
+            camera: (_a = artist.ok.tools) === null || _a === void 0 ? void 0 : _a.map((art) => tools.ok.find((tl) => art.id === tl.id && art.category.name === "Camera")).filter((i) => i)[0],
+            lens: (_b = artist.ok.tools) === null || _b === void 0 ? void 0 : _b.map((art) => tools.ok.find((tl) => art.id === tl.id && art.category.name === "Lens")).filter((i) => i)[0],
         });
         if (arts.ok.length > 0)
             navigate("/main?page=profile");
@@ -90958,10 +91182,12 @@ function Main() {
         else {
             setCurrentProfile(profile.ok[0][0].bio);
             setAvatar("data:image/jpeg;base64," + (0,uint8_to_base64__WEBPACK_IMPORTED_MODULE_1__.encode)(profile.ok[1][0].payload[0]));
-            const formatArts = arts.ok.map(result => ({
+            setAsset(profile.ok[1][0].payload[0]);
+            const formatArts = (_c = arts.ok) === null || _c === void 0 ? void 0 : _c.map((result) => ({
                 image: "data:image/jpeg;base64," + (0,uint8_to_base64__WEBPACK_IMPORTED_MODULE_1__.encode)(result[2].payload[0]),
                 id: result[0],
-                info: result[1]
+                info: result[1],
+                asset: result[2].payload[0],
             }));
             setArts(formatArts);
             setArtTypes(artTypes.ok);
@@ -90969,12 +91195,12 @@ function Main() {
             setCategoriesTools(toolsCategories.ok);
             setArtistTools(artist.ok.tools);
             setTools(tools.ok);
-            setSelectedTools(artist.ok.tools.map(art => tools.ok.find(tl => art.id === tl.id)));
-            setGalleries(artGallery.ok.map(result => {
+            setSelectedTools((_d = artist.ok.tools) === null || _d === void 0 ? void 0 : _d.map((art) => tools.ok.find((tl) => art.id === tl.id)));
+            setGalleries((_e = artGallery.ok) === null || _e === void 0 ? void 0 : _e.map((result) => {
                 return {
-                    image: formatArts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+                    image: formatArts.find((art) => art.info.artBasics.artGalleries[0] === result[0]),
                     id: result[0],
-                    info: result[1]
+                    info: result[1],
                 };
             }));
         }
@@ -90996,7 +91222,33 @@ function Main() {
             setAsset(avatar);
     }, [isEditProfile]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(async () => {
-    }, []);
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
+        if (isEditArt) {
+            const selectedArt = arts.find((art) => art.id === searchParams.get("image"));
+            setArtTitle((_b = (_a = selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.info) === null || _a === void 0 ? void 0 : _a.artBasics) === null || _b === void 0 ? void 0 : _b.title);
+            setArtType((_d = (_c = selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.info) === null || _c === void 0 ? void 0 : _c.artBasics) === null || _d === void 0 ? void 0 : _d.artType.id);
+            setArtCategory((_f = (_e = selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.info) === null || _e === void 0 ? void 0 : _e.artBasics) === null || _f === void 0 ? void 0 : _f.artCategory.id);
+            setAboutArt((_h = (_g = selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.info) === null || _g === void 0 ? void 0 : _g.artBasics) === null || _h === void 0 ? void 0 : _h.about);
+            setArtCamera((_k = (_j = selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.info) === null || _j === void 0 ? void 0 : _j.artBasics) === null || _k === void 0 ? void 0 : _k.tools[0].find((tl) => tl.category.name === "Camera").id);
+            setLensArt((_m = (_l = selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.info) === null || _l === void 0 ? void 0 : _l.artBasics) === null || _m === void 0 ? void 0 : _m.tools[0].find((tl) => tl.category.name === "Lens").id);
+            setTagsArt((_p = (_o = selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.info) === null || _o === void 0 ? void 0 : _o.artBasics) === null || _p === void 0 ? void 0 : _p.tags);
+            setAssetArt(selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.image);
+            setAsset(selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.asset);
+            setGalleryArt((_r = (_q = selectedArt === null || selectedArt === void 0 ? void 0 : selectedArt.info) === null || _q === void 0 ? void 0 : _q.artBasics) === null || _r === void 0 ? void 0 : _r.artGalleries[0]);
+        }
+        else {
+            setArtTitle("");
+            setArtType("");
+            setArtCategory("");
+            setAboutArt("");
+            setArtCamera("");
+            setLensArt("");
+            setGalleryArt("");
+            setTagsArt([]);
+            setAssetArt(undefined);
+            setAsset(undefined);
+        }
+    }, [isEditArt]);
     return !currentProfile || isLoading ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_loading__WEBPACK_IMPORTED_MODULE_3__["default"], null)) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: {
             height: "100vh",
         } },
@@ -91040,23 +91292,29 @@ function Main() {
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h5" }, "Cameras"),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "camera-label", id: "camera-label-select", value: camera, onChange: (event) => setCamera(event.target.value) }, tools.map((type) => type.category.name === "Camera" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name))))),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: "8px" } }, selectedTools.map((tool) => tool.category.name === "Camera" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_22__["default"], { label: tool.name, variant: "outlined", style: { marginBottom: "8px" }, key: tool.id, onDelete: () => {
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "camera-label", id: "camera-label-select", value: camera, onChange: (event) => setCamera(event.target.value) }, tools === null || tools === void 0 ? void 0 : tools.map((type) => type.category.name === "Camera" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name))))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: "8px" } }, selectedTools === null || selectedTools === void 0 ? void 0 : selectedTools.map((tool) => tool.category.name === "Camera" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_22__["default"], { label: tool.name, variant: "outlined", style: {
+                                marginBottom: "8px",
+                                marginRight: "2px",
+                            }, key: tool.id, onDelete: () => {
                                 setSelectedTools(selectedTools.filter((tl) => tl.id !== tool.id));
                             } }))))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12, style: { justifyContent: "center", display: "flex" } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { size: "large", color: "primary" },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_23__["default"], { fontSize: "large", color: "primary", onClick: () => addTools(camera) }))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { onClick: () => addTools(camera), size: "large", color: "primary" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_23__["default"], { fontSize: "large", color: "primary" }))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h5" }, "Lenses"),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "lenses-label", id: "lenses-label-select", value: lens, onChange: (event) => setLens(event.target.value) }, tools.map((type) => type.category.name === "Lens" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name))))),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: "8px" } }, selectedTools.map((tool) => tool.category.name === "Lens" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_22__["default"], { label: tool.name, style: { marginBottom: "8px" }, variant: "outlined", key: tool.id, onDelete: () => {
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "lenses-label", id: "lenses-label-select", value: lens, onChange: (event) => setLens(event.target.value) }, tools === null || tools === void 0 ? void 0 : tools.map((type) => type.category.name === "Lens" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name))))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: "8px" } }, selectedTools === null || selectedTools === void 0 ? void 0 : selectedTools.map((tool) => tool.category.name === "Lens" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_22__["default"], { label: tool.name, style: {
+                                marginBottom: "8px",
+                                marginRight: "2px",
+                            }, variant: "outlined", key: tool.id, onDelete: () => {
                                 setSelectedTools(selectedTools.filter((tl) => tl.id !== tool.id));
                             } }))))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12, style: { justifyContent: "center", display: "flex" } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { size: "large", color: "primary" },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_23__["default"], { fontSize: "large", color: "primary", onClick: () => addTools(lens) })))))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { onClick: () => addTools(lens), size: "large", color: "primary" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_23__["default"], { fontSize: "large", color: "primary" })))))),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 12 } },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "outlined", onClick: () => {
                         onUpdateProfile({
@@ -91092,7 +91350,8 @@ function Main() {
                             },
                             avatarRequest: {
                                 Put: {
-                                    key: JSON.parse(localStorage.getItem("_scApp")).principal,
+                                    key: JSON.parse(localStorage.getItem("_scApp"))
+                                        .principal,
                                     contentType: "image/jpeg",
                                     payload: {
                                         Payload: asset,
@@ -91121,380 +91380,515 @@ function Main() {
                         fontSize: "12px",
                         background: isEditProfile && "white",
                         color: isEditProfile && "black",
-                    }, onClick: () => setIsEditProfile(false) }, "Cameras & Lenses")))) : searchParams.get("image") ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
+                    }, onClick: () => setIsEditProfile(false) }, "Cameras & Lenses")))) : searchParams.get("image") ? (!isEditArt ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 16 } },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h4" }, "Art Detail"),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => navigate("/main?page=profile"), style: { marginLeft: "auto" } },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" })))),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: (_a = arts.find(art => art.id === searchParams.get("image"))) === null || _a === void 0 ? void 0 : _a.image, srcSet: (_b = arts.find(art => art.id === searchParams.get("image"))) === null || _b === void 0 ? void 0 : _b.image, alt: "image", loading: "lazy", style: {
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: (_a = arts.find((art) => art.id === searchParams.get("image"))) === null || _a === void 0 ? void 0 : _a.image, srcSet: (_b = arts.find((art) => art.id === searchParams.get("image"))) === null || _b === void 0 ? void 0 : _b.image, alt: "image", loading: "lazy", style: {
                     borderBottomLeftRadius: 4,
                     borderBottomRightRadius: 4,
                     display: "block",
-                    width: "100%",
+                    width: !mobileBreakpoint && "100%",
+                    margin: mobileBreakpoint && "auto",
+                    maxHeight: mobileBreakpoint && 650,
                 } }),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 16 } },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h5" }, (_e = (_d = (_c = arts.find(art => art.id === searchParams.get("image"))) === null || _c === void 0 ? void 0 : _c.info) === null || _d === void 0 ? void 0 : _d.artBasics) === null || _e === void 0 ? void 0 : _e.title)),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h5" }, (_e = (_d = (_c = arts.find((art) => art.id === searchParams.get("image"))) === null || _c === void 0 ? void 0 : _c.info) === null || _d === void 0 ? void 0 : _d.artBasics) === null || _e === void 0 ? void 0 : _e.title)),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body1" }, (_h = (_g = (_f = arts.find(art => art.id === searchParams.get("image"))) === null || _f === void 0 ? void 0 : _f.info) === null || _g === void 0 ? void 0 : _g.artBasics) === null || _h === void 0 ? void 0 : _h.about))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body1" }, (_h = (_g = (_f = arts.find((art) => art.id === searchParams.get("image"))) === null || _f === void 0 ? void 0 : _f.info) === null || _g === void 0 ? void 0 : _g.artBasics) === null || _h === void 0 ? void 0 : _h.about))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginLeft: "auto" } },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary" },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Delete__WEBPACK_IMPORTED_MODULE_25__["default"], { onClick: () => deleteArt(searchParams.get("image")) })))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Delete__WEBPACK_IMPORTED_MODULE_25__["default"], { onClick: () => deleteArt(searchParams.get("image")) })),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => setIsEditArt(true) },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Edit__WEBPACK_IMPORTED_MODULE_26__["default"], null)))),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 24 } },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginRight: 8 } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_CameraAlt__WEBPACK_IMPORTED_MODULE_26__["default"], { color: "primary" })),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_CameraAlt__WEBPACK_IMPORTED_MODULE_27__["default"], { color: "primary" })),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "p" }, "Canon 7D Mark II"))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "p" }, (_m = (_l = (_k = (_j = arts
+                                .find((art) => art.id === searchParams.get("image"))) === null || _j === void 0 ? void 0 : _j.info) === null || _k === void 0 ? void 0 : _k.artBasics) === null || _l === void 0 ? void 0 : _l.tools[0]) === null || _m === void 0 ? void 0 : _m.find((tl) => tl.category.name === "Camera").name))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginRight: 8 } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_CameraOutlined__WEBPACK_IMPORTED_MODULE_27__["default"], { color: "primary" })),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_CameraOutlined__WEBPACK_IMPORTED_MODULE_28__["default"], { color: "primary" })),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "p" }, "Canon EF 16-35mm f/2.8L II USM"))),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginRight: 8 } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_SettingsInputCompositeOutlined__WEBPACK_IMPORTED_MODULE_28__["default"], { color: "primary" })),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "p" }, "ISO: 100 Exposoure: 182s"),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "p" }, "Aperture: f-16.0 Lens mm: 16")))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "p" }, (_r = (_q = (_p = (_o = arts
+                                .find((art) => art.id === searchParams.get("image"))) === null || _o === void 0 ? void 0 : _o.info) === null || _p === void 0 ? void 0 : _p.artBasics) === null || _q === void 0 ? void 0 : _q.tools[0]) === null || _r === void 0 ? void 0 : _r.find((tl) => tl.category.name === "Lens").name)))),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 16 } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h6" }, "Categories")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h6" }, "Categories"), (_v = (_u = (_t = (_s = arts
+                    .find((art) => art.id === searchParams.get("image"))) === null || _s === void 0 ? void 0 : _s.info) === null || _t === void 0 ? void 0 : _t.artBasics) === null || _u === void 0 ? void 0 : _u.tags) === null || _v === void 0 ? void 0 :
+                    _v.map((tag, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_22__["default"], { label: tag, variant: "outlined", style: { marginBottom: "6px", marginRight: "2px" }, key: index })))),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 16 } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h6" }, "Comments"))))) : searchParams.get("gallery") ?
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 16 } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { style: {
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis"
-                            }, variant: "h4" }, `${(_k = (_j = galleries.find(gallery => gallery.id === searchParams.get("gallery"))) === null || _j === void 0 ? void 0 : _j.info) === null || _k === void 0 ? void 0 : _k.name}`),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => navigate("/main?page=profile"), style: { marginLeft: "auto" } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" }))),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_29__["default"], { columns: 3, spacing: 0.2 }, arts.map((item, index) => item.info.artBasics.artGalleries[0] === searchParams.get("gallery") && react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, onClick: () => navigate("/main?page=profile&image=" + item.id) },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: `${item.image}`, srcSet: `${item.image}`, alt: item.id, loading: "lazy", style: {
-                                borderBottomLeftRadius: 4,
-                                borderBottomRightRadius: 4,
-                                display: "block",
-                                width: "100%",
-                            } })))))) :
-            showPrixerList ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 16 } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h4" }, "Prixers"),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => setShowPrixerList(false), style: { marginLeft: "auto" } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" }))),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 }, [1, 2, 3, 4].map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { key: index, item: true, xs: 12, sm: 6, md: 4, lg: 4, xl: 3 },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Card__WEBPACK_IMPORTED_MODULE_30__["default"], null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material__WEBPACK_IMPORTED_MODULE_31__["default"], null,
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CardMedia__WEBPACK_IMPORTED_MODULE_32__["default"], { component: "img", height: "200", image: "https://i.pinimg.com/originals/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg?w=162&auto=format", alt: "prixer" }),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CardContent__WEBPACK_IMPORTED_MODULE_33__["default"], null,
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { gutterBottom: true, variant: "h5", component: "div" }, "Gleiber Granado"))))))))))) : isCreateArt ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 24 } },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h4" }, "Create Art"),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => setIsCreateArt(false), style: { marginLeft: "auto" } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" }))),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_34__["default"], { elevation: 5, style: { padding: 24, marginTop: 14 } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 4, xl: 4 }, assetArt ?
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { component: "label" },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: assetArt, alt: "image", srcSet: `${assetArt}`, loading: "lazy", style: {
-                                            borderBottomLeftRadius: 4,
-                                            borderBottomRightRadius: 4,
-                                            display: "block",
-                                            width: "100%",
-                                        } }),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))
-                                : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { fullWidth: true, component: "label" },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddPhotoAlternate__WEBPACK_IMPORTED_MODULE_35__["default"], { style: { height: 230, width: 80 } }),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 8, xl: 8 },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "Title", variant: "outlined", required: true, fullWidth: true, style: { marginBottom: 4 }, value: artTitle, onChange: (event) => setArtTitle(event.target.value) })),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "type-label" }, "Type"),
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "type-label", id: "type-label-select", value: artType, onChange: (event) => setArtType(event.target.value), label: "Type" }, artTypes.map(type => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name)))))),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "category-label" }, "Category"),
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "category-label", id: "category-select", value: "", label: "Category", value: artCategory, onChange: (event) => setArtCategory(event.target.value) }, categories.map(type => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name))))),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "Location", variant: "outlined", fullWidth: true, style: { marginBottom: 4 } }))),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "camera-label" }, "Camera"),
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "camera-label", id: "category-select", value: artCamera, onChange: (event) => setArtCamera(event.target.value), label: "Camera" }, artistTools.map(art => tools.find(tl => art.id === tl.id) && art.category.name === "Camera" && react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name))))),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "camera-label" }, "Camera"),
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "camera-label", id: "category-select", value: artCamera, onChange: (event) => setArtCamera(event.target.value), label: "Camera" }, artistTools.map(art => tools.find(tl => art.id === tl.id) && art.category.name === "Lens" && react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name)))))),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "labels-label" }, "Labels"),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "labels-label", id: "labels-select", value: tagsArt, onChange: (event) => setTagsArt(event.target.value), label: "Labels", multiple: true },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: "label1" }, "Ten"),
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: "label2" }, "Twenty"),
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: 30 }, "Thirty")))),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "gallery-label" }, "Gallery"),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "gallery-label", id: "gallery-select", value: galleryArt, onChange: (event) => setGalleryArt(event.target.value), label: "Labels" }, galleries.map(gallery => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: gallery.id }, gallery.info.name))))),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "About the art", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutArt, onChange: (event) => setAboutArt(event.target.value) }))),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 12 } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "outlined", onClick: () => {
-                                    onCreateArt({
-                                        artBasics: {
-                                            artGalleries: galleryArt !== "" ? [`${galleryArt}`] : [],
-                                            artType: artTypes.find(type => type.id === artType),
-                                            title: artTitle,
-                                            about: aboutArt,
-                                            artCategory: categories.find(cat => cat.id === artCategory),
-                                            tags: tagsArt,
-                                            tools: []
-                                        },
-                                        artRequest: {
-                                            Put: {
-                                                key: "lol",
-                                                contentType: "image/jpeg",
-                                                payload: {
-                                                    Payload: asset,
-                                                },
-                                                callback: [],
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h6" }, "Comments"))))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 24 } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h4" }, "Edit Art"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => setIsEditArt(false), style: { marginLeft: "auto" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" }))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_29__["default"], { elevation: 5, style: { padding: 24, marginTop: 14, width: "100%" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 4, xl: 4, style: { textAlign: "center" } },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { component: "label" },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: assetArt, srcSet: assetArt, alt: "image", loading: "lazy", style: {
+                                        borderBottomLeftRadius: 4,
+                                        borderBottomRightRadius: 4,
+                                        display: "block",
+                                        width: "100%",
+                                        maxHeight: "232px",
+                                    } }),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 8, xl: 8 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "Title", variant: "outlined", required: true, fullWidth: true, style: { marginBottom: 4 }, value: artTitle, onChange: (event) => setArtTitle(event.target.value) })),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "type-label" }, "Type"),
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "type-label", id: "type-label-select", value: artType, onChange: (event) => setArtType(event.target.value), label: "Type" }, artTypes === null || artTypes === void 0 ? void 0 : artTypes.map((type) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name))))))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "category-label" }, "Category"),
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "category-label", id: "category-select", value: "", label: "Category", value: artCategory, onChange: (event) => setArtCategory(event.target.value) }, categories === null || categories === void 0 ? void 0 : categories.map((type) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name)))))),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "Location", variant: "outlined", fullWidth: true, style: { marginBottom: 4 } }))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "camera-label" }, "Camera"),
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "camera-label", id: "category-select", value: artCamera, onChange: (event) => setArtCamera(event.target.value), label: "Camera" }, artistTools === null || artistTools === void 0 ? void 0 : artistTools.map((art) => tools.find((tl) => art.id === tl.id) &&
+                                            art.category.name === "Camera" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name)))))),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "lens-label" }, "Lens"),
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "lens-label", id: "lens-select", value: lensArt, onChange: (event) => setLensArt(event.target.value), label: "Lens" }, artistTools === null || artistTools === void 0 ? void 0 : artistTools.map((art) => tools.find((tl) => art.id === tl.id) &&
+                                            art.category.name === "Lens" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name)))))))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "gallery-label" }, "Gallery"),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "gallery-label", id: "gallery-select", value: galleryArt, onChange: (event) => setGalleryArt(event.target.value), label: "Labels" }, galleries === null || galleries === void 0 ? void 0 : galleries.map((gallery) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: gallery.id, key: gallery.id }, gallery.info.name)))))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "About the art", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutArt, onChange: (event) => setAboutArt(event.target.value) })),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { placeholder: "labels", fullWidth: true, value: tagValue, onChange: (event) => setTagValue(event.target.value), InputProps: {
+                                    endAdornment: (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_31__["default"], { position: "end" },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => addTags(tagValue) },
+                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_23__["default"], null)))),
+                                } })),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: "8px", padding: 8 } }, tagsArt === null || tagsArt === void 0 ? void 0 : tagsArt.map((tg) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_22__["default"], { key: tg, label: tg, variant: "outlined", style: {
+                                marginBottom: "8px",
+                                marginRight: "2px",
+                            }, onDelete: () => setTagsArt(tagsArt.filter((tag) => tag !== tg)) }))))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 12 } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "outlined", onClick: () => {
+                                onUpdateArt({
+                                    artBasics: {
+                                        artGalleries: galleryArt !== "" ? [`${galleryArt}`] : [],
+                                        artType: artTypes.find((type) => type.id === artType),
+                                        title: artTitle,
+                                        about: aboutArt,
+                                        artCategory: categories.find((cat) => cat.id === artCategory),
+                                        tags: tagsArt,
+                                        tools: [
+                                            [
+                                                tools.find((tl) => tl.id === artCamera),
+                                                tools.find((tl) => tl.id === lensArt),
+                                            ],
+                                        ],
+                                    },
+                                    artRequest: {
+                                        Put: {
+                                            key: "lol",
+                                            contentType: "image/jpeg",
+                                            payload: {
+                                                Payload: asset,
                                             },
-                                        }
-                                    });
-                                    navigate("/main?page=profile");
-                                } }, "Create")),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
-                                marginTop: "32px",
-                                display: "flex",
-                                justifyContent: "center",
-                            } })))) : isCreateGallery ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 24 } },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h4" }, "Create Gallery"),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => setIsCrateGallery(false), style: { marginLeft: "auto" } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" }))),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_34__["default"], { elevation: 5, style: { padding: 24, marginTop: 24 } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "title", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, value: titleGallery, onChange: (event) => setTitleGallery(event.target.value) })),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "About the gallery", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutGallery, onChange: (event) => setAboutGallery(event.target.value) }))),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 12 } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "outlined", onClick: () => onCreateGallery({
-                                    artGalleryBanner: [],
-                                    description: aboutGallery,
-                                    name: titleGallery
-                                }) }, "Create")),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
-                                marginTop: "32px",
-                                display: "flex",
-                                justifyContent: "center",
-                            } })))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: {
-                        height: 100,
-                        backgroundImage: "url('https://images.unsplash.com/photo-1643041447984-ff891bdf0815?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTM4NTM1NA&ixlib=rb-1.2.1&q=80&w=1080')",
-                        backgroundSize: "cover",
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_34__["default"], { elevation: 3, style: {
-                            marginTop: -30,
-                            marginLeft: 16,
-                            marginRight: 16,
-                            padding: 8,
-                        } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginRight: "12px" } }, !isShowToolsInfo && react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_16__["default"], { src: avatar && avatar, style: { width: 48, height: 48 } })),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body1" }, isShowToolsInfo ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_CameraAlt__WEBPACK_IMPORTED_MODULE_26__["default"], { fontFamily: "small", color: "primary" }),
-                                        " ",
-                                        `${currentTools === null || currentTools === void 0 ? void 0 : currentTools.camera.name}`) : `${currentProfile.givenName[0]} ${currentProfile.familyName[0]}`)),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body2" }, isShowToolsInfo ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Camera__WEBPACK_IMPORTED_MODULE_37__["default"], { fontFamily: "small", color: "primary" }),
-                                        `${currentTools === null || currentTools === void 0 ? void 0 : currentTools.lens.name}`) : `${currentProfile.displayName[0]}`)),
-                                !isShowToolsInfo && react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body2" }, `${currentProfile.about[0]}`))),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginLeft: "auto" } },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { size: "small", color: "primary", onClick: () => setIsShowToolsInfo(!isShowToolsInfo) }, isShowToolsInfo ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AccountCircle__WEBPACK_IMPORTED_MODULE_38__["default"], { fontFamily: "small", color: "primary" }) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_CameraAlt__WEBPACK_IMPORTED_MODULE_26__["default"], { fontFamily: "small", color: "primary" }))),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { size: "small", color: "primary", onClick: () => navigate("/main?page=profile&isEdit=true") },
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Edit__WEBPACK_IMPORTED_MODULE_39__["default"], { fontFamily: "small", color: "primary" })))),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", justifyContent: "end" } },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { size: "small", color: "primary", "aria-controls": open ? "basic-menu" : undefined, "aria-haspopup": "true", "aria-expanded": open ? "true" : undefined, onClick: handleClick },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_MoreHoriz__WEBPACK_IMPORTED_MODULE_40__["default"], { color: "primary", fontFamily: "small" })),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Menu__WEBPACK_IMPORTED_MODULE_41__["default"], { id: "basic-menu", anchorEl: anchorEl, open: open, onClose: true, MenuListProps: {
-                                            "aria-labelledby": "basic-button",
-                                        } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { style: { color: "red" }, onClick: () => deleteProfile() }, "Delete profile")))))),
+                                            callback: [],
+                                        },
+                                    },
+                                }, searchParams.get("image"));
+                                navigate("/main?page=profile");
+                            } }, "Update")),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
-                            marginTop: 16,
+                            marginTop: "32px",
                             display: "flex",
-                            marginLeft: 16,
-                            marginRight: 16,
-                        } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: "16px" } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { style: {
-                                    textTransform: "capitalize",
-                                    background: !isArtSelected && "white",
-                                    color: !isArtSelected && "#000000",
-                                }, variant: "contained", fullWidth: true, onClick: () => setIsArtSelected(true) }, "Art")),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "contained", fullWidth: true, style: {
-                                    textTransform: "capitalize",
-                                    background: isArtSelected && "white",
-                                    color: isArtSelected && "#000000",
-                                }, onClick: () => setIsArtSelected(false) }, "Gallery"))),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 16, paddingBottom: 72 } }, isArtSelected ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_29__["default"], { columns: 3, spacing: 0.2 }, arts.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, onClick: () => navigate("/main?page=profile&image=" + item.id) },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: `${item.image}`, srcSet: `${item.image}`, alt: item.id, loading: "lazy", style: {
-                                borderBottomLeftRadius: 4,
-                                borderBottomRightRadius: 4,
-                                display: "block",
-                                width: "100%",
-                            } })))))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 }, galleries === null || galleries === void 0 ? void 0 : galleries.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { key: index, item: true, xs: 12, sm: 4, md: 4, lg: 4, xl: 3 },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Card__WEBPACK_IMPORTED_MODULE_30__["default"], { onClick: () => navigate(`/main?page=profile&gallery=${item.id}`) },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CardMedia__WEBPACK_IMPORTED_MODULE_32__["default"], { component: "img", height: "180", image: item.image ? item.image.image : "https://images.unsplash.com/photo-1643310638896-b73dd89c4597?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTQwNjY0MA&ixlib=rb-1.2.1&q=80&w=1080", alt: "image" }),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CardContent__WEBPACK_IMPORTED_MODULE_33__["default"], null,
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
-                                        display: "flex",
-                                        alignItems: "center",
-                                    } },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis"
-                                        } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { gutterBottom: true, variant: "h5", component: "div" }, item.info.name)),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginLeft: "auto" } },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => deleteGallery(item.id) },
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Delete__WEBPACK_IMPORTED_MODULE_25__["default"], null)))),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body2", color: "text.secondary" }, item.info.description))))))))),
-                    !mobileBreakpoint && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_34__["default"], { elevation: 5, style: {
-                            height: 60,
-                            backgroundColor: "#FFFFFF",
+                            justifyContent: "center",
+                        } })))))) : searchParams.get("gallery") ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 16 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { style: {
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                        }, variant: "h4" }, `${(_x = (_w = galleries.find((gallery) => gallery.id === searchParams.get("gallery"))) === null || _w === void 0 ? void 0 : _w.info) === null || _x === void 0 ? void 0 : _x.name}`),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => navigate("/main?page=profile"), style: { marginLeft: "auto" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" }))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_32__["default"], { columns: 3, spacing: 0.2 }, arts === null || arts === void 0 ? void 0 : arts.map((item, index) => item.info.artBasics.artGalleries[0] ===
+                    searchParams.get("gallery") && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, onClick: () => navigate("/main?page=profile&image=" + item.id) },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: `${item.image}`, srcSet: `${item.image}`, alt: item.id, loading: "lazy", style: {
+                            borderBottomLeftRadius: 4,
+                            borderBottomRightRadius: 4,
+                            display: "block",
                             width: "100%",
-                            bottom: 0,
-                            position: "fixed",
-                            display: "flex",
-                            alignItems: "center",
-                            // padding: 16,
-                        } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "20%", textAlign: "center" } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary" },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Home__WEBPACK_IMPORTED_MODULE_42__["default"], { fontSize: "large" }))),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "20%", textAlign: "center" } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => setShowPrixerList(true) },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { style: {
-                                        fontSize: 32,
-                                        fontWeight: "bold",
-                                    } }, "P"))),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
-                                width: "20%",
-                                textAlign: "center",
-                                marginTop: -45,
-                            } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Fab__WEBPACK_IMPORTED_MODULE_43__["default"], { color: "primary", id: "basic-button", "aria-controls": openCreation ? 'basic-menu' : undefined, "aria-haspopup": "true", "aria-expanded": openCreation ? 'true' : undefined, onClick: handleClickCreation },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_44__["default"], null)),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Menu__WEBPACK_IMPORTED_MODULE_41__["default"], { id: "basic-menu", anchorEl: anchorElCreation, open: openCreation, onClose: () => setAnchorElCreation(null), MenuListProps: {
-                                    'aria-labelledby': 'basic-button',
-                                } },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { onClick: () => {
-                                        setIsCreateArt(true);
-                                        setAnchorElCreation(null);
-                                    } }, "Create Art"),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { onClick: () => {
-                                        setIsCrateGallery(true);
-                                        setAnchorElCreation(null);
-                                    } }, "Create Gallery"))),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "20%", textAlign: "center" } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary" },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_LocalFireDepartment__WEBPACK_IMPORTED_MODULE_45__["default"], { fontSize: "large" }))),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "20%", textAlign: "center" } },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary" },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AccountCircle__WEBPACK_IMPORTED_MODULE_38__["default"], { fontSize: "large" }))))))))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: "32px" } },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h5" }, "Add your 1st art"),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_34__["default"], { elevation: 5, style: { padding: 24, marginTop: 8 } },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 4, xl: 4 }, assetArt ?
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { component: "label" },
+                        } })))))))) : showPrixerList ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 16 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h4" }, "Prixers"),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => setShowPrixerList(false), style: { marginLeft: "auto" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" }))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 }, (_y = [1, 2, 3, 4]) === null || _y === void 0 ? void 0 : _y.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { key: index, item: true, xs: 12, sm: 6, md: 4, lg: 4, xl: 3 },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Card__WEBPACK_IMPORTED_MODULE_33__["default"], null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material__WEBPACK_IMPORTED_MODULE_34__["default"], null,
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CardMedia__WEBPACK_IMPORTED_MODULE_35__["default"], { component: "img", height: "200", image: "https://i.pinimg.com/originals/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg?w=162&auto=format", alt: "prixer" }),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CardContent__WEBPACK_IMPORTED_MODULE_36__["default"], null,
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { gutterBottom: true, variant: "h5", component: "div" }, "Gleiber Granado"))))))))))) : isCreateArt ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 24 } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h4" }, "Create Art"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => setIsCreateArt(false), style: { marginLeft: "auto" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" }))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_29__["default"], { elevation: 5, style: { padding: 24, marginTop: 14, width: "100%" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 4, xl: 4, style: { textAlign: "center" } }, assetArt ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { component: "label" },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: assetArt, alt: "image", srcSet: `${assetArt}`, loading: "lazy", style: {
                                     borderBottomLeftRadius: 4,
                                     borderBottomRightRadius: 4,
                                     display: "block",
                                     width: "100%",
+                                    maxHeight: "232px",
                                 } }),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))
-                        : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { fullWidth: true, component: "label" },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddPhotoAlternate__WEBPACK_IMPORTED_MODULE_35__["default"], { style: { height: 230, width: 80 } }),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { fullWidth: true, component: "label" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddPhotoAlternate__WEBPACK_IMPORTED_MODULE_37__["default"], { style: { height: 230, width: 80 } }),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) })))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 8, xl: 8 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "Title", variant: "outlined", required: true, fullWidth: true, style: { marginBottom: 4 }, value: artTitle, onChange: (event) => setArtTitle(event.target.value) })),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "type-label" }, "Type"),
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "type-label", id: "type-label-select", value: artType, onChange: (event) => setArtType(event.target.value), label: "Type" }, artTypes === null || artTypes === void 0 ? void 0 : artTypes.map((type) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name))))))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "category-label" }, "Category"),
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "category-label", id: "category-select", value: "", label: "Category", value: artCategory, onChange: (event) => setArtCategory(event.target.value) }, categories === null || categories === void 0 ? void 0 : categories.map((type) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name)))))),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "Location", variant: "outlined", fullWidth: true, style: { marginBottom: 4 } }))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "camera-label" }, "Camera"),
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "camera-label", id: "category-select", value: artCamera, onChange: (event) => setArtCamera(event.target.value), label: "Camera" }, artistTools === null || artistTools === void 0 ? void 0 : artistTools.map((art) => tools.find((tl) => art.id === tl.id) &&
+                                            art.category.name === "Camera" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name)))))),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "camera-label" }, "Lens"),
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "camera-label", id: "category-select", value: lensArt, onChange: (event) => setLensArt(event.target.value), label: "Lens" }, artistTools === null || artistTools === void 0 ? void 0 : artistTools.map((art) => tools.find((tl) => art.id === tl.id) &&
+                                            art.category.name === "Lens" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name)))))))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "gallery-label" }, "Gallery"),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "gallery-label", id: "gallery-select", value: galleryArt, onChange: (event) => setGalleryArt(event.target.value), label: "Labels" }, galleries === null || galleries === void 0 ? void 0 : galleries.map((gallery) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: gallery.id }, gallery.info.name)))))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "About the art", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutArt, onChange: (event) => setAboutArt(event.target.value) })),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { placeholder: "labels", fullWidth: true, value: tagValue, onChange: (event) => setTagValue(event.target.value), InputProps: {
+                                    endAdornment: (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_31__["default"], { position: "end" },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { onClick: () => addTags(tagValue), color: "primary" },
+                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_23__["default"], null)))),
+                                } })),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: "8px", padding: 8 } }, tagsArt === null || tagsArt === void 0 ? void 0 : tagsArt.map((tg) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_22__["default"], { key: tg, label: tg, variant: "outlined", style: {
+                                marginBottom: "8px",
+                                marginRight: "2px",
+                            }, onDelete: () => setTagsArt(tagsArt.filter((tag) => tag !== tg)) }))))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 12 } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "outlined", onClick: () => {
+                                onCreateArt({
+                                    artBasics: {
+                                        artGalleries: galleryArt !== "" ? [`${galleryArt}`] : [],
+                                        artType: artTypes.find((type) => type.id === artType),
+                                        title: artTitle,
+                                        about: aboutArt,
+                                        artCategory: categories.find((cat) => cat.id === artCategory),
+                                        tags: tagsArt,
+                                        tools: [
+                                            [
+                                                tools.find((tl) => tl.id === artCamera),
+                                                tools.find((tl) => tl.id === lensArt),
+                                            ],
+                                        ],
+                                    },
+                                    artRequest: {
+                                        Put: {
+                                            key: "lol",
+                                            contentType: "image/jpeg",
+                                            payload: {
+                                                Payload: asset,
+                                            },
+                                            callback: [],
+                                        },
+                                    },
+                                });
+                                navigate("/main?page=profile");
+                            } }, "Create")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
+                            marginTop: "32px",
+                            display: "flex",
+                            justifyContent: "center",
+                        } }))))) : isCreateGallery ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 24 } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h4" }, "Create Gallery"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => setIsCrateGallery(false), style: { marginLeft: "auto" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_15__["default"], { fontSize: "large" }))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_29__["default"], { elevation: 5, style: { padding: 24, marginTop: 24, width: "100%" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "title", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, value: titleGallery, onChange: (event) => setTitleGallery(event.target.value) })),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "About the gallery", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutGallery, onChange: (event) => setAboutGallery(event.target.value) }))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 12 } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "outlined", onClick: () => onCreateGallery({
+                                artGalleryBanner: [],
+                                description: aboutGallery,
+                                name: titleGallery,
+                            }) }, "Create")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
+                            marginTop: "32px",
+                            display: "flex",
+                            justifyContent: "center",
+                        } }))))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: {
+                    height: 100,
+                    backgroundImage: "url('https://images.unsplash.com/photo-1643041447984-ff891bdf0815?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTM4NTM1NA&ixlib=rb-1.2.1&q=80&w=1080')",
+                    backgroundSize: "cover",
+                } }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_29__["default"], { elevation: 3, style: {
+                        marginTop: -30,
+                        marginLeft: !mobileBreakpoint ? 16 : "auto",
+                        marginRight: !mobileBreakpoint ? 16 : "auto",
+                        padding: 8,
+                        maxWidth: mobileBreakpoint && 600,
+                    } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginRight: "12px" } }, !isShowToolsInfo && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_16__["default"], { src: avatar && avatar, style: { width: 48, height: 48 } }))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body1" }, isShowToolsInfo ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_CameraAlt__WEBPACK_IMPORTED_MODULE_27__["default"], { fontFamily: "small", color: "primary" }),
+                                    " ",
+                                    `${(_z = currentTools === null || currentTools === void 0 ? void 0 : currentTools.camera) === null || _z === void 0 ? void 0 : _z.name}`)) : (`${currentProfile.givenName[0]} ${currentProfile.familyName[0]}`))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body2" }, isShowToolsInfo ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", alignItems: "center" } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Camera__WEBPACK_IMPORTED_MODULE_38__["default"], { fontFamily: "small", color: "primary" }),
+                                    `${(_0 = currentTools === null || currentTools === void 0 ? void 0 : currentTools.lens) === null || _0 === void 0 ? void 0 : _0.name}`)) : (`${currentProfile.displayName[0]}`))),
+                            !isShowToolsInfo && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body2" }, `${currentProfile.about[0]}`)))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginLeft: "auto" } },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { size: "small", color: "primary", onClick: () => setIsShowToolsInfo(!isShowToolsInfo) }, isShowToolsInfo ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AccountCircle__WEBPACK_IMPORTED_MODULE_39__["default"], { fontFamily: "small", color: "primary" })) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_CameraAlt__WEBPACK_IMPORTED_MODULE_27__["default"], { fontFamily: "small", color: "primary" })))),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], null,
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { size: "small", color: "primary", onClick: () => navigate("/main?page=profile&isEdit=true") },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Edit__WEBPACK_IMPORTED_MODULE_26__["default"], { fontFamily: "small", color: "primary" })))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex", justifyContent: "end" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { size: "small", color: "primary", "aria-controls": open ? "basic-menu" : undefined, "aria-haspopup": "true", "aria-expanded": open ? "true" : undefined, onClick: handleClick },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_MoreHoriz__WEBPACK_IMPORTED_MODULE_40__["default"], { color: "primary", fontFamily: "small" })),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Menu__WEBPACK_IMPORTED_MODULE_41__["default"], { id: "basic-menu", anchorEl: anchorEl, open: open, onClose: () => setAnchorEl(null), MenuListProps: {
+                                        "aria-labelledby": "basic-button",
+                                    } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { style: { color: "red" }, onClick: () => deleteProfile() }, "Delete profile")))))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
+                        marginTop: 16,
+                        display: "flex",
+                        marginLeft: !mobileBreakpoint ? 16 : "auto",
+                        marginRight: !mobileBreakpoint ? 16 : "auto",
+                        maxWidth: mobileBreakpoint && 750,
+                    } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: "16px" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { style: {
+                                textTransform: "capitalize",
+                                background: !isArtSelected && "white",
+                                color: !isArtSelected && "#000000",
+                            }, variant: "contained", fullWidth: true, onClick: () => setIsArtSelected(true) }, "Art")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "contained", fullWidth: true, style: {
+                                textTransform: "capitalize",
+                                background: isArtSelected && "white",
+                                color: isArtSelected && "#000000",
+                            }, onClick: () => setIsArtSelected(false) }, "Gallery"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: 16, paddingBottom: 72 } }, isArtSelected ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_32__["default"], { columns: 3, spacing: 0.2 }, arts === null || arts === void 0 ? void 0 : arts.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, onClick: () => navigate("/main?page=profile&image=" + item.id) },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: `${item.image}`, srcSet: `${item.image}`, alt: item.id, loading: "lazy", style: {
+                            borderBottomLeftRadius: 4,
+                            borderBottomRightRadius: 4,
+                            display: "block",
+                            width: "100%",
+                        } })))))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 }, galleries === null || galleries === void 0 ? void 0 : galleries.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { key: index, item: true, xs: 12, sm: 4, md: 4, lg: 4, xl: 3 },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Card__WEBPACK_IMPORTED_MODULE_33__["default"], { onClick: () => navigate(`/main?page=profile&gallery=${item.id}`) },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CardMedia__WEBPACK_IMPORTED_MODULE_35__["default"], { component: "img", height: "180", image: item.image
+                                ? item.image.image
+                                : "https://images.unsplash.com/photo-1643310638896-b73dd89c4597?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTQwNjY0MA&ixlib=rb-1.2.1&q=80&w=1080", alt: "image" }),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CardContent__WEBPACK_IMPORTED_MODULE_36__["default"], null,
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
+                                    display: "flex",
+                                    alignItems: "center",
+                                } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                    } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { gutterBottom: true, variant: "h5", component: "div" }, item.info.name)),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginLeft: "auto" } },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => deleteGallery(item.id) },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Delete__WEBPACK_IMPORTED_MODULE_25__["default"], null)))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "body2", color: "text.secondary" }, item.info.description))))))))),
+                !mobileBreakpoint ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_29__["default"], { elevation: 5, style: {
+                        height: 60,
+                        backgroundColor: "#FFFFFF",
+                        width: "100%",
+                        bottom: 0,
+                        position: "fixed",
+                        display: "flex",
+                        alignItems: "center",
+                        // padding: 16,
+                    } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "20%", textAlign: "center" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Home__WEBPACK_IMPORTED_MODULE_42__["default"], { fontSize: "large" }))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "20%", textAlign: "center" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { style: {
+                                    fontSize: 32,
+                                    fontWeight: "bold",
+                                } }, "P"))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
+                            width: "20%",
+                            textAlign: "center",
+                            marginTop: -45,
+                        } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Fab__WEBPACK_IMPORTED_MODULE_43__["default"], { color: "primary", id: "basic-button", "aria-controls": openCreation ? "basic-menu" : undefined, "aria-haspopup": "true", "aria-expanded": openCreation ? "true" : undefined, onClick: handleClickCreation },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_44__["default"], null)),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Menu__WEBPACK_IMPORTED_MODULE_41__["default"], { id: "basic-menu", anchorEl: anchorElCreation, open: openCreation, onClose: () => setAnchorElCreation(null), MenuListProps: {
+                                "aria-labelledby": "basic-button",
+                            } },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { onClick: () => {
+                                    setIsCreateArt(true);
+                                    setAnchorElCreation(null);
+                                } }, "Create Art"),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { onClick: () => {
+                                    setIsCrateGallery(true);
+                                    setAnchorElCreation(null);
+                                } }, "Create Gallery"))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "20%", textAlign: "center" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_LocalFireDepartment__WEBPACK_IMPORTED_MODULE_45__["default"], { fontSize: "large" }))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "20%", textAlign: "center" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AccountCircle__WEBPACK_IMPORTED_MODULE_39__["default"], { fontSize: "large" }))))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Fab__WEBPACK_IMPORTED_MODULE_43__["default"], { color: "primary", id: "basic-button", "aria-controls": openCreation ? "basic-menu" : undefined, "aria-haspopup": "true", "aria-expanded": openCreation ? "true" : undefined, onClick: handleClickCreation, style: { position: "fixed", bottom: 16, right: 16 } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_44__["default"], null)),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Menu__WEBPACK_IMPORTED_MODULE_41__["default"], { id: "basic-menu", anchorEl: anchorElCreation, open: openCreation, onClose: () => setAnchorElCreation(null), MenuListProps: {
+                            "aria-labelledby": "basic-button",
+                        } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { onClick: () => {
+                                setIsCreateArt(true);
+                                setAnchorElCreation(null);
+                            } }, "Create Art"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { onClick: () => {
+                                setIsCrateGallery(true);
+                                setAnchorElCreation(null);
+                            } }, "Create Gallery")))))))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { padding: "32px" } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_14__["default"], { variant: "h5" }, "Add your 1st art"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_29__["default"], { elevation: 5, style: { padding: 24, marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { container: true, spacing: 1 },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 4, xl: 4, style: { textAlign: "center" } }, assetArt ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { component: "label" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: assetArt, alt: "image", srcSet: `${assetArt}`, loading: "lazy", style: {
+                                borderBottomLeftRadius: 4,
+                                borderBottomRightRadius: 4,
+                                display: "block",
+                                maxHeight: "232px",
+                                width: "100%",
+                            } }),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { fullWidth: true, component: "label" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddPhotoAlternate__WEBPACK_IMPORTED_MODULE_37__["default"], { style: { height: 230, width: 80 } }),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) })))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 8, xl: 8 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "Title", variant: "outlined", required: true, fullWidth: true, value: artTitle, onChange: (event) => setArtTitle(event.target.value), style: { marginBottom: 4 } })),
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "type-label" }, "Type"),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "type-label", id: "type-label-select", value: artType, onChange: (event) => setArtType(event.target.value), label: "Type" }, artTypes.map(type => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name)))))),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "type-label" }, "Type"),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "type-label", id: "type-label-select", value: artType, onChange: (event) => setArtType(event.target.value), label: "Type" }, artTypes === null || artTypes === void 0 ? void 0 : artTypes.map((type) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name))))))),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "category-label" }, "Category"),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "category-label", id: "category-select", value: "", label: "Category", value: artCategory, onChange: (event) => setArtCategory(event.target.value) }, categories.map(type => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name))))),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "category-label" }, "Category"),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "category-label", id: "category-select", value: "", label: "Category", value: artCategory, onChange: (event) => setArtCategory(event.target.value) }, categories === null || categories === void 0 ? void 0 : categories.map((type) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: type.id, key: type.id }, type.name)))))),
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "Location", variant: "outlined", fullWidth: true, style: { marginBottom: 4 } }))),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { display: "flex" } },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%", marginRight: 4 } },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "camera-label" }, "Camera"),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "camera-label", id: "category-select", value: artCamera, onChange: (event) => setArtCamera(event.target.value), label: "Camera" }, artistTools.map(art => tools.find(tl => art.id === tl.id) && art.category.name === "Camera" && react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name))))),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "camera-label" }, "Camera"),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "camera-label", id: "category-select", value: artCamera, onChange: (event) => setArtCamera(event.target.value), label: "Camera" }, artistTools === null || artistTools === void 0 ? void 0 : artistTools.map((art) => tools.find((tl) => art.id === tl.id) &&
+                                        art.category.name === "Camera" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name)))))),
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { width: "50%" } },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 8 }, fullWidth: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "lens-label" }, "Lens"),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "lens-label", id: "lens-select", value: lensArt, onChange: (event) => setLensArt(event.target.value), label: "Lens" }, artistTools.map(art => tools.find(tl => art.id === tl.id) && art.category.name === "Lens" && react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name)))))),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_19__["default"], { style: { marginBottom: 4 }, fullWidth: true },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_36__["default"], { id: "labels-label" }, "Labels"),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "labels-label", id: "labels-select", value: tagsArt, onChange: (event) => setTagsArt(event.target.value), label: "Labels", multiple: true },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: "label1" }, "Ten"),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: "label2" }, "Twenty"),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { value: 30 }, "Thirty")))),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_30__["default"], { id: "lens-label" }, "Lens"),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_20__["default"], { labelId: "lens-label", id: "lens-select", value: lensArt, onChange: (event) => setLensArt(event.target.value), label: "Lens" }, artistTools === null || artistTools === void 0 ? void 0 : artistTools.map((art) => tools.find((tl) => art.id === tl.id) &&
+                                        art.category.name === "Lens" && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_21__["default"], { key: art.id, value: art.id }, art.name)))))))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "About the art", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutArt, onChange: (event) => setAboutArt(event.target.value) }))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { type: "text", label: "About the art", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutArt, onChange: (event) => setAboutArt(event.target.value) })),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_17__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_18__["default"], { placeholder: "labels", fullWidth: true, value: tagValue, onChange: (event) => setTagValue(event.target.value), InputProps: {
+                                endAdornment: (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_31__["default"], { position: "end" },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], { color: "primary", onClick: () => addTags(tagValue) },
+                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_23__["default"], null)))),
+                            } })),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: "8px", padding: 8 } }, tagsArt === null || tagsArt === void 0 ? void 0 : tagsArt.map((tg) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_22__["default"], { key: tg, label: tg, variant: "outlined", style: {
+                            marginBottom: "8px",
+                            marginRight: "2px",
+                        }, onDelete: () => setTagsArt(tagsArt.filter((tag) => tag !== tg)) }))))),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: { marginTop: 12 } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "outlined", onClick: () => onCreateArt({
-                            artBasics: {
-                                artGalleries: [],
-                                artType: artTypes.find(type => type.id === artType),
-                                title: artTitle,
-                                about: aboutArt,
-                                artCategory: categories.find(cat => cat.id === artCategory),
-                                tags: tagsArt,
-                                tools: []
-                            },
-                            artRequest: {
-                                Put: {
-                                    key: "lol",
-                                    contentType: "image/jpeg",
-                                    payload: {
-                                        Payload: asset,
-                                    },
-                                    callback: [],
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_24__["default"], { variant: "outlined", onClick: () => {
+                            onCreateArt({
+                                artBasics: {
+                                    artGalleries: [],
+                                    artType: artTypes.find((type) => type.id === artType),
+                                    title: artTitle,
+                                    about: aboutArt,
+                                    artCategory: categories.find((cat) => cat.id === artCategory),
+                                    tags: tagsArt,
+                                    tools: [
+                                        [
+                                            tools.find((tl) => tl.id === artCamera),
+                                            tools.find((tl) => tl.id === lensArt),
+                                        ],
+                                    ],
                                 },
-                            }
-                        }) }, "Create")),
+                                artRequest: {
+                                    Put: {
+                                        key: "lol",
+                                        contentType: "image/jpeg",
+                                        payload: {
+                                            Payload: asset,
+                                        },
+                                        callback: [],
+                                    },
+                                },
+                            });
+                            navigate("/main?page=profile");
+                            localStorage.setItem("isArtDone", true);
+                        } }, "Create")),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_13__["default"], { style: {
                         marginTop: "32px",
                         display: "flex",
@@ -91552,7 +91946,6 @@ function Main() {
     function handleClickCreation(event) {
         setAnchorElCreation(event.currentTarget);
     }
-    ;
     function onLogout() {
         localStorage.clear();
         navigate("/login");
@@ -91564,38 +91957,40 @@ function Main() {
         setIsLoading(false);
         if (Object.keys(update)[0] !== "err") {
             setIsSnackbarOpen(true);
-            setMessage("Perfil actualizado correctamente");
+            setMessage("Profile updated successfully");
             setSeverity("success");
         }
         else {
             setIsSnackbarOpen(true);
-            setMessage("Error al actualizar perfil");
+            setMessage("Error updating profile");
             setSeverity("error");
         }
         setAsset(undefined);
     }
     async function onCreateArt(artUpdate) {
+        var _a, _b;
         setIsLoading(true);
         const create = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].createArt(artUpdate);
         setAsset(undefined);
         if (Object.keys(create)[0] !== "err") {
             const arts = await getArtsPrincipal();
-            const formatArts = arts.ok.map(result => ({
+            const formatArts = (_a = arts.ok) === null || _a === void 0 ? void 0 : _a.map((result) => ({
                 image: "data:image/jpeg;base64," + (0,uint8_to_base64__WEBPACK_IMPORTED_MODULE_1__.encode)(result[2].payload[0]),
                 id: result[0],
-                info: result[1]
+                info: result[1],
+                asset: result[2].payload[0],
             }));
             setArts(formatArts);
             const artGallery = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
-            setGalleries(artGallery.ok.map(result => ({
-                image: formatArts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+            setGalleries((_b = artGallery.ok) === null || _b === void 0 ? void 0 : _b.map((result) => ({
+                image: formatArts.find((art) => art.info.artBasics.artGalleries[0] === result[0]),
                 id: result[0],
-                info: result[1]
+                info: result[1],
             })));
             setIsCreateArt(false);
             setIsLoading(false);
             setIsSnackbarOpen(true);
-            setMessage("Arte creado correctamente");
+            setMessage("Art created correctly");
             setSeverity("success");
             setArtTitle("");
             setArtType("");
@@ -91604,6 +91999,7 @@ function Main() {
             setArtCamera("");
             setLensArt("");
             setTagsArt([]);
+            setAssetArt(undefined);
         }
         else {
             setIsCreateArt(false);
@@ -91611,6 +92007,50 @@ function Main() {
             setIsSnackbarOpen(true);
             setMessage("Error al crear arte");
             setSeverity("error");
+        }
+    }
+    async function onUpdateArt(artUpdate, id) {
+        var _a, _b;
+        setIsLoading(true);
+        const updated = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].updateArt(artUpdate, id);
+        setAsset(undefined);
+        if (Object.keys(updated)[0] !== "err") {
+            const arts = await getArtsPrincipal();
+            const formatArts = (_a = arts.ok) === null || _a === void 0 ? void 0 : _a.map((result) => ({
+                image: "data:image/jpeg;base64," + (0,uint8_to_base64__WEBPACK_IMPORTED_MODULE_1__.encode)(result[2].payload[0]),
+                id: result[0],
+                info: result[1],
+                asset: result[2].payload[0],
+            }));
+            setArts(formatArts);
+            const artGallery = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
+            setGalleries((_b = artGallery.ok) === null || _b === void 0 ? void 0 : _b.map((result) => ({
+                image: formatArts.find((art) => art.info.artBasics.artGalleries[0] === result[0]),
+                id: result[0],
+                info: result[1],
+            })));
+            setIsCreateArt(false);
+            setIsLoading(false);
+            setIsSnackbarOpen(true);
+            setMessage("art updated successfully");
+            setSeverity("success");
+            setArtTitle("");
+            setArtType("");
+            setArtCategory("");
+            setAboutArt("");
+            setArtCamera("");
+            setLensArt("");
+            setTagsArt([]);
+            setAssetArt(undefined);
+            setIsEditArt(false);
+        }
+        else {
+            setIsCreateArt(false);
+            setIsLoading(false);
+            setIsSnackbarOpen(true);
+            setMessage("Error updating art");
+            setSeverity("error");
+            setIsEditArt(false);
         }
     }
     async function getArtsPrincipal() {
@@ -91623,44 +92063,47 @@ function Main() {
         navigate("/login");
     }
     async function deleteArt(id) {
+        var _a, _b;
         setIsLoading(true);
         await _service__WEBPACK_IMPORTED_MODULE_2__["default"].deleteArt(id);
         const artGallery = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
         const arts = await getArtsPrincipal();
-        const formatArts = arts.ok.map(result => ({
+        const formatArts = (_a = arts.ok) === null || _a === void 0 ? void 0 : _a.map((result) => ({
             image: "data:image/jpeg;base64," + (0,uint8_to_base64__WEBPACK_IMPORTED_MODULE_1__.encode)(result[2].payload[0]),
             id: result[0],
-            info: result[1]
+            info: result[1],
+            asset: result[2].payload[0],
         }));
         setArts(formatArts);
-        setGalleries(artGallery.ok.map(result => {
+        setGalleries((_b = artGallery.ok) === null || _b === void 0 ? void 0 : _b.map((result) => {
             return {
-                image: formatArts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+                image: formatArts.find((art) => art.info.artBasics.artGalleries[0] === result[0]),
                 id: result[0],
-                info: result[1]
+                info: result[1],
             };
         }));
         setIsLoading(false);
         navigate("/main?page=profile");
         setIsSnackbarOpen(true);
-        setMessage("Arte eliminado correctamente");
+        setMessage("Art removed successfully");
         setSeverity("success");
     }
     async function deleteGallery(id) {
+        var _a;
         setIsLoading(true);
         await _service__WEBPACK_IMPORTED_MODULE_2__["default"].deleteGallery(id);
         const artGallery = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
-        setGalleries(artGallery.ok.map(result => {
+        setGalleries((_a = artGallery.ok) === null || _a === void 0 ? void 0 : _a.map((result) => {
             return {
-                image: formatArts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+                image: arts.find((art) => art.info.artBasics.artGalleries[0] === result[0]),
                 id: result[0],
-                info: result[1]
+                info: result[1],
             };
         }));
         setIsLoading(false);
         navigate("/main?page=profile");
         setIsSnackbarOpen(true);
-        setMessage("Galeria eliminada correctamente");
+        setMessage("Gallery deleted successfully");
         setSeverity("success");
     }
     function addTools(id) {
@@ -91674,22 +92117,34 @@ function Main() {
             setSelectedTools([...selectedTools, tool]);
         }
     }
+    function addTags(currentTag) {
+        if (tagsArt.find((tag) => tag === currentTag)) {
+            setIsSnackbarOpen(true);
+            setSeverity("error");
+            setMessage("Item already exist");
+        }
+        else {
+            setTagsArt([...tagsArt, currentTag]);
+            setTagValue("");
+        }
+    }
     async function onCreateGallery(galleryUpdate) {
+        var _a;
         setIsLoading(true);
         const create = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].createArtGallery(galleryUpdate);
         if (Object.keys(create)[0] !== "err") {
             const artGallery = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].getGalleriesByPrincipal(JSON.parse(localStorage.getItem("_scApp")).principal);
-            setGalleries(artGallery.ok.map(result => {
+            setGalleries((_a = artGallery.ok) === null || _a === void 0 ? void 0 : _a.map((result) => {
                 return {
-                    image: arts.find(art => art.info.artBasics.artGalleries[0] === result[0]),
+                    image: arts.find((art) => art.info.artBasics.artGalleries[0] === result[0]),
                     id: result[0],
-                    info: result[1]
+                    info: result[1],
                 };
             }));
             setIsCreateArt(false);
             setIsLoading(false);
             setIsSnackbarOpen(true);
-            setMessage("Galeria creada correctamente");
+            setMessage("Gallery created successfully");
             setSeverity("success");
             setIsCrateGallery(false);
             setTitleGallery("");
@@ -91699,7 +92154,7 @@ function Main() {
             setIsCreateArt(false);
             setIsLoading(false);
             setIsSnackbarOpen(true);
-            setMessage("Error al crear galeria");
+            setMessage("Error creating gallery");
             setSeverity("error");
         }
     }
@@ -94675,6 +95130,7 @@ const service = {
   getToolsCategories,
   getTools,
   updateArtist,
+  updateArt,
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (service);
@@ -94700,7 +95156,7 @@ async function onSignOutStoic() {
 }
 
 async function wPActor(identity) {
-  return await (0,_declarations_prixelart__WEBPACK_IMPORTED_MODULE_1__.createActor)("rkp4c-7iaaa-aaaaa-aaaca-cai", {
+  return await (0,_declarations_prixelart__WEBPACK_IMPORTED_MODULE_1__.createActor)("wrcb3-5qaaa-aaaal-qaahq-cai", {
     agentOptions: {
       identity: identity,
     },
@@ -94708,7 +95164,7 @@ async function wPActor(identity) {
 }
 
 async function wPActorPrixer(identity) {
-  return await (0,_declarations_prixelartbe__WEBPACK_IMPORTED_MODULE_2__.createActor)("rrkah-fqaaa-aaaaa-aaaaq-cai", {
+  return await (0,_declarations_prixelartbe__WEBPACK_IMPORTED_MODULE_2__.createActor)("dffsb-tiaaa-aaaai-qidva-cai", {
     agentOptions: {
       identity: identity,
     },
@@ -94856,6 +95312,13 @@ async function updateArtist(tools) {
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
   const result = await actor.updateArtist(tools);
+  return result;
+}
+
+async function updateArt(artUpdate, id) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.updateArt(artUpdate, id);
   return result;
 }
 
@@ -96183,6 +96646,9 @@ __webpack_require__.r(__webpack_exports__);
 // import "./index.css";
 
 react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(_PrixerApp__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.getElementById("#app"));
+// "prixelart_assets": {
+//     "ic": "3xjqp-sqaaa-aaaai-abzhq-cai"
+//   }
 
 })();
 

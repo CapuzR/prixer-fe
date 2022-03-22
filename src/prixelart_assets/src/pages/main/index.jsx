@@ -5,14 +5,11 @@ import { encode } from "uint8-to-base64";
 
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Fab from "@mui/material/Fab";
@@ -20,11 +17,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Masonry from "@mui/lab/Masonry";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
@@ -33,25 +25,27 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import InputAdornment from "@mui/material/InputAdornment";
 
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import EditIcon from "@mui/icons-material/Edit";
-import HomeIcon from "@mui/icons-material/Home";
-import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import CameraIcon from "@mui/icons-material/Camera";
 
 import service from "../service";
 import Loading from "../../components/loading";
+import Navbar from "../../components/navbar";
+import ProfileForm from "../../components/profileForm";
+import ToolsForm from "../../components/toolsForm";
+import HandleProfileForms from "../../components/handleProfileForms";
+import ArtDetail from "../../components/artDetail";
+import ArtForm from "../../components/artForm";
+import GalleryForm from "../../components/galleryForm";
+import PrixerList from "../../components/prixerList";
+import GalleryDetail from "../../components/galleryDetail";
+import PaperProfile from "../../components/paperProfile";
+import ListArts from "../../components/listArts";
+import ListGalleries from "../../components/listGalleries";
+import NavigationBar from "../../components/navigationBar";
+import DialogDislike from "../../components/dialogDislike";
 
 const toolbarHeight = 68;
 
@@ -91,7 +85,7 @@ function Main() {
   const [isShowToolsInfo, setIsShowToolsInfo] = useState(false);
   const [camera, setCamera] = useState("");
   const [lens, setLens] = useState("");
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [artTitle, setArtTitle] = useState("");
   const [artType, setArtType] = useState("");
   const [artCamera, setArtCamera] = useState("");
@@ -280,17 +274,7 @@ function Main() {
         height: "100vh",
       }}
     >
-      <MuiAppBar position="fixed" style={{ height: toolbarHeight }}>
-        <Toolbar>
-          <img src={""} alt="logo" />
-          <IconButton
-            style={{ color: "white", marginLeft: "auto" }}
-            onClick={onLogout}
-          >
-            <ExitToAppIcon style={{ color: "white" }} />
-          </IconButton>
-        </Toolbar>
-      </MuiAppBar>
+      <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
       <Box style={{ paddingTop: toolbarHeight }}>
         {searchParams.get("page") === "profile" ? (
           searchParams.get("isEdit") === "true" ? (
@@ -309,1256 +293,264 @@ function Main() {
                 </IconButton>
               </Box>
               {isEditProfile ? (
-                <>
-                  <Box
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginTop: 8,
-                    }}
-                  >
-                    <IconButton component="label">
-                      <Avatar
-                        src={avatar && avatar}
-                        style={{ width: "120px", height: "120px" }}
-                      />
-                      <input
-                        hidden
-                        type="file"
-                        onChange={(event) => handleChange(event, true)}
-                      />
-                    </IconButton>
-                  </Box>
-                  <Grid container spacing={1} style={{ marginTop: "32px" }}>
-                    <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
-                      <TextField
-                        type="text"
-                        label="Username"
-                        variant="outlined"
-                        value={username}
-                        required
-                        onChange={(event) => setUsername(event.target.value)}
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
-                      <TextField
-                        type="text"
-                        label="Display name"
-                        variant="outlined"
-                        required
-                        value={displayName}
-                        onChange={(event) => setDisplayName(event.target.value)}
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
-                      <TextField
-                        type="text"
-                        label="Given name"
-                        value={givenName}
-                        onChange={(event) => setGivenName(event.target.value)}
-                        variant="outlined"
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
-                      <TextField
-                        type="text"
-                        label="Family name"
-                        onChange={(event) => setFamilyName(event.target.value)}
-                        variant="outlined"
-                        value={familyName}
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
-                      <TextField
-                        type="text"
-                        label="Location"
-                        variant="outlined"
-                        fullWidth
-                        onChange={(event) => setLocation(event.target.value)}
-                        value={location}
-                      />
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
-                      <TextField
-                        fullWidth
-                        type="text"
-                        label="Email"
-                        value={email}
-                        variant="outlined"
-                        onChange={(event) => setEmail(event.target.value)}
-                      />
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
-                      <TextField
-                        fullWidth
-                        type="text"
-                        label="Phone"
-                        value={phone}
-                        onChange={(event) => setPhone(event.target.value)}
-                        variant="outlined"
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <TextField
-                        fullWidth
-                        type="text"
-                        label="About"
-                        variant="outlined"
-                        value={about}
-                        onChange={(event) => setAbout(event.target.value)}
-                        multiline
-                        rows={3}
-                      />
-                    </Grid>
-                  </Grid>
-                </>
+                <ProfileForm
+                  avatar={avatar}
+                  handleChange={handleChange}
+                  username={username}
+                  setUsername={setUsername}
+                  displayName={displayName}
+                  setDisplayName={setDisplayName}
+                  givenName={givenName}
+                  setGivenName={setGivenName}
+                  familyName={familyName}
+                  setFamilyName={setFamilyName}
+                  location={location}
+                  setLocation={setLocation}
+                  about={about}
+                  setAbout={setAbout}
+                  email={email}
+                  setEmail={setEmail}
+                  phone={phone}
+                  setPhone={setPhone}
+                />
               ) : (
-                <>
-                  <Grid container spacing={1} style={{ marginTop: 24 }}>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <Typography variant="h5">Cameras</Typography>
-                      <FormControl
-                        style={{ marginBottom: 4 }}
-                        required
-                        fullWidth
-                      >
-                        <Select
-                          labelId="camera-label"
-                          id="camera-label-select"
-                          value={camera}
-                          onChange={(event) => setCamera(event.target.value)}
-                        >
-                          {tools?.map(
-                            (type) =>
-                              type.category.name === "Camera" && (
-                                <MenuItem value={type.id} key={type.id}>
-                                  {type.name}
-                                </MenuItem>
-                              )
-                          )}
-                        </Select>
-                      </FormControl>
-                      <Box style={{ marginTop: "8px" }}>
-                        {selectedTools?.map(
-                          (tool) =>
-                            tool.category.name === "Camera" && (
-                              <Chip
-                                label={tool.name}
-                                variant="outlined"
-                                style={{
-                                  marginBottom: "8px",
-                                  marginRight: "2px",
-                                }}
-                                key={tool.id}
-                                onDelete={() => {
-                                  setSelectedTools(
-                                    selectedTools.filter(
-                                      (tl) => tl.id !== tool.id
-                                    )
-                                  );
-                                }}
-                              />
-                            )
-                        )}
-                      </Box>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={12}
-                      md={12}
-                      lg={12}
-                      xl={12}
-                      style={{ justifyContent: "center", display: "flex" }}
-                    >
-                      <IconButton
-                        onClick={() => addTools(camera)}
-                        size="large"
-                        color="primary"
-                      >
-                        <AddBoxIcon fontSize="large" color="primary" />
-                      </IconButton>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <Typography variant="h5">Lenses</Typography>
-                      <FormControl
-                        style={{ marginBottom: 4 }}
-                        required
-                        fullWidth
-                      >
-                        <Select
-                          labelId="lenses-label"
-                          id="lenses-label-select"
-                          value={lens}
-                          onChange={(event) => setLens(event.target.value)}
-                        >
-                          {tools?.map(
-                            (type) =>
-                              type.category.name === "Lens" && (
-                                <MenuItem value={type.id} key={type.id}>
-                                  {type.name}
-                                </MenuItem>
-                              )
-                          )}
-                        </Select>
-                      </FormControl>
-                      <Box style={{ marginTop: "8px" }}>
-                        {selectedTools?.map(
-                          (tool) =>
-                            tool.category.name === "Lens" && (
-                              <Chip
-                                label={tool.name}
-                                style={{
-                                  marginBottom: "8px",
-                                  marginRight: "2px",
-                                }}
-                                variant="outlined"
-                                key={tool.id}
-                                onDelete={() => {
-                                  setSelectedTools(
-                                    selectedTools.filter(
-                                      (tl) => tl.id !== tool.id
-                                    )
-                                  );
-                                }}
-                              />
-                            )
-                        )}
-                      </Box>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={12}
-                      md={12}
-                      lg={12}
-                      xl={12}
-                      style={{ justifyContent: "center", display: "flex" }}
-                    >
-                      <IconButton
-                        onClick={() => addTools(lens)}
-                        size="large"
-                        color="primary"
-                      >
-                        <AddBoxIcon fontSize="large" color="primary" />
-                      </IconButton>
-                    </Grid>
-                  </Grid>
-                </>
+                <ToolsForm
+                  camera={camera}
+                  setCamera={setCamera}
+                  lens={lens}
+                  setLens={setLens}
+                  tools={tools}
+                  selectedTools={selectedTools}
+                  addTools={addTools}
+                  setSelectedTools={setSelectedTools}
+                />
               )}
-              {
-                <Box style={{ marginTop: 12 }}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => {
-                      onUpdateProfile(
-                        {
-                          bio: {
-                            givenName: [givenName],
-                            familyName: [familyName],
-                            username: [username],
-                            displayName: [displayName],
-                            location: [location],
-                            about: [about],
-                            email: [email],
-                            phone: [phone],
-                            socials: [
-                              {
-                                deSo: [
-                                  {
-                                    distrikt: [],
-                                    dscvr: [],
-                                    openChat: [],
-                                  },
-                                ],
-                                ceSo: [
-                                  {
-                                    discord: [],
-                                    twitter: [],
-                                    instagram: [],
-                                    facebook: [],
-                                    tiktok: [],
-                                  },
-                                ],
-                              },
-                            ],
-                          },
-                          avatarRequest: {
-                            Put: {
-                              key: JSON.parse(localStorage.getItem("_scApp"))
-                                .principal,
-                              contentType: "image/jpeg",
-                              payload: {
-                                Payload: asset,
-                              },
-                              callback: [],
+              <Box style={{ marginTop: 12 }}>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    onUpdateProfile(
+                      {
+                        bio: {
+                          givenName: [givenName],
+                          familyName: [familyName],
+                          username: [username],
+                          displayName: [displayName],
+                          location: [location],
+                          about: [about],
+                          email: [email],
+                          phone: [phone],
+                          socials: [
+                            {
+                              deSo: [
+                                {
+                                  distrikt: [],
+                                  dscvr: [],
+                                  openChat: [],
+                                },
+                              ],
+                              ceSo: [
+                                {
+                                  discord: [],
+                                  twitter: [],
+                                  instagram: [],
+                                  facebook: [],
+                                  tiktok: [],
+                                },
+                              ],
                             },
+                          ],
+                        },
+                        avatarRequest: {
+                          Put: {
+                            key: JSON.parse(localStorage.getItem("_scApp"))
+                              .principal,
+                            contentType: "image/jpeg",
+                            payload: {
+                              Payload: asset,
+                            },
+                            callback: [],
                           },
                         },
-                        {
-                          tools: selectedTools,
-                        }
-                      );
-                    }}
-                  >
-                    Update
-                  </Button>
-                </Box>
-              }
-
-              <Box
-                style={{
-                  marginTop: "32px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  style={{
-                    marginRight: "4px",
-                    textTransform: "capitalize",
-                    fontSize: "12px",
-                    background: !isEditProfile && "white",
-                    color: !isEditProfile && "black",
+                      },
+                      {
+                        tools: selectedTools,
+                      }
+                    );
                   }}
-                  onClick={() => setIsEditProfile(true)}
-                  fullWidth
                 >
-                  Basics
-                </Button>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  style={{
-                    textTransform: "capitalize",
-                    fontSize: "12px",
-                    background: isEditProfile && "white",
-                    color: isEditProfile && "black",
-                  }}
-                  onClick={() => setIsEditProfile(false)}
-                >
-                  Cameras & Lenses
+                  Update
                 </Button>
               </Box>
+              <HandleProfileForms
+                isViewProfile={isEditProfile}
+                handleView={setIsEditProfile}
+              />
             </Box>
           ) : searchParams.get("image") ? (
             !isEditArt ? (
-              <Box>
-                <Box style={{ padding: 16 }}>
-                  <Box style={{ display: "flex", alignItems: "center" }}>
-                    <Typography variant="h4">Art Detail</Typography>
-
-                    <IconButton
-                      color="primary"
-                      onClick={() => navigate("/main?page=profile")}
-                      style={{ marginLeft: "auto" }}
-                    >
-                      <ArrowCircleLeftOutlinedIcon fontSize="large" />
-                    </IconButton>
-                  </Box>
-                </Box>
-                <img
-                  src={
-                    arts.find((art) => art.id === searchParams.get("image"))
-                      ?.image
-                  }
-                  srcSet={
-                    arts.find((art) => art.id === searchParams.get("image"))
-                      ?.image
-                  }
-                  alt={"image"}
-                  loading="lazy"
-                  style={{
-                    borderBottomLeftRadius: 4,
-                    borderBottomRightRadius: 4,
-                    display: "block",
-                    width: !mobileBreakpoint && "100%",
-                    margin: mobileBreakpoint && "auto",
-                    maxHeight: mobileBreakpoint && 650,
-                  }}
-                />
-                <Box style={{ padding: 16 }}>
-                  <Box style={{ display: "flex" }}>
-                    <Box>
-                      <Box>
-                        <Typography variant="h5">
-                          {
-                            arts.find(
-                              (art) => art.id === searchParams.get("image")
-                            )?.info?.artBasics?.title
-                          }
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="body1">
-                          {
-                            arts.find(
-                              (art) => art.id === searchParams.get("image")
-                            )?.info?.artBasics?.about
-                          }
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box style={{ marginLeft: "auto" }}>
-                      <IconButton color="primary">
-                        <DeleteIcon
-                          onClick={() => deleteArt(searchParams.get("image"))}
-                        />
-                      </IconButton>
-                      <IconButton
-                        color="primary"
-                        onClick={() => setIsEditArt(true)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Box>
-                  </Box>
-                  <Box style={{ marginTop: 24 }}>
-                    <Box style={{ display: "flex" }}>
-                      <Box style={{ marginRight: 8 }}>
-                        <CameraAltIcon color="primary" />
-                      </Box>
-                      <Box>
-                        <Typography variant="p">
-                          {
-                            arts
-                              .find(
-                                (art) => art.id === searchParams.get("image")
-                              )
-                              ?.info?.artBasics?.tools[0]?.find(
-                                (tl) => tl.category.name === "Camera"
-                              ).name
-                          }
-                          {/* Canon 7D Mark II */}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box style={{ display: "flex" }}>
-                      <Box style={{ marginRight: 8 }}>
-                        <CameraOutlinedIcon color="primary" />
-                      </Box>
-                      <Box>
-                        <Typography variant="p">
-                          {
-                            arts
-                              .find(
-                                (art) => art.id === searchParams.get("image")
-                              )
-                              ?.info?.artBasics?.tools[0]?.find(
-                                (tl) => tl.category.name === "Lens"
-                              ).name
-                          }
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                  <Box style={{ marginTop: 16 }}>
-                    <Typography variant="h6">Categories</Typography>
-                    {arts
-                      .find((art) => art.id === searchParams.get("image"))
-                      ?.info?.artBasics?.tags?.map((tag, index) => (
-                        <Chip
-                          label={tag}
-                          variant="outlined"
-                          style={{ marginBottom: "6px", marginRight: "2px" }}
-                          key={index}
-                        />
-                      ))}
-                  </Box>
-                  <Box style={{ marginTop: 16 }}>
-                    <Typography variant="h6">Comments</Typography>
-                  </Box>
-                </Box>
-              </Box>
+              <ArtDetail
+                navigate={navigate}
+                arts={arts}
+                searchParams={searchParams}
+                mobileBreakpoint={mobileBreakpoint}
+                deleteArt={deleteArt}
+                setIsEditArt={setIsEditArt}
+                setOpen={setIsDialogOpen}
+              />
             ) : (
-              <Box style={{ padding: 24 }}>
-                <Box style={{ display: "flex", alignItems: "center" }}>
-                  <Typography variant="h4">Edit Art</Typography>
-
-                  <IconButton
-                    color="primary"
-                    onClick={() => setIsEditArt(false)}
-                    style={{ marginLeft: "auto" }}
-                  >
-                    <ArrowCircleLeftOutlinedIcon fontSize="large" />
-                  </IconButton>
-                </Box>
-                <Grid container spacing={1}>
-                  <Paper
-                    elevation={5}
-                    style={{ padding: 24, marginTop: 14, width: "100%" }}
-                  >
-                    <Grid container spacing={1}>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        md={6}
-                        lg={4}
-                        xl={4}
-                        style={{ textAlign: "center" }}
-                      >
-                        <Button component="label">
-                          <img
-                            src={assetArt}
-                            srcSet={assetArt}
-                            alt="image"
-                            loading="lazy"
-                            style={{
-                              borderBottomLeftRadius: 4,
-                              borderBottomRightRadius: 4,
-                              display: "block",
-                              width: "100%",
-                              maxHeight: "232px",
-                            }}
-                          />
-                          <input
-                            type="file"
-                            hidden
-                            onChange={(event) => handleChange(event, false)}
-                          />
-                        </Button>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={6} lg={8} xl={8}>
-                        <Box style={{ display: "flex" }}>
-                          <Box style={{ width: "50%", marginRight: 4 }}>
-                            <TextField
-                              type="text"
-                              label="Title"
-                              variant="outlined"
-                              required
-                              fullWidth
-                              style={{ marginBottom: 4 }}
-                              value={artTitle}
-                              onChange={(event) =>
-                                setArtTitle(event.target.value)
-                              }
-                            />
-                          </Box>
-                          <Box style={{ width: "50%" }}>
-                            <FormControl
-                              style={{ marginBottom: 4 }}
-                              required
-                              fullWidth
-                            >
-                              <InputLabel id="type-label">Type</InputLabel>
-                              <Select
-                                labelId="type-label"
-                                id="type-label-select"
-                                value={artType}
-                                onChange={(event) =>
-                                  setArtType(event.target.value)
-                                }
-                                label="Type"
-                              >
-                                {artTypes?.map((type) => (
-                                  <MenuItem value={type.id} key={type.id}>
-                                    {type.name}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </Box>
-                        </Box>
-                        <Box style={{ display: "flex" }}>
-                          <Box style={{ width: "50%", marginRight: 4 }}>
-                            <FormControl
-                              style={{ marginBottom: 4 }}
-                              required
-                              fullWidth
-                            >
-                              <InputLabel id="category-label">
-                                Category
-                              </InputLabel>
-                              <Select
-                                labelId="category-label"
-                                id="category-select"
-                                value={""}
-                                label="Category"
-                                value={artCategory}
-                                onChange={(event) =>
-                                  setArtCategory(event.target.value)
-                                }
-                              >
-                                {categories?.map((type) => (
-                                  <MenuItem value={type.id} key={type.id}>
-                                    {type.name}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </Box>
-                          <Box style={{ width: "50%" }}>
-                            <TextField
-                              type="text"
-                              label="Location"
-                              variant="outlined"
-                              fullWidth
-                              style={{ marginBottom: 4 }}
-                            />
-                          </Box>
-                        </Box>
-                        <Box style={{ display: "flex" }}>
-                          <Box style={{ width: "50%", marginRight: 4 }}>
-                            <FormControl style={{ marginBottom: 4 }} fullWidth>
-                              <InputLabel id="camera-label">Camera</InputLabel>
-                              <Select
-                                labelId="camera-label"
-                                id="category-select"
-                                value={artCamera}
-                                onChange={(event) =>
-                                  setArtCamera(event.target.value)
-                                }
-                                label="Camera"
-                              >
-                                {artistTools?.map(
-                                  (art) =>
-                                    tools.find((tl) => art.id === tl.id) &&
-                                    art.category.name === "Camera" && (
-                                      <MenuItem key={art.id} value={art.id}>
-                                        {art.name}
-                                      </MenuItem>
-                                    )
-                                )}
-                              </Select>
-                            </FormControl>
-                          </Box>
-                          <Box style={{ width: "50%" }}>
-                            <FormControl style={{ marginBottom: 4 }} fullWidth>
-                              <InputLabel id="lens-label">Lens</InputLabel>
-                              <Select
-                                labelId="lens-label"
-                                id="lens-select"
-                                value={lensArt}
-                                onChange={(event) =>
-                                  setLensArt(event.target.value)
-                                }
-                                label="Lens"
-                              >
-                                {artistTools?.map(
-                                  (art) =>
-                                    tools.find((tl) => art.id === tl.id) &&
-                                    art.category.name === "Lens" && (
-                                      <MenuItem key={art.id} value={art.id}>
-                                        {art.name}
-                                      </MenuItem>
-                                    )
-                                )}
-                              </Select>
-                            </FormControl>
-                          </Box>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <FormControl style={{ marginBottom: 4 }} fullWidth>
-                          <InputLabel id="gallery-label">Gallery</InputLabel>
-                          <Select
-                            labelId="gallery-label"
-                            id="gallery-select"
-                            value={galleryArt}
-                            onChange={(event) =>
-                              setGalleryArt(event.target.value)
-                            }
-                            label="Labels"
-                          >
-                            {galleries?.map((gallery) => (
-                              <MenuItem value={gallery.id} key={gallery.id}>
-                                {gallery.info.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <TextField
-                          type="text"
-                          label="About the art"
-                          variant="outlined"
-                          fullWidth
-                          style={{ marginBottom: 4 }}
-                          multiline
-                          rows={4}
-                          value={aboutArt}
-                          onChange={(event) => setAboutArt(event.target.value)}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <TextField
-                          placeholder="labels"
-                          fullWidth
-                          value={tagValue}
-                          onChange={(event) => setTagValue(event.target.value)}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  color="primary"
-                                  onClick={() => addTags(tagValue)}
-                                >
-                                  <AddBoxIcon />
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                      </Grid>
-                      <Box style={{ marginTop: "8px", padding: 8 }}>
-                        {tagsArt?.map((tg) => (
-                          <Chip
-                            key={tg}
-                            label={tg}
-                            variant="outlined"
-                            style={{
-                              marginBottom: "8px",
-                              marginRight: "2px",
-                            }}
-                            onDelete={() =>
-                              setTagsArt(tagsArt.filter((tag) => tag !== tg))
-                            }
-                          />
-                        ))}
-                      </Box>
-                    </Grid>
-                    <Box style={{ marginTop: 12 }}>
-                      <Button
-                        variant="outlined"
-                        onClick={() => {
-                          onUpdateArt(
-                            {
-                              artBasics: {
-                                artGalleries:
-                                  galleryArt !== "" ? [`${galleryArt}`] : [],
-                                artType: artTypes.find(
-                                  (type) => type.id === artType
-                                ),
-                                title: artTitle,
-                                about: aboutArt,
-                                artCategory: categories.find(
-                                  (cat) => cat.id === artCategory
-                                ),
-                                tags: tagsArt,
-                                tools: [
-                                  [
-                                    tools.find((tl) => tl.id === artCamera),
-                                    tools.find((tl) => tl.id === lensArt),
-                                  ],
-                                ],
-                              },
-                              artRequest: {
-                                Put: {
-                                  key: "lol",
-                                  contentType: "image/jpeg",
-                                  payload: {
-                                    Payload: asset,
-                                  },
-                                  callback: [],
-                                },
-                              },
-                            },
-                            searchParams.get("image")
-                          );
-                          navigate("/main?page=profile");
-                        }}
-                      >
-                        Update
-                      </Button>
-                    </Box>
-                    <Box
-                      style={{
-                        marginTop: "32px",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    ></Box>
-                  </Paper>
-                </Grid>
-              </Box>
+              <ArtForm
+                isUpdate={true}
+                setIsEditArt={setIsEditArt}
+                assetArt={assetArt}
+                handleChange={handleChange}
+                artTitle={artTitle}
+                setArtTitle={setArtTitle}
+                artType={artType}
+                setArtType={setArtType}
+                categories={categories}
+                artCategory={artCategory}
+                setArtCategory={setArtCategory}
+                artCamera={artCamera}
+                setArtCamera={setArtCamera}
+                artistTools={artistTools}
+                lensArt={lensArt}
+                setLensArt={setLensArt}
+                galleryArt={galleryArt}
+                setGalleryArt={setGalleryArt}
+                aboutArt={aboutArt}
+                setAboutArt={setAboutArt}
+                tagValue={tagValue}
+                setTagValue={setTagValue}
+                addTags={addTags}
+                tagsArt={tagsArt}
+                setTagsArt={setTagsArt}
+                artTypes={artTypes}
+                tools={tools}
+                galleries={galleries}
+                onUpdateArt={() => {
+                  onUpdateArt(
+                    {
+                      artBasics: {
+                        artGalleries:
+                          galleryArt !== "" ? [`${galleryArt}`] : [],
+                        artType: artTypes.find((type) => type.id === artType),
+                        title: artTitle,
+                        about: aboutArt,
+                        artCategory: categories.find(
+                          (cat) => cat.id === artCategory
+                        ),
+                        tags: tagsArt,
+                        tools: [
+                          [
+                            tools.find((tl) => tl.id === artCamera),
+                            tools.find((tl) => tl.id === lensArt),
+                          ],
+                        ],
+                      },
+                      artRequest: {
+                        Put: {
+                          key: "lol",
+                          contentType: "image/jpeg",
+                          payload: {
+                            Payload: asset,
+                          },
+                          callback: [],
+                        },
+                      },
+                    },
+                    searchParams.get("image")
+                  );
+                  navigate("/main?page=profile");
+                }}
+              />
             )
           ) : searchParams.get("gallery") ? (
-            <Box>
-              <Box style={{ padding: 16 }}>
-                <Box style={{ display: "flex", alignItems: "center" }}>
-                  <Typography
-                    style={{
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                    variant="h4"
-                  >{`${
-                    galleries.find(
-                      (gallery) => gallery.id === searchParams.get("gallery")
-                    )?.info?.name
-                  }`}</Typography>
-
-                  <IconButton
-                    color="primary"
-                    onClick={() => navigate("/main?page=profile")}
-                    style={{ marginLeft: "auto" }}
-                  >
-                    <ArrowCircleLeftOutlinedIcon fontSize="large" />
-                  </IconButton>
-                </Box>
-                <Masonry columns={3} spacing={0.2}>
-                  {arts?.map(
-                    (item, index) =>
-                      item.info.artBasics.artGalleries[0] ===
-                        searchParams.get("gallery") && (
-                        <div
-                          key={index}
-                          onClick={() =>
-                            navigate("/main?page=profile&image=" + item.id)
-                          }
-                        >
-                          <img
-                            src={`${item.image}`}
-                            srcSet={`${item.image}`}
-                            alt={item.id}
-                            loading="lazy"
-                            style={{
-                              borderBottomLeftRadius: 4,
-                              borderBottomRightRadius: 4,
-                              display: "block",
-                              width: "100%",
-                            }}
-                          />
-                        </div>
-                      )
-                  )}
-                </Masonry>
-              </Box>
-            </Box>
+            <GalleryDetail
+              searchParams={searchParams}
+              galleries={galleries}
+              arts={arts}
+              navigate={navigate}
+            />
           ) : showPrixerList ? (
-            <>
-              <Box style={{ padding: 16 }}>
-                <Box style={{ display: "flex", alignItems: "center" }}>
-                  <Typography variant="h4">Prixers</Typography>
-
-                  <IconButton
-                    color="primary"
-                    onClick={() => setShowPrixerList(false)}
-                    style={{ marginLeft: "auto" }}
-                  >
-                    <ArrowCircleLeftOutlinedIcon fontSize="large" />
-                  </IconButton>
-                </Box>
-                <Grid container spacing={1}>
-                  {[1, 2, 3, 4]?.map((item, index) => (
-                    <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={3}>
-                      <Card>
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            height="200"
-                            image="https://i.pinimg.com/originals/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg?w=162&auto=format"
-                            alt="prixer"
-                          />
-                          <CardContent>
-                            <Typography
-                              gutterBottom
-                              variant="h5"
-                              component="div"
-                            >
-                              Gleiber Granado
-                            </Typography>
-                          </CardContent>
-                        </CardActionArea>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            </>
+            <PrixerList setShowPrixerList={setShowPrixerList} />
           ) : isCreateArt ? (
-            <Box style={{ padding: 24 }}>
-              <Box style={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h4">Create Art</Typography>
-
-                <IconButton
-                  color="primary"
-                  onClick={() => setIsCreateArt(false)}
-                  style={{ marginLeft: "auto" }}
-                >
-                  <ArrowCircleLeftOutlinedIcon fontSize="large" />
-                </IconButton>
-              </Box>
-              <Grid container spacing={1}>
-                <Paper
-                  elevation={5}
-                  style={{ padding: 24, marginTop: 14, width: "100%" }}
-                >
-                  <Grid container spacing={1}>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={12}
-                      md={6}
-                      lg={4}
-                      xl={4}
-                      style={{ textAlign: "center" }}
-                    >
-                      {assetArt ? (
-                        <Button component="label">
-                          <img
-                            src={assetArt}
-                            alt="image"
-                            srcSet={`${assetArt}`}
-                            loading="lazy"
-                            style={{
-                              borderBottomLeftRadius: 4,
-                              borderBottomRightRadius: 4,
-                              display: "block",
-                              width: "100%",
-                              maxHeight: "232px",
-                            }}
-                          />
-                          <input
-                            type="file"
-                            hidden
-                            onChange={(event) => handleChange(event, false)}
-                          />
-                        </Button>
-                      ) : (
-                        <Button fullWidth component="label">
-                          <AddPhotoAlternateIcon
-                            style={{ height: 230, width: 80 }}
-                          />
-                          <input
-                            type="file"
-                            hidden
-                            onChange={(event) => handleChange(event, false)}
-                          />
-                        </Button>
-                      )}
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6} lg={8} xl={8}>
-                      <Box style={{ display: "flex" }}>
-                        <Box style={{ width: "50%", marginRight: 4 }}>
-                          <TextField
-                            type="text"
-                            label="Title"
-                            variant="outlined"
-                            required
-                            fullWidth
-                            style={{ marginBottom: 4 }}
-                            value={artTitle}
-                            onChange={(event) =>
-                              setArtTitle(event.target.value)
-                            }
-                          />
-                        </Box>
-                        <Box style={{ width: "50%" }}>
-                          <FormControl
-                            style={{ marginBottom: 4 }}
-                            required
-                            fullWidth
-                          >
-                            <InputLabel id="type-label">Type</InputLabel>
-                            <Select
-                              labelId="type-label"
-                              id="type-label-select"
-                              value={artType}
-                              onChange={(event) =>
-                                setArtType(event.target.value)
-                              }
-                              label="Type"
-                            >
-                              {artTypes?.map((type) => (
-                                <MenuItem value={type.id} key={type.id}>
-                                  {type.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </Box>
-                      </Box>
-                      <Box style={{ display: "flex" }}>
-                        <Box style={{ width: "50%", marginRight: 4 }}>
-                          <FormControl
-                            style={{ marginBottom: 4 }}
-                            required
-                            fullWidth
-                          >
-                            <InputLabel id="category-label">
-                              Category
-                            </InputLabel>
-                            <Select
-                              labelId="category-label"
-                              id="category-select"
-                              value={""}
-                              label="Category"
-                              value={artCategory}
-                              onChange={(event) =>
-                                setArtCategory(event.target.value)
-                              }
-                            >
-                              {categories?.map((type) => (
-                                <MenuItem value={type.id} key={type.id}>
-                                  {type.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </Box>
-                        <Box style={{ width: "50%" }}>
-                          <TextField
-                            type="text"
-                            label="Location"
-                            variant="outlined"
-                            fullWidth
-                            style={{ marginBottom: 4 }}
-                          />
-                        </Box>
-                      </Box>
-                      <Box style={{ display: "flex" }}>
-                        <Box style={{ width: "50%", marginRight: 4 }}>
-                          <FormControl style={{ marginBottom: 4 }} fullWidth>
-                            <InputLabel id="camera-label">Camera</InputLabel>
-                            <Select
-                              labelId="camera-label"
-                              id="category-select"
-                              value={artCamera}
-                              onChange={(event) =>
-                                setArtCamera(event.target.value)
-                              }
-                              label="Camera"
-                            >
-                              {artistTools?.map(
-                                (art) =>
-                                  tools.find((tl) => art.id === tl.id) &&
-                                  art.category.name === "Camera" && (
-                                    <MenuItem key={art.id} value={art.id}>
-                                      {art.name}
-                                    </MenuItem>
-                                  )
-                              )}
-                            </Select>
-                          </FormControl>
-                        </Box>
-                        <Box style={{ width: "50%" }}>
-                          <FormControl style={{ marginBottom: 4 }} fullWidth>
-                            <InputLabel id="camera-label">Lens</InputLabel>
-                            <Select
-                              labelId="camera-label"
-                              id="category-select"
-                              value={lensArt}
-                              onChange={(event) =>
-                                setLensArt(event.target.value)
-                              }
-                              label="Lens"
-                            >
-                              {artistTools?.map(
-                                (art) =>
-                                  tools.find((tl) => art.id === tl.id) &&
-                                  art.category.name === "Lens" && (
-                                    <MenuItem key={art.id} value={art.id}>
-                                      {art.name}
-                                    </MenuItem>
-                                  )
-                              )}
-                            </Select>
-                          </FormControl>
-                        </Box>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <FormControl style={{ marginBottom: 4 }} fullWidth>
-                        <InputLabel id="gallery-label">Gallery</InputLabel>
-                        <Select
-                          labelId="gallery-label"
-                          id="gallery-select"
-                          value={galleryArt}
-                          onChange={(event) =>
-                            setGalleryArt(event.target.value)
-                          }
-                          label="Labels"
-                        >
-                          {galleries?.map((gallery) => (
-                            <MenuItem value={gallery.id}>
-                              {gallery.info.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <TextField
-                        type="text"
-                        label="About the art"
-                        variant="outlined"
-                        fullWidth
-                        style={{ marginBottom: 4 }}
-                        multiline
-                        rows={4}
-                        value={aboutArt}
-                        onChange={(event) => setAboutArt(event.target.value)}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <TextField
-                        placeholder="labels"
-                        fullWidth
-                        value={tagValue}
-                        onChange={(event) => setTagValue(event.target.value)}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                onClick={() => addTags(tagValue)}
-                                color="primary"
-                              >
-                                <AddBoxIcon />
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </Grid>
-                    <Box style={{ marginTop: "8px", padding: 8 }}>
-                      {tagsArt?.map((tg) => (
-                        <Chip
-                          key={tg}
-                          label={tg}
-                          variant="outlined"
-                          style={{
-                            marginBottom: "8px",
-                            marginRight: "2px",
-                          }}
-                          onDelete={() =>
-                            setTagsArt(tagsArt.filter((tag) => tag !== tg))
-                          }
-                        />
-                      ))}
-                    </Box>
-                  </Grid>
-                  <Box style={{ marginTop: 12 }}>
-                    <Button
-                      variant="outlined"
-                      onClick={() => {
-                        onCreateArt({
-                          artBasics: {
-                            artGalleries:
-                              galleryArt !== "" ? [`${galleryArt}`] : [],
-                            artType: artTypes.find(
-                              (type) => type.id === artType
-                            ),
-                            title: artTitle,
-                            about: aboutArt,
-                            artCategory: categories.find(
-                              (cat) => cat.id === artCategory
-                            ),
-                            tags: tagsArt,
-                            tools: [
-                              [
-                                tools.find((tl) => tl.id === artCamera),
-                                tools.find((tl) => tl.id === lensArt),
-                              ],
-                            ],
-                          },
-                          artRequest: {
-                            Put: {
-                              key: "lol",
-                              contentType: "image/jpeg",
-                              payload: {
-                                Payload: asset,
-                              },
-                              callback: [],
-                            },
-                          },
-                        });
-                        navigate("/main?page=profile");
-                      }}
-                    >
-                      Create
-                    </Button>
-                  </Box>
-                  <Box
-                    style={{
-                      marginTop: "32px",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  ></Box>
-                </Paper>
-              </Grid>
-            </Box>
+            <ArtForm
+              isUpdate={false}
+              setIsCreateArt={setIsCreateArt}
+              assetArt={assetArt}
+              handleChange={handleChange}
+              artTitle={artTitle}
+              setArtTitle={setArtTitle}
+              artType={artType}
+              setArtType={setArtType}
+              categories={categories}
+              artCategory={artCategory}
+              setArtCategory={setArtCategory}
+              artCamera={artCamera}
+              setArtCamera={setArtCamera}
+              artistTools={artistTools}
+              lensArt={lensArt}
+              setLensArt={setLensArt}
+              galleryArt={galleryArt}
+              setGalleryArt={setGalleryArt}
+              aboutArt={aboutArt}
+              setAboutArt={setAboutArt}
+              tagValue={tagValue}
+              setTagValue={setTagValue}
+              addTags={addTags}
+              tagsArt={tagsArt}
+              setTagsArt={setTagsArt}
+              artTypes={artTypes}
+              tools={tools}
+              galleries={galleries}
+              onCreateArt={() => {
+                onCreateArt({
+                  artBasics: {
+                    artGalleries: galleryArt !== "" ? [`${galleryArt}`] : [],
+                    artType: artTypes.find((type) => type.id === artType),
+                    title: artTitle,
+                    about: aboutArt,
+                    artCategory: categories.find(
+                      (cat) => cat.id === artCategory
+                    ),
+                    tags: tagsArt,
+                    tools: [
+                      [
+                        tools.find((tl) => tl.id === artCamera),
+                        tools.find((tl) => tl.id === lensArt),
+                      ],
+                    ],
+                  },
+                  artRequest: {
+                    Put: {
+                      key: "lol",
+                      contentType: "image/jpeg",
+                      payload: {
+                        Payload: asset,
+                      },
+                      callback: [],
+                    },
+                  },
+                });
+                navigate("/main?page=profile");
+              }}
+            />
           ) : isCreateGallery ? (
-            <Box style={{ padding: 24 }}>
-              <Box style={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h4">Create Gallery</Typography>
-
-                <IconButton
-                  color="primary"
-                  onClick={() => setIsCrateGallery(false)}
-                  style={{ marginLeft: "auto" }}
-                >
-                  <ArrowCircleLeftOutlinedIcon fontSize="large" />
-                </IconButton>
-              </Box>
-              <Grid container spacing={1}>
-                <Paper
-                  elevation={5}
-                  style={{ padding: 24, marginTop: 24, width: "100%" }}
-                >
-                  <Grid container spacing={1}>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <TextField
-                        type="text"
-                        label="title"
-                        variant="outlined"
-                        fullWidth
-                        style={{ marginBottom: 4 }}
-                        value={titleGallery}
-                        onChange={(event) =>
-                          setTitleGallery(event.target.value)
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <TextField
-                        type="text"
-                        label="About the gallery"
-                        variant="outlined"
-                        fullWidth
-                        style={{ marginBottom: 4 }}
-                        multiline
-                        rows={4}
-                        value={aboutGallery}
-                        onChange={(event) =>
-                          setAboutGallery(event.target.value)
-                        }
-                      />
-                    </Grid>
-                  </Grid>
-                  <Box style={{ marginTop: 12 }}>
-                    <Button
-                      variant="outlined"
-                      onClick={() =>
-                        onCreateGallery({
-                          artGalleryBanner: [],
-                          description: aboutGallery,
-                          name: titleGallery,
-                        })
-                      }
-                    >
-                      Create
-                    </Button>
-                  </Box>
-                  <Box
-                    style={{
-                      marginTop: "32px",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  ></Box>
-                </Paper>
-              </Grid>
-            </Box>
+            <GalleryForm
+              setIsCrateGallery={setIsCrateGallery}
+              titleGallery={titleGallery}
+              setTitleGallery={setTitleGallery}
+              aboutGallery={aboutGallery}
+              setAboutGallery={setAboutGallery}
+              onCreateGallery={() =>
+                onCreateGallery({
+                  artGalleryBanner: [],
+                  description: aboutGallery,
+                  name: titleGallery,
+                })
+              }
+            />
           ) : (
             <>
               <div
@@ -1570,129 +562,20 @@ function Main() {
                 }}
               />
               <Box>
-                <Paper
-                  elevation={3}
-                  style={{
-                    marginTop: -30,
-                    marginLeft: !mobileBreakpoint ? 16 : "auto",
-                    marginRight: !mobileBreakpoint ? 16 : "auto",
-                    padding: 8,
-                    maxWidth: mobileBreakpoint && 600,
-                  }}
-                >
-                  <Box style={{ display: "flex", alignItems: "center" }}>
-                    <Box style={{ marginRight: "12px" }}>
-                      {!isShowToolsInfo && (
-                        <Avatar
-                          src={avatar && avatar}
-                          style={{ width: 48, height: 48 }}
-                        />
-                      )}
-                    </Box>
-                    <Box>
-                      <Box>
-                        <Typography variant="body1">
-                          {isShowToolsInfo ? (
-                            <Box
-                              style={{ display: "flex", alignItems: "center" }}
-                            >
-                              <CameraAltIcon
-                                fontFamily="small"
-                                color="primary"
-                              />{" "}
-                              {`${currentTools?.camera?.name}`}
-                            </Box>
-                          ) : (
-                            `${currentProfile.givenName[0]} ${currentProfile.familyName[0]}`
-                          )}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="body2">
-                          {isShowToolsInfo ? (
-                            <Box
-                              style={{ display: "flex", alignItems: "center" }}
-                            >
-                              <CameraIcon fontFamily="small" color="primary" />
-                              {`${currentTools?.lens?.name}`}
-                            </Box>
-                          ) : (
-                            `${currentProfile.displayName[0]}`
-                          )}
-                        </Typography>
-                      </Box>
-                      {!isShowToolsInfo && (
-                        <Box>
-                          <Typography variant="body2">
-                            {`${currentProfile.about[0]}`}
-                          </Typography>
-                        </Box>
-                      )}
-                    </Box>
-                    <Box style={{ marginLeft: "auto" }}>
-                      <Box style={{ display: "flex" }}>
-                        <Box>
-                          <IconButton
-                            size="small"
-                            color="primary"
-                            onClick={() => setIsShowToolsInfo(!isShowToolsInfo)}
-                          >
-                            {isShowToolsInfo ? (
-                              <AccountCircleIcon
-                                fontFamily="small"
-                                color="primary"
-                              />
-                            ) : (
-                              <CameraAltIcon
-                                fontFamily="small"
-                                color="primary"
-                              />
-                            )}
-                          </IconButton>
-                        </Box>
-                        <Box>
-                          <IconButton
-                            size="small"
-                            color="primary"
-                            onClick={() =>
-                              navigate("/main?page=profile&isEdit=true")
-                            }
-                          >
-                            <EditIcon fontFamily="small" color="primary" />
-                          </IconButton>
-                        </Box>
-                      </Box>
-                      <Box style={{ display: "flex", justifyContent: "end" }}>
-                        <IconButton
-                          size="small"
-                          color="primary"
-                          aria-controls={open ? "basic-menu" : undefined}
-                          aria-haspopup="true"
-                          aria-expanded={open ? "true" : undefined}
-                          onClick={handleClick}
-                        >
-                          <MoreHorizIcon color="primary" fontFamily="small" />
-                        </IconButton>
-                        <Menu
-                          id="basic-menu"
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={() => setAnchorEl(null)}
-                          MenuListProps={{
-                            "aria-labelledby": "basic-button",
-                          }}
-                        >
-                          <MenuItem
-                            style={{ color: "red" }}
-                            onClick={() => deleteProfile()}
-                          >
-                            Delete profile
-                          </MenuItem>
-                        </Menu>
-                      </Box>
-                    </Box>
-                  </Box>
-                </Paper>
+                <PaperProfile
+                  mobileBreakpoint={mobileBreakpoint}
+                  isShowToolsInfo={isShowToolsInfo}
+                  currentProfile={currentProfile}
+                  currentTools={currentTools}
+                  setIsShowToolsInfo={setIsShowToolsInfo}
+                  deleteProfile={deleteProfile}
+                  avatar={avatar}
+                  handleClick={handleClick}
+                  anchorEl={anchorEl}
+                  setAnchorEl={setAnchorEl}
+                  open={open}
+                  navigate={navigate}
+                />
                 <Box
                   style={{
                     marginTop: 16,
@@ -1733,191 +616,28 @@ function Main() {
                 </Box>
                 <Box style={{ padding: 16, paddingBottom: 72 }}>
                   {isArtSelected ? (
-                    <Masonry columns={3} spacing={0.2}>
-                      {arts?.map((item, index) => (
-                        <div
-                          key={index}
-                          onClick={() =>
-                            navigate("/main?page=profile&image=" + item.id)
-                          }
-                        >
-                          <img
-                            src={`${item.image}`}
-                            srcSet={`${item.image}`}
-                            alt={item.id}
-                            loading="lazy"
-                            style={{
-                              borderBottomLeftRadius: 4,
-                              borderBottomRightRadius: 4,
-                              display: "block",
-                              width: "100%",
-                            }}
-                          />
-                        </div>
-                      ))}
-                    </Masonry>
+                    <ListArts
+                      navigate={navigate}
+                      arts={arts}
+                      setOpen={setIsDialogOpen}
+                    />
                   ) : (
-                    <Grid container spacing={1}>
-                      {galleries?.map((item, index) => (
-                        <Grid
-                          key={index}
-                          item
-                          xs={12}
-                          sm={4}
-                          md={4}
-                          lg={4}
-                          xl={3}
-                        >
-                          <Card
-                            onClick={() =>
-                              navigate(`/main?page=profile&gallery=${item.id}`)
-                            }
-                          >
-                            <CardMedia
-                              component="img"
-                              height="180"
-                              image={
-                                item.image
-                                  ? item.image.image
-                                  : "https://images.unsplash.com/photo-1643310638896-b73dd89c4597?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTQwNjY0MA&ixlib=rb-1.2.1&q=80&w=1080"
-                              }
-                              alt="image"
-                            />
-                            <CardContent>
-                              <Box
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <Box
-                                  style={{
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                  }}
-                                >
-                                  <Typography
-                                    gutterBottom
-                                    variant="h5"
-                                    component="div"
-                                  >
-                                    {item.info.name}
-                                  </Typography>
-                                </Box>
-                                <Box style={{ marginLeft: "auto" }}>
-                                  <IconButton
-                                    color="primary"
-                                    onClick={() => deleteGallery(item.id)}
-                                  >
-                                    <DeleteIcon />
-                                  </IconButton>
-                                </Box>
-                              </Box>
-
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                              >
-                                {item.info.description}
-                              </Typography>
-                            </CardContent>
-                          </Card>
-                        </Grid>
-                      ))}
-                    </Grid>
+                    <ListGalleries
+                      galleries={galleries}
+                      navigate={navigate}
+                      deleteGallery={deleteGallery}
+                    />
                   )}
                 </Box>
                 {!mobileBreakpoint ? (
-                  <Paper
-                    elevation={5}
-                    style={{
-                      height: 60,
-                      backgroundColor: "#FFFFFF",
-                      width: "100%",
-                      bottom: 0,
-                      position: "fixed",
-                      display: "flex",
-                      alignItems: "center",
-                      // padding: 16,
-                    }}
-                  >
-                    <Box style={{ width: "20%", textAlign: "center" }}>
-                      <IconButton color="primary">
-                        <HomeIcon fontSize="large" />
-                      </IconButton>
-                    </Box>
-                    <Box style={{ width: "20%", textAlign: "center" }}>
-                      <IconButton
-                        color="primary"
-                        // onClick={() => setShowPrixerList(true)}
-                      >
-                        <Typography
-                          style={{
-                            fontSize: 32,
-
-                            fontWeight: "bold",
-                          }}
-                        >
-                          P
-                        </Typography>
-                      </IconButton>
-                    </Box>
-                    <Box
-                      style={{
-                        width: "20%",
-                        textAlign: "center",
-                        marginTop: -45,
-                      }}
-                    >
-                      <Fab
-                        color="primary"
-                        id="basic-button"
-                        aria-controls={openCreation ? "basic-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={openCreation ? "true" : undefined}
-                        onClick={handleClickCreation}
-                      >
-                        <AddIcon />
-                      </Fab>
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={anchorElCreation}
-                        open={openCreation}
-                        onClose={() => setAnchorElCreation(null)}
-                        MenuListProps={{
-                          "aria-labelledby": "basic-button",
-                        }}
-                      >
-                        <MenuItem
-                          onClick={() => {
-                            setIsCreateArt(true);
-                            setAnchorElCreation(null);
-                          }}
-                        >
-                          Create Art
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            setIsCrateGallery(true);
-                            setAnchorElCreation(null);
-                          }}
-                        >
-                          Create Gallery
-                        </MenuItem>
-                      </Menu>
-                    </Box>
-                    <Box style={{ width: "20%", textAlign: "center" }}>
-                      <IconButton color="primary">
-                        <LocalFireDepartmentIcon fontSize="large" />
-                      </IconButton>
-                    </Box>
-                    <Box style={{ width: "20%", textAlign: "center" }}>
-                      <IconButton color="primary">
-                        <AccountCircleIcon fontSize="large" />
-                      </IconButton>
-                    </Box>
-                  </Paper>
+                  <NavigationBar
+                    openCreation={openCreation}
+                    handleClickCreation={handleClickCreation}
+                    setAnchorElCreation={setAnchorElCreation}
+                    anchorElCreation={anchorElCreation}
+                    setIsCreateArt={setIsCreateArt}
+                    setIsCrateGallery={setIsCrateGallery}
+                  />
                 ) : (
                   <>
                     <Fab
@@ -2270,6 +990,7 @@ function Main() {
       >
         <Alert severity={severity}>{message}</Alert>
       </Snackbar>
+      <DialogDislike open={isDialogOpen} setOpen={setIsDialogOpen} />
     </div>
   );
 

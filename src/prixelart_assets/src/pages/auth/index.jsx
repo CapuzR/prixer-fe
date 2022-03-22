@@ -2,8 +2,6 @@ import React, { useState, useEffect, forwardRef } from "react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -23,10 +21,10 @@ import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import Loading from "../../components/loading";
 import service from "../service";
+import Navbar from "../../components/navbar";
 
 const toolbarHeight = 68;
 
@@ -78,14 +76,12 @@ function Auth() {
             backgroundSize: "cover",
           }}
         >
-          <MuiAppBar
-            position="fixed"
-            style={{ background: "transparent", height: toolbarHeight }}
-          >
-            <Toolbar>
-              <img src={""} alt="logo" />
-            </Toolbar>
-          </MuiAppBar>
+          <Navbar
+            onLogout={console.log}
+            toolbarHeight={toolbarHeight}
+            isAuth={true}
+          />
+
           <Box style={{ paddingTop: toolbarHeight }}>
             <Box
               style={{
@@ -108,17 +104,7 @@ function Auth() {
       )}
       {isWalletAuth && (
         <div>
-          <MuiAppBar style={{ height: toolbarHeight }} position="fixed">
-            <Toolbar>
-              <img src={""} alt="logo" />
-              <IconButton
-                style={{ color: "white", marginLeft: "auto" }}
-                onClick={onLogout}
-              >
-                <ExitToAppIcon style={{ color: "white" }} />
-              </IconButton>
-            </Toolbar>
-          </MuiAppBar>
+          <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
           <Box style={{ paddingTop: toolbarHeight }}>
             <Box style={{ padding: "32px", paddingTop: "16px" }}>
               <Typography variant="h4">Welcome!</Typography>
