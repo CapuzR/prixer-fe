@@ -1,192 +1,165 @@
 import type { Principal } from '@dfinity/principal';
-export interface Art {
+export interface ArtistRead {
+  'postsQty' : bigint,
+  'followedByCaller' : boolean,
+  'postsRead' : [] | [Array<PostRead__1>],
+  'followersQty' : bigint,
+  'galleriesQty' : bigint,
+  'followsQty' : bigint,
+}
+export interface Comment {
   'createdAt' : bigint,
-  'artistPpal' : Principal,
-  'artBasics' : ArtBasics,
+  'commentBasics' : CommentBasics,
 }
-export interface ArtBasics {
+export interface CommentBasics {
+  'content' : string,
+  'details' : [] | [Array<[string, DetailValue]>],
+  'category' : [] | [string],
+}
+export interface CommentCreate { 'commentBasics' : CommentBasics }
+export interface CommentCreate__1 { 'commentBasics' : CommentBasics }
+export interface Comment__1 {
+  'createdAt' : bigint,
+  'commentBasics' : CommentBasics,
+}
+export type DetailValue = { 'I64' : bigint } |
+  { 'U64' : bigint } |
+  { 'Vec' : Array<DetailValue> } |
+  { 'Slice' : Array<number> } |
+  { 'Text' : string } |
+  { 'True' : null } |
+  { 'False' : null } |
+  { 'Float' : number } |
+  { 'Principal' : Principal };
+export type Error = { 'NotAuthorized' : null } |
+  { 'BadParameters' : null } |
+  { 'Unknown' : string } |
+  { 'NonExistentItem' : null };
+export interface Follow {
+  'artistUsername' : string,
+  'artistPrincipal' : Principal,
+  'followedByCaller' : boolean,
+}
+export interface Gallery {
+  'id' : string,
+  'name' : string,
+  'createdAt' : bigint,
+  'galleryBanner' : [] | [string],
+  'description' : string,
+  'artistPpal' : Principal,
+}
+export interface GalleryCreate {
+  'name' : string,
+  'galleryBanner' : [] | [string],
+  'description' : string,
+  'artistPpal' : Principal,
+}
+export interface GalleryUpdate {
+  'id' : string,
+  'name' : string,
+  'galleryBanner' : [] | [string],
+  'description' : string,
+}
+export interface Post { 'createdAt' : bigint, 'postBasics' : PostBasics }
+export interface PostBasics {
   'title' : string,
-  'tools' : [] | [Array<ToolUpdate__1>],
-  'about' : string,
+  'tools' : [] | [Array<[string, string]>],
+  'asset' : string,
   'tags' : Array<string>,
-  'artType' : ArtTypeUpdate,
-  'artCategory' : ArtCategoryUpdate__1,
-  'artGalleries' : [] | [string],
-}
-export interface ArtCategory { 'name' : string, 'description' : string }
-export interface ArtCategoryUpdate {
-  'id' : string,
-  'name' : string,
+  'artType' : string,
   'description' : string,
+  'artCategory' : string,
+  'details' : Array<[string, DetailValue]>,
 }
-export interface ArtCategoryUpdate__1 {
-  'id' : string,
-  'name' : string,
-  'description' : string,
+export interface PostCreate {
+  'postImage' : Array<number>,
+  'postBasics' : PostBasics,
 }
-export interface ArtGallery {
-  'name' : string,
-  'description' : string,
-  'artGalleryBanner' : [] | [string],
-  'artistPpal' : Principal,
+export interface PostRead {
+  'suggestions' : [] | [Array<[Principal, string, string, Suggestion]>],
+  'post' : Post,
+  'likesQty' : bigint,
+  'comments' : [] | [Array<[Principal, string, string, Comment]>],
 }
-export interface ArtGalleryUpdate {
-  'name' : string,
-  'description' : string,
-  'artGalleryBanner' : [] | [string],
+export interface PostRead__1 {
+  'suggestions' : [] | [Array<[Principal, string, string, Suggestion]>],
+  'post' : Post,
+  'likesQty' : bigint,
+  'comments' : [] | [Array<[Principal, string, string, Comment]>],
 }
-export interface ArtType { 'name' : string, 'description' : string }
-export interface ArtTypeUpdate {
-  'id' : string,
-  'name' : string,
-  'description' : string,
-}
-export interface ArtTypeUpdate__1 {
-  'id' : string,
-  'name' : string,
-  'description' : string,
-}
-export interface ArtUpdate {
-  'artBasics' : ArtBasics,
-  'artRequest' : AssetRequest,
-}
-export interface Artist { 'tools' : Array<ToolUpdate__1>, 'createdAt' : bigint }
-export interface Asset {
-  'contentType' : string,
-  'payload' : Array<Array<number>>,
-}
-export type AssetRequest = {
-    'Put' : {
-      'key' : string,
-      'contentType' : string,
-      'callback' : [] | [Callback],
-      'payload' : { 'StagedData' : null } |
-        { 'Payload' : Array<number> },
-    }
-  } |
-  { 'Remove' : { 'key' : string, 'callback' : [] | [Callback] } } |
-  { 'StagedWrite' : WriteAsset };
-export type Callback = () => Promise<undefined>;
-export type Error = { 'Immutable' : null } |
-  { 'NotFound' : null } |
-  { 'NotAuthorized' : null } |
-  { 'Unauthorized' : null } |
-  { 'AlreadyExists' : null } |
-  { 'InvalidRequest' : null } |
-  { 'AuthorizedPrincipalLimitReached' : bigint } |
-  { 'FailedToWrite' : string };
+export interface PostUpdate { 'postBasics' : PostBasics, 'postId' : string }
 export type Result = { 'ok' : null } |
   { 'err' : Error };
-export type Result_1 = { 'ok' : ToolCategoryUpdate } |
+export type Result_1 = { 'ok' : bigint } |
   { 'err' : Error };
-export type Result_10 = { 'ok' : Array<ToolCategoryUpdate> } |
+export type Result_2 = { 'ok' : Array<PostRead> } |
   { 'err' : Error };
-export type Result_11 = { 'ok' : Array<ArtTypeUpdate__1> } |
-  { 'err' : Error };
-export type Result_12 = { 'ok' : Array<ArtCategoryUpdate> } |
-  { 'err' : Error };
-export type Result_13 = {
-    'ok' : [Array<[string, Art]>, Array<[string, Asset]>]
+export type Result_3 = {
+    'ok' : Array<[Principal, string, string, Suggestion__1]>
   } |
   { 'err' : Error };
-export type Result_2 = { 'ok' : ToolUpdate } |
+export type Result_4 = { 'ok' : PostRead } |
   { 'err' : Error };
-export type Result_3 = { 'ok' : Array<[string, Art, Asset]> } |
+export type Result_5 = { 'ok' : Array<[string, Gallery]> } |
   { 'err' : Error };
-export type Result_4 = { 'ok' : Artist } |
-  { 'err' : Error };
-export type Result_5 = { 'ok' : ArtTypeUpdate__1 } |
-  { 'err' : Error };
-export type Result_6 = { 'ok' : Array<[string, ArtGallery]> } |
-  { 'err' : Error };
-export type Result_7 = { 'ok' : ArtCategoryUpdate } |
-  { 'err' : Error };
-export type Result_8 = { 'ok' : [Art, [] | [Asset]] } |
-  { 'err' : Error };
-export type Result_9 = { 'ok' : Array<ToolUpdate> } |
-  { 'err' : Error };
-export interface Tool {
-  'name' : string,
-  'description' : string,
-  'category' : ToolCategoryUpdate__1,
-}
-export interface ToolCategory {
-  'name' : string,
-  'artType' : ArtTypeUpdate,
-  'description' : string,
-}
-export interface ToolCategoryUpdate {
-  'id' : string,
-  'name' : string,
-  'artType' : ArtTypeUpdate,
-  'description' : string,
-}
-export interface ToolCategoryUpdate__1 {
-  'id' : string,
-  'name' : string,
-  'artType' : ArtTypeUpdate,
-  'description' : string,
-}
-export interface ToolUpdate {
-  'id' : string,
-  'name' : string,
-  'description' : string,
-  'category' : ToolCategoryUpdate__1,
-}
-export interface ToolUpdate__1 {
-  'id' : string,
-  'name' : string,
-  'description' : string,
-  'category' : ToolCategoryUpdate__1,
-}
-export type WriteAsset = {
-    'Init' : { 'id' : string, 'size' : bigint, 'callback' : [] | [Callback] }
+export type Result_6 = {
+    'ok' : Array<[Principal, string, string, Comment__1]>
   } |
-  {
-    'Chunk' : {
-      'id' : string,
-      'chunk' : Array<number>,
-      'callback' : [] | [Callback],
-    }
-  };
+  { 'err' : Error };
+export type Result_7 = { 'ok' : ArtistRead } |
+  { 'err' : Error };
+export type Result_8 = { 'ok' : Array<Follow> } |
+  { 'err' : Error };
+export type Result_9 = { 'ok' : Array<Principal> } |
+  { 'err' : Error };
+export interface Suggestion { 'createdAt' : bigint, 'comment' : CommentCreate }
+export interface SuggestionCreate { 'comment' : CommentCreate }
+export interface Suggestion__1 {
+  'createdAt' : bigint,
+  'comment' : CommentCreate,
+}
 export interface _SERVICE {
-  'createArt' : (arg_0: ArtUpdate) => Promise<Result>,
-  'createArtCategory' : (arg_0: ArtCategory) => Promise<Result>,
-  'createArtGallery' : (arg_0: ArtGalleryUpdate) => Promise<Result>,
-  'createArtType' : (arg_0: ArtType) => Promise<Result>,
-  'createArtist' : (arg_0: Array<ToolUpdate>) => Promise<Result>,
-  'createTool' : (arg_0: Tool) => Promise<Result>,
-  'createToolCategory' : (arg_0: ToolCategory) => Promise<Result>,
-  'deleteArt' : (arg_0: string) => Promise<Result>,
-  'deleteArtCategory' : (arg_0: string) => Promise<Result>,
-  'deleteArtGallery' : (arg_0: string) => Promise<Result>,
-  'deleteArtType' : (arg_0: string) => Promise<Result>,
-  'deleteArtist' : () => Promise<Result>,
-  'deleteTool' : (arg_0: string) => Promise<Result>,
-  'deleteToolCategory' : (arg_0: string) => Promise<Result>,
-  'getAssets' : () => Promise<Array<[string, Asset]>>,
-  'privReadArt' : (arg_0: string) => Promise<Result_8>,
-  'readAllArt' : () => Promise<Result_13>,
-  'readAllArtCategories' : () => Promise<Result_12>,
-  'readAllArtTypes' : () => Promise<Result_11>,
-  'readAllToolCategories' : () => Promise<Result_10>,
-  'readAllTools' : () => Promise<Result_9>,
-  'readArtById' : (arg_0: string) => Promise<Result_8>,
-  'readArtCategory' : (arg_0: string) => Promise<Result_7>,
-  'readArtGalleriesByArtist' : (arg_0: Principal) => Promise<Result_6>,
-  'readArtType' : (arg_0: string) => Promise<Result_5>,
-  'readArtist' : () => Promise<Result_4>,
-  'readArtsByArtGallery' : (arg_0: string) => Promise<Result_3>,
-  'readArtsByArtist' : (arg_0: Principal) => Promise<Result_3>,
-  'readTool' : (arg_0: string) => Promise<Result_2>,
-  'readToolCategory' : (arg_0: string) => Promise<Result_1>,
-  'updateArt' : (arg_0: ArtUpdate, arg_1: string) => Promise<Result>,
-  'updateArtCategory' : (arg_0: ArtCategoryUpdate) => Promise<Result>,
-  'updateArtGallery' : (arg_0: ArtGalleryUpdate, arg_1: string) => Promise<
+  'addFollow' : (arg_0: string) => Promise<Result>,
+  'addLike' : (arg_0: string) => Promise<Result>,
+  'addSuggestion' : (arg_0: string, arg_1: SuggestionCreate) => Promise<Result>,
+  'artistsCommentsSize' : (arg_0: Principal) => Promise<bigint>,
+  'authorize' : (arg_0: Principal) => Promise<Result>,
+  'authorizedArr' : () => Promise<Result_9>,
+  'commentsSize' : () => Promise<bigint>,
+  'createComment' : (arg_0: string, arg_1: CommentCreate__1) => Promise<Result>,
+  'createGallery' : (arg_0: GalleryCreate) => Promise<Result>,
+  'createPost' : (arg_0: PostCreate) => Promise<Result>,
+  'readArtistFollowers' : (arg_0: string) => Promise<Result_8>,
+  'readArtistFollowersQty' : (arg_0: string) => Promise<Result_1>,
+  'readArtistFollows' : (arg_0: string) => Promise<Result_8>,
+  'readArtistFollowsQty' : (arg_0: string) => Promise<Result_1>,
+  'readArtistProfile' : (arg_0: string) => Promise<Result_7>,
+  'readComments' : (arg_0: string) => Promise<Result_6>,
+  'readCommentsQty' : (arg_0: string) => Promise<Result_1>,
+  'readFirstCommentById' : (arg_0: string) => Promise<string>,
+  'readFirstPostId' : (arg_0: Principal) => Promise<string>,
+  'readFollowsPostsByCreation' : (
+      arg_0: string,
+      arg_1: bigint,
+      arg_2: bigint,
+    ) => Promise<Result_2>,
+  'readGalleriesByArtist' : (arg_0: string) => Promise<Result_5>,
+  'readLikesQtyByArtist' : (arg_0: string) => Promise<Result_1>,
+  'readLikesQtyByTarget' : (arg_0: string) => Promise<Result_1>,
+  'readPostById' : (arg_0: string) => Promise<Result_4>,
+  'readPostSuggestions' : (arg_0: string) => Promise<Result_3>,
+  'readPostsByCreation' : (arg_0: bigint, arg_1: bigint) => Promise<Result_2>,
+  'readSuggestionsQtyByArtist' : (arg_0: string) => Promise<Result_1>,
+  'readSuggestionsQtyByPost' : (arg_0: string) => Promise<Result_1>,
+  'relPrincipalWithUsername' : (arg_0: Principal, arg_1: string) => Promise<
       Result
     >,
-  'updateArtType' : (arg_0: ArtTypeUpdate__1) => Promise<Result>,
-  'updateArtist' : (arg_0: Array<ToolUpdate>) => Promise<Result>,
-  'updateTool' : (arg_0: ToolUpdate) => Promise<Result>,
-  'updateToolCategory' : (arg_0: ToolCategoryUpdate) => Promise<Result>,
+  'removeComment' : (arg_0: string, arg_1: string) => Promise<Result>,
+  'removeFollow' : (arg_0: string) => Promise<Result>,
+  'removeGallery' : (arg_0: string) => Promise<Result>,
+  'removeLike' : (arg_0: string) => Promise<Result>,
+  'removePost' : (arg_0: string) => Promise<Result>,
+  'removeSuggestion' : (arg_0: string, arg_1: string) => Promise<Result>,
+  'updateArtGallery' : (arg_0: GalleryUpdate) => Promise<Result>,
+  'updatePost' : (arg_0: PostUpdate) => Promise<Result>,
 }

@@ -11,17 +11,22 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
 import HomeIcon from "@mui/icons-material/Home";
-import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+// import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
 
 function NavigationBar({
-  openCreation,
-  handleClickCreation,
-  setAnchorElCreation,
-  anchorElCreation,
+  openActionMenu,
+  hanleOpenActionMenu,
+  setAnchorElActionMenu,
+  anchorElActionMenu,
+  setOpenActionMenu,
   setIsCreateArt,
   setIsCrateGallery,
+  navigate,
+  artist,
+  params,
 }) {
   return (
     <Paper
@@ -34,19 +39,15 @@ function NavigationBar({
         position: "fixed",
         display: "flex",
         alignItems: "center",
-        // padding: 16,
       }}
     >
       <Box style={{ width: "20%", textAlign: "center" }}>
-        <IconButton color="primary">
+        <IconButton color="primary" onClick={() => navigate("/main")}>
           <HomeIcon fontSize="large" />
         </IconButton>
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
-        <IconButton
-          color="primary"
-          // onClick={() => setShowPrixerList(true)}
-        >
+        <IconButton color="primary">
           <Typography
             style={{
               fontSize: 32,
@@ -68,18 +69,21 @@ function NavigationBar({
         <Fab
           color="primary"
           id="basic-button"
-          aria-controls={openCreation ? "basic-menu" : undefined}
+          aria-controls={openActionMenu ? "basic-menu" : undefined}
           aria-haspopup="true"
-          aria-expanded={openCreation ? "true" : undefined}
-          onClick={handleClickCreation}
+          aria-expanded={openActionMenu ? "true" : undefined}
+          onClick={hanleOpenActionMenu}
         >
           <AddIcon />
         </Fab>
         <Menu
           id="basic-menu"
-          anchorEl={anchorElCreation}
-          open={openCreation}
-          onClose={() => setAnchorElCreation(null)}
+          anchorEl={anchorElActionMenu}
+          open={openActionMenu}
+          onClose={() => {
+            setOpenActionMenu(false);
+            setAnchorElActionMenu(null);
+          }}
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
@@ -87,7 +91,9 @@ function NavigationBar({
           <MenuItem
             onClick={() => {
               setIsCreateArt(true);
-              setAnchorElCreation(null);
+              setAnchorElActionMenu(null);
+              setOpenActionMenu(false);
+              navigate("/addArt");
             }}
           >
             Create Art
@@ -95,7 +101,8 @@ function NavigationBar({
           <MenuItem
             onClick={() => {
               setIsCrateGallery(true);
-              setAnchorElCreation(null);
+              setAnchorElActionMenu(null);
+              setOpenActionMenu(false);
             }}
           >
             Create Gallery
@@ -104,11 +111,15 @@ function NavigationBar({
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
         <IconButton color="primary">
-          <LocalFireDepartmentIcon fontSize="large" />
+          <SearchIcon fontSize="large" />
         </IconButton>
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
-        <IconButton color="primary">
+        <IconButton
+          disabled={!artist && params === localStorage.getItem("username")}
+          color="primary"
+          onClick={() => navigate(`/u/${localStorage.getItem("username")}`)}
+        >
           <AccountCircleIcon fontSize="large" />
         </IconButton>
       </Box>

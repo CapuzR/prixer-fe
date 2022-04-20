@@ -1,292 +1,257 @@
-type WriteAsset = 
- variant {
-   Chunk: record {
-            callback: opt Callback;
-            chunk: blob;
-            id: text;
-          };
-   Init: record {
-           callback: opt Callback;
-           id: text;
-           size: nat;
-         };
- };
-type ToolUpdate__1 = 
+type Suggestion__1 = 
  record {
-   category: ToolCategoryUpdate__1;
-   description: text;
-   id: text;
-   name: text;
+   comment: CommentCreate;
+   createdAt: int;
  };
-type ToolUpdate = 
+type SuggestionCreate = record {comment: CommentCreate;};
+type Suggestion = 
  record {
-   category: ToolCategoryUpdate__1;
-   description: text;
-   id: text;
-   name: text;
- };
-type ToolCategoryUpdate__1 = 
- record {
-   artType: ArtTypeUpdate;
-   description: text;
-   id: text;
-   name: text;
- };
-type ToolCategoryUpdate = 
- record {
-   artType: ArtTypeUpdate;
-   description: text;
-   id: text;
-   name: text;
- };
-type ToolCategory = 
- record {
-   artType: ArtTypeUpdate;
-   description: text;
-   name: text;
- };
-type Tool = 
- record {
-   category: ToolCategoryUpdate__1;
-   description: text;
-   name: text;
+   comment: CommentCreate;
+   createdAt: int;
  };
 type Result_9 = 
  variant {
    err: Error;
-   ok: vec ToolUpdate;
+   ok: vec principal;
  };
 type Result_8 = 
  variant {
    err: Error;
-   ok: record {
-         Art;
-         opt Asset;
-       };
+   ok: vec Follow;
  };
 type Result_7 = 
  variant {
    err: Error;
-   ok: ArtCategoryUpdate;
+   ok: ArtistRead;
  };
 type Result_6 = 
  variant {
    err: Error;
    ok: vec record {
+             principal;
              text;
-             ArtGallery;
+             text;
+             Comment__1;
            };
  };
 type Result_5 = 
  variant {
    err: Error;
-   ok: ArtTypeUpdate__1;
+   ok: vec record {
+             text;
+             Gallery;
+           };
  };
 type Result_4 = 
  variant {
    err: Error;
-   ok: Artist;
+   ok: PostRead;
  };
 type Result_3 = 
  variant {
    err: Error;
    ok: vec record {
+             principal;
              text;
-             Art;
-             Asset;
+             text;
+             Suggestion__1;
            };
  };
 type Result_2 = 
  variant {
    err: Error;
-   ok: ToolUpdate;
- };
-type Result_13 = 
- variant {
-   err: Error;
-   ok: record {
-         vec record {
-               text;
-               Art;
-             };
-         vec record {
-               text;
-               Asset;
-             };
-       };
- };
-type Result_12 = 
- variant {
-   err: Error;
-   ok: vec ArtCategoryUpdate;
- };
-type Result_11 = 
- variant {
-   err: Error;
-   ok: vec ArtTypeUpdate__1;
- };
-type Result_10 = 
- variant {
-   err: Error;
-   ok: vec ToolCategoryUpdate;
+   ok: vec PostRead;
  };
 type Result_1 = 
  variant {
    err: Error;
-   ok: ToolCategoryUpdate;
+   ok: nat;
  };
 type Result = 
  variant {
    err: Error;
    ok;
  };
-type Error = 
- variant {
-   AlreadyExists;
-   AuthorizedPrincipalLimitReached: nat;
-   FailedToWrite: text;
-   Immutable;
-   InvalidRequest;
-   NotAuthorized;
-   NotFound;
-   Unauthorized;
- };
-type Callback = func () -> ();
-type AssetRequest = 
- variant {
-   Put:
-    record {
-      callback: opt Callback;
-      contentType: text;
-      key: text;
-      payload: variant {
-                 Payload: blob;
-                 StagedData;
-               };
-    };
-   Remove: record {
-             callback: opt Callback;
-             key: text;
-           };
-   StagedWrite: WriteAsset;
- };
-type Asset = 
+type PostUpdate = 
  record {
-   contentType: text;
-   payload: vec blob;
+   postBasics: PostBasics;
+   postId: text;
  };
-type Artist = 
+type PostRead__1 = 
  record {
-   createdAt: int;
-   tools: vec ToolUpdate__1;
+   comments: opt vec record {
+                       principal;
+                       text;
+                       text;
+                       Comment;
+                     };
+   likesQty: int;
+   post: Post;
+   suggestions: opt vec record {
+                          principal;
+                          text;
+                          text;
+                          Suggestion;
+                        };
  };
-type ArtUpdate = 
+type PostRead = 
  record {
-   artBasics: ArtBasics;
-   artRequest: AssetRequest;
+   comments: opt vec record {
+                       principal;
+                       text;
+                       text;
+                       Comment;
+                     };
+   likesQty: int;
+   post: Post;
+   suggestions: opt vec record {
+                          principal;
+                          text;
+                          text;
+                          Suggestion;
+                        };
  };
-type ArtTypeUpdate__1 = 
+type PostCreate = 
  record {
+   postBasics: PostBasics;
+   postImage: blob;
+ };
+type PostBasics = 
+ record {
+   artCategory: text;
+   artType: text;
+   asset: text;
    description: text;
-   id: text;
-   name: text;
- };
-type ArtTypeUpdate = 
- record {
-   description: text;
-   id: text;
-   name: text;
- };
-type ArtType = 
- record {
-   description: text;
-   name: text;
- };
-type ArtGalleryUpdate = 
- record {
-   artGalleryBanner: opt text;
-   description: text;
-   name: text;
- };
-type ArtGallery = 
- record {
-   artGalleryBanner: opt text;
-   artistPpal: principal;
-   description: text;
-   name: text;
- };
-type ArtCategoryUpdate__1 = 
- record {
-   description: text;
-   id: text;
-   name: text;
- };
-type ArtCategoryUpdate = 
- record {
-   description: text;
-   id: text;
-   name: text;
- };
-type ArtCategory = 
- record {
-   description: text;
-   name: text;
- };
-type ArtBasics = 
- record {
-   about: text;
-   artCategory: ArtCategoryUpdate__1;
-   artGalleries: opt text;
-   artType: ArtTypeUpdate;
+   details: vec record {
+                  text;
+                  DetailValue;
+                };
    tags: vec text;
    title: text;
-   tools: opt vec ToolUpdate__1;
+   tools: opt vec record {
+                    text;
+                    text;
+                  };
  };
-type Art = 
+type Post = 
  record {
-   artBasics: ArtBasics;
+   createdAt: int;
+   postBasics: PostBasics;
+ };
+type GalleryUpdate = 
+ record {
+   description: text;
+   galleryBanner: opt text;
+   id: text;
+   name: text;
+ };
+type GalleryCreate = 
+ record {
+   artistPpal: principal;
+   description: text;
+   galleryBanner: opt text;
+   name: text;
+ };
+type Gallery = 
+ record {
    artistPpal: principal;
    createdAt: int;
+   description: text;
+   galleryBanner: opt text;
+   id: text;
+   name: text;
+ };
+type Follow = 
+ record {
+   artistPrincipal: principal;
+   artistUsername: text;
+   followedByCaller: bool;
+ };
+type Error = 
+ variant {
+   BadParameters;
+   NonExistentItem;
+   NotAuthorized;
+   Unknown: text;
+ };
+type DetailValue = 
+ variant {
+   False;
+   Float: float64;
+   I64: int64;
+   Principal: principal;
+   Slice: vec nat8;
+   Text: text;
+   True;
+   U64: nat64;
+   Vec: vec DetailValue;
+ };
+type Comment__1 = 
+ record {
+   commentBasics: CommentBasics;
+   createdAt: int;
+ };
+type CommentCreate__1 = record {commentBasics: CommentBasics;};
+type CommentCreate = record {commentBasics: CommentBasics;};
+type CommentBasics = 
+ record {
+   category: opt text;
+   content: text;
+   details: opt vec record {
+                      text;
+                      DetailValue;
+                    };
+ };
+type Comment = 
+ record {
+   commentBasics: CommentBasics;
+   createdAt: int;
+ };
+type ArtistRead = 
+ record {
+   followedByCaller: bool;
+   followersQty: nat;
+   followsQty: nat;
+   galleriesQty: nat;
+   postsQty: nat;
+   postsRead: opt vec PostRead__1;
  };
 service : {
-  createArt: (ArtUpdate) -> (Result);
-  createArtCategory: (ArtCategory) -> (Result);
-  createArtGallery: (ArtGalleryUpdate) -> (Result);
-  createArtType: (ArtType) -> (Result);
-  createArtist: (vec ToolUpdate) -> (Result);
-  createTool: (Tool) -> (Result);
-  createToolCategory: (ToolCategory) -> (Result);
-  deleteArt: (text) -> (Result);
-  deleteArtCategory: (text) -> (Result);
-  deleteArtGallery: (text) -> (Result);
-  deleteArtType: (text) -> (Result);
-  deleteArtist: () -> (Result);
-  deleteTool: (text) -> (Result);
-  deleteToolCategory: (text) -> (Result);
-  getAssets: () -> (vec record {
-                          text;
-                          Asset;
-                        }) query;
-  privReadArt: (text) -> (Result_8) query;
-  readAllArt: () -> (Result_13) query;
-  readAllArtCategories: () -> (Result_12) query;
-  readAllArtTypes: () -> (Result_11) query;
-  readAllToolCategories: () -> (Result_10) query;
-  readAllTools: () -> (Result_9) query;
-  readArtById: (text) -> (Result_8) query;
-  readArtCategory: (text) -> (Result_7) query;
-  readArtGalleriesByArtist: (principal) -> (Result_6) query;
-  readArtType: (text) -> (Result_5) query;
-  readArtist: () -> (Result_4) query;
-  readArtsByArtGallery: (text) -> (Result_3) query;
-  readArtsByArtist: (principal) -> (Result_3) query;
-  readTool: (text) -> (Result_2) query;
-  readToolCategory: (text) -> (Result_1) query;
-  updateArt: (ArtUpdate, text) -> (Result);
-  updateArtCategory: (ArtCategoryUpdate) -> (Result);
-  updateArtGallery: (ArtGalleryUpdate, text) -> (Result);
-  updateArtType: (ArtTypeUpdate__1) -> (Result);
-  updateArtist: (vec ToolUpdate) -> (Result);
-  updateTool: (ToolUpdate) -> (Result);
-  updateToolCategory: (ToolCategoryUpdate) -> (Result);
+  addFollow: (text) -> (Result);
+  addLike: (text) -> (Result);
+  addSuggestion: (text, SuggestionCreate) -> (Result);
+  artistsCommentsSize: (principal) -> (nat) query;
+  authorize: (principal) -> (Result) query;
+  authorizedArr: () -> (Result_9) query;
+  commentsSize: () -> (nat) query;
+  createComment: (text, CommentCreate__1) -> (Result);
+  createGallery: (GalleryCreate) -> (Result);
+  createPost: (PostCreate) -> (Result);
+  readArtistFollowers: (text) -> (Result_8) query;
+  readArtistFollowersQty: (text) -> (Result_1) query;
+  readArtistFollows: (text) -> (Result_8) query;
+  readArtistFollowsQty: (text) -> (Result_1) query;
+  readArtistProfile: (text) -> (Result_7) query;
+  readComments: (text) -> (Result_6) query;
+  readCommentsQty: (text) -> (Result_1) query;
+  readFirstCommentById: (text) -> (text) query;
+  readFirstPostId: (principal) -> (text) query;
+  readFollowsPostsByCreation: (text, int, int) -> (Result_2) query;
+  readGalleriesByArtist: (text) -> (Result_5) query;
+  readLikesQtyByArtist: (text) -> (Result_1) query;
+  readLikesQtyByTarget: (text) -> (Result_1) query;
+  readPostById: (text) -> (Result_4) query;
+  readPostSuggestions: (text) -> (Result_3) query;
+  readPostsByCreation: (int, int) -> (Result_2) query;
+  readSuggestionsQtyByArtist: (text) -> (Result_1) query;
+  readSuggestionsQtyByPost: (text) -> (Result_1) query;
+  relPrincipalWithUsername: (principal, text) -> (Result);
+  removeComment: (text, text) -> (Result);
+  removeFollow: (text) -> (Result);
+  removeGallery: (text) -> (Result);
+  removeLike: (text) -> (Result);
+  removePost: (text) -> (Result);
+  removeSuggestion: (text, text) -> (Result);
+  updateArtGallery: (GalleryUpdate) -> (Result);
+  updatePost: (PostUpdate) -> (Result);
 }

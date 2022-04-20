@@ -1,120 +1,209 @@
-type WriteAsset = 
- variant {
-   Chunk: record {
-            callback: opt Callback;
-            chunk: blob;
-            id: text;
-          };
-   Init: record {
-           callback: opt Callback;
-           id: text;
-           size: nat;
-         };
- };
-type TokenIdentifier = text;
-type Socials = 
+type Suggestion__1 = 
  record {
-   ceSo: opt CeSo;
-   deSo: opt DeSo;
+   comment: CommentCreate;
+   createdAt: int;
+ };
+type SuggestionCreate = record {comment: CommentCreate;};
+type Suggestion = 
+ record {
+   comment: CommentCreate;
+   createdAt: int;
+ };
+type Result_7 = 
+ variant {
+   err: Error;
+   ok: vec principal;
+ };
+type Result_6 = 
+ variant {
+   err: Error;
+   ok: vec record {
+             principal;
+             text;
+             text;
+             Comment__1;
+           };
+ };
+type Result_5 = 
+ variant {
+   err: Error;
+   ok: vec record {
+             text;
+             Gallery;
+           };
+ };
+type Result_4 = 
+ variant {
+   err: Error;
+   ok: PostRead;
+ };
+type Result_3 = 
+ variant {
+   err: Error;
+   ok: vec record {
+             principal;
+             text;
+             text;
+             Suggestion__1;
+           };
  };
 type Result_2 = 
  variant {
-   err: CommonError;
-   ok: vec text;
+   err: Error;
+   ok: vec PostRead;
  };
 type Result_1 = 
  variant {
    err: Error;
-   ok: record {
-         opt Profile;
-         opt Asset;
-       };
+   ok: nat;
  };
 type Result = 
  variant {
    err: Error;
    ok;
  };
-type ProfileUpdate = 
+type PostUpdate = 
  record {
-   avatarRequest: AssetRequest;
-   bio: Bio;
+   postBasics: PostBasics;
+   postId: text;
  };
-type Profile = 
+type PostRead = 
  record {
-   bio: Bio;
-   id: principal;
+   comments: opt vec record {
+                       principal;
+                       text;
+                       text;
+                       Comment;
+                     };
+   likeQty: nat;
+   post: Post;
+   suggestions: opt vec record {
+                          principal;
+                          text;
+                          text;
+                          Suggestion;
+                        };
+ };
+type PostCreate = record {postBasics: PostBasics;};
+type PostBasics = 
+ record {
+   artCategory: text;
+   artType: text;
+   description: text;
+   details: vec record {
+                  text;
+                  DetailValue;
+                };
+   tags: vec text;
+   thumbnail: text;
+   title: text;
+   tools: opt vec record {
+                    text;
+                    text;
+                  };
+ };
+type Post = 
+ record {
+   createdAt: int;
+   postBasics: PostBasics;
+ };
+type GalleryUpdate = 
+ record {
+   description: text;
+   galleryBanner: opt text;
+   id: text;
+   name: text;
+ };
+type GalleryCreate = 
+ record {
+   artistPpal: principal;
+   description: text;
+   galleryBanner: opt text;
+   name: text;
+ };
+type Gallery = 
+ record {
+   artistPpal: principal;
+   createdAt: int;
+   description: text;
+   galleryBanner: opt text;
+   id: text;
+   name: text;
  };
 type Error = 
  variant {
-   AlreadyExists;
-   AuthorizedPrincipalLimitReached: nat;
-   FailedToWrite: text;
-   Immutable;
-   InvalidRequest;
+   BadParameters;
+   NonExistentItem;
    NotAuthorized;
-   NotFound;
-   Unauthorized;
+   Unknown: text;
  };
-type DeSo = 
- record {
-   distrikt: opt text;
-   dscvr: opt text;
-   openChat: opt text;
- };
-type CommonError = 
+type DetailValue = 
  variant {
-   InvalidToken: TokenIdentifier;
-   Other: text;
+   False;
+   Float: float64;
+   I64: int64;
+   Principal: principal;
+   Slice: vec nat8;
+   Text: text;
+   True;
+   U64: nat64;
+   Vec: vec DetailValue;
  };
-type CeSo = 
+type Comment__1 = 
  record {
-   discord: opt text;
-   facebook: opt text;
-   instagram: opt text;
-   tiktok: opt text;
-   twitter: opt text;
+   commentBasics: CommentBasics;
+   createdAt: int;
  };
-type Callback = func () -> ();
-type Bio = 
+type CommentCreate__1 = record {commentBasics: CommentBasics;};
+type CommentCreate = record {commentBasics: CommentBasics;};
+type CommentBasics = 
  record {
-   about: opt text;
-   displayName: opt text;
-   email: opt text;
-   familyName: opt text;
-   givenName: opt text;
-   location: opt text;
-   phone: opt text;
-   socials: opt Socials;
-   username: opt text;
+   category: opt text;
+   content: text;
+   details: opt vec record {
+                      text;
+                      DetailValue;
+                    };
  };
-type AssetRequest = 
- variant {
-   Put:
-    record {
-      callback: opt Callback;
-      contentType: text;
-      key: text;
-      payload: variant {
-                 Payload: blob;
-                 StagedData;
-               };
-    };
-   Remove: record {
-             callback: opt Callback;
-             key: text;
-           };
-   StagedWrite: WriteAsset;
- };
-type Asset = 
+type Comment = 
  record {
-   contentType: text;
-   payload: vec blob;
+   commentBasics: CommentBasics;
+   createdAt: int;
  };
 service : {
-  createProfile: (ProfileUpdate) -> (Result);
-  deleteProfile: (AssetRequest) -> (Result);
-  getDiscordHolders: (text) -> (Result_2);
-  readProfile: () -> (Result_1) query;
-  updateProfile: (ProfileUpdate) -> (Result);
+  addFollow: (principal) -> (Result);
+  addLike: (text) -> (Result);
+  addSuggestion: (text, SuggestionCreate) -> (Result);
+  artistsCommentsSize: (principal) -> (nat) query;
+  authorize: (principal) -> (Result) query;
+  authorizedArr: () -> (Result_7) query;
+  commentsSize: () -> (nat) query;
+  createComment: (text, CommentCreate__1) -> (Result);
+  createGallery: (GalleryCreate) -> (Result);
+  createPost: (PostCreate) -> (Result);
+  readArtistFollowersQty: (principal) -> (Result_1) query;
+  readArtistFollowsQty: (principal) -> (Result_1) query;
+  readComments: (text) -> (Result_6) query;
+  readCommentsQty: (text) -> (Result_1) query;
+  readFirstCommentById: (text) -> (text) query;
+  readFirstPostId: (principal) -> (text) query;
+  readFollowsPostsByCreation: (principal, int, int) -> (Result_2) query;
+  readGalleriesByArtist: (principal) -> (Result_5) query;
+  readLikesQtyByArtist: (principal) -> (Result_1) query;
+  readLikesQtyByTarget: (text) -> (Result_1) query;
+  readPostById: (text) -> (Result_4) query;
+  readPostSuggestions: (text) -> (Result_3) query;
+  readPostsByArtist: (principal) -> (Result_2) query;
+  readPostsByCreation: (int, int) -> (Result_2) query;
+  readSuggestionsQtyByArtist: (principal) -> (Result_1) query;
+  readSuggestionsQtyByPost: (text) -> (Result_1) query;
+  relPrincipalWithUsername: (principal, text) -> (Result);
+  removeComment: (text, text) -> (Result);
+  removeFollow: (principal) -> (Result);
+  removeGallery: (text) -> (Result);
+  removeLike: (text) -> (Result);
+  removePost: (text) -> (Result);
+  removeSuggestion: (text, text) -> (Result);
+  updateArtGallery: (GalleryUpdate) -> (Result);
+  updatePost: (PostUpdate) -> (Result);
 }

@@ -3,7 +3,7 @@ import * as React from "react";
 import Masonry from "@mui/lab/Masonry";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
+import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 
 function ListArts({ arts, navigate, setOpen }) {
   return (
@@ -11,10 +11,10 @@ function ListArts({ arts, navigate, setOpen }) {
       {arts?.map((item, index) => (
         <div key={index}>
           <img
-            onClick={() => navigate("/main?page=profile&image=" + item.id)}
-            src={`${item.image}`}
-            srcSet={`${item.image}`}
-            alt={item.id}
+            onClick={() => navigate("/profile?image=" + index)}
+            src={`${item.img}?w=162&auto=format`}
+            srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
+            alt={index}
             loading="lazy"
             style={{
               display: "block",
@@ -28,20 +28,15 @@ function ListArts({ arts, navigate, setOpen }) {
               borderBottomRightRadius: 4,
               height: 40,
               display: "flex",
-              justifyContent: "end",
               alignItems: "center",
               color: "white",
             }}
           >
-            <IconButton
-              style={{ color: "white" }}
-              onClick={() => setOpen(true)}
-            >
-              <HeartBrokenIcon />
+            <IconButton style={{ color: "white" }} size="small">
+              <FavoriteBorderIcon fontSize="small" />
             </IconButton>
-
-            <IconButton style={{ color: "white" }}>
-              <FavoriteBorderIcon />
+            <IconButton size="small" style={{ color: "white" }}>
+              <ModeCommentOutlinedIcon fontSize="small" />
             </IconButton>
           </div>
         </div>

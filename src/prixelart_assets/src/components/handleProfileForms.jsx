@@ -2,8 +2,9 @@ import React from "react";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import consts from "../consts/index";
 
-function HandleProfileForms({ isViewProfile, handleView }) {
+function HandleProfileForms({ editProfileScreen, handleView, isLoading }) {
   return (
     <Box
       style={{
@@ -13,29 +14,35 @@ function HandleProfileForms({ isViewProfile, handleView }) {
       }}
     >
       <Button
+        disabled={isLoading}
         variant="contained"
         style={{
           marginRight: "4px",
           textTransform: "capitalize",
           fontSize: "12px",
-          background: !isViewProfile && "white",
-          color: !isViewProfile && "black",
+          background:
+            editProfileScreen !== consts.UPDATE_ARTIST_SCREEN_USER && "white",
+          color:
+            editProfileScreen !== consts.UPDATE_ARTIST_SCREEN_USER && "black",
         }}
-        onClick={() => handleView(true)}
+        onClick={() => handleView(consts.UPDATE_ARTIST_SCREEN_USER)}
         fullWidth
       >
         Basics
       </Button>
       <Button
+        disabled={isLoading}
         fullWidth
         variant="contained"
         style={{
           textTransform: "capitalize",
           fontSize: "12px",
-          background: isViewProfile && "white",
-          color: isViewProfile && "black",
+          background:
+            editProfileScreen === consts.UPDATE_ARTIST_SCREEN_USER && "white",
+          color:
+            editProfileScreen === consts.UPDATE_ARTIST_SCREEN_USER && "black",
         }}
-        onClick={() => handleView(false)}
+        onClick={() => handleView(consts.UPDATE_ARTIST_SCREEN_TOOLS)}
       >
         Cameras & Lenses
       </Button>

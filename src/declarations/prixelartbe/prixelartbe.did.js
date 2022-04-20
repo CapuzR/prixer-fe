@@ -1,220 +1,188 @@
 export const idlFactory = ({ IDL }) => {
-  const ArtTypeUpdate = IDL.Record({
-    'id' : IDL.Text,
-    'name' : IDL.Text,
-    'description' : IDL.Text,
-  });
-  const ToolCategoryUpdate__1 = IDL.Record({
-    'id' : IDL.Text,
-    'name' : IDL.Text,
-    'artType' : ArtTypeUpdate,
-    'description' : IDL.Text,
-  });
-  const ToolUpdate__1 = IDL.Record({
-    'id' : IDL.Text,
-    'name' : IDL.Text,
-    'description' : IDL.Text,
-    'category' : ToolCategoryUpdate__1,
-  });
-  const ArtCategoryUpdate__1 = IDL.Record({
-    'id' : IDL.Text,
-    'name' : IDL.Text,
-    'description' : IDL.Text,
-  });
-  const ArtBasics = IDL.Record({
-    'title' : IDL.Text,
-    'tools' : IDL.Opt(IDL.Vec(ToolUpdate__1)),
-    'about' : IDL.Text,
-    'tags' : IDL.Vec(IDL.Text),
-    'artType' : ArtTypeUpdate,
-    'artCategory' : ArtCategoryUpdate__1,
-    'artGalleries' : IDL.Opt(IDL.Text),
-  });
-  const Callback = IDL.Func([], [], []);
-  const WriteAsset = IDL.Variant({
-    'Init' : IDL.Record({
-      'id' : IDL.Text,
-      'size' : IDL.Nat,
-      'callback' : IDL.Opt(Callback),
-    }),
-    'Chunk' : IDL.Record({
-      'id' : IDL.Text,
-      'chunk' : IDL.Vec(IDL.Nat8),
-      'callback' : IDL.Opt(Callback),
-    }),
-  });
-  const AssetRequest = IDL.Variant({
-    'Put' : IDL.Record({
-      'key' : IDL.Text,
-      'contentType' : IDL.Text,
-      'callback' : IDL.Opt(Callback),
-      'payload' : IDL.Variant({
-        'StagedData' : IDL.Null,
-        'Payload' : IDL.Vec(IDL.Nat8),
-      }),
-    }),
-    'Remove' : IDL.Record({ 'key' : IDL.Text, 'callback' : IDL.Opt(Callback) }),
-    'StagedWrite' : WriteAsset,
-  });
-  const ArtUpdate = IDL.Record({
-    'artBasics' : ArtBasics,
-    'artRequest' : AssetRequest,
-  });
+  const DetailValue = IDL.Rec();
   const Error = IDL.Variant({
-    'Immutable' : IDL.Null,
-    'NotFound' : IDL.Null,
     'NotAuthorized' : IDL.Null,
-    'Unauthorized' : IDL.Null,
-    'AlreadyExists' : IDL.Null,
-    'InvalidRequest' : IDL.Null,
-    'AuthorizedPrincipalLimitReached' : IDL.Nat,
-    'FailedToWrite' : IDL.Text,
+    'BadParameters' : IDL.Null,
+    'Unknown' : IDL.Text,
+    'NonExistentItem' : IDL.Null,
   });
   const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
-  const ArtCategory = IDL.Record({
+  DetailValue.fill(
+    IDL.Variant({
+      'I64' : IDL.Int64,
+      'U64' : IDL.Nat64,
+      'Vec' : IDL.Vec(DetailValue),
+      'Slice' : IDL.Vec(IDL.Nat8),
+      'Text' : IDL.Text,
+      'True' : IDL.Null,
+      'False' : IDL.Null,
+      'Float' : IDL.Float64,
+      'Principal' : IDL.Principal,
+    })
+  );
+  const CommentBasics = IDL.Record({
+    'content' : IDL.Text,
+    'details' : IDL.Opt(IDL.Vec(IDL.Tuple(IDL.Text, DetailValue))),
+    'category' : IDL.Opt(IDL.Text),
+  });
+  const CommentCreate = IDL.Record({ 'commentBasics' : CommentBasics });
+  const SuggestionCreate = IDL.Record({ 'comment' : CommentCreate });
+  const Result_9 = IDL.Variant({
+    'ok' : IDL.Vec(IDL.Principal),
+    'err' : Error,
+  });
+  const CommentCreate__1 = IDL.Record({ 'commentBasics' : CommentBasics });
+  const GalleryCreate = IDL.Record({
     'name' : IDL.Text,
+    'galleryBanner' : IDL.Opt(IDL.Text),
     'description' : IDL.Text,
+    'artistPpal' : IDL.Principal,
   });
-  const ArtGalleryUpdate = IDL.Record({
-    'name' : IDL.Text,
+  const PostBasics = IDL.Record({
+    'title' : IDL.Text,
+    'tools' : IDL.Opt(IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text))),
+    'asset' : IDL.Text,
+    'tags' : IDL.Vec(IDL.Text),
+    'artType' : IDL.Text,
     'description' : IDL.Text,
-    'artGalleryBanner' : IDL.Opt(IDL.Text),
+    'artCategory' : IDL.Text,
+    'details' : IDL.Vec(IDL.Tuple(IDL.Text, DetailValue)),
   });
-  const ArtType = IDL.Record({ 'name' : IDL.Text, 'description' : IDL.Text });
-  const ToolUpdate = IDL.Record({
-    'id' : IDL.Text,
-    'name' : IDL.Text,
-    'description' : IDL.Text,
-    'category' : ToolCategoryUpdate__1,
+  const PostCreate = IDL.Record({
+    'postImage' : IDL.Vec(IDL.Nat8),
+    'postBasics' : PostBasics,
   });
-  const Tool = IDL.Record({
-    'name' : IDL.Text,
-    'description' : IDL.Text,
-    'category' : ToolCategoryUpdate__1,
+  const Follow = IDL.Record({
+    'artistUsername' : IDL.Text,
+    'artistPrincipal' : IDL.Principal,
+    'followedByCaller' : IDL.Bool,
   });
-  const ToolCategory = IDL.Record({
-    'name' : IDL.Text,
-    'artType' : ArtTypeUpdate,
-    'description' : IDL.Text,
-  });
-  const Asset = IDL.Record({
-    'contentType' : IDL.Text,
-    'payload' : IDL.Vec(IDL.Vec(IDL.Nat8)),
-  });
-  const Art = IDL.Record({
+  const Result_8 = IDL.Variant({ 'ok' : IDL.Vec(Follow), 'err' : Error });
+  const Result_1 = IDL.Variant({ 'ok' : IDL.Nat, 'err' : Error });
+  const Suggestion = IDL.Record({
     'createdAt' : IDL.Int,
-    'artistPpal' : IDL.Principal,
-    'artBasics' : ArtBasics,
+    'comment' : CommentCreate,
   });
-  const Result_8 = IDL.Variant({
-    'ok' : IDL.Tuple(Art, IDL.Opt(Asset)),
-    'err' : Error,
+  const Post = IDL.Record({ 'createdAt' : IDL.Int, 'postBasics' : PostBasics });
+  const Comment = IDL.Record({
+    'createdAt' : IDL.Int,
+    'commentBasics' : CommentBasics,
   });
-  const Result_13 = IDL.Variant({
-    'ok' : IDL.Tuple(
-      IDL.Vec(IDL.Tuple(IDL.Text, Art)),
-      IDL.Vec(IDL.Tuple(IDL.Text, Asset)),
+  const PostRead__1 = IDL.Record({
+    'suggestions' : IDL.Opt(
+      IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Suggestion))
     ),
-    'err' : Error,
+    'post' : Post,
+    'likesQty' : IDL.Int,
+    'comments' : IDL.Opt(
+      IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment))
+    ),
   });
-  const ArtCategoryUpdate = IDL.Record({
-    'id' : IDL.Text,
-    'name' : IDL.Text,
-    'description' : IDL.Text,
+  const ArtistRead = IDL.Record({
+    'postsQty' : IDL.Nat,
+    'followedByCaller' : IDL.Bool,
+    'postsRead' : IDL.Opt(IDL.Vec(PostRead__1)),
+    'followersQty' : IDL.Nat,
+    'galleriesQty' : IDL.Nat,
+    'followsQty' : IDL.Nat,
   });
-  const Result_12 = IDL.Variant({
-    'ok' : IDL.Vec(ArtCategoryUpdate),
-    'err' : Error,
-  });
-  const ArtTypeUpdate__1 = IDL.Record({
-    'id' : IDL.Text,
-    'name' : IDL.Text,
-    'description' : IDL.Text,
-  });
-  const Result_11 = IDL.Variant({
-    'ok' : IDL.Vec(ArtTypeUpdate__1),
-    'err' : Error,
-  });
-  const ToolCategoryUpdate = IDL.Record({
-    'id' : IDL.Text,
-    'name' : IDL.Text,
-    'artType' : ArtTypeUpdate,
-    'description' : IDL.Text,
-  });
-  const Result_10 = IDL.Variant({
-    'ok' : IDL.Vec(ToolCategoryUpdate),
-    'err' : Error,
-  });
-  const Result_9 = IDL.Variant({ 'ok' : IDL.Vec(ToolUpdate), 'err' : Error });
-  const Result_7 = IDL.Variant({ 'ok' : ArtCategoryUpdate, 'err' : Error });
-  const ArtGallery = IDL.Record({
-    'name' : IDL.Text,
-    'description' : IDL.Text,
-    'artGalleryBanner' : IDL.Opt(IDL.Text),
-    'artistPpal' : IDL.Principal,
+  const Result_7 = IDL.Variant({ 'ok' : ArtistRead, 'err' : Error });
+  const Comment__1 = IDL.Record({
+    'createdAt' : IDL.Int,
+    'commentBasics' : CommentBasics,
   });
   const Result_6 = IDL.Variant({
-    'ok' : IDL.Vec(IDL.Tuple(IDL.Text, ArtGallery)),
+    'ok' : IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment__1)),
     'err' : Error,
   });
-  const Result_5 = IDL.Variant({ 'ok' : ArtTypeUpdate__1, 'err' : Error });
-  const Artist = IDL.Record({
-    'tools' : IDL.Vec(ToolUpdate__1),
+  const PostRead = IDL.Record({
+    'suggestions' : IDL.Opt(
+      IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Suggestion))
+    ),
+    'post' : Post,
+    'likesQty' : IDL.Int,
+    'comments' : IDL.Opt(
+      IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment))
+    ),
+  });
+  const Result_2 = IDL.Variant({ 'ok' : IDL.Vec(PostRead), 'err' : Error });
+  const Gallery = IDL.Record({
+    'id' : IDL.Text,
+    'name' : IDL.Text,
     'createdAt' : IDL.Int,
+    'galleryBanner' : IDL.Opt(IDL.Text),
+    'description' : IDL.Text,
+    'artistPpal' : IDL.Principal,
   });
-  const Result_4 = IDL.Variant({ 'ok' : Artist, 'err' : Error });
-  const Result_3 = IDL.Variant({
-    'ok' : IDL.Vec(IDL.Tuple(IDL.Text, Art, Asset)),
+  const Result_5 = IDL.Variant({
+    'ok' : IDL.Vec(IDL.Tuple(IDL.Text, Gallery)),
     'err' : Error,
   });
-  const Result_2 = IDL.Variant({ 'ok' : ToolUpdate, 'err' : Error });
-  const Result_1 = IDL.Variant({ 'ok' : ToolCategoryUpdate, 'err' : Error });
+  const Result_4 = IDL.Variant({ 'ok' : PostRead, 'err' : Error });
+  const Suggestion__1 = IDL.Record({
+    'createdAt' : IDL.Int,
+    'comment' : CommentCreate,
+  });
+  const Result_3 = IDL.Variant({
+    'ok' : IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Suggestion__1)),
+    'err' : Error,
+  });
+  const GalleryUpdate = IDL.Record({
+    'id' : IDL.Text,
+    'name' : IDL.Text,
+    'galleryBanner' : IDL.Opt(IDL.Text),
+    'description' : IDL.Text,
+  });
+  const PostUpdate = IDL.Record({
+    'postBasics' : PostBasics,
+    'postId' : IDL.Text,
+  });
   return IDL.Service({
-    'createArt' : IDL.Func([ArtUpdate], [Result], []),
-    'createArtCategory' : IDL.Func([ArtCategory], [Result], []),
-    'createArtGallery' : IDL.Func([ArtGalleryUpdate], [Result], []),
-    'createArtType' : IDL.Func([ArtType], [Result], []),
-    'createArtist' : IDL.Func([IDL.Vec(ToolUpdate)], [Result], []),
-    'createTool' : IDL.Func([Tool], [Result], []),
-    'createToolCategory' : IDL.Func([ToolCategory], [Result], []),
-    'deleteArt' : IDL.Func([IDL.Text], [Result], []),
-    'deleteArtCategory' : IDL.Func([IDL.Text], [Result], []),
-    'deleteArtGallery' : IDL.Func([IDL.Text], [Result], []),
-    'deleteArtType' : IDL.Func([IDL.Text], [Result], []),
-    'deleteArtist' : IDL.Func([], [Result], []),
-    'deleteTool' : IDL.Func([IDL.Text], [Result], []),
-    'deleteToolCategory' : IDL.Func([IDL.Text], [Result], []),
-    'getAssets' : IDL.Func(
+    'addFollow' : IDL.Func([IDL.Text], [Result], []),
+    'addLike' : IDL.Func([IDL.Text], [Result], []),
+    'addSuggestion' : IDL.Func([IDL.Text, SuggestionCreate], [Result], []),
+    'artistsCommentsSize' : IDL.Func([IDL.Principal], [IDL.Nat], ['query']),
+    'authorize' : IDL.Func([IDL.Principal], [Result], ['query']),
+    'authorizedArr' : IDL.Func([], [Result_9], ['query']),
+    'commentsSize' : IDL.Func([], [IDL.Nat], ['query']),
+    'createComment' : IDL.Func([IDL.Text, CommentCreate__1], [Result], []),
+    'createGallery' : IDL.Func([GalleryCreate], [Result], []),
+    'createPost' : IDL.Func([PostCreate], [Result], []),
+    'readArtistFollowers' : IDL.Func([IDL.Text], [Result_8], ['query']),
+    'readArtistFollowersQty' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'readArtistFollows' : IDL.Func([IDL.Text], [Result_8], ['query']),
+    'readArtistFollowsQty' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'readArtistProfile' : IDL.Func([IDL.Text], [Result_7], ['query']),
+    'readComments' : IDL.Func([IDL.Text], [Result_6], ['query']),
+    'readCommentsQty' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'readFirstCommentById' : IDL.Func([IDL.Text], [IDL.Text], ['query']),
+    'readFirstPostId' : IDL.Func([IDL.Principal], [IDL.Text], ['query']),
+    'readFollowsPostsByCreation' : IDL.Func(
+        [IDL.Text, IDL.Int, IDL.Int],
+        [Result_2],
+        ['query'],
+      ),
+    'readGalleriesByArtist' : IDL.Func([IDL.Text], [Result_5], ['query']),
+    'readLikesQtyByArtist' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'readLikesQtyByTarget' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'readPostById' : IDL.Func([IDL.Text], [Result_4], ['query']),
+    'readPostSuggestions' : IDL.Func([IDL.Text], [Result_3], ['query']),
+    'readPostsByCreation' : IDL.Func([IDL.Int, IDL.Int], [Result_2], ['query']),
+    'readSuggestionsQtyByArtist' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'readSuggestionsQtyByPost' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'relPrincipalWithUsername' : IDL.Func(
+        [IDL.Principal, IDL.Text],
+        [Result],
         [],
-        [IDL.Vec(IDL.Tuple(IDL.Text, Asset))],
-        ['query'],
       ),
-    'privReadArt' : IDL.Func([IDL.Text], [Result_8], ['query']),
-    'readAllArt' : IDL.Func([], [Result_13], ['query']),
-    'readAllArtCategories' : IDL.Func([], [Result_12], ['query']),
-    'readAllArtTypes' : IDL.Func([], [Result_11], ['query']),
-    'readAllToolCategories' : IDL.Func([], [Result_10], ['query']),
-    'readAllTools' : IDL.Func([], [Result_9], ['query']),
-    'readArtById' : IDL.Func([IDL.Text], [Result_8], ['query']),
-    'readArtCategory' : IDL.Func([IDL.Text], [Result_7], ['query']),
-    'readArtGalleriesByArtist' : IDL.Func(
-        [IDL.Principal],
-        [Result_6],
-        ['query'],
-      ),
-    'readArtType' : IDL.Func([IDL.Text], [Result_5], ['query']),
-    'readArtist' : IDL.Func([], [Result_4], ['query']),
-    'readArtsByArtGallery' : IDL.Func([IDL.Text], [Result_3], ['query']),
-    'readArtsByArtist' : IDL.Func([IDL.Principal], [Result_3], ['query']),
-    'readTool' : IDL.Func([IDL.Text], [Result_2], ['query']),
-    'readToolCategory' : IDL.Func([IDL.Text], [Result_1], ['query']),
-    'updateArt' : IDL.Func([ArtUpdate, IDL.Text], [Result], []),
-    'updateArtCategory' : IDL.Func([ArtCategoryUpdate], [Result], []),
-    'updateArtGallery' : IDL.Func([ArtGalleryUpdate, IDL.Text], [Result], []),
-    'updateArtType' : IDL.Func([ArtTypeUpdate__1], [Result], []),
-    'updateArtist' : IDL.Func([IDL.Vec(ToolUpdate)], [Result], []),
-    'updateTool' : IDL.Func([ToolUpdate], [Result], []),
-    'updateToolCategory' : IDL.Func([ToolCategoryUpdate], [Result], []),
+    'removeComment' : IDL.Func([IDL.Text, IDL.Text], [Result], []),
+    'removeFollow' : IDL.Func([IDL.Text], [Result], []),
+    'removeGallery' : IDL.Func([IDL.Text], [Result], []),
+    'removeLike' : IDL.Func([IDL.Text], [Result], []),
+    'removePost' : IDL.Func([IDL.Text], [Result], []),
+    'removeSuggestion' : IDL.Func([IDL.Text, IDL.Text], [Result], []),
+    'updateArtGallery' : IDL.Func([GalleryUpdate], [Result], []),
+    'updatePost' : IDL.Func([PostUpdate], [Result], []),
   });
 };
 export const init = ({ IDL }) => { return []; };

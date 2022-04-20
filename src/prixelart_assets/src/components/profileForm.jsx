@@ -6,6 +6,11 @@ import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import CircularProgress from "@mui/material/CircularProgress";
+import InputLabel from "@mui/material/InputLabel";
 
 function ProfileForm({
   avatar,
@@ -26,6 +31,9 @@ function ProfileForm({
   setEmail,
   phone,
   setPhone,
+  artType,
+  setArtType,
+  isLoading,
 }) {
   return (
     <>
@@ -36,21 +44,29 @@ function ProfileForm({
           marginTop: 8,
         }}
       >
-        <IconButton component="label">
-          <Avatar
-            src={avatar && avatar}
-            style={{ width: "120px", height: "120px" }}
-          />
-          <input
-            hidden
-            type="file"
-            onChange={(event) => handleChange(event, true)}
-          />
+        <IconButton component="label" disabled={isLoading}>
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
+            <>
+              <Avatar
+                src={avatar && avatar}
+                style={{ width: "120px", height: "120px" }}
+              />
+              <input
+                hidden
+                type="file"
+                onChange={(event) => handleChange(event, true)}
+              />
+            </>
+          )}
         </IconButton>
       </Box>
       <Grid container spacing={1} style={{ marginTop: "32px" }}>
         <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
           <TextField
+            disabled={isLoading}
+            required
             type="text"
             label="Username"
             variant="outlined"
@@ -62,6 +78,8 @@ function ProfileForm({
         </Grid>
         <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
           <TextField
+            disabled={isLoading}
+            required
             type="text"
             label="Display name"
             variant="outlined"
@@ -73,6 +91,8 @@ function ProfileForm({
         </Grid>
         <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
           <TextField
+            disabled={isLoading}
+            required
             type="text"
             label="Given name"
             value={givenName}
@@ -83,6 +103,8 @@ function ProfileForm({
         </Grid>
         <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
           <TextField
+            disabled={isLoading}
+            required
             type="text"
             label="Family name"
             onChange={(event) => setFamilyName(event.target.value)}
@@ -93,6 +115,8 @@ function ProfileForm({
         </Grid>
         <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
           <TextField
+            disabled={isLoading}
+            required
             type="text"
             label="Location"
             variant="outlined"
@@ -103,6 +127,8 @@ function ProfileForm({
         </Grid>
         <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
           <TextField
+            disabled={isLoading}
+            required
             fullWidth
             type="text"
             label="Email"
@@ -113,6 +139,8 @@ function ProfileForm({
         </Grid>
         <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
           <TextField
+            disabled={isLoading}
+            required
             fullWidth
             type="text"
             label="Phone"
@@ -121,8 +149,36 @@ function ProfileForm({
             variant="outlined"
           />
         </Grid>
+        <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
+          <FormControl
+            style={{ marginBottom: 4 }}
+            required
+            fullWidth
+            disabled={isLoading}
+          >
+            <InputLabel id="type-label">Type</InputLabel>
+            <Select
+              labelId="type-label"
+              id="type-label-select"
+              value={artType}
+              onChange={(event) => setArtType(event.target.value)}
+              label="Type"
+            >
+              {[
+                { id: 1, name: "Photopgrapher" },
+                { id: 2, name: "Designer" },
+              ].map((type) => (
+                <MenuItem value={type.name} key={type.id}>
+                  {type.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <TextField
+            disabled={isLoading}
+            required
             fullWidth
             type="text"
             label="About"

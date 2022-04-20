@@ -1,39 +1,31 @@
 import React, { useState } from "react";
 import * as React from "react";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 
-import EditIcon from "@mui/icons-material/Edit";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import CameraIcon from "@mui/icons-material/Camera";
 
 function PaperProfile({
   mobileBreakpoint,
-  isShowToolsInfo,
-  currentProfile,
-  currentTools,
-  setIsShowToolsInfo,
-  deleteProfile,
-  avatar,
-  handleClick,
-  anchorEl,
-  setAnchorEl,
-  open,
-  navigate,
+  isLoading,
+  artist,
+  handleOpenActionMenuProfile,
+  openActionMenuProfile,
+  isGuest,
+  service,
+  details,
+  handleFollowers,
+  isLoadingFollows,
 }) {
-  const [isFollow, setIsFollow] = useState(false);
   return (
     <Paper
       elevation={3}
@@ -45,140 +37,259 @@ function PaperProfile({
         maxWidth: mobileBreakpoint && 600,
       }}
     >
-      <Box style={{ display: "flex", alignItems: "center" }}>
-        <Box style={{ marginRight: "12px" }}>
-          {!isShowToolsInfo && (
-            <Avatar src={avatar && avatar} style={{ width: 48, height: 48 }} />
-          )}
+      {isLoading ? (
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 150,
+          }}
+        >
+          <CircularProgress />
         </Box>
-        <Box>
-          <Box>
-            <Typography variant="body1">
-              {isShowToolsInfo ? (
-                <Box style={{ display: "flex", alignItems: "center" }}>
-                  <CameraAltIcon fontFamily="small" color="primary" />{" "}
-                  {`${currentTools?.camera?.name}`}
-                </Box>
-              ) : (
-                `${currentProfile.givenName[0]} ${currentProfile.familyName[0]}`
-              )}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography variant="body2">
-              {isShowToolsInfo ? (
-                <Box style={{ display: "flex", alignItems: "center" }}>
-                  <CameraIcon fontFamily="small" color="primary" />
-                  {`${currentTools?.lens?.name}`}
-                </Box>
-              ) : (
-                `${currentProfile.displayName[0]}`
-              )}
-            </Typography>
-          </Box>
-          {!isShowToolsInfo && (
-            <Box>
-              <Typography variant="body2">
-                {`${currentProfile.about[0]}`}
-              </Typography>
-            </Box>
-          )}
-        </Box>
-        <Box style={{ marginLeft: "auto" }}>
+      ) : (
+        <>
           <Box style={{ display: "flex" }}>
-            <Box>
-              <IconButton
-                size="small"
-                color="primary"
-                onClick={() => setIsShowToolsInfo(!isShowToolsInfo)}
-              >
-                {isShowToolsInfo ? (
-                  <AccountCircleIcon fontFamily="small" color="primary" />
-                ) : (
-                  <CameraAltIcon fontFamily="small" color="primary" />
-                )}
-              </IconButton>
+            <Box style={{ marginRight: "12px" }}>
+              <Avatar src={artist?.avatar} style={{ width: 92, height: 92 }} />
             </Box>
-            <Box>
-              <IconButton
-                size="small"
-                color="primary"
-                onClick={() => navigate("/main?page=profile&isEdit=true")}
-              >
-                <EditIcon fontFamily="small" color="primary" />
-              </IconButton>
-            </Box>
-          </Box>
-          <Box style={{ display: "flex", justifyContent: "end" }}>
-            <IconButton
-              size="small"
-              color="primary"
-              aria-controls={open ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}
-            >
-              <MoreHorizIcon color="primary" fontFamily="small" />
-            </IconButton>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={() => setAnchorEl(null)}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
+            <Box
+              style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
-              <MenuItem
-                style={{ color: "red" }}
-                onClick={() => deleteProfile()}
+              <Box
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               >
-                Delete profile
-              </MenuItem>
-            </Menu>
+                <Typography
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                  variant="body1"
+                >{`${artist?.fullName}`}</Typography>
+              </Box>
+              <Box
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                <Typography
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                  variant="body2"
+                >{`${artist?.displayName}`}</Typography>
+              </Box>
+              <Box
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >{`${artist?.about}`}</Typography>
+              </Box>
+            </Box>
+            <Box style={{ marginLeft: "auto" }}>
+              {!isGuest ? (
+                <IconButton
+                  color="primary"
+                  id="basic-button-profile"
+                  aria-controls={
+                    openActionMenuProfile ? "basic-menu-profile" : undefined
+                  }
+                  aria-haspopup="true"
+                  aria-expanded={openActionMenuProfile ? "true" : undefined}
+                  onClick={handleOpenActionMenuProfile}
+                >
+                  <MoreHorizIcon />
+                </IconButton>
+              ) : (
+                <Button
+                  onClick={() => handleFollowers(details)}
+                  variant="outlined"
+                  style={{
+                    borderRadius: 15,
+                    textTransform: "capitalized",
+                    minWidth: 70,
+                  }}
+                  size="small"
+                >
+                  {isLoadingFollows ? (
+                    <CircularProgress size={24} />
+                  ) : details.followedByCaller ? (
+                    "Unfollow"
+                  ) : (
+                    "Follow"
+                  )}
+                </Button>
+              )}
+            </Box>
           </Box>
-        </Box>
-      </Box>
-      <Box style={{ marginTop: 16, display: "flex", alignItems: "center" }}>
-        <Box style={{ marginTop: 4 }}>
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => setIsFollow(!isFollow)}
-            style={{ textTransform: "capitalize" }}
+          <Box
+            style={{
+              marginTop: 8,
+              display: "flex",
+              width: "100%",
+              alignItems: "center",
+            }}
           >
-            {isFollow ? "unfollow" : "follow"}
-          </Button>
-        </Box>
-        <Box style={{ marginLeft: "auto" }}>
-          <Box style={{ display: "flex", alignItems: "center" }}>
-            <Box style={{ textAlign: "center", marginRight: 12 }}>
-              <Box>
-                <Typography variant="body1">2</Typography>
+            <Box
+              style={{
+                textAlign: "center",
+                width: "25%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              <Box
+                style={{
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 14,
+                }}
+              >
+                Posts
               </Box>
-              <Box>
-                <Typography variant="body2">Post</Typography>
+              <Box
+                style={{
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                }}
+              >
+                {parseInt(details?.postsQty)}
               </Box>
             </Box>
-            <Box style={{ textAlign: "center", marginRight: 12 }}>
-              <Box>
-                <Typography variant="body1">1000</Typography>
+            <Box
+              style={{
+                textAlign: "center",
+                width: "25%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              <Box
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 14,
+                }}
+              >
+                Galleries
               </Box>
-              <Box>
-                <Typography variant="body2">Following</Typography>
+              <Box
+                style={{
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                }}
+              >
+                {parseInt(details?.galleriesQty)}
               </Box>
             </Box>
-            <Box style={{ textAlign: "center" }}>
-              <Box>
-                <Typography variant="body1">1000</Typography>
+            <Box
+              style={{
+                textAlign: "center",
+                width: "25%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              <Box
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 14,
+                }}
+              >
+                {isLoadingFollows ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  "Followers"
+                )}
               </Box>
-              <Box>
-                <Typography variant="body2">Followers</Typography>
+              <Box
+                style={{
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                }}
+              >
+                {!isLoadingFollows && parseInt(details?.followersQty)}
+              </Box>
+            </Box>
+            <Box
+              style={{
+                textAlign: "center",
+                width: "25%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              <Box
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 14,
+                }}
+              >
+                Followings
+              </Box>
+              <Box
+                style={{
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                }}
+              >
+                {parseInt(details?.followsQty)}
               </Box>
             </Box>
           </Box>
-        </Box>
-      </Box>
+        </>
+      )}
     </Paper>
   );
 }

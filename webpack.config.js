@@ -100,8 +100,13 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
-      PRIXELARTBE_CANISTER_ID: "rrkah-fqaaa-aaaaa-aaaaq-cai", // production Internet Identity canister
+      PRIXELARTBE_CANISTER_ID: "r7inp-6aaaa-aaaaa-aaabq-cai", // production Internet Identity canister
     }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: "development",
+      PRIXELARTART_CANISTER_ID: "rrkah-fqaaa-aaaaa-aaaaq-cai", // production Internet Identity canister
+    }),
+
     // new webpack.EnvironmentPlugin({
     //   NODE_ENV: "development",
     //   WEAVEPROFILEFE_ASSETS_CANISTER_ID: canisters["prixerlat_assets"],

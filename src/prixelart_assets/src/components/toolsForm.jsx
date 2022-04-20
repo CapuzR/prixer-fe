@@ -19,10 +19,14 @@ function ToolsForm({
   lens,
   setLens,
   tools,
-  selectedTools,
-  addTools,
-  setSelectedTools,
+  selectedCameras,
+  addCameras,
+  setSelectedCameras,
+  selectedLens,
+  addLens,
+  setSelectedLens,
 }) {
+  console.log(tools);
   return (
     <>
       <Grid container spacing={1} style={{ marginTop: 24 }}>
@@ -37,7 +41,7 @@ function ToolsForm({
             >
               {tools?.map(
                 (type) =>
-                  type.category.name === "Camera" && (
+                  type.category === "camera" && (
                     <MenuItem value={type.id} key={type.id}>
                       {type.name}
                     </MenuItem>
@@ -46,25 +50,22 @@ function ToolsForm({
             </Select>
           </FormControl>
           <Box style={{ marginTop: "8px" }}>
-            {selectedTools?.map(
-              (tool) =>
-                tool.category.name === "Camera" && (
-                  <Chip
-                    label={tool.name}
-                    variant="outlined"
-                    style={{
-                      marginBottom: "8px",
-                      marginRight: "2px",
-                    }}
-                    key={tool.id}
-                    onDelete={() => {
-                      setSelectedTools(
-                        selectedTools.filter((tl) => tl.id !== tool.id)
-                      );
-                    }}
-                  />
-                )
-            )}
+            {selectedCameras?.map((tool, index) => (
+              <Chip
+                label={tool}
+                variant="outlined"
+                style={{
+                  marginBottom: "8px",
+                  marginRight: "2px",
+                }}
+                key={index}
+                onDelete={() => {
+                  setSelectedCameras(
+                    selectedCameras.filter((tl) => tl !== tool)
+                  );
+                }}
+              />
+            ))}
           </Box>
         </Grid>
         <Grid
@@ -77,7 +78,7 @@ function ToolsForm({
           style={{ justifyContent: "center", display: "flex" }}
         >
           <IconButton
-            onClick={() => addTools(camera)}
+            onClick={() => addCameras(camera)}
             size="large"
             color="primary"
           >
@@ -95,7 +96,7 @@ function ToolsForm({
             >
               {tools?.map(
                 (type) =>
-                  type.category.name === "Lens" && (
+                  type.category === "lens" && (
                     <MenuItem value={type.id} key={type.id}>
                       {type.name}
                     </MenuItem>
@@ -104,25 +105,20 @@ function ToolsForm({
             </Select>
           </FormControl>
           <Box style={{ marginTop: "8px" }}>
-            {selectedTools?.map(
-              (tool) =>
-                tool.category.name === "Lens" && (
-                  <Chip
-                    label={tool.name}
-                    style={{
-                      marginBottom: "8px",
-                      marginRight: "2px",
-                    }}
-                    variant="outlined"
-                    key={tool.id}
-                    onDelete={() => {
-                      setSelectedTools(
-                        selectedTools.filter((tl) => tl.id !== tool.id)
-                      );
-                    }}
-                  />
-                )
-            )}
+            {selectedLens?.map((tool, index) => (
+              <Chip
+                label={tool}
+                style={{
+                  marginBottom: "8px",
+                  marginRight: "2px",
+                }}
+                variant="outlined"
+                key={index}
+                onDelete={() => {
+                  setSelectedLens(selectedLens.filter((tl) => tl !== tool));
+                }}
+              />
+            ))}
           </Box>
         </Grid>
         <Grid
@@ -135,7 +131,7 @@ function ToolsForm({
           style={{ justifyContent: "center", display: "flex" }}
         >
           <IconButton
-            onClick={() => addTools(lens)}
+            onClick={() => addLens(lens)}
             size="large"
             color="primary"
           >

@@ -21,21 +21,20 @@ import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutl
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 function ArtForm({
+  asset,
+  blob,
+  artist,
+  navigate,
   isUpdate,
-  setIsEditArt,
-  setIsCreateArt,
-  assetArt,
   handleChange,
   artTitle,
   setArtTitle,
   artType,
   setArtType,
-  categories,
   artCategory,
   setArtCategory,
   artCamera,
   setArtCamera,
-  artistTools,
   lensArt,
   setLensArt,
   galleryArt,
@@ -47,11 +46,7 @@ function ArtForm({
   addTags,
   tagsArt,
   setTagsArt,
-  onCreateArt,
-  onUpdateArt,
-  artTypes,
-  tools,
-  galleries,
+  service,
 }) {
   return (
     <Box style={{ padding: 24 }}>
@@ -62,9 +57,7 @@ function ArtForm({
 
         <IconButton
           color="primary"
-          onClick={() =>
-            isUpdate ? setIsEditArt(false) : setIsCreateArt(false)
-          }
+          onClick={() => navigate("/main")}
           style={{ marginLeft: "auto" }}
         >
           <ArrowCircleLeftOutlinedIcon fontSize="large" />
@@ -85,20 +78,12 @@ function ArtForm({
               xl={4}
               style={{ textAlign: "center" }}
             >
-              {assetArt ? (
-                <Button component="label">
+              {asset ? (
+                <Button fullWidth component="label">
                   <img
-                    src={assetArt}
+                    src={asset}
                     alt="image"
-                    srcSet={`${assetArt}`}
-                    loading="lazy"
-                    style={{
-                      borderBottomLeftRadius: 4,
-                      borderBottomRightRadius: 4,
-                      display: "block",
-                      width: "100%",
-                      maxHeight: "232px",
-                    }}
+                    style={{ width: "100%", maxHeight: 500 }}
                   />
                   <input
                     type="file"
@@ -141,8 +126,11 @@ function ArtForm({
                       onChange={(event) => setArtType(event.target.value)}
                       label="Type"
                     >
-                      {artTypes?.map((type) => (
-                        <MenuItem value={type.id} key={type.id}>
+                      {[
+                        { id: 1, name: "Photopgrapher" },
+                        { id: 2, name: "Designer" },
+                      ].map((type) => (
+                        <MenuItem value={type.name} key={type.id}>
                           {type.name}
                         </MenuItem>
                       ))}
@@ -157,13 +145,16 @@ function ArtForm({
                     <Select
                       labelId="category-label"
                       id="category-select"
-                      value={""}
+                      value={artCategory}
                       label="Category"
                       value={artCategory}
                       onChange={(event) => setArtCategory(event.target.value)}
                     >
-                      {categories?.map((type) => (
-                        <MenuItem value={type.id} key={type.id}>
+                      {[
+                        { id: 1, name: "Landscape" },
+                        { id: 2, name: "Portrait" },
+                      ].map((type) => (
+                        <MenuItem value={type.name} key={type.id}>
                           {type.name}
                         </MenuItem>
                       ))}
@@ -191,14 +182,14 @@ function ArtForm({
                       onChange={(event) => setArtCamera(event.target.value)}
                       label="Camera"
                     >
-                      {artistTools?.map(
-                        (art) =>
-                          tools.find((tl) => art.id === tl.id) &&
-                          art.category.name === "Camera" && (
-                            <MenuItem key={art.id} value={art.id}>
-                              {art.name}
-                            </MenuItem>
-                          )
+                      {artist ? (
+                        artist.cameras.map((art, index) => (
+                          <MenuItem key={index} value={art.Text}>
+                            {art.Text}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        <MenuItem>Loading...</MenuItem>
                       )}
                     </Select>
                   </FormControl>
@@ -213,14 +204,14 @@ function ArtForm({
                       onChange={(event) => setLensArt(event.target.value)}
                       label="Lens"
                     >
-                      {artistTools?.map(
-                        (art) =>
-                          tools.find((tl) => art.id === tl.id) &&
-                          art.category.name === "Lens" && (
-                            <MenuItem key={art.id} value={art.id}>
-                              {art.name}
-                            </MenuItem>
-                          )
+                      {artist ? (
+                        artist.lens.map((art, index) => (
+                          <MenuItem key={index} value={art.Text}>
+                            {art.Text}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        <MenuItem>Loading...</MenuItem>
                       )}
                     </Select>
                   </FormControl>
@@ -237,7 +228,7 @@ function ArtForm({
                   onChange={(event) => setGalleryArt(event.target.value)}
                   label="Labels"
                 >
-                  {galleries?.map((gallery) => (
+                  {[].map((gallery) => (
                     <MenuItem value={gallery.id}>{gallery.info.name}</MenuItem>
                   ))}
                 </Select>
@@ -297,11 +288,33 @@ function ArtForm({
             <Button
               variant="outlined"
               onClick={() => {
-                if (isUpdate) {
-                  onUpdateArt();
-                } else {
-                  onCreateArt();
-                }
+                service.createPost(
+                  {
+                    artCategory: artCategory,
+                    artType: artType,
+                    description: aboutArt,
+                    details: [
+                      ["galleryId", { Text: "ID DEGALERIA" }],
+                      [
+                        "camera",
+                        {
+                          Vec: [{ Text: artCamera }],
+                        },
+                      ],
+                      [
+                        "lens",
+                        {
+                          Vec: [{ Text: lensArt }],
+                        },
+                      ],
+                    ],
+                    tags: tagsArt,
+                    asset: "URL DE IMAGEN",
+                    title: artTitle,
+                    tools: [],
+                  },
+                  blob
+                );
               }}
             >
               {isUpdate ? "Update" : "Create"}
