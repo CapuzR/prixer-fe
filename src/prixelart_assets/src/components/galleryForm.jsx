@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as React from "react";
 
 import Box from "@mui/material/Box";
@@ -10,15 +10,17 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function GalleryForm({
-  setIsCrateGallery,
+  navigate,
   titleGallery,
   setTitleGallery,
   aboutGallery,
   setAboutGallery,
-  onCreateGallery,
+  service,
 }) {
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <Box style={{ padding: 24 }}>
       <Box style={{ display: "flex", alignItems: "center" }}>
@@ -26,7 +28,7 @@ function GalleryForm({
 
         <IconButton
           color="primary"
-          onClick={() => setIsCrateGallery(false)}
+          onClick={() => navigate("/main")}
           style={{ marginLeft: "auto" }}
         >
           <ArrowCircleLeftOutlinedIcon fontSize="large" />
@@ -40,6 +42,7 @@ function GalleryForm({
           <Grid container spacing={1}>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
+                disabled={isLoading}
                 type="text"
                 label="title"
                 variant="outlined"
@@ -51,6 +54,7 @@ function GalleryForm({
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
+                disabled={isLoading}
                 type="text"
                 label="About the gallery"
                 variant="outlined"
@@ -64,8 +68,23 @@ function GalleryForm({
             </Grid>
           </Grid>
           <Box style={{ marginTop: 12 }}>
-            <Button variant="outlined" onClick={() => onCreateGallery()}>
-              Create
+            <Button
+              variant="outlined"
+              disabled={!titleGallery || !aboutGallery || isLoading}
+              onClick={async () => {
+                setIsLoading(true);
+                await service.createGallery({
+                  artistPpal: JSON.parse(localStorage.getItem("_scApp"))
+                    .principal,
+                  description: aboutGallery,
+                  galleryBanner: ["Banner"],
+                  name: titleGallery,
+                });
+                setIsLoading(false);
+                navigate("/main");
+              }}
+            >
+              {isLoading ? <CircularProgress size={32} /> : "Create"}
             </Button>
           </Box>
           <Box

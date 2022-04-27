@@ -21,10 +21,11 @@ function PaperProfile({
   handleOpenActionMenuProfile,
   openActionMenuProfile,
   isGuest,
-  service,
+  setViewDialogFollowers,
   details,
   handleFollowers,
   isLoadingFollows,
+  setOpenDialogFollowers,
 }) {
   return (
     <Paper
@@ -227,6 +228,10 @@ function PaperProfile({
                 overflow: "hidden",
                 textOverflow: "ellipsis",
               }}
+              onClick={() => {
+                setViewDialogFollowers("followers");
+                setOpenDialogFollowers(true);
+              }}
             >
               <Box
                 style={{
@@ -263,6 +268,10 @@ function PaperProfile({
                 overflow: "hidden",
                 textOverflow: "ellipsis",
               }}
+              onClick={() => {
+                setViewDialogFollowers("followings");
+                setOpenDialogFollowers(true);
+              }}
             >
               <Box
                 style={{
@@ -272,7 +281,7 @@ function PaperProfile({
                   fontSize: 14,
                 }}
               >
-                Followings
+                Following
               </Box>
               <Box
                 style={{

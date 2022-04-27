@@ -103,6 +103,7 @@ function NavigationBar({
               setIsCrateGallery(true);
               setAnchorElActionMenu(null);
               setOpenActionMenu(false);
+              navigate("/addGallery");
             }}
           >
             Create Gallery

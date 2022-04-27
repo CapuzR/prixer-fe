@@ -47,6 +47,8 @@ function ArtForm({
   tagsArt,
   setTagsArt,
   service,
+  artLocation,
+  setArtLocation,
 }) {
   return (
     <Box style={{ padding: 24 }}>
@@ -147,7 +149,6 @@ function ArtForm({
                       id="category-select"
                       value={artCategory}
                       label="Category"
-                      value={artCategory}
                       onChange={(event) => setArtCategory(event.target.value)}
                     >
                       {[
@@ -165,6 +166,8 @@ function ArtForm({
                   <TextField
                     type="text"
                     label="Location"
+                    value={artLocation}
+                    onChange={(event) => setArtLocation(event.target.value)}
                     variant="outlined"
                     fullWidth
                     style={{ marginBottom: 4 }}
@@ -173,9 +176,10 @@ function ArtForm({
               </Box>
               <Box style={{ display: "flex" }}>
                 <Box style={{ width: "50%", marginRight: 4 }}>
-                  <FormControl style={{ marginBottom: 4 }} fullWidth>
+                  <FormControl style={{ marginBottom: 4 }} required fullWidth>
                     <InputLabel id="camera-label">Camera</InputLabel>
                     <Select
+                      required
                       labelId="camera-label"
                       id="category-select"
                       value={artCamera}
@@ -195,7 +199,7 @@ function ArtForm({
                   </FormControl>
                 </Box>
                 <Box style={{ width: "50%" }}>
-                  <FormControl style={{ marginBottom: 4 }} fullWidth>
+                  <FormControl style={{ marginBottom: 4 }} required fullWidth>
                     <InputLabel id="camera-label">Lens</InputLabel>
                     <Select
                       labelId="camera-label"
@@ -245,6 +249,7 @@ function ArtForm({
                 rows={4}
                 value={aboutArt}
                 onChange={(event) => setAboutArt(event.target.value)}
+                required
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -286,15 +291,32 @@ function ArtForm({
           </Grid>
           <Box style={{ marginTop: 12 }}>
             <Button
+              disabled={
+                !artTitle ||
+                !aboutArt ||
+                !artType ||
+                !artCamera ||
+                !lensArt ||
+                !asset ||
+                !artCategory
+              }
               variant="outlined"
-              onClick={() => {
+              onClick={async () => {
                 service.createPost(
                   {
                     artCategory: artCategory,
                     artType: artType,
                     description: aboutArt,
                     details: [
-                      ["galleryId", { Text: "ID DEGALERIA" }],
+                      [
+                        "gallery",
+                        { Text: galleryArt === "" ? "false" : galleryArt },
+                      ],
+                      [
+                        "location",
+                        { Text: artLocation === "" ? "false" : artLocation },
+                      ],
+
                       [
                         "camera",
                         {
@@ -315,6 +337,7 @@ function ArtForm({
                   },
                   blob
                 );
+                navigate("/main");
               }}
             >
               {isUpdate ? "Update" : "Create"}

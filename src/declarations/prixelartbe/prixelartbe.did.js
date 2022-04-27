@@ -77,6 +77,8 @@ export const idlFactory = ({ IDL }) => {
     'comments' : IDL.Opt(
       IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment))
     ),
+    'likedByCaller' : IDL.Bool,
+    'postId' : IDL.Text,
   });
   const ArtistRead = IDL.Record({
     'postsQty' : IDL.Nat,
@@ -104,6 +106,8 @@ export const idlFactory = ({ IDL }) => {
     'comments' : IDL.Opt(
       IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment))
     ),
+    'likedByCaller' : IDL.Bool,
+    'postId' : IDL.Text,
   });
   const Result_2 = IDL.Variant({ 'ok' : IDL.Vec(PostRead), 'err' : Error });
   const Gallery = IDL.Record({
@@ -114,10 +118,7 @@ export const idlFactory = ({ IDL }) => {
     'description' : IDL.Text,
     'artistPpal' : IDL.Principal,
   });
-  const Result_5 = IDL.Variant({
-    'ok' : IDL.Vec(IDL.Tuple(IDL.Text, Gallery)),
-    'err' : Error,
-  });
+  const Result_5 = IDL.Variant({ 'ok' : IDL.Vec(Gallery), 'err' : Error });
   const Result_4 = IDL.Variant({ 'ok' : PostRead, 'err' : Error });
   const Suggestion__1 = IDL.Record({
     'createdAt' : IDL.Int,
@@ -168,6 +169,11 @@ export const idlFactory = ({ IDL }) => {
     'readPostById' : IDL.Func([IDL.Text], [Result_4], ['query']),
     'readPostSuggestions' : IDL.Func([IDL.Text], [Result_3], ['query']),
     'readPostsByCreation' : IDL.Func([IDL.Int, IDL.Int], [Result_2], ['query']),
+    'readPostsByGallery' : IDL.Func(
+        [IDL.Text, IDL.Int, IDL.Int],
+        [Result_2],
+        ['query'],
+      ),
     'readSuggestionsQtyByArtist' : IDL.Func([IDL.Text], [Result_1], ['query']),
     'readSuggestionsQtyByPost' : IDL.Func([IDL.Text], [Result_1], ['query']),
     'relPrincipalWithUsername' : IDL.Func(
@@ -175,6 +181,7 @@ export const idlFactory = ({ IDL }) => {
         [Result],
         [],
       ),
+    'removeArtist' : IDL.Func([], [Result], []),
     'removeComment' : IDL.Func([IDL.Text, IDL.Text], [Result], []),
     'removeFollow' : IDL.Func([IDL.Text], [Result], []),
     'removeGallery' : IDL.Func([IDL.Text], [Result], []),

@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import consts from "../../consts/index";
 import service from "../service";
@@ -26,6 +27,8 @@ import ProfileForm from "../../components/profileForm";
 import ToolsForm from "../../components/toolsForm";
 import HandleProfileForms from "../../components/handleProfileForms";
 import ListArts from "../../components/listArts";
+import DialogFollowers from "../../components/dialogFollowers";
+import ListGalleries from "../../components/listGalleries";
 
 function Profile() {
   const navigate = useNavigate();
@@ -44,6 +47,7 @@ function Profile() {
   const [severity, setSeverity] = useState("");
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [artist, setArtist] = useState(undefined);
+  const [galleries, setGalleries] = useState([]);
   const [openActionMenu, setOpenActionMenu] = useState(false);
   const [anchorElActionMenu, setAnchorElActionMenu] = useState(null);
   const [openActionMenuProfile, setOpenActionMenuProfile] = useState(false);
@@ -51,7 +55,9 @@ function Profile() {
     useState(null);
   const [details, setDetails] = useState();
   const [isLoadingFollows, setIsLoadingFollows] = useState(false);
-  const [isLoadingFollowers, setIsLoadingFollowers] = useState(false);
+
+  const [isDialogFollowersOpen, setIsDialogFollowersOpen] = useState(false);
+  const [viewDialogFollowers, setViewDialogFollowers] = useState("");
   ///FORM PROFILE
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -104,18 +110,32 @@ function Profile() {
       if (!localStorage.getItem("wallet")) navigate("/login");
       setIsLoading(true);
       if (params.username === localStorage.getItem("username")) {
-        const artist = await service.getArtist();
-        setIsGuest(false);
-        const parseArtist = service.parseArtist(artist);
-        setArtist(parseArtist);
-        setIsLoading(false);
+        await Promise.all([
+          service.getArtistByUsername(params.username),
+          service.getArtistDetailsByUsername(params.username),
+          service.getGalleriesByArtist(params.username),
+        ])
+          .then(([artistProfile, detailsProfile, galleries]) => {
+            setGalleries(galleries.ok);
+            const parseArtistProfile = service.parseArtist(artistProfile);
+            setArtist(parseArtistProfile);
+            setDetails(detailsProfile.ok);
+            setIsGuest(false);
+            setIsLoading(false);
+            console.log(details);
+          })
+          .catch(() => {
+            setIsLoading(false);
+          });
       } else {
         await Promise.all([
           service.getArtistByUsername(params.username),
           service.getArtistDetailsByUsername(params.username),
+          service.getGalleriesByArtist(params.username),
         ])
-          .then(([artistProfile, detailsProfile]) => {
+          .then(([artistProfile, detailsProfile, galleries]) => {
             const parseArtistProfile = service.parseArtist(artistProfile);
+            setGalleries(galleries.ok);
             setArtist(parseArtistProfile);
             setDetails(detailsProfile.ok);
             setIsGuest(true);
@@ -128,8 +148,6 @@ function Profile() {
     }
     init();
   }, [params]);
-  console.log(details);
-
   useEffect(() => {
     if (isEditProfile) {
       setUsername(artist.username);
@@ -147,6 +165,7 @@ function Profile() {
       setSelectedCameras(parseCameras);
     }
   }, [isEditProfile]);
+  console.log(details);
 
   return (
     <div
@@ -286,6 +305,9 @@ function Profile() {
                 details={details}
                 handleFollowers={handleFollowers}
                 isLoadingFollows={isLoadingFollows}
+                setViewDialogFollowers={setViewDialogFollowers}
+                setDetails={setDetails}
+                setOpenDialogFollowers={setIsDialogFollowersOpen}
               />
               <Menu
                 id="basic-menu-profile"
@@ -370,88 +392,33 @@ function Profile() {
               </Box>
             </Box>
             <Box style={{ padding: 16, paddingBottom: 72 }}>
-              {profileScreen === consts.PROFILE_SCREEN_ART ? (
+              {isLoading ? (
+                <Box style={{ marginTop: 32, textAlign: "center" }}>
+                  <CircularProgress />
+                </Box>
+              ) : profileScreen === consts.PROFILE_SCREEN_ART ? (
                 <ListArts
                   navigate={navigate}
-                  arts={[
-                    {
-                      img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-                      title: "Fern",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f",
-                      title: "Snacks",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-                      title: "Mushrooms",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383",
-                      title: "Tower",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-                      title: "Sea star",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-                      title: "Honey",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-                      title: "Basketball",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-                      title: "Breakfast",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1627328715728-7bcc1b5db87d",
-                      title: "Tree",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-                      title: "Burger",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-                      title: "Camera",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-                      title: "Coffee",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1627000086207-76eabf23aa2e",
-                      title: "Camping Car",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-                      title: "Hats",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-                      title: "Tomato basil",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1627328561499-a3584d4ee4f7",
-                      title: "Mountain",
-                    },
-                    {
-                      img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-                      title: "Bike",
-                    },
-                  ]}
-                  //   setOpen={setIsDialogOpen}
+                  details={details}
+                  artist={artist}
+                  arts={
+                    details
+                      ? details.postsRead === null
+                        ? []
+                        : details.postsRead[0]
+                      : []
+                  }
+                  setDetails={setDetails}
                 />
               ) : (
-                <>Epale</>
-                // <ListGalleries
-                //   galleries={galleries}
-                //   navigate={navigate}
-                //   deleteGallery={deleteGallery}
-                // />
+                <ListGalleries
+                  galleries={galleries}
+                  navigate={navigate}
+                  setGalleries={setGalleries}
+                  galleries={galleries}
+                  setDetails={setDetails}
+                  details={details}
+                />
               )}
             </Box>
           </>
@@ -515,6 +482,17 @@ function Profile() {
               </Menu>
             </>
           )}
+      {isDialogFollowersOpen && (
+        <DialogFollowers
+          open={isDialogFollowersOpen}
+          setOpen={setIsDialogFollowersOpen}
+          artist={artist}
+          viewDialogFollowers={viewDialogFollowers}
+          setViewDialogFollowers={setViewDialogFollowers}
+          navigate={navigate}
+        />
+      )}
+
       <Snackbar
         autoHideDuration={3000}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -593,19 +571,18 @@ function Profile() {
   }
 
   async function handleFollowers(details) {
-    setIsLoadingFollows(true);
-
+    const newData = { ...details };
+    newData.followedByCaller = !newData.followedByCaller;
+    setDetails(newData);
     if (details.followedByCaller) {
+      newData.followersQty = parseInt(newData.followersQty) - 1;
+      setDetails(newData);
       await service.removeFollow(artist.username);
     } else {
+      newData.followersQty = parseInt(newData.followersQty) + 1;
+      setDetails(newData);
       await service.addFollow(artist.username);
     }
-    const detailsProfile = await service.getArtistDetailsByUsername(
-      artist.username
-    );
-    setIsLoadingFollows(false);
-
-    setDetails(detailsProfile.ok);
   }
 }
 

@@ -59,12 +59,15 @@ function Main() {
   useEffect(() => {
     async function init() {
       if (!localStorage.getItem("wallet")) navigate("/login");
+
       setIsLoading(true);
-      const artist = await service.getArtist();
-      const parseArtist = service.parseArtist(artist);
-      const posts = await service.getPostsByCreation();
-      setArtist(parseArtist);
-      setIsLoading(false);
+      await Promise.all([service.getArtist(), service.getPostsByCreation()])
+        .then(([artist, posts]) => {
+          const parseArtist = service.parseArtist(artist);
+          setArtist(parseArtist);
+          setIsLoading(false);
+        })
+        .catch((err) => setIsLoading(false));
     }
     init();
   }, []);

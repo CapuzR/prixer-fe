@@ -24,19 +24,31 @@ function AddArt() {
   const [tagValue, setTagValue] = useState("");
   const [aboutArt, setAboutArt] = useState("");
   const [galleryArt, setGalleryArt] = useState("");
+  const [artLocation, setArtLocation] = useState("");
   const [asset, setAsset] = useState();
   const [blob, setBlob] = useState();
+  const [galleries, setGalleries] = useState([]);
   //   const [titleGallery, setTitleGallery] = useState("");
   //   const [aboutGallery, setAboutGallery] = useState("");
 
   useEffect(() => {
     async function init() {
-      const artist = await service.getArtist();
-      const parseArtist = service.parseArtist(artist);
-      setArtist(parseArtist);
+      await Promise.all([
+        service.getArtist(),
+        service.getGalleriesByArtist(localStorage.getItem("username")),
+      ])
+        .then(([artist, galleries]) => {
+          const parseArtist = service.parseArtist(artist);
+          const parsedGalleries = service.parseGalleries(galleries);
+          setGalleries(parsedGalleries);
+          setArtist(parseArtist);
+        })
+        .catch(console.log);
     }
     init();
   }, []);
+  console.log(artist);
+  console.log(galleries);
   return (
     <div
       style={{
@@ -72,6 +84,8 @@ function AddArt() {
           setTagsArt={setTagsArt}
           onUpdateArt={console.log}
           service={service}
+          artLocation={artLocation}
+          setArtLocation={setArtLocation}
         />
       </Box>
     </div>

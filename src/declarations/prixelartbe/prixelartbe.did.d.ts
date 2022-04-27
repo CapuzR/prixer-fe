@@ -80,12 +80,16 @@ export interface PostRead {
   'post' : Post,
   'likesQty' : bigint,
   'comments' : [] | [Array<[Principal, string, string, Comment]>],
+  'likedByCaller' : boolean,
+  'postId' : string,
 }
 export interface PostRead__1 {
   'suggestions' : [] | [Array<[Principal, string, string, Suggestion]>],
   'post' : Post,
   'likesQty' : bigint,
   'comments' : [] | [Array<[Principal, string, string, Comment]>],
+  'likedByCaller' : boolean,
+  'postId' : string,
 }
 export interface PostUpdate { 'postBasics' : PostBasics, 'postId' : string }
 export type Result = { 'ok' : null } |
@@ -100,7 +104,7 @@ export type Result_3 = {
   { 'err' : Error };
 export type Result_4 = { 'ok' : PostRead } |
   { 'err' : Error };
-export type Result_5 = { 'ok' : Array<[string, Gallery]> } |
+export type Result_5 = { 'ok' : Array<Gallery> } |
   { 'err' : Error };
 export type Result_6 = {
     'ok' : Array<[Principal, string, string, Comment__1]>
@@ -149,11 +153,17 @@ export interface _SERVICE {
   'readPostById' : (arg_0: string) => Promise<Result_4>,
   'readPostSuggestions' : (arg_0: string) => Promise<Result_3>,
   'readPostsByCreation' : (arg_0: bigint, arg_1: bigint) => Promise<Result_2>,
+  'readPostsByGallery' : (
+      arg_0: string,
+      arg_1: bigint,
+      arg_2: bigint,
+    ) => Promise<Result_2>,
   'readSuggestionsQtyByArtist' : (arg_0: string) => Promise<Result_1>,
   'readSuggestionsQtyByPost' : (arg_0: string) => Promise<Result_1>,
   'relPrincipalWithUsername' : (arg_0: Principal, arg_1: string) => Promise<
       Result
     >,
+  'removeArtist' : () => Promise<Result>,
   'removeComment' : (arg_0: string, arg_1: string) => Promise<Result>,
   'removeFollow' : (arg_0: string) => Promise<Result>,
   'removeGallery' : (arg_0: string) => Promise<Result>,

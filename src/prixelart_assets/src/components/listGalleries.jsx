@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as React from "react";
 
 import Box from "@mui/material/Box";
@@ -9,14 +9,24 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CircularProgress from "@mui/material/CircularProgress";
 
-function ListGalleries({ galleries, navigate, deleteGallery }) {
+import service from "../pages/service";
+
+function ListGalleries({
+  galleries,
+  navigate,
+  setGalleries,
+  setDetails,
+  details,
+}) {
+  const [isLoading, setIsLoading] = useState(undefined);
   return (
     <Grid container spacing={1}>
       {galleries?.map((item, index) => (
         <Grid key={index} item xs={12} sm={4} md={4} lg={4} xl={3}>
           <Card
-            onClick={() => navigate(`/main?page=profile&gallery=${item.id}`)}
+          // onClick={() => navigate(`/main?page=profile&gallery=${item.id}`)}
           >
             <CardMedia
               component="img"
@@ -43,21 +53,35 @@ function ListGalleries({ galleries, navigate, deleteGallery }) {
                   }}
                 >
                   <Typography gutterBottom variant="h5" component="div">
-                    {item.info.name}
+                    {item.name}
                   </Typography>
                 </Box>
                 <Box style={{ marginLeft: "auto" }}>
                   <IconButton
                     color="primary"
-                    onClick={() => deleteGallery(item.id)}
+                    onClick={async () => {
+                      setIsLoading(item.id);
+                      await service.removeGallery(item.id);
+                      setIsLoading(undefined);
+                      setGalleries(
+                        galleries.filter((galery) => galery.id !== item.id)
+                      );
+                      const newData = { ...details };
+                      newData.galleriesQty = newData.galleriesQty - 1;
+                      setDetails(newData);
+                    }}
                   >
-                    <DeleteIcon />
+                    {isLoading === item.id ? (
+                      <CircularProgress size={32} />
+                    ) : (
+                      <DeleteIcon />
+                    )}
                   </IconButton>
                 </Box>
               </Box>
 
               <Typography variant="body2" color="text.secondary">
-                {item.info.description}
+                {item.description}
               </Typography>
             </CardContent>
           </Card>

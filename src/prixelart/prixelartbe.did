@@ -37,10 +37,7 @@ type Result_6 =
 type Result_5 = 
  variant {
    err: Error;
-   ok: vec record {
-             text;
-             Gallery;
-           };
+   ok: vec Gallery;
  };
 type Result_4 = 
  variant {
@@ -85,8 +82,10 @@ type PostRead__1 =
                        text;
                        Comment;
                      };
+   likedByCaller: bool;
    likesQty: int;
    post: Post;
+   postId: text;
    suggestions: opt vec record {
                           principal;
                           text;
@@ -102,8 +101,10 @@ type PostRead =
                        text;
                        Comment;
                      };
+   likedByCaller: bool;
    likesQty: int;
    post: Post;
+   postId: text;
    suggestions: opt vec record {
                           principal;
                           text;
@@ -243,9 +244,11 @@ service : {
   readPostById: (text) -> (Result_4) query;
   readPostSuggestions: (text) -> (Result_3) query;
   readPostsByCreation: (int, int) -> (Result_2) query;
+  readPostsByGallery: (text, int, int) -> (Result_2) query;
   readSuggestionsQtyByArtist: (text) -> (Result_1) query;
   readSuggestionsQtyByPost: (text) -> (Result_1) query;
   relPrincipalWithUsername: (principal, text) -> (Result);
+  removeArtist: () -> (Result);
   removeComment: (text, text) -> (Result);
   removeFollow: (text) -> (Result);
   removeGallery: (text) -> (Result);

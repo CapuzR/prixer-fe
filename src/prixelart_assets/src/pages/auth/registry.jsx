@@ -425,38 +425,41 @@ function Registry({}) {
             const parseLens = selectedLens.map((lens) => ({
               Text: lens,
             }));
-            onCreateArtist({
-              description: "Artista de prueba",
-              details: [
-                ["firstName", { Text: givenName }],
-                ["lastName", { Text: familyName }],
-                ["artType", { Text: artType }],
-                ["username", { Text: username }],
-                ["displayName", { Text: displayName }],
-                ["location", { Text: location }],
-                ["email", { Text: email }],
-                ["phone", { Text: phone }],
-                ["about", { Text: about }],
-                [
-                  "cameras",
-                  {
-                    Vec: parseCameras,
-                  },
+            onCreateArtist(
+              {
+                description: "Artista de prueba",
+                details: [
+                  ["firstName", { Text: givenName }],
+                  ["lastName", { Text: familyName }],
+                  ["artType", { Text: artType }],
+                  ["username", { Text: username }],
+                  ["displayName", { Text: displayName }],
+                  ["location", { Text: location }],
+                  ["email", { Text: email }],
+                  ["phone", { Text: phone }],
+                  ["about", { Text: about }],
+                  [
+                    "cameras",
+                    {
+                      Vec: parseCameras,
+                    },
+                  ],
+                  [
+                    "lens",
+                    {
+                      Vec: parseLens,
+                    },
+                  ],
                 ],
-                [
-                  "lens",
-                  {
-                    Vec: parseLens,
-                  },
-                ],
-              ],
-              frontend: [],
-              name: `${givenName} ${familyName}`,
-              principal_id: JSON.parse(localStorage.getItem("_scApp"))
-                .principal,
-              thumbnail:
-                "https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg",
-            });
+                frontend: [],
+                name: `${givenName} ${familyName}`,
+                principal_id: JSON.parse(localStorage.getItem("_scApp"))
+                  .principal,
+                thumbnail:
+                  "https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg",
+              },
+              username
+            );
           }}
         >
           {isLoading ? (
@@ -519,10 +522,10 @@ function Registry({}) {
     navigate("/login");
   }
 
-  async function onCreateArtist(artist) {
+  async function onCreateArtist(artist, username) {
     setIsLoading(true);
     await Promise.all([
-      service.addArtist(artist),
+      service.addArtist(artist, username),
       service.relPrincipalWithUsername(username),
     ]).then(() => {
       navigate("/main");

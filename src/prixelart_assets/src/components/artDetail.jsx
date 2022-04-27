@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as React from "react";
 
 import Box from "@mui/material/Box";
@@ -14,25 +14,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-function ArtDetail({
-  navigate,
-  arts,
-  searchParams,
-  mobileBreakpoint,
-  deleteArt,
-  setIsEditArt,
-  setOpen,
-}) {
+function ArtDetail({ post, navigate, mobileBreakpoint }) {
   return (
     <Box>
       <Box style={{ padding: 16 }}>
         <Box style={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h4">Art Detail</Typography>
+          <Typography variant="h4">Post Detail</Typography>
 
           <IconButton
             color="primary"
-            onClick={() => navigate("/main?page=profile")}
+            onClick={() => navigate("/main")}
             style={{ marginLeft: "auto" }}
           >
             <ArrowCircleLeftOutlinedIcon fontSize="large" />
@@ -40,8 +33,8 @@ function ArtDetail({
         </Box>
       </Box>
       <img
-        src={arts.find((art) => art.id === searchParams.get("image"))?.image}
-        srcSet={arts.find((art) => art.id === searchParams.get("image"))?.image}
+        src={post?.post?.postBasics?.asset}
+        srcSet={post?.post?.postBasics?.asset}
         alt={"image"}
         loading="lazy"
         style={{
@@ -58,40 +51,31 @@ function ArtDetail({
           <Box>
             <Box style={{ display: "flex", alignItems: "center" }}>
               <Typography variant="h5">
-                {
-                  arts.find((art) => art.id === searchParams.get("image"))?.info
-                    ?.artBasics?.title
-                }
+                {post?.post?.postBasics?.title}
               </Typography>
               <IconButton>
                 <FavoriteBorderIcon />
               </IconButton>
-              <IconButton onClick={() => setOpen(true)}>
-                <HeartBrokenIcon />
-              </IconButton>
             </Box>
             <Box>
               <Typography variant="body1">
-                {
-                  arts.find((art) => art.id === searchParams.get("image"))?.info
-                    ?.artBasics?.about
-                }
+                {post?.post?.postBasics?.description}
               </Typography>
             </Box>
           </Box>
           <Box style={{ marginLeft: "auto" }}>
             <IconButton
               color="primary"
-              onClick={() => deleteArt(searchParams.get("image"))}
+              // onClick={() => deleteArt(searchParams.get("image"))}
             >
               <DeleteIcon />
             </IconButton>
-            <IconButton color="primary" onClick={() => setIsEditArt(true)}>
+            <IconButton color="primary">
               <EditIcon />
             </IconButton>
           </Box>
         </Box>
-        <Box style={{ marginTop: 24 }}>
+        {/*<Box style={{ marginTop: 24 }}>
           <Box style={{ display: "flex" }}>
             <Box style={{ marginRight: 8 }}>
               <CameraAltIcon color="primary" />
@@ -140,7 +124,7 @@ function ArtDetail({
         </Box>
         <Box style={{ marginTop: 16 }}>
           <Typography variant="h6">Comments</Typography>
-        </Box>
+        </Box>*/}
       </Box>
     </Box>
   );

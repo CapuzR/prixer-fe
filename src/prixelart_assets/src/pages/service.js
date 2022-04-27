@@ -19,6 +19,15 @@ const service = {
   relPrincipalWithUsername,
   getArtistDetailsByUsername,
   removeFollow,
+  getFollowersByArtist,
+  getArtistFollows,
+  createGallery,
+  getGalleriesByArtist,
+  parseGalleries,
+  removeGallery,
+  addLike,
+  removeLike,
+  getPostByID,
 };
 
 export default service;
@@ -44,7 +53,7 @@ async function onSignOutStoic() {
 }
 
 async function wPActorPrixer(identity) {
-  return await wPCreateActorPrixer("r7inp-6aaaa-aaaaa-aaabq-cai", {
+  return await wPCreateActorPrixer("ryjl3-tyaaa-aaaaa-aaaba-cai", {
     agentOptions: {
       identity: identity,
     },
@@ -52,7 +61,7 @@ async function wPActorPrixer(identity) {
 }
 
 async function wPActorPrixerArt(identity) {
-  return await wPCreateActorArt("rrkah-fqaaa-aaaaa-aaaaq-cai", {
+  return await wPCreateActorArt("rkp4c-7iaaa-aaaaa-aaaca-cai", {
     agentOptions: {
       identity: identity,
     },
@@ -110,14 +119,17 @@ async function relPrincipalWithUsername(username) {
     Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
     username
   );
+  console.log(result);
   return result;
 }
 
-async function addArtist(artist) {
+async function addArtist(artist, username) {
   artist.principal_id = Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
   const actor = await wPActorPrixerArt(identity);
   const result = await actor.add(artist);
+  localStorage.setItem("username", username);
+  console.log(result);
   return result;
 }
 
@@ -127,6 +139,7 @@ async function getArtist() {
   const result = await actor.get(
     Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
+  console.log(result);
   return result;
 }
 
@@ -136,6 +149,7 @@ async function deleteArtist() {
   const result = await actor.remove(
     Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
+  console.log(result);
   return result;
 }
 
@@ -154,29 +168,30 @@ async function getArtistByUsername(username) {
   const identity = await onSignInStoic();
   const actor = await wPActorPrixerArt(identity);
   const result = await actor.getByUsername(username);
+  console.log(result, "EPALE");
   return result;
 }
 
 async function getArtistDetailsByUsername(username) {
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
-
   const result = await actor.readArtistProfile(username);
-  console.log(result);
   return result;
 }
 
 async function getPostsByCreation() {
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
-  const result = await actor.readPostsByCreation(5, 1);
+  const result = await actor.readPostsByCreation(20, 1);
   return result;
 }
 
 async function createPost(post, blob) {
+  console.log({ postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });
+  console.log(result);
   return result;
 }
 
@@ -184,6 +199,7 @@ async function addFollow(username) {
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
   const result = await actor.addFollow(username);
+  console.log(result);
   return result;
 }
 
@@ -191,6 +207,75 @@ async function removeFollow(principal) {
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
   const result = await actor.removeFollow(principal);
+  console.log(result);
+  return result;
+}
 
+async function getFollowersByArtist(username) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.readArtistFollowers(username);
+  return result;
+}
+
+async function getArtistFollows(username) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.readArtistFollows(username);
+  return result;
+}
+
+async function createGallery(gallery) {
+  gallery.artistPpal = Principal.fromText(
+    JSON.parse(localStorage.getItem("_scApp")).principal
+  );
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.createGallery(gallery);
+  console.log(result);
+  return result;
+}
+
+async function getGalleriesByArtist(username) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.readGalleriesByArtist(username);
+  console.log(result);
+  return result;
+}
+
+function parseGalleries(galleries) {
+  const arrayGalleries = [];
+  galleries.ok.map((gallery) => arrayGalleries.push(gallery[1]));
+  return arrayGalleries;
+}
+
+async function removeGallery(id) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.removeGallery(id);
+  return result;
+}
+
+async function addLike(id) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.addLike(id);
+  console.log(result, "ADD");
+  return result;
+}
+
+async function removeLike(id) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.removeLike(id);
+  console.log(result, "REMOVE");
+  return result;
+}
+async function getPostByID(id) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.readPostById(id);
+  console.log(result);
   return result;
 }

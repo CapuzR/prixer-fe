@@ -26,7 +26,6 @@ function ToolsForm({
   addLens,
   setSelectedLens,
 }) {
-  console.log(tools);
   return (
     <>
       <Grid container spacing={1} style={{ marginTop: 24 }}>

@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import * as React from "react";
 import Masonry from "@mui/lab/Masonry";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-function ListArts({ arts, navigate, setOpen }) {
+import service from "../pages/service";
+
+function ListArts({ arts, navigate, artist, setDetails, details }) {
+  console.log(details);
   return (
     <Masonry columns={3} spacing={0.2}>
       {arts?.map((item, index) => (
         <div key={index}>
           <img
-            onClick={() => navigate("/profile?image=" + index)}
-            src={`${item.img}?w=162&auto=format`}
-            srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
+            onClick={() => navigate(`/post/${item.postId}`)}
+            src={`${item.post.postBasics.asset}`}
+            srcSet={`${item.post.postBasics.asset}`}
             alt={index}
             loading="lazy"
             style={{
@@ -32,17 +35,37 @@ function ListArts({ arts, navigate, setOpen }) {
               color: "white",
             }}
           >
-            <IconButton style={{ color: "white" }} size="small">
-              <FavoriteBorderIcon fontSize="small" />
-            </IconButton>
-            <IconButton size="small" style={{ color: "white" }}>
-              <ModeCommentOutlinedIcon fontSize="small" />
+            <IconButton
+              style={{ color: "white" }}
+              size="small"
+              onClick={() => {
+                if (item.likedByCaller) {
+                  service.removeLike(item.postId);
+                } else {
+                  service.addLike(item.postId);
+                }
+                handleLikePost(item.postId);
+              }}
+            >
+              {item.likedByCaller ? (
+                <FavoriteIcon fontSize="small" />
+              ) : (
+                <FavoriteBorderIcon fontSize="small" />
+              )}
             </IconButton>
           </div>
         </div>
       ))}
     </Masonry>
   );
+
+  function handleLikePost(postId) {
+    const posts = [...arts];
+    const currentPost = posts.findIndex((post) => post.postId === postId);
+    posts[currentPost].likedByCaller = !posts[currentPost].likedByCaller;
+    const formatPosts = [posts];
+    setDetails({ ...details, postsRead: formatPosts });
+  }
 }
 
 export default ListArts;
