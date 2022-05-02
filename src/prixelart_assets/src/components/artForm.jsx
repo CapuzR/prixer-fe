@@ -49,6 +49,7 @@ function ArtForm({
   service,
   artLocation,
   setArtLocation,
+  setIsEditPost,
 }) {
   return (
     <Box style={{ padding: 24 }}>
@@ -59,7 +60,7 @@ function ArtForm({
 
         <IconButton
           color="primary"
-          onClick={() => navigate("/main")}
+          onClick={() => (!isUpdate ? navigate(-1) : setIsEditPost(false))}
           style={{ marginLeft: "auto" }}
         >
           <ArrowCircleLeftOutlinedIcon fontSize="large" />
@@ -71,40 +72,50 @@ function ArtForm({
           style={{ padding: 24, marginTop: 14, width: "100%" }}
         >
           <Grid container spacing={1}>
+            {!isUpdate && (
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={4}
+                xl={4}
+                style={{ textAlign: "center" }}
+              >
+                {asset ? (
+                  <Button fullWidth component="label">
+                    <img
+                      src={asset}
+                      alt="image"
+                      style={{ width: "100%", maxHeight: 500 }}
+                    />
+                    <input
+                      type="file"
+                      hidden
+                      onChange={(event) => handleChange(event, false)}
+                    />
+                  </Button>
+                ) : (
+                  <Button fullWidth component="label">
+                    <AddPhotoAlternateIcon style={{ height: 230, width: 80 }} />
+                    <input
+                      type="file"
+                      hidden
+                      onChange={(event) => handleChange(event, false)}
+                    />
+                  </Button>
+                )}
+              </Grid>
+            )}
+
             <Grid
               item
               xs={12}
               sm={12}
-              md={6}
-              lg={4}
-              xl={4}
-              style={{ textAlign: "center" }}
+              md={isUpdate ? 12 : 6}
+              lg={isUpdate ? 12 : 8}
+              xl={isUpdate ? 12 : 8}
             >
-              {asset ? (
-                <Button fullWidth component="label">
-                  <img
-                    src={asset}
-                    alt="image"
-                    style={{ width: "100%", maxHeight: 500 }}
-                  />
-                  <input
-                    type="file"
-                    hidden
-                    onChange={(event) => handleChange(event, false)}
-                  />
-                </Button>
-              ) : (
-                <Button fullWidth component="label">
-                  <AddPhotoAlternateIcon style={{ height: 230, width: 80 }} />
-                  <input
-                    type="file"
-                    hidden
-                    onChange={(event) => handleChange(event, false)}
-                  />
-                </Button>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={8} xl={8}>
               <Box style={{ display: "flex" }}>
                 <Box style={{ width: "50%", marginRight: 4 }}>
                   <TextField

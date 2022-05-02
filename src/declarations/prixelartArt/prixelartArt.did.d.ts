@@ -46,7 +46,7 @@ export interface _SERVICE {
   'isArtistWhitelisted' : (arg_0: Principal) => Promise<Result_1>,
   'name' : () => Promise<string>,
   'remove' : (arg_0: Principal) => Promise<Result>,
-  'update' : (arg_0: Principal, arg_1: Metadata) => Promise<Result>,
+  'update' : (arg_0: Metadata) => Promise<Result>,
   'usernameExist' : (arg_0: string) => Promise<boolean>,
   'whitelistArtists' : (arg_0: Array<Principal>) => Promise<Result>,
 }

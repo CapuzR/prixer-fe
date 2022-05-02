@@ -28,7 +28,7 @@ function GalleryForm({
 
         <IconButton
           color="primary"
-          onClick={() => navigate("/main")}
+          onClick={() => navigate(-1)}
           style={{ marginLeft: "auto" }}
         >
           <ArrowCircleLeftOutlinedIcon fontSize="large" />

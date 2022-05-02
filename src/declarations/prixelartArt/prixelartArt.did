@@ -70,7 +70,7 @@ service : {
   isArtistWhitelisted: (principal) -> (Result_1);
   name: () -> (text) query;
   remove: (principal) -> (Result);
-  update: (principal, Metadata) -> (Result);
+  update: (Metadata) -> (Result);
   usernameExist: (text) -> (bool) query;
   whitelistArtists: (vec principal) -> (Result);
 }

@@ -13,10 +13,27 @@ import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import CircularProgress from "@mui/material/CircularProgress";
 
-function ArtDetail({ post, navigate, mobileBreakpoint }) {
+import service from "../pages/service";
+
+function ArtDetail({
+  post,
+  navigate,
+  mobileBreakpoint,
+  setPost,
+  setIsEditPost,
+}) {
+  const camera = post?.post?.postBasics?.details.find(
+    (item) => item[0] === "camera"
+  )[1].Vec[0].Text;
+  const lens = post?.post?.postBasics?.details.find(
+    (item) => item[0] === "lens"
+  )[1].Vec[0].Text;
+
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <Box>
       <Box style={{ padding: 16 }}>
@@ -25,7 +42,7 @@ function ArtDetail({ post, navigate, mobileBreakpoint }) {
 
           <IconButton
             color="primary"
-            onClick={() => navigate("/main")}
+            onClick={() => navigate(-1)}
             style={{ marginLeft: "auto" }}
           >
             <ArrowCircleLeftOutlinedIcon fontSize="large" />
@@ -53,9 +70,24 @@ function ArtDetail({ post, navigate, mobileBreakpoint }) {
               <Typography variant="h5">
                 {post?.post?.postBasics?.title}
               </Typography>
-              <IconButton>
-                <FavoriteBorderIcon />
+              <IconButton
+                color="primary"
+                onClick={() => {
+                  if (post?.likedByCaller) {
+                    service.removeLike(post?.postId);
+                  } else {
+                    service.addLike(post?.postId);
+                  }
+                  handleLikePost();
+                }}
+              >
+                {post?.likedByCaller ? (
+                  <FavoriteIcon />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
               </IconButton>
+              <Box>{parseInt(post?.likesQty)}</Box>
             </Box>
             <Box>
               <Typography variant="body1">
@@ -63,33 +95,37 @@ function ArtDetail({ post, navigate, mobileBreakpoint }) {
               </Typography>
             </Box>
           </Box>
-          <Box style={{ marginLeft: "auto" }}>
-            <IconButton
-              color="primary"
-              // onClick={() => deleteArt(searchParams.get("image"))}
-            >
-              <DeleteIcon />
-            </IconButton>
-            <IconButton color="primary">
-              <EditIcon />
-            </IconButton>
-          </Box>
+          {post?.artistUsername === localStorage.getItem("username") && (
+            <Box style={{ marginLeft: "auto" }}>
+              <IconButton
+                color="primary"
+                onClick={async () => {
+                  setIsLoading(true);
+                  await service.removePost(post?.postId);
+                  setIsLoading(false);
+                  navigate(-1);
+                }}
+                disabled={isLoading}
+              >
+                {isLoading ? <CircularProgress size={32} /> : <DeleteIcon />}
+              </IconButton>
+              <IconButton
+                color="primary"
+                disabled={isLoading}
+                onClick={() => setIsEditPost(true)}
+              >
+                <EditIcon />
+              </IconButton>
+            </Box>
+          )}
         </Box>
-        {/*<Box style={{ marginTop: 24 }}>
+        <Box style={{ marginTop: 24 }}>
           <Box style={{ display: "flex" }}>
             <Box style={{ marginRight: 8 }}>
               <CameraAltIcon color="primary" />
             </Box>
             <Box>
-              <Typography variant="p">
-                {
-                  arts
-                    .find((art) => art.id === searchParams.get("image"))
-                    ?.info?.artBasics?.tools[0]?.find(
-                      (tl) => tl.category.name === "Camera"
-                    ).name
-                }
-              </Typography>
+              <Typography variant="p">{camera}</Typography>
             </Box>
           </Box>
           <Box style={{ display: "flex" }}>
@@ -97,37 +133,39 @@ function ArtDetail({ post, navigate, mobileBreakpoint }) {
               <CameraOutlinedIcon color="primary" />
             </Box>
             <Box>
-              <Typography variant="p">
-                {
-                  arts
-                    .find((art) => art.id === searchParams.get("image"))
-                    ?.info?.artBasics?.tools[0]?.find(
-                      (tl) => tl.category.name === "Lens"
-                    ).name
-                }
-              </Typography>
+              <Typography variant="p">{lens}</Typography>
             </Box>
           </Box>
         </Box>
         <Box style={{ marginTop: 16 }}>
           <Typography variant="h6">Categories</Typography>
-          {arts
-            .find((art) => art.id === searchParams.get("image"))
-            ?.info?.artBasics?.tags?.map((tag, index) => (
-              <Chip
-                label={tag}
-                variant="outlined"
-                style={{ marginBottom: "6px", marginRight: "2px" }}
-                key={index}
-              />
-            ))}
+          {post?.post?.postBasics?.tags.map((tag, index) => (
+            <Chip
+              label={tag}
+              variant="outlined"
+              style={{ marginBottom: "6px", marginRight: "2px" }}
+              key={index}
+            />
+          ))}
         </Box>
         <Box style={{ marginTop: 16 }}>
           <Typography variant="h6">Comments</Typography>
-        </Box>*/}
+        </Box>
       </Box>
     </Box>
   );
+
+  function handleLikePost() {
+    const currentPost = { ...post };
+    if (currentPost.likedByCaller) {
+      currentPost.likesQty = parseInt(currentPost.likesQty) - 1;
+    } else {
+      currentPost.likesQty = parseInt(currentPost.likesQty) + 1;
+    }
+    currentPost.likedByCaller = !currentPost.likedByCaller;
+
+    setPost(currentPost);
+  }
 }
 
 export default ArtDetail;

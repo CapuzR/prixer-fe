@@ -78,6 +78,7 @@ export interface PostCreate {
 export interface PostRead {
   'suggestions' : [] | [Array<[Principal, string, string, Suggestion]>],
   'post' : Post,
+  'artistUsername' : string,
   'likesQty' : bigint,
   'comments' : [] | [Array<[Principal, string, string, Comment]>],
   'likedByCaller' : boolean,
@@ -86,6 +87,7 @@ export interface PostRead {
 export interface PostRead__1 {
   'suggestions' : [] | [Array<[Principal, string, string, Suggestion]>],
   'post' : Post,
+  'artistUsername' : string,
   'likesQty' : bigint,
   'comments' : [] | [Array<[Principal, string, string, Comment]>],
   'likedByCaller' : boolean,

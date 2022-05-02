@@ -111,7 +111,7 @@ function NavigationBar({
         </Menu>
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
-        <IconButton color="primary">
+        <IconButton color="primary" onClick={() => navigate("/explore")}>
           <SearchIcon fontSize="large" />
         </IconButton>
       </Box>

@@ -10,6 +10,7 @@ import Auth from "../pages/auth";
 import Registry from "../pages/auth/registry";
 import AddArt from "../pages/main/addArt";
 import AddGallery from "../pages/main/addGallery";
+import Explore from "../pages/main/explore";
 import Main from "../pages/main/index";
 import PostDetails from "../pages/main/postDetails";
 import Profile from "../pages/main/profile";
@@ -25,6 +26,7 @@ export const AppRouter = () => {
         <Route path="/addArt" element={<AddArt />} />
         <Route path="/addGallery" element={<AddGallery />} />
         <Route path="/post/:postId" element={<PostDetails />} />
+        <Route path="/explore" element={<Explore />} />
 
         <Route path="*" element={<Navigate to="/main" />} />
       </Routes>

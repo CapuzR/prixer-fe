@@ -7,8 +7,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import service from "../pages/service";
 
-function ListArts({ arts, navigate, artist, setDetails, details }) {
-  console.log(details);
+function ListArts({ arts, navigate, setDetails, details }) {
   return (
     <Masonry columns={3} spacing={0.2}>
       {arts?.map((item, index) => (
@@ -53,6 +52,7 @@ function ListArts({ arts, navigate, artist, setDetails, details }) {
                 <FavoriteBorderIcon fontSize="small" />
               )}
             </IconButton>
+            <div style={{ paddingTop: 3 }}>{parseInt(item.likesQty)}</div>
           </div>
         </div>
       ))}
@@ -62,6 +62,11 @@ function ListArts({ arts, navigate, artist, setDetails, details }) {
   function handleLikePost(postId) {
     const posts = [...arts];
     const currentPost = posts.findIndex((post) => post.postId === postId);
+    if (posts[currentPost].likedByCaller) {
+      posts[currentPost].likesQty = parseInt(posts[currentPost].likesQty) - 1;
+    } else {
+      posts[currentPost].likesQty = parseInt(posts[currentPost].likesQty) + 1;
+    }
     posts[currentPost].likedByCaller = !posts[currentPost].likedByCaller;
     const formatPosts = [posts];
     setDetails({ ...details, postsRead: formatPosts });

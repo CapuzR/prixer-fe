@@ -76,6 +76,7 @@ type PostUpdate =
  };
 type PostRead__1 = 
  record {
+   artistUsername: text;
    comments: opt vec record {
                        principal;
                        text;
@@ -95,6 +96,7 @@ type PostRead__1 =
  };
 type PostRead = 
  record {
+   artistUsername: text;
    comments: opt vec record {
                        principal;
                        text;

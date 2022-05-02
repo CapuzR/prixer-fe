@@ -63,7 +63,7 @@ export const idlFactory = ({ IDL }) => {
     'isArtistWhitelisted' : IDL.Func([IDL.Principal], [Result_1], []),
     'name' : IDL.Func([], [IDL.Text], ['query']),
     'remove' : IDL.Func([IDL.Principal], [Result], []),
-    'update' : IDL.Func([IDL.Principal, Metadata], [Result], []),
+    'update' : IDL.Func([Metadata], [Result], []),
     'usernameExist' : IDL.Func([IDL.Text], [IDL.Bool], ['query']),
     'whitelistArtists' : IDL.Func([IDL.Vec(IDL.Principal)], [Result], []),
   });

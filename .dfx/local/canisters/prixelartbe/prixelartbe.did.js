@@ -73,6 +73,7 @@ export const idlFactory = ({ IDL }) => {
       IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Suggestion))
     ),
     'post' : Post,
+    'artistUsername' : IDL.Text,
     'likesQty' : IDL.Int,
     'comments' : IDL.Opt(
       IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment))
@@ -102,6 +103,7 @@ export const idlFactory = ({ IDL }) => {
       IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Suggestion))
     ),
     'post' : Post,
+    'artistUsername' : IDL.Text,
     'likesQty' : IDL.Int,
     'comments' : IDL.Opt(
       IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment))

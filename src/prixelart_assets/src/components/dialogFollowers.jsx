@@ -37,7 +37,6 @@ function DialogFollowers({
     }
     setIsLoading(false);
   }, [viewDialogFollowers]);
-  console.log(data);
   return (
     <Dialog
       maxWidth="sm"
