@@ -286,7 +286,6 @@ function Main() {
   function hanleOpenActionMenuPost(event) {
     setOpenActionMenuPost(true);
     setAnchorElActionMenuPost(event.currentTarget);
-    console.log("pase");
   }
 
   function handleLikePost(postId) {
