@@ -253,6 +253,7 @@ function Main() {
               onClick={() => {
                 setAnchorElActionMenu(null);
                 setOpenActionMenu(false);
+                navigate("/addArt");
               }}
             >
               Create Art

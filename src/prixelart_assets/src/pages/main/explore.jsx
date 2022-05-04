@@ -47,6 +47,7 @@ function Explore() {
       setIsLoading(true);
       await Promise.all([service.getArtist(), service.getPostsByCreation()])
         .then(([artist, posts]) => {
+          console.log(posts);
           const parseArtist = service.parseArtist(artist);
           setArtist(parseArtist);
           setPosts(posts);

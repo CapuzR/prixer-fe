@@ -87,7 +87,11 @@ function ArtForm({
                     <img
                       src={asset}
                       alt="image"
-                      style={{ width: "100%", maxHeight: 500 }}
+                      style={{
+                        width: "100%",
+                        maxHeight: 500,
+                        objectFit: "contain",
+                      }}
                     />
                     <input
                       type="file"

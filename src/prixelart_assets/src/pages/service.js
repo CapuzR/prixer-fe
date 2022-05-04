@@ -55,7 +55,7 @@ async function onSignOutStoic() {
 }
 
 async function wPActorPrixer(identity) {
-  return await wPCreateActorPrixer("ryjl3-tyaaa-aaaaa-aaaba-cai", {
+  return await wPCreateActorPrixer("rrkah-fqaaa-aaaaa-aaaaq-cai", {
     agentOptions: {
       identity: identity,
     },
@@ -193,6 +193,7 @@ async function getPostsByCreation() {
 }
 
 async function createPost(post, blob) {
+  console.log("[PAYLOAD] => ", { postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });

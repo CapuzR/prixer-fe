@@ -38,18 +38,46 @@ function PostDetails() {
   useEffect(() => {
     async function init() {
       setIsLoading(true);
-      const post = await service.getPostByID(params.postId);
-      console.log(post);
 
-      setPost(post.ok);
-      setIsLoading(false);
+      await Promise.all([
+        service.getArtist(),
+        service.getPostByID(params.postId),
+      ])
+        .then(([artist, post]) => {
+          const parseArtist = service.parseArtist(artist);
+          setGalleries(parsedGalleries);
+          setArtist(parseArtist);
+
+          setPost(post.ok);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log("[err init postDetails] => ", err);
+          setIsLoading(false);
+        });
     }
     init();
   }, []);
 
   useEffect(() => {
     if (isEditPost) {
+      const location = post?.post?.postBasics?.details?.find((detail) => {
+        return detail[0] === "location";
+      });
+      const camera = post?.post?.postBasics?.details?.find((detail) => {
+        return detail[0] === "camera";
+      });
+      const lens = post?.post?.postBasics?.details?.find((detail) => {
+        return detail[0] === "lens";
+      });
+      console.log(camera[1].Vec[0].Text);
       setArtTitle(post?.post?.postBasics?.title);
+      setAboutArt(post?.post?.postBasics?.description);
+      setArtType(post?.post?.postBasics?.artType);
+      setArtCategory(post?.post?.postBasics?.artCategory);
+      setTagsArt(post?.post?.postBasics?.tags);
+      setArtLocation(location[1].Text);
+      // setArtCamera(camera[1].Vec[0].Text);
     }
   }, [isEditPost]);
 
@@ -75,6 +103,7 @@ function PostDetails() {
           />
         ) : (
           <ArtForm
+            artist={artist}
             artTitle={artTitle}
             setArtTitle={setArtTitle}
             artType={artType}

@@ -96,11 +96,11 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
-      PRIXELART_CANISTER_ID: "ryjl3-tyaaa-aaaaa-aaaba-cai", // production Internet Identity canister
+      PRIXELART_CANISTER_ID: "rrkah-fqaaa-aaaaa-aaaaq-cai", // production Internet Identity canister
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
-      PRIXELARTBE_CANISTER_ID: "ryjl3-tyaaa-aaaaa-aaaba-cai", // production Internet Identity canister
+      PRIXELARTBE_CANISTER_ID: "rrkah-fqaaa-aaaaa-aaaaq-cai", // production Internet Identity canister
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
