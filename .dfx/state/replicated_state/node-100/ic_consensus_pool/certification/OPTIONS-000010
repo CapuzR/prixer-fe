@@ -50,7 +50,7 @@
   persist_stats_to_disk=false
   WAL_size_limit_MB=0
   bgerror_resume_retry_interval=1000000
-  wal_dir=/home/gleiber/Documents/Repositories/IC/prixer-fe/.dfx/state/replicated_state/node-100/ic_consensus_pool/certification
+  wal_dir=/home/capuzr/Documents/PrixerappW3/prixer-fe/.dfx/state/replicated_state/node-100/ic_consensus_pool/certification
   log_file_time_to_roll=0
   keep_log_file_num=1000
   WAL_ttl_seconds=0

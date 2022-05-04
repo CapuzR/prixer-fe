@@ -1,0 +1,274 @@
+type anon_class_20_1 = 
+ service {
+   addFollow: (text) -> (Result);
+   addLike: (text) -> (Result);
+   addSuggestion: (text, SuggestionCreate) -> (Result);
+   artistsCommentsSize: (principal) -> (nat) query;
+   authorize: (principal) -> (Result) query;
+   authorizedArr: () -> (Result_10) query;
+   commentsSize: () -> (nat) query;
+   createAssetCan: () -> (Result_9);
+   createComment: (text, CommentCreate__1) -> (Result);
+   createGallery: (GalleryCreate) -> (Result);
+   createPost: (PostCreate) -> (Result);
+   readArtistFollowers: (text) -> (Result_8) query;
+   readArtistFollowersQty: (text) -> (Result_1) query;
+   readArtistFollows: (text) -> (Result_8) query;
+   readArtistFollowsQty: (text) -> (Result_1) query;
+   readArtistProfile: (text) -> (Result_7) query;
+   readComments: (text) -> (Result_6) query;
+   readCommentsQty: (text) -> (Result_1) query;
+   readFirstCommentById: (text) -> (text) query;
+   readFirstPostId: (principal) -> (text) query;
+   readFollowsPostsByCreation: (text, int, int) -> (Result_2) query;
+   readGalleriesByArtist: (text) -> (Result_5) query;
+   readLikesQtyByArtist: (text) -> (Result_1) query;
+   readLikesQtyByTarget: (text) -> (Result_1) query;
+   readPostById: (text) -> (Result_4) query;
+   readPostSuggestions: (text) -> (Result_3) query;
+   readPostsByCreation: (int, int) -> (Result_2) query;
+   readPostsByGallery: (text, int, int) -> (Result_2) query;
+   readSuggestionsQtyByArtist: (text) -> (Result_1) query;
+   readSuggestionsQtyByPost: (text) -> (Result_1) query;
+   relPrincipalWithUsername: (principal, text) -> (Result);
+   removeArtist: () -> (Result);
+   removeComment: (text, text) -> (Result);
+   removeFollow: (text) -> (Result);
+   removeGallery: (text) -> (Result);
+   removeLike: (text) -> (Result);
+   removePost: (text) -> (Result);
+   removeSuggestion: (text, text) -> (Result);
+   updateArtGallery: (GalleryUpdate) -> (Result);
+   updatePost: (PostUpdate) -> (Result);
+ };
+type Suggestion__1 = 
+ record {
+   comment: CommentCreate;
+   createdAt: int;
+ };
+type SuggestionCreate = record {comment: CommentCreate;};
+type Suggestion = 
+ record {
+   comment: CommentCreate;
+   createdAt: int;
+ };
+type Result_9 = 
+ variant {
+   err: Error;
+   ok: record {
+         principal;
+         principal;
+       };
+ };
+type Result_8 = 
+ variant {
+   err: Error;
+   ok: vec Follow;
+ };
+type Result_7 = 
+ variant {
+   err: Error;
+   ok: ArtistRead;
+ };
+type Result_6 = 
+ variant {
+   err: Error;
+   ok: vec record {
+             principal;
+             text;
+             text;
+             Comment__1;
+           };
+ };
+type Result_5 = 
+ variant {
+   err: Error;
+   ok: vec Gallery;
+ };
+type Result_4 = 
+ variant {
+   err: Error;
+   ok: PostRead;
+ };
+type Result_3 = 
+ variant {
+   err: Error;
+   ok: vec record {
+             principal;
+             text;
+             text;
+             Suggestion__1;
+           };
+ };
+type Result_2 = 
+ variant {
+   err: Error;
+   ok: vec PostRead;
+ };
+type Result_10 = 
+ variant {
+   err: Error;
+   ok: vec principal;
+ };
+type Result_1 = 
+ variant {
+   err: Error;
+   ok: nat;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok;
+ };
+type PostUpdate = 
+ record {
+   postBasics: PostBasics;
+   postId: text;
+ };
+type PostRead__1 = 
+ record {
+   artistUsername: text;
+   comments: opt vec record {
+                       principal;
+                       text;
+                       text;
+                       Comment;
+                     };
+   likedByCaller: bool;
+   likesQty: int;
+   post: Post;
+   postId: text;
+   suggestions: opt vec record {
+                          principal;
+                          text;
+                          text;
+                          Suggestion;
+                        };
+ };
+type PostRead = 
+ record {
+   artistUsername: text;
+   comments: opt vec record {
+                       principal;
+                       text;
+                       text;
+                       Comment;
+                     };
+   likedByCaller: bool;
+   likesQty: int;
+   post: Post;
+   postId: text;
+   suggestions: opt vec record {
+                          principal;
+                          text;
+                          text;
+                          Suggestion;
+                        };
+ };
+type PostCreate = 
+ record {
+   postBasics: PostBasics;
+   postImage: blob;
+ };
+type PostBasics = 
+ record {
+   artCategory: text;
+   artType: text;
+   asset: text;
+   description: text;
+   details: vec record {
+                  text;
+                  DetailValue;
+                };
+   tags: vec text;
+   title: text;
+   tools: opt vec record {
+                    text;
+                    text;
+                  };
+ };
+type Post = 
+ record {
+   createdAt: int;
+   postBasics: PostBasics;
+ };
+type InitOptions = record {authorized: vec principal;};
+type GalleryUpdate = 
+ record {
+   description: text;
+   galleryBanner: opt text;
+   id: text;
+   name: text;
+ };
+type GalleryCreate = 
+ record {
+   artistPpal: principal;
+   description: text;
+   galleryBanner: opt text;
+   name: text;
+ };
+type Gallery = 
+ record {
+   artistPpal: principal;
+   createdAt: int;
+   description: text;
+   galleryBanner: opt text;
+   id: text;
+   name: text;
+ };
+type Follow = 
+ record {
+   artistPrincipal: principal;
+   artistUsername: text;
+   followedByCaller: bool;
+ };
+type Error = 
+ variant {
+   BadParameters;
+   NonExistentItem;
+   NotAuthorized;
+   Unknown: text;
+ };
+type DetailValue = 
+ variant {
+   False;
+   Float: float64;
+   I64: int64;
+   Principal: principal;
+   Slice: vec nat8;
+   Text: text;
+   True;
+   U64: nat64;
+   Vec: vec DetailValue;
+ };
+type Comment__1 = 
+ record {
+   commentBasics: CommentBasics;
+   createdAt: int;
+ };
+type CommentCreate__1 = record {commentBasics: CommentBasics;};
+type CommentCreate = record {commentBasics: CommentBasics;};
+type CommentBasics = 
+ record {
+   category: opt text;
+   content: text;
+   details: opt vec record {
+                      text;
+                      DetailValue;
+                    };
+ };
+type Comment = 
+ record {
+   commentBasics: CommentBasics;
+   createdAt: int;
+ };
+type ArtistRead = 
+ record {
+   followedByCaller: bool;
+   followersQty: nat;
+   followsQty: nat;
+   galleriesQty: nat;
+   postsQty: nat;
+   postsRead: opt vec PostRead__1;
+ };
+service : (InitOptions) -> anon_class_20_1

@@ -1,0 +1,84 @@
+// Version: 1.0.0
+type AssocList<K, V> = List<(K, V)>;
+type AssocList__1<K, V> = AssocList<K, V>;
+type Branch<K, V> = {left : Trie<K, V>; right : Trie<K, V>; size : Nat};
+type Comment = {commentBasics : CommentBasics; createdAt : Int};
+type CommentBasics =
+  {category : ?Text; content : Text; details : ?[(Text, DetailValue)]};
+type CommentCreate = {commentBasics : CommentBasics};
+type Comment__1 = Comment;
+type DetailValue =
+  {
+    #False;
+    #Float : Float;
+    #I64 : Int64;
+    #Principal : Principal;
+    #Slice : [Nat8];
+    #Text : Text;
+    #True;
+    #U64 : Nat64;
+    #Vec : [DetailValue]
+  };
+type Gallery =
+  {
+    artistPpal : Principal;
+    createdAt : Int;
+    description : Text;
+    galleryBanner : ?Text;
+    id : Text;
+    name : Text
+  };
+type Gallery__1 = Gallery;
+type Hash = Nat32;
+type Key<K> = {hash : Hash; key : K};
+type Leaf<K, V> = {keyvals : AssocList__1<Key<K>, V>; size : Nat};
+type List<T> = ?(T, List<T>);
+type Post = {createdAt : Int; postBasics : PostBasics};
+type PostBasics =
+  {
+    artCategory : Text;
+    artType : Text;
+    asset : Text;
+    description : Text;
+    details : [(Text, DetailValue)];
+    tags : [Text];
+    title : Text;
+    tools : ?[(Text, Text)]
+  };
+type Post__1 = Post;
+type Suggestion = {comment : CommentCreate; createdAt : Int};
+type Suggestion__1 = Suggestion;
+type Trie<K, V> = {#branch : Branch<K, V>; #empty; #leaf : Leaf<K, V>};
+actor {
+  stable var artistComments : [(Principal, Text)];
+  stable var artistGalleriesRelEntries : [(Principal, Text)];
+  stable var artistPostsRelEntries : [(Principal, Text)];
+  stable var artistSuggestions : [(Principal, Text)];
+  stable var assetCanisterIds : [Principal];
+  stable var authorized : [Principal];
+  stable var comments :
+    {
+      #branch : Branch<Text, Trie<Text, Comment__1>>;
+      #empty;
+      #leaf : Leaf<Text, Trie<Text, Comment__1>>
+    };
+  stable var follows : [(Principal, Principal)];
+  stable var galleries :
+    {
+      #branch : Branch<Text, Gallery__1>;
+      #empty;
+      #leaf : Leaf<Text, Gallery__1>
+    };
+  stable var galleryPostRelEntries : [(Text, Text)];
+  stable var likes : [(Text, Principal)];
+  stable var postSuggestionsRelEntries : [(Text, Text)];
+  stable var posts :
+    {#branch : Branch<Text, Post__1>; #empty; #leaf : Leaf<Text, Post__1>};
+  stable var principalUsername : [(Principal, Text)];
+  stable var suggestions :
+    {
+      #branch : Branch<Text, Suggestion__1>;
+      #empty;
+      #leaf : Leaf<Text, Suggestion__1>
+    }
+};

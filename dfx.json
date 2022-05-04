@@ -6,15 +6,27 @@
       },
       "source": ["src/prixelart_assets/assets", "dist/prixelart_assets/"],
       "type": "assets"
+    },
+    "socialAssets": {
+      "main": "../socials/actorClasses/asset/assetCanister.mo",
+      "type": "motoko"
+    },
+    "socials": {
+      "main": "../socials/src/main.mo",
+      "type": "motoko"
+    },
+    "artistRegistry": {
+      "main": "../artist-registry/src/main.mo",
+      "type": "motoko"
     }
   },
   "defaults": {
     "build": {
       "args": "",
-      "packtool": ""
+      "packtool": "vessel sources"
     }
   },
-  "dfx": "0.9.2",
+  "dfx": "0.9.3",
   "networks": {
     "local": {
       "bind": "127.0.0.1:8000",

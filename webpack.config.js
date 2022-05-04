@@ -35,6 +35,7 @@ function initCanisterEnv() {
   }, {});
 }
 const canisterEnvVariables = initCanisterEnv();
+console.log(canisterEnvVariables);
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -96,21 +97,8 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
-      PRIXELART_CANISTER_ID: "ryjl3-tyaaa-aaaaa-aaaba-cai", // production Internet Identity canister
+      ...canisterEnvVariables,
     }),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: "development",
-      PRIXELARTBE_CANISTER_ID: "ryjl3-tyaaa-aaaaa-aaaba-cai", // production Internet Identity canister
-    }),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: "development",
-      PRIXELARTART_CANISTER_ID: "rkp4c-7iaaa-aaaaa-aaaca-cai", // production Internet Identity canister
-    }),
-
-    // new webpack.EnvironmentPlugin({
-    //   NODE_ENV: "development",
-    //   WEAVEPROFILEFE_ASSETS_CANISTER_ID: canisters["prixerlat_assets"],
-    // }),
     new webpack.ProvidePlugin({
       Buffer: [require.resolve("buffer/"), "Buffer"],
       process: require.resolve("process/browser"),

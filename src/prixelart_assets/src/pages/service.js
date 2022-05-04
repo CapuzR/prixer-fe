@@ -1,6 +1,8 @@
 import { StoicIdentity } from "ic-stoic-identity";
-import { createActor as wPCreateActorPrixer } from "../../../declarations/prixelartbe";
-import { createActor as wPCreateActorArt } from "../../../declarations/prixelartArt";
+import { createActor as createSocialsActor } from "../../../declarations/socials";
+import { createActor as createArtistRegistryActor } from "../../../declarations/artistRegistry";
+import { canisterId as socialsCId } from "../../../declarations/socials/index.js";
+import { canisterId as artistRegistryCId } from "../../../declarations/artistRegistry/index.js";
 import { Principal } from "@dfinity/principal";
 import consts from "../consts/index";
 
@@ -55,7 +57,7 @@ async function onSignOutStoic() {
 }
 
 async function wPActorPrixer(identity) {
-  return await wPCreateActorPrixer("ryjl3-tyaaa-aaaaa-aaaba-cai", {
+  return await createSocialsActor(socialsCId, {
     agentOptions: {
       identity: identity,
     },
@@ -63,7 +65,8 @@ async function wPActorPrixer(identity) {
 }
 
 async function wPActorPrixerArt(identity) {
-  return await wPCreateActorArt("rkp4c-7iaaa-aaaaa-aaaca-cai", {
+  console.log("artistReg ", artistRegistryCId);
+  return await createArtistRegistryActor(artistRegistryCId, {
     agentOptions: {
       identity: identity,
     },

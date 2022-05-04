@@ -415,7 +415,6 @@ function Profile() {
                   galleries={galleries}
                   navigate={navigate}
                   setGalleries={setGalleries}
-                  galleries={galleries}
                   setDetails={setDetails}
                   details={details}
                 />
