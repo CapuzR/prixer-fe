@@ -53,6 +53,8 @@ function ArtForm({
   postId,
   setPost,
   post,
+
+  galleries,
 }) {
   return (
     <Box style={{ padding: 24 }}>
@@ -250,9 +252,13 @@ function ArtForm({
                   onChange={(event) => setGalleryArt(event.target.value)}
                   label="Labels"
                 >
-                  {[].map((gallery) => (
-                    <MenuItem value={gallery.id}>{gallery.info.name}</MenuItem>
-                  ))}
+                  {galleries ? (
+                    galleries.map((gallery) => (
+                      <MenuItem value={gallery.id}>{gallery.name}</MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem>Loading...</MenuItem>
+                  )}
                 </Select>
               </FormControl>
             </Grid>
@@ -328,7 +334,7 @@ function ArtForm({
                       description: aboutArt,
                       details: [
                         [
-                          "gallery",
+                          "galleryId",
                           { Text: galleryArt === "" ? "false" : galleryArt },
                         ],
                         [
@@ -365,7 +371,7 @@ function ArtForm({
                         description: aboutArt,
                         details: [
                           [
-                            "gallery",
+                            "galleryId",
                             {
                               Text: galleryArt === "" ? "false" : galleryArt,
                             },
@@ -406,7 +412,7 @@ function ArtForm({
                       description: aboutArt,
                       details: [
                         [
-                          "gallery",
+                          "galleryId",
                           { Text: galleryArt === "" ? "false" : galleryArt },
                         ],
                         [

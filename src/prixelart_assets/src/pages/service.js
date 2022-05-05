@@ -64,7 +64,7 @@ async function wPActorPrixer(identity) {
 }
 
 async function wPActorPrixerArt(identity) {
-  return await wPCreateActorArt("rkp4c-7iaaa-aaaaa-aaaca-cai", {
+  return await wPCreateActorArt("q4eej-kyaaa-aaaaa-aaaha-cai", {
     agentOptions: {
       identity: identity,
     },

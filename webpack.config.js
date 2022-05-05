@@ -104,7 +104,7 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
-      PRIXELARTART_CANISTER_ID: "rkp4c-7iaaa-aaaaa-aaaca-cai", // production Internet Identity canister
+      PRIXELARTART_CANISTER_ID: "q4eej-kyaaa-aaaaa-aaaha-cai", // production Internet Identity canister
     }),
 
     // new webpack.EnvironmentPlugin({
