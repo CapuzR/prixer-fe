@@ -27,7 +27,7 @@ function AddArt() {
   const [artLocation, setArtLocation] = useState("");
   const [asset, setAsset] = useState();
   const [blob, setBlob] = useState();
-  const [galleries, setGalleries] = useState([]);
+  const [galleries, setGalleries] = useState();
   //   const [titleGallery, setTitleGallery] = useState("");
   //   const [aboutGallery, setAboutGallery] = useState("");
 
@@ -39,14 +39,15 @@ function AddArt() {
       ])
         .then(([artist, galleries]) => {
           const parseArtist = service.parseArtist(artist);
-          const parsedGalleries = service.parseGalleries(galleries);
-          setGalleries(parsedGalleries);
+          setGalleries(galleries.ok);
           setArtist(parseArtist);
         })
         .catch(console.log);
     }
     init();
   }, []);
+
+  console.log(galleries);
   return (
     <div
       style={{
@@ -84,6 +85,7 @@ function AddArt() {
           service={service}
           artLocation={artLocation}
           setArtLocation={setArtLocation}
+          galleries={galleries}
         />
       </Box>
     </div>

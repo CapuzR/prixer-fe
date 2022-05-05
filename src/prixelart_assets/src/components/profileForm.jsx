@@ -71,7 +71,6 @@ function ProfileForm({
             label="Username"
             variant="outlined"
             value={username}
-            required
             onChange={(event) => setUsername(event.target.value)}
             fullWidth
           />
@@ -83,7 +82,6 @@ function ProfileForm({
             type="text"
             label="Display name"
             variant="outlined"
-            required
             value={displayName}
             onChange={(event) => setDisplayName(event.target.value)}
             fullWidth

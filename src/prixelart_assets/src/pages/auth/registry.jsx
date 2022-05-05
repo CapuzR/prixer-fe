@@ -40,8 +40,8 @@ function Registry({}) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [about, setAbout] = useState("");
-  const [asset, setAsset] = useState();
-  const [image, setImage] = useState(
+  const [assetProfile, setAssetProfile] = useState();
+  const [imageProfile, setImageProfile] = useState(
     "https://via.placeholder.com/300.png/09f/fff"
   );
   const [artType, setArtType] = useState("");
@@ -116,9 +116,13 @@ function Registry({}) {
                     <IconButton component="label">
                       <Avatar
                         style={{ width: "120px", height: "120px" }}
-                        src={image}
+                        src={imageProfile}
                       />
-                      <input hidden type="file" onChange={handleChange} />
+                      <input
+                        hidden
+                        type="file"
+                        onChange={handleChangeAvatarProfile}
+                      />
                     </IconButton>
                   </Box>
                   <Grid container spacing={1} style={{ marginTop: "32px" }}>
@@ -438,6 +442,7 @@ function Registry({}) {
                   ["email", { Text: email }],
                   ["phone", { Text: phone }],
                   ["about", { Text: about }],
+                  ["avatarAsset", { Slice: assetProfile }],
                   [
                     "cameras",
                     {
@@ -455,8 +460,7 @@ function Registry({}) {
                 name: `${givenName} ${familyName}`,
                 principal_id: JSON.parse(localStorage.getItem("_scApp"))
                   .principal,
-                thumbnail:
-                  "https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg",
+                thumbnail: "",
               },
               username
             );
@@ -492,14 +496,23 @@ function Registry({}) {
     });
   }
 
-  async function handleChange(e) {
+  async function handleChangeAvatarProfile(e) {
     const file = e.target.files[0];
     const resizedString = await convertToBase64(file);
 
     const data = [...new Uint8Array(await file.arrayBuffer())];
-    setImage(resizedString);
-    setAsset(data);
+    setImageProfile(resizedString);
+    setAssetProfile(data);
   }
+
+  // async function handleChange(e) {
+  //   const file = e.target.files[0];
+  //   const resizedString = await convertToBase64(file);
+
+  //   const data = [...new Uint8Array(await file.arrayBuffer())];
+  //   setImage(resizedString);
+  //   setAsset(data);
+  // }
 
   function onHandleScreem(screen) {
     setIsUserData(screen);

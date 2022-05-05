@@ -91632,7 +91632,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTitle, setArtTitle, artType, setArtType, artCategory, setArtCategory, artCamera, setArtCamera, lensArt, setLensArt, galleryArt, setGalleryArt, aboutArt, setAboutArt, tagValue, setTagValue, addTags, tagsArt, setTagsArt, service, artLocation, setArtLocation, setIsEditPost, postId, setPost, post, }) {
+function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTitle, setArtTitle, artType, setArtType, artCategory, setArtCategory, artCamera, setArtCamera, lensArt, setLensArt, galleryArt, setGalleryArt, aboutArt, setAboutArt, tagValue, setTagValue, addTags, tagsArt, setTagsArt, service, artLocation, setArtLocation, setIsEditPost, postId, setPost, post, galleries, }) {
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { padding: 24 } },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { display: "flex", alignItems: "center" } },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_2__["default"], { variant: "h4" }, isUpdate ? "Edit art" : "Create art"),
@@ -91683,7 +91683,7 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_10__["default"], { style: { marginBottom: 4 }, fullWidth: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_11__["default"], { id: "gallery-label" }, "Gallery"),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_12__["default"], { labelId: "gallery-label", id: "gallery-select", value: galleryArt, onChange: (event) => setGalleryArt(event.target.value), label: "Labels" }, [].map((gallery) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], { value: gallery.id }, gallery.info.name)))))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_12__["default"], { labelId: "gallery-label", id: "gallery-select", value: galleryArt, onChange: (event) => setGalleryArt(event.target.value), label: "Labels" }, galleries ? (galleries.map((gallery) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], { value: gallery.id }, gallery.name)))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], null, "Loading..."))))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], { type: "text", label: "About the art", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutArt, onChange: (event) => setAboutArt(event.target.value), required: true })),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
@@ -91711,7 +91711,7 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                                     description: aboutArt,
                                     details: [
                                         [
-                                            "gallery",
+                                            "galleryId",
                                             { Text: galleryArt === "" ? "false" : galleryArt },
                                         ],
                                         [
@@ -91745,7 +91745,7 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                                             description: aboutArt,
                                             details: [
                                                 [
-                                                    "gallery",
+                                                    "galleryId",
                                                     {
                                                         Text: galleryArt === "" ? "false" : galleryArt,
                                                     },
@@ -91785,7 +91785,7 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                                     description: aboutArt,
                                     details: [
                                         [
-                                            "gallery",
+                                            "galleryId",
                                             { Text: galleryArt === "" ? "false" : galleryArt },
                                         ],
                                         [
@@ -92576,9 +92576,9 @@ function ProfileForm({ avatar, handleChange, username, setUsername, displayName,
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { hidden: true, type: "file", onChange: (event) => handleChange(event, true) }))))),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { container: true, spacing: 1, style: { marginTop: "32px" } },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 6, sm: 6, md: 4, lg: 4, xl: 3 },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_6__["default"], { disabled: isLoading, required: true, type: "text", label: "Username", variant: "outlined", value: username, required: true, onChange: (event) => setUsername(event.target.value), fullWidth: true })),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_6__["default"], { disabled: isLoading, required: true, type: "text", label: "Username", variant: "outlined", value: username, onChange: (event) => setUsername(event.target.value), fullWidth: true })),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 6, sm: 6, md: 4, lg: 4, xl: 3 },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_6__["default"], { disabled: isLoading, required: true, type: "text", label: "Display name", variant: "outlined", required: true, value: displayName, onChange: (event) => setDisplayName(event.target.value), fullWidth: true })),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_6__["default"], { disabled: isLoading, required: true, type: "text", label: "Display name", variant: "outlined", value: displayName, onChange: (event) => setDisplayName(event.target.value), fullWidth: true })),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 6, sm: 6, md: 4, lg: 4, xl: 3 },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_6__["default"], { disabled: isLoading, required: true, type: "text", label: "Given name", value: givenName, onChange: (event) => setGivenName(event.target.value), variant: "outlined", fullWidth: true })),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 6, sm: 6, md: 4, lg: 4, xl: 3 },
@@ -92812,8 +92812,8 @@ function Registry({}) {
     const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [phone, setPhone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [about, setAbout] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-    const [asset, setAsset] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
-    const [image, setImage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("https://via.placeholder.com/300.png/09f/fff");
+    const [assetProfile, setAssetProfile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
+    const [imageProfile, setImageProfile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("https://via.placeholder.com/300.png/09f/fff");
     const [artType, setArtType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [isSnackbarOpen, setIsSnackbarOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(undefined);
@@ -92876,8 +92876,8 @@ function Registry({}) {
                         !isUserData ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_5__["default"], { style: { display: "flex", justifyContent: "center" } },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_8__["default"], { component: "label" },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_9__["default"], { style: { width: "120px", height: "120px" }, src: image }),
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { hidden: true, type: "file", onChange: handleChange }))),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_9__["default"], { style: { width: "120px", height: "120px" }, src: imageProfile }),
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { hidden: true, type: "file", onChange: handleChangeAvatarProfile }))),
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_10__["default"], { container: true, spacing: 1, style: { marginTop: "32px" } },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_10__["default"], { item: true, xs: 6, sm: 6, md: 4, lg: 4, xl: 3 },
                                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_11__["default"], { disabled: isLoading, type: "text", label: "Username", variant: "outlined", required: true, fullWidth: true, value: username, onChange: (event) => setUsername(event.target.value) })),
@@ -92969,6 +92969,7 @@ function Registry({}) {
                             ["email", { Text: email }],
                             ["phone", { Text: phone }],
                             ["about", { Text: about }],
+                            ["avatarAsset", { Slice: assetProfile }],
                             [
                                 "cameras",
                                 {
@@ -92986,7 +92987,7 @@ function Registry({}) {
                         name: `${givenName} ${familyName}`,
                         principal_id: JSON.parse(localStorage.getItem("_scApp"))
                             .principal,
-                        thumbnail: "https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg",
+                        thumbnail: "",
                     }, username);
                 } }, isLoading ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CircularProgress__WEBPACK_IMPORTED_MODULE_20__["default"], { style: { color: "#FFFFFF" } })) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ChevronRight__WEBPACK_IMPORTED_MODULE_21__["default"], null)))),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Snackbar__WEBPACK_IMPORTED_MODULE_22__["default"], { autoHideDuration: 3000, anchorOrigin: { vertical: "bottom", horizontal: "right" }, onClose: handleCloseSnackbar, open: isSnackbarOpen, TransitionComponent: SlideTransition, style: { display: isSnackbarOpen ? "flex" : "none" } },
@@ -93000,13 +93001,20 @@ function Registry({}) {
             reader.readAsDataURL(blob);
         });
     }
-    async function handleChange(e) {
+    async function handleChangeAvatarProfile(e) {
         const file = e.target.files[0];
         const resizedString = await convertToBase64(file);
         const data = [...new Uint8Array(await file.arrayBuffer())];
-        setImage(resizedString);
-        setAsset(data);
+        setImageProfile(resizedString);
+        setAssetProfile(data);
     }
+    // async function handleChange(e) {
+    //   const file = e.target.files[0];
+    //   const resizedString = await convertToBase64(file);
+    //   const data = [...new Uint8Array(await file.arrayBuffer())];
+    //   setImage(resizedString);
+    //   setAsset(data);
+    // }
     function onHandleScreem(screen) {
         setIsUserData(screen);
     }
@@ -93106,7 +93114,7 @@ function AddArt() {
     const [artLocation, setArtLocation] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [asset, setAsset] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
     const [blob, setBlob] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
-    const [galleries, setGalleries] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+    const [galleries, setGalleries] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
     //   const [titleGallery, setTitleGallery] = useState("");
     //   const [aboutGallery, setAboutGallery] = useState("");
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -93117,20 +93125,20 @@ function AddArt() {
             ])
                 .then(([artist, galleries]) => {
                 const parseArtist = _service__WEBPACK_IMPORTED_MODULE_2__["default"].parseArtist(artist);
-                const parsedGalleries = _service__WEBPACK_IMPORTED_MODULE_2__["default"].parseGalleries(galleries);
-                setGalleries(parsedGalleries);
+                setGalleries(galleries.ok);
                 setArtist(parseArtist);
             })
                 .catch(console.log);
         }
         init();
     }, []);
+    console.log(galleries);
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: {
             height: "100vh",
         } },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_navbar__WEBPACK_IMPORTED_MODULE_3__["default"], { onLogout: onLogout, toolbarHeight: toolbarHeight }),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_6__["default"], { style: { paddingTop: toolbarHeight } },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_artForm__WEBPACK_IMPORTED_MODULE_4__["default"], { blob: blob, artist: artist, navigate: navigate, asset: asset, handleChange: handleChange, artTitle: artTitle, setArtTitle: setArtTitle, artType: artType, setArtType: setArtType, artCategory: artCategory, setArtCategory: setArtCategory, artCamera: artCamera, setArtCamera: setArtCamera, lensArt: lensArt, setLensArt: setLensArt, galleryArt: galleryArt, setGalleryArt: setGalleryArt, aboutArt: aboutArt, setAboutArt: setAboutArt, tagValue: tagValue, setTagValue: setTagValue, addTags: addTags, tagsArt: tagsArt, setTagsArt: setTagsArt, onUpdateArt: console.log, service: _service__WEBPACK_IMPORTED_MODULE_2__["default"], artLocation: artLocation, setArtLocation: setArtLocation }))));
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_artForm__WEBPACK_IMPORTED_MODULE_4__["default"], { blob: blob, artist: artist, navigate: navigate, asset: asset, handleChange: handleChange, artTitle: artTitle, setArtTitle: setArtTitle, artType: artType, setArtType: setArtType, artCategory: artCategory, setArtCategory: setArtCategory, artCamera: artCamera, setArtCamera: setArtCamera, lensArt: lensArt, setLensArt: setLensArt, galleryArt: galleryArt, setGalleryArt: setGalleryArt, aboutArt: aboutArt, setAboutArt: setAboutArt, tagValue: tagValue, setTagValue: setTagValue, addTags: addTags, tagsArt: tagsArt, setTagsArt: setTagsArt, onUpdateArt: console.log, service: _service__WEBPACK_IMPORTED_MODULE_2__["default"], artLocation: artLocation, setArtLocation: setArtLocation, galleries: galleries }))));
     function convertToBase64(blob) {
         return new Promise((resolve) => {
             var reader = new FileReader();
@@ -97122,7 +97130,7 @@ async function onSignOutStoic() {
   }
 }
 
-async function wPActorPrixer(identity) {
+async function socialsActor(identity) {
   return await (0,_declarations_socials__WEBPACK_IMPORTED_MODULE_1__.createActor)(_declarations_socials__WEBPACK_IMPORTED_MODULE_1__.canisterId, {
     agentOptions: {
       identity: identity,
@@ -97130,7 +97138,7 @@ async function wPActorPrixer(identity) {
   });
 }
 
-async function wPActorPrixerArt(identity) {
+async function artistRegistryActor(identity) {
   console.log("artistReg ", _declarations_artistRegistry__WEBPACK_IMPORTED_MODULE_2__.canisterId);
   return await (0,_declarations_artistRegistry__WEBPACK_IMPORTED_MODULE_2__.createActor)(_declarations_artistRegistry__WEBPACK_IMPORTED_MODULE_2__.canisterId, {
     agentOptions: {
@@ -97185,7 +97193,7 @@ function parseArtist(artist) {
 
 async function relPrincipalWithUsername(username) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.relPrincipalWithUsername(
     _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
     username
@@ -97197,7 +97205,7 @@ async function relPrincipalWithUsername(username) {
 async function addArtist(artist, username) {
   artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixerArt(identity);
+  const actor = await artistRegistryActor(identity);
   const result = await actor.add(artist);
   localStorage.setItem("username", username);
   console.log("[ADD ARTIST] => ", result);
@@ -97207,7 +97215,7 @@ async function addArtist(artist, username) {
 
 async function getArtist() {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixerArt(identity);
+  const actor = await artistRegistryActor(identity);
   const result = await actor.get(
     _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
@@ -97217,7 +97225,7 @@ async function getArtist() {
 
 async function deleteArtist() {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixerArt(identity);
+  const actor = await artistRegistryActor(identity);
   const result = await actor.remove(
     _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
@@ -97228,7 +97236,7 @@ async function deleteArtist() {
 async function updateArtist(artist) {
   artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixerArt(identity);
+  const actor = await artistRegistryActor(identity);
   const result = await actor.update(
     _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
     artist
@@ -97239,7 +97247,7 @@ async function updateArtist(artist) {
 
 async function getArtistByUsername(username) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixerArt(identity);
+  const actor = await artistRegistryActor(identity);
   const result = await actor.getByUsername(username);
   console.log("[GET ARTIST BY USERNAME] => ", result);
   return result;
@@ -97247,7 +97255,7 @@ async function getArtistByUsername(username) {
 
 async function getArtistDetailsByUsername(username) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.readArtistProfile(username);
   console.log("[GET ARTIST DETAILS BY USERNAME] => ", result);
   return result;
@@ -97255,7 +97263,7 @@ async function getArtistDetailsByUsername(username) {
 
 async function getPostsByCreation() {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.readPostsByCreation(20, 1);
   console.log("[GET POST BY CREATION] => ", result);
   return result;
@@ -97264,7 +97272,7 @@ async function getPostsByCreation() {
 async function createPost(post, blob) {
   console.log("[PAYLOAD] => ", { postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });
   console.log("[CREATE POST] => ", result);
   return result;
@@ -97272,7 +97280,7 @@ async function createPost(post, blob) {
 
 async function addFollow(username) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.addFollow(username);
   console.log("[ADD FOLLOW] => ", result);
   return result;
@@ -97280,7 +97288,7 @@ async function addFollow(username) {
 
 async function removeFollow(principal) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.removeFollow(principal);
   console.log("[REMOVE FOLLOW] => ", result);
   return result;
@@ -97288,14 +97296,14 @@ async function removeFollow(principal) {
 
 async function getFollowersByArtist(username) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.readArtistFollowers(username);
   return result;
 }
 
 async function getArtistFollows(username) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.readArtistFollows(username);
   console.log("[GET ARTIST FOLLOWS] => ", result);
   return result;
@@ -97306,7 +97314,7 @@ async function createGallery(gallery) {
     JSON.parse(localStorage.getItem("_scApp")).principal
   );
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.createGallery(gallery);
   console.log("[CREATE GALLERY] => ", result);
   return result;
@@ -97314,7 +97322,7 @@ async function createGallery(gallery) {
 
 async function getGalleriesByArtist(username) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.readGalleriesByArtist(username);
   console.log("[GET GALLERIES BY ARTIST] => ", result);
   return result;
@@ -97328,7 +97336,7 @@ function parseGalleries(galleries) {
 
 async function removeGallery(id) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.removeGallery(id);
   console.log("[REMOVE GALLERY] => ", result);
   return result;
@@ -97336,7 +97344,7 @@ async function removeGallery(id) {
 
 async function addLike(id) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.addLike(id);
   console.log("[ADD LIKE] => ", result);
   return result;
@@ -97344,14 +97352,14 @@ async function addLike(id) {
 
 async function removeLike(id) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.removeLike(id);
   console.log("[REMOVE LIKE] => ", result);
   return result;
 }
 async function getPostByID(id) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.readPostById(id);
   console.log("[GET POST BY ID] => ", result);
   return result;
@@ -97359,7 +97367,7 @@ async function getPostByID(id) {
 
 async function removePost(id) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.removePost(id);
   console.log("[REMOVE POST] => ", result);
   return result;
@@ -97367,7 +97375,7 @@ async function removePost(id) {
 
 async function readPostByFollowers() {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.readFollowsPostsByCreation(
     localStorage.getItem("username"),
     10,
@@ -97379,7 +97387,7 @@ async function readPostByFollowers() {
 
 async function updatePost(post, postId) {
   const identity = await onSignInStoic();
-  const actor = await wPActorPrixer(identity);
+  const actor = await socialsActor(identity);
   const result = await actor.updatePost({ postBasics: post, postId });
   console.log("[UPDATE POST] => ", result);
   return result;
