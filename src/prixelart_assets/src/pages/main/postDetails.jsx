@@ -22,6 +22,7 @@ function PostDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const mobileBreakpoint = useMediaQuery(theme.breakpoints.up("md"));
   const [isEditPost, setIsEditPost] = useState(false);
+  const [artist, setArtist] = useState();
 
   const [artTitle, setArtTitle] = useState("");
   const [artType, setArtType] = useState("");
@@ -39,17 +40,40 @@ function PostDetails() {
     async function init() {
       setIsLoading(true);
       const post = await service.getPostByID(params.postId);
-      console.log(post);
-
       setPost(post.ok);
       setIsLoading(false);
     }
     init();
   }, []);
+  useEffect(() => {
+    async function getArtist() {
+      const artist = await service.getArtist();
+      const parseArtist = service.parseArtist(artist);
+
+      setArtist(parseArtist);
+    }
+    getArtist();
+  }, []);
 
   useEffect(() => {
     if (isEditPost) {
+      const location = post?.post?.postBasics?.details?.find((detail) => {
+        return detail[0] === "location";
+      });
+      const camera = post?.post?.postBasics?.details?.find((detail) => {
+        return detail[0] === "camera";
+      });
+      const lens = post?.post?.postBasics?.details?.find((detail) => {
+        return detail[0] === "lens";
+      });
       setArtTitle(post?.post?.postBasics?.title);
+      setAboutArt(post?.post?.postBasics?.description);
+      setArtType(post?.post?.postBasics?.artType);
+      setArtCategory(post?.post?.postBasics?.artCategory);
+      setTagsArt(post?.post?.postBasics?.tags);
+      setArtLocation(location[1].Text);
+      setArtCamera(camera[1].Vec[0].Text);
+      setLensArt(lens[1].Vec[0].Text);
     }
   }, [isEditPost]);
 
@@ -75,6 +99,7 @@ function PostDetails() {
           />
         ) : (
           <ArtForm
+            artist={artist}
             artTitle={artTitle}
             setArtTitle={setArtTitle}
             artType={artType}
@@ -100,6 +125,10 @@ function PostDetails() {
             setArtLocation={setArtLocation}
             isUpdate={true}
             setIsEditPost={setIsEditPost}
+            postId={params.postId}
+            navigate={navigate}
+            setPost={setPost}
+            post={post}
           />
         )}
       </Box>

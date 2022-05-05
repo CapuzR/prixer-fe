@@ -122,7 +122,6 @@ function Profile() {
             setDetails(detailsProfile.ok);
             setIsGuest(false);
             setIsLoading(false);
-            console.log(details);
           })
           .catch(() => {
             setIsLoading(false);
@@ -165,7 +164,6 @@ function Profile() {
       setSelectedCameras(parseCameras);
     }
   }, [isEditProfile]);
-  console.log(details);
 
   return (
     <div

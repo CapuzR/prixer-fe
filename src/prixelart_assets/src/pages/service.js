@@ -32,6 +32,7 @@ const service = {
   getPostByID,
   removePost,
   readPostByFollowers,
+  updatePost,
 };
 
 export default service;
@@ -196,6 +197,7 @@ async function getPostsByCreation() {
 }
 
 async function createPost(post, blob) {
+  console.log("[PAYLOAD] => ", { postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });
@@ -307,5 +309,13 @@ async function readPostByFollowers() {
     1
   );
   console.log("[READ POST BY FOLLOWERS] => ", result);
+  return result;
+}
+
+async function updatePost(post, postId) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.updatePost({ postBasics: post, postId });
+  console.log("[UPDATE POST] => ", result);
   return result;
 }

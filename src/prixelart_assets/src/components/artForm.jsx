@@ -50,6 +50,9 @@ function ArtForm({
   artLocation,
   setArtLocation,
   setIsEditPost,
+  postId,
+  setPost,
+  post,
 }) {
   return (
     <Box style={{ padding: 24 }}>
@@ -87,7 +90,11 @@ function ArtForm({
                     <img
                       src={asset}
                       alt="image"
-                      style={{ width: "100%", maxHeight: 500 }}
+                      style={{
+                        width: "100%",
+                        maxHeight: 500,
+                        objectFit: "contain",
+                      }}
                     />
                     <input
                       type="file"
@@ -308,47 +315,127 @@ function ArtForm({
                 !artType ||
                 !artCamera ||
                 !lensArt ||
-                !asset ||
+                (!isUpdate && !asset) ||
                 !artCategory
               }
               variant="outlined"
               onClick={async () => {
-                service.createPost(
-                  {
-                    artCategory: artCategory,
-                    artType: artType,
-                    description: aboutArt,
-                    details: [
-                      [
-                        "gallery",
-                        { Text: galleryArt === "" ? "false" : galleryArt },
-                      ],
-                      [
-                        "location",
-                        { Text: artLocation === "" ? "false" : artLocation },
-                      ],
+                if (isUpdate) {
+                  service.updatePost(
+                    {
+                      artCategory: artCategory,
+                      artType: artType,
+                      description: aboutArt,
+                      details: [
+                        [
+                          "gallery",
+                          { Text: galleryArt === "" ? "false" : galleryArt },
+                        ],
+                        [
+                          "location",
+                          { Text: artLocation === "" ? "false" : artLocation },
+                        ],
 
-                      [
-                        "camera",
-                        {
-                          Vec: [{ Text: artCamera }],
-                        },
+                        [
+                          "camera",
+                          {
+                            Vec: [{ Text: artCamera }],
+                          },
+                        ],
+                        [
+                          "lens",
+                          {
+                            Vec: [{ Text: lensArt }],
+                          },
+                        ],
                       ],
-                      [
-                        "lens",
-                        {
-                          Vec: [{ Text: lensArt }],
-                        },
+                      tags: tagsArt,
+                      asset: "URL DE IMAGEN",
+                      title: artTitle,
+                      tools: [],
+                    },
+                    postId
+                  );
+                  setPost({
+                    ...post,
+                    post: {
+                      postBasics: {
+                        artCategory: artCategory,
+                        artType: artType,
+                        description: aboutArt,
+                        details: [
+                          [
+                            "gallery",
+                            {
+                              Text: galleryArt === "" ? "false" : galleryArt,
+                            },
+                          ],
+                          [
+                            "location",
+                            {
+                              Text: artLocation === "" ? "false" : artLocation,
+                            },
+                          ],
+
+                          [
+                            "camera",
+                            {
+                              Vec: [{ Text: artCamera }],
+                            },
+                          ],
+                          [
+                            "lens",
+                            {
+                              Vec: [{ Text: lensArt }],
+                            },
+                          ],
+                        ],
+                        tags: tagsArt,
+                        asset: "URL DE IMAGEN",
+                        title: artTitle,
+                        tools: [],
+                      },
+                    },
+                  });
+                  setIsEditPost(false);
+                } else {
+                  service.createPost(
+                    {
+                      artCategory: artCategory,
+                      artType: artType,
+                      description: aboutArt,
+                      details: [
+                        [
+                          "gallery",
+                          { Text: galleryArt === "" ? "false" : galleryArt },
+                        ],
+                        [
+                          "location",
+                          { Text: artLocation === "" ? "false" : artLocation },
+                        ],
+
+                        [
+                          "camera",
+                          {
+                            Vec: [{ Text: artCamera }],
+                          },
+                        ],
+                        [
+                          "lens",
+                          {
+                            Vec: [{ Text: lensArt }],
+                          },
+                        ],
                       ],
-                    ],
-                    tags: tagsArt,
-                    asset: "URL DE IMAGEN",
-                    title: artTitle,
-                    tools: [],
-                  },
-                  blob
-                );
-                navigate("/main");
+                      tags: tagsArt,
+                      asset: "URL DE IMAGEN",
+                      title: artTitle,
+                      tools: [],
+                    },
+                    blob
+                  );
+                  navigate("/main");
+                }
               }}
             >
               {isUpdate ? "Update" : "Create"}

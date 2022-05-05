@@ -253,6 +253,7 @@ function Main() {
               onClick={() => {
                 setAnchorElActionMenu(null);
                 setOpenActionMenu(false);
+                navigate("/addArt");
               }}
             >
               Create Art
@@ -285,7 +286,6 @@ function Main() {
   function hanleOpenActionMenuPost(event) {
     setOpenActionMenuPost(true);
     setAnchorElActionMenuPost(event.currentTarget);
-    console.log("pase");
   }
 
   function handleLikePost(postId) {

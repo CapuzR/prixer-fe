@@ -91632,7 +91632,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTitle, setArtTitle, artType, setArtType, artCategory, setArtCategory, artCamera, setArtCamera, lensArt, setLensArt, galleryArt, setGalleryArt, aboutArt, setAboutArt, tagValue, setTagValue, addTags, tagsArt, setTagsArt, service, artLocation, setArtLocation, setIsEditPost, }) {
+function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTitle, setArtTitle, artType, setArtType, artCategory, setArtCategory, artCamera, setArtCamera, lensArt, setLensArt, galleryArt, setGalleryArt, aboutArt, setAboutArt, tagValue, setTagValue, addTags, tagsArt, setTagsArt, service, artLocation, setArtLocation, setIsEditPost, postId, setPost, post, }) {
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { padding: 24 } },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { display: "flex", alignItems: "center" } },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_2__["default"], { variant: "h4" }, isUpdate ? "Edit art" : "Create art"),
@@ -91642,7 +91642,11 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_6__["default"], { elevation: 5, style: { padding: 24, marginTop: 14, width: "100%" } },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { container: true, spacing: 1 },
                     !isUpdate && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 4, xl: 4, style: { textAlign: "center" } }, asset ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_7__["default"], { fullWidth: true, component: "label" },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: asset, alt: "image", style: { width: "100%", maxHeight: 500 } }),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: asset, alt: "image", style: {
+                                width: "100%",
+                                maxHeight: 500,
+                                objectFit: "contain",
+                            } }),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_7__["default"], { fullWidth: true, component: "label" },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddPhotoAlternate__WEBPACK_IMPORTED_MODULE_8__["default"], { style: { height: 230, width: 80 } }),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))))),
@@ -91698,40 +91702,116 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                             !artType ||
                             !artCamera ||
                             !lensArt ||
-                            !asset ||
+                            (!isUpdate && !asset) ||
                             !artCategory, variant: "outlined", onClick: async () => {
-                            service.createPost({
-                                artCategory: artCategory,
-                                artType: artType,
-                                description: aboutArt,
-                                details: [
-                                    [
-                                        "gallery",
-                                        { Text: galleryArt === "" ? "false" : galleryArt },
+                            if (isUpdate) {
+                                service.updatePost({
+                                    artCategory: artCategory,
+                                    artType: artType,
+                                    description: aboutArt,
+                                    details: [
+                                        [
+                                            "gallery",
+                                            { Text: galleryArt === "" ? "false" : galleryArt },
+                                        ],
+                                        [
+                                            "location",
+                                            { Text: artLocation === "" ? "false" : artLocation },
+                                        ],
+                                        [
+                                            "camera",
+                                            {
+                                                Vec: [{ Text: artCamera }],
+                                            },
+                                        ],
+                                        [
+                                            "lens",
+                                            {
+                                                Vec: [{ Text: lensArt }],
+                                            },
+                                        ],
                                     ],
-                                    [
-                                        "location",
-                                        { Text: artLocation === "" ? "false" : artLocation },
-                                    ],
-                                    [
-                                        "camera",
-                                        {
-                                            Vec: [{ Text: artCamera }],
+                                    tags: tagsArt,
+                                    asset: "URL DE IMAGEN",
+                                    title: artTitle,
+                                    tools: [],
+                                }, postId);
+                                setPost({
+                                    ...post,
+                                    post: {
+                                        postBasics: {
+                                            artCategory: artCategory,
+                                            artType: artType,
+                                            description: aboutArt,
+                                            details: [
+                                                [
+                                                    "gallery",
+                                                    {
+                                                        Text: galleryArt === "" ? "false" : galleryArt,
+                                                    },
+                                                ],
+                                                [
+                                                    "location",
+                                                    {
+                                                        Text: artLocation === "" ? "false" : artLocation,
+                                                    },
+                                                ],
+                                                [
+                                                    "camera",
+                                                    {
+                                                        Vec: [{ Text: artCamera }],
+                                                    },
+                                                ],
+                                                [
+                                                    "lens",
+                                                    {
+                                                        Vec: [{ Text: lensArt }],
+                                                    },
+                                                ],
+                                            ],
+                                            tags: tagsArt,
+                                            asset: "URL DE IMAGEN",
+                                            title: artTitle,
+                                            tools: [],
                                         },
+                                    },
+                                });
+                                setIsEditPost(false);
+                            }
+                            else {
+                                service.createPost({
+                                    artCategory: artCategory,
+                                    artType: artType,
+                                    description: aboutArt,
+                                    details: [
+                                        [
+                                            "gallery",
+                                            { Text: galleryArt === "" ? "false" : galleryArt },
+                                        ],
+                                        [
+                                            "location",
+                                            { Text: artLocation === "" ? "false" : artLocation },
+                                        ],
+                                        [
+                                            "camera",
+                                            {
+                                                Vec: [{ Text: artCamera }],
+                                            },
+                                        ],
+                                        [
+                                            "lens",
+                                            {
+                                                Vec: [{ Text: lensArt }],
+                                            },
+                                        ],
                                     ],
-                                    [
-                                        "lens",
-                                        {
-                                            Vec: [{ Text: lensArt }],
-                                        },
-                                    ],
-                                ],
-                                tags: tagsArt,
-                                asset: "URL DE IMAGEN",
-                                title: artTitle,
-                                tools: [],
-                            }, blob);
-                            navigate("/main");
+                                    tags: tagsArt,
+                                    asset: "URL DE IMAGEN",
+                                    title: artTitle,
+                                    tools: [],
+                                }, blob);
+                                navigate("/main");
+                            }
                         } }, isUpdate ? "Update" : "Create")),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: {
                         marginTop: "32px",
@@ -93491,6 +93571,7 @@ function Main() {
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_16__["default"], { onClick: () => {
                         setAnchorElActionMenu(null);
                         setOpenActionMenu(false);
+                        navigate("/addArt");
                     } }, "Create Art"),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_16__["default"], { onClick: () => {
                         setAnchorElActionMenu(null);
@@ -93508,7 +93589,6 @@ function Main() {
     function hanleOpenActionMenuPost(event) {
         setOpenActionMenuPost(true);
         setAnchorElActionMenuPost(event.currentTarget);
-        console.log("pase");
     }
     function handleLikePost(postId) {
         const _posts = [...posts];
@@ -93568,6 +93648,7 @@ function PostDetails() {
     const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const mobileBreakpoint = (0,_mui_material_useMediaQuery__WEBPACK_IMPORTED_MODULE_7__["default"])(theme.breakpoints.up("md"));
     const [isEditPost, setIsEditPost] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [artist, setArtist] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
     const [artTitle, setArtTitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [artType, setArtType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [artCamera, setArtCamera] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
@@ -93583,16 +93664,39 @@ function PostDetails() {
         async function init() {
             setIsLoading(true);
             const post = await _service__WEBPACK_IMPORTED_MODULE_3__["default"].getPostByID(params.postId);
-            console.log(post);
             setPost(post.ok);
             setIsLoading(false);
         }
         init();
     }, []);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        var _a, _b;
+        async function getArtist() {
+            const artist = await _service__WEBPACK_IMPORTED_MODULE_3__["default"].getArtist();
+            const parseArtist = _service__WEBPACK_IMPORTED_MODULE_3__["default"].parseArtist(artist);
+            setArtist(parseArtist);
+        }
+        getArtist();
+    }, []);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
         if (isEditPost) {
-            setArtTitle((_b = (_a = post === null || post === void 0 ? void 0 : post.post) === null || _a === void 0 ? void 0 : _a.postBasics) === null || _b === void 0 ? void 0 : _b.title);
+            const location = (_c = (_b = (_a = post === null || post === void 0 ? void 0 : post.post) === null || _a === void 0 ? void 0 : _a.postBasics) === null || _b === void 0 ? void 0 : _b.details) === null || _c === void 0 ? void 0 : _c.find((detail) => {
+                return detail[0] === "location";
+            });
+            const camera = (_f = (_e = (_d = post === null || post === void 0 ? void 0 : post.post) === null || _d === void 0 ? void 0 : _d.postBasics) === null || _e === void 0 ? void 0 : _e.details) === null || _f === void 0 ? void 0 : _f.find((detail) => {
+                return detail[0] === "camera";
+            });
+            const lens = (_j = (_h = (_g = post === null || post === void 0 ? void 0 : post.post) === null || _g === void 0 ? void 0 : _g.postBasics) === null || _h === void 0 ? void 0 : _h.details) === null || _j === void 0 ? void 0 : _j.find((detail) => {
+                return detail[0] === "lens";
+            });
+            setArtTitle((_l = (_k = post === null || post === void 0 ? void 0 : post.post) === null || _k === void 0 ? void 0 : _k.postBasics) === null || _l === void 0 ? void 0 : _l.title);
+            setAboutArt((_o = (_m = post === null || post === void 0 ? void 0 : post.post) === null || _m === void 0 ? void 0 : _m.postBasics) === null || _o === void 0 ? void 0 : _o.description);
+            setArtType((_q = (_p = post === null || post === void 0 ? void 0 : post.post) === null || _p === void 0 ? void 0 : _p.postBasics) === null || _q === void 0 ? void 0 : _q.artType);
+            setArtCategory((_s = (_r = post === null || post === void 0 ? void 0 : post.post) === null || _r === void 0 ? void 0 : _r.postBasics) === null || _s === void 0 ? void 0 : _s.artCategory);
+            setTagsArt((_u = (_t = post === null || post === void 0 ? void 0 : post.post) === null || _t === void 0 ? void 0 : _t.postBasics) === null || _u === void 0 ? void 0 : _u.tags);
+            setArtLocation(location[1].Text);
+            setArtCamera(camera[1].Vec[0].Text);
+            setLensArt(lens[1].Vec[0].Text);
         }
     }, [isEditPost]);
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: {
@@ -93600,7 +93704,7 @@ function PostDetails() {
         } },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_navbar__WEBPACK_IMPORTED_MODULE_1__["default"], { onLogout: onLogout, toolbarHeight: toolbarHeight }),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_8__["default"], { style: { paddingTop: toolbarHeight } }, isLoading ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_8__["default"], { style: { marginTop: 120, textAlign: "center" } },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_node_modules_mui_material_index__WEBPACK_IMPORTED_MODULE_9__["default"], null))) : !isEditPost ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_artDetail__WEBPACK_IMPORTED_MODULE_2__["default"], { post: post, navigate: navigate, mobileBreakpoint: mobileBreakpoint, setPost: setPost, setIsEditPost: setIsEditPost })) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_artForm__WEBPACK_IMPORTED_MODULE_4__["default"], { artTitle: artTitle, setArtTitle: setArtTitle, artType: artType, setArtType: setArtType, artCategory: artCategory, setArtCategory: setArtCategory, artCamera: artCamera, setArtCamera: setArtCamera, lensArt: lensArt, setLensArt: setLensArt, galleryArt: galleryArt, setGalleryArt: setGalleryArt, aboutArt: aboutArt, setAboutArt: setAboutArt, tagValue: tagValue, setTagValue: setTagValue, addTags: addTags, tagsArt: tagsArt, setTagsArt: setTagsArt, onUpdateArt: console.log, service: _service__WEBPACK_IMPORTED_MODULE_3__["default"], artLocation: artLocation, setArtLocation: setArtLocation, isUpdate: true, setIsEditPost: setIsEditPost })))));
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_node_modules_mui_material_index__WEBPACK_IMPORTED_MODULE_9__["default"], null))) : !isEditPost ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_artDetail__WEBPACK_IMPORTED_MODULE_2__["default"], { post: post, navigate: navigate, mobileBreakpoint: mobileBreakpoint, setPost: setPost, setIsEditPost: setIsEditPost })) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_artForm__WEBPACK_IMPORTED_MODULE_4__["default"], { artist: artist, artTitle: artTitle, setArtTitle: setArtTitle, artType: artType, setArtType: setArtType, artCategory: artCategory, setArtCategory: setArtCategory, artCamera: artCamera, setArtCamera: setArtCamera, lensArt: lensArt, setLensArt: setLensArt, galleryArt: galleryArt, setGalleryArt: setGalleryArt, aboutArt: aboutArt, setAboutArt: setAboutArt, tagValue: tagValue, setTagValue: setTagValue, addTags: addTags, tagsArt: tagsArt, setTagsArt: setTagsArt, onUpdateArt: console.log, service: _service__WEBPACK_IMPORTED_MODULE_3__["default"], artLocation: artLocation, setArtLocation: setArtLocation, isUpdate: true, setIsEditPost: setIsEditPost, postId: params.postId, navigate: navigate, setPost: setPost, post: post })))));
     function onLogout() {
         _service__WEBPACK_IMPORTED_MODULE_3__["default"].onSignOutStoic();
         localStorage.clear();
@@ -93776,7 +93880,6 @@ function Profile() {
                     setDetails(detailsProfile.ok);
                     setIsGuest(false);
                     setIsLoading(false);
-                    console.log(details);
                 })
                     .catch(() => {
                     setIsLoading(false);
@@ -93820,7 +93923,6 @@ function Profile() {
             setSelectedCameras(parseCameras);
         }
     }, [isEditProfile]);
-    console.log(details);
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: {
             height: "100vh",
         } },
@@ -96995,6 +97097,7 @@ const service = {
   getPostByID,
   removePost,
   readPostByFollowers,
+  updatePost,
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (service);
@@ -97159,6 +97262,7 @@ async function getPostsByCreation() {
 }
 
 async function createPost(post, blob) {
+  console.log("[PAYLOAD] => ", { postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
   const actor = await wPActorPrixer(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });
@@ -97270,6 +97374,14 @@ async function readPostByFollowers() {
     1
   );
   console.log("[READ POST BY FOLLOWERS] => ", result);
+  return result;
+}
+
+async function updatePost(post, postId) {
+  const identity = await onSignInStoic();
+  const actor = await wPActorPrixer(identity);
+  const result = await actor.updatePost({ postBasics: post, postId });
+  console.log("[UPDATE POST] => ", result);
   return result;
 }
 
