@@ -46,10 +46,11 @@ function PostDetails() {
     init();
   }, []);
   useEffect(() => {
-    async function getArtist() {
+    async function getArtist() {   
+      const galleries = await service.getGalleriesByArtist(localStorage.getItem("username")),
       const artist = await service.getArtist();
       const parseArtist = service.parseArtist(artist);
-
+      setGalleries(galleries.ok)
       setArtist(parseArtist);
     }
     getArtist();
@@ -128,6 +129,7 @@ function PostDetails() {
             postId={params.postId}
             navigate={navigate}
             setPost={setPost}
+            galleries={galleries}
             post={post}
           />
         )}

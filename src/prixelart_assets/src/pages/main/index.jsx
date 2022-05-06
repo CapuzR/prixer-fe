@@ -24,7 +24,6 @@ import service from "../service";
 import Navbar from "../../components/navbar";
 import NavigationBar from "../../components/navigationBar";
 
-const toolbarHeight = 68;
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });

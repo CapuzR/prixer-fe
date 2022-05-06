@@ -33,6 +33,7 @@ const service = {
   removePost,
   readPostByFollowers,
   updatePost,
+  readPostsByGallery,
 };
 
 export default service;
@@ -156,6 +157,7 @@ async function deleteArtist() {
   const result = await actor.remove(
     Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
+  localStorage.clear();
   console.log("[DELETE ARTIST] => ", result);
   return result;
 }
@@ -317,5 +319,13 @@ async function updatePost(post, postId) {
   const actor = await socialsActor(identity);
   const result = await actor.updatePost({ postBasics: post, postId });
   console.log("[UPDATE POST] => ", result);
+  return result;
+}
+
+async function readPostsByGallery(galleryId) {
+  const identity = await onSignInStoic();
+  const actor = await socialsActor(identity);
+  const result = await actor.readPostsByGallery(galleryId, 20, 1);
+  console.log("[READ POST BY GALLERY] => ", result);
   return result;
 }

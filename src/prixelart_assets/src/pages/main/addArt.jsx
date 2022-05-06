@@ -47,7 +47,6 @@ function AddArt() {
     init();
   }, []);
 
-  console.log(galleries);
   return (
     <div
       style={{

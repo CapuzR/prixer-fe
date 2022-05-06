@@ -19,14 +19,16 @@ function ListGalleries({
   setGalleries,
   setDetails,
   details,
+  username,
 }) {
   const [isLoading, setIsLoading] = useState(undefined);
+
   return (
     <Grid container spacing={1}>
       {galleries?.map((item, index) => (
         <Grid key={index} item xs={12} sm={4} md={4} lg={4} xl={3}>
           <Card
-          // onClick={() => navigate(`/main?page=profile&gallery=${item.id}`)}
+            onClick={() => navigate(`/gallery/${item.id}/posts/${username}`)}
           >
             <CardMedia
               component="img"

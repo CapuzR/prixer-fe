@@ -415,6 +415,11 @@ function Profile() {
                   setGalleries={setGalleries}
                   setDetails={setDetails}
                   details={details}
+                  username={
+                    params.username === localStorage.getItem("username")
+                      ? localStorage.getItem("username")
+                      : params.username
+                  }
                 />
               )}
             </Box>

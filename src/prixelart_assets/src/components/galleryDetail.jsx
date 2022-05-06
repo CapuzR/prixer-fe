@@ -8,7 +8,7 @@ import Masonry from "@mui/lab/Masonry";
 
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 
-function GalleryDetail({ searchParams, galleries, arts, navigate }) {
+function GalleryDetailList({ galleries, posts, navigate, galleryId }) {
   return (
     <Box>
       <Box style={{ padding: 16 }}>
@@ -18,52 +18,42 @@ function GalleryDetail({ searchParams, galleries, arts, navigate }) {
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              margiBottom: 8,
             }}
             variant="h4"
-          >{`${
-            galleries.find(
-              (gallery) => gallery.id === searchParams.get("gallery")
-            )?.info?.name
-          }`}</Typography>
+          >
+            {galleries?.find((gallery) => gallery.id === galleryId)?.name}
+          </Typography>
 
           <IconButton
             color="primary"
-            onClick={() => navigate("/main?page=profile")}
+            onClick={() => navigate(-1)}
             style={{ marginLeft: "auto" }}
           >
             <ArrowCircleLeftOutlinedIcon fontSize="large" />
           </IconButton>
         </Box>
         <Masonry columns={3} spacing={0.2}>
-          {arts?.map(
-            (item, index) =>
-              item.info.artBasics.artGalleries[0] ===
-                searchParams.get("gallery") && (
-                <div
-                  key={index}
-                  onClick={() =>
-                    navigate("/main?page=profile&image=" + item.id)
-                  }
-                >
-                  <img
-                    src={`${item.image}`}
-                    srcSet={`${item.image}`}
-                    alt={item.id}
-                    loading="lazy"
-                    style={{
-                      borderBottomLeftRadius: 4,
-                      borderBottomRightRadius: 4,
-                      display: "block",
-                      width: "100%",
-                    }}
-                  />
-                </div>
-              )
-          )}
+          {posts?.map((item, index) => (
+            <div key={index} onClick={() => navigate(`/post/${item.postId}`)}>
+              <img
+                src={`${item.post.postBasics.asset}`}
+                srcSet={`${item.post.postBasics.asset}`}
+                alt={item.postId}
+                loading="lazy"
+                style={{
+                  borderBottomLeftRadius: 4,
+                  borderBottomRightRadius: 4,
+                  display: "block",
+                  width: "100%",
+                }}
+              />
+            </div>
+          ))}
         </Masonry>
       </Box>
     </Box>
   );
 }
 
-export default GalleryDetail;
+export default GalleryDetailList;
