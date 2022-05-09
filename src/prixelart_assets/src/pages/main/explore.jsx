@@ -18,8 +18,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CircularProgress from "@mui/material/CircularProgress";
-
-import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
+import CommentIcon from "@mui/icons-material/Comment";
 
 import service from "../service";
 import Navbar from "../../components/navbar";
@@ -46,7 +45,6 @@ function Explore() {
   const [detailsPost, setDetailsPost] = useState();
   const [unfollowLoading, SetUnfollowLoading] = useState(false);
 
-
   useEffect(() => {
     async function init() {
       if (!localStorage.getItem("wallet")) navigate("/login");
@@ -62,8 +60,7 @@ function Explore() {
     }
     init();
   }, []);
-
-
+  console.log(posts);
   return (
     <div
       style={{
@@ -72,7 +69,7 @@ function Explore() {
     >
       <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
       <Box style={{ paddingTop: toolbarHeight, paddingBottom: 80 }}>
-      {!posts ? (
+        {!posts ? (
           <Box
             style={{ marginTop: 48, display: "flex", justifyContent: "center" }}
           >
@@ -88,7 +85,7 @@ function Explore() {
           posts.map((item, index) => (
             <>
               <Box
-              key={index}
+                key={index}
                 style={{
                   height: 60,
                   display: "flex",
@@ -174,7 +171,16 @@ function Explore() {
                       <FavoriteBorderIcon fontSize="small" />
                     )}
                   </IconButton>
-                  <div style={{ paddingTop: 3 }}>{parseInt(item.likesQty)}</div>{" "}
+                  <div style={{ paddingTop: 3 }}>{parseInt(item.likesQty)}</div>
+                  <CommentIcon
+                    fontSize="small"
+                    style={{ marginLeft: 12, paddingTop: 2 }}
+                  />
+                  <div style={{ paddingTop: 3, marginLeft: 6 }}>
+                    {parseInt(
+                      item.comments.length === 0 ? 0 : item.comments[0].length
+                    )}
+                  </div>
                 </div>
               </Box>
             </>
@@ -297,9 +303,6 @@ function Explore() {
     _posts[currentPost].likedByCaller = !_posts[currentPost].likedByCaller;
     setPosts(_posts);
   }
-
-  
-
 }
 
 export default Explore;

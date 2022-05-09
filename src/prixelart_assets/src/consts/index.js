@@ -14,4 +14,5 @@ export default {
   PROFILE_SCREEN_GALLERIES: "galleries",
   ARTIST_CAMERAS: "cameras",
   ARTIST_LENS: "lens",
+  ENTER_KEY_CODE: "Enter",
 };

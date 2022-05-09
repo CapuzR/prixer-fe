@@ -4,6 +4,7 @@ import Masonry from "@mui/lab/Masonry";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import CommentIcon from "@mui/icons-material/Comment";
 
 import service from "../pages/service";
 
@@ -53,6 +54,15 @@ function ListArts({ arts, navigate, setDetails, details }) {
               )}
             </IconButton>
             <div style={{ paddingTop: 3 }}>{parseInt(item.likesQty)}</div>
+            <CommentIcon
+              fontSize="small"
+              style={{ marginLeft: 12, paddingTop: 2 }}
+            />
+            <div style={{ paddingTop: 3, marginLeft: 6 }}>
+              {parseInt(
+                item.comments.length === 0 ? 0 : item.comments[0].length
+              )}
+            </div>
           </div>
         </div>
       ))}

@@ -17,6 +17,7 @@ import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import CommentIcon from "@mui/icons-material/Comment";
 
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -169,7 +170,16 @@ function Main() {
                       <FavoriteBorderIcon fontSize="small" />
                     )}
                   </IconButton>
-                  <div style={{ paddingTop: 3 }}>{parseInt(item.likesQty)}</div>{" "}
+                  <div style={{ paddingTop: 3 }}>{parseInt(item.likesQty)}</div>
+                  <CommentIcon
+                    fontSize="small"
+                    style={{ marginLeft: 12, paddingTop: 2 }}
+                  />
+                  <div style={{ paddingTop: 3, marginLeft: 6 }}>
+                    {parseInt(
+                      item.comments.length === 0 ? 0 : item.comments[0].length
+                    )}
+                  </div>
                 </div>
               </Box>
             </>

@@ -34,6 +34,9 @@ const service = {
   readPostByFollowers,
   updatePost,
   readPostsByGallery,
+  createComment,
+  removeComment,
+  scrollToBottom,
 };
 
 export default service;
@@ -328,4 +331,26 @@ async function readPostsByGallery(galleryId) {
   const result = await actor.readPostsByGallery(galleryId, 20, 1);
   console.log("[READ POST BY GALLERY] => ", result);
   return result;
+}
+
+async function createComment(id, comment) {
+  const identity = await onSignInStoic();
+  const actor = await socialsActor(identity);
+  const result = await actor.createComment(id, comment);
+  console.log("[CREATE COMMENT] => ", result);
+  return result;
+}
+
+async function removeComment(postId, commentId) {
+  const identity = await onSignInStoic();
+  const actor = await socialsActor(identity);
+  const result = await actor.removeComment(postId, commentId);
+  console.log("[REMOVE COMMENT] => ", result);
+  return result;
+}
+
+function scrollToBottom() {
+  const chatContainer = document.getElementById("scroll-btn");
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+  return true;
 }

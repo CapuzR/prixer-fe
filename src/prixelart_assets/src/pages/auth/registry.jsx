@@ -257,7 +257,12 @@ function Registry({}) {
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <Typography variant="h5">Cameras</Typography>
-                    <FormControl style={{ marginBottom: 4 }} required fullWidth>
+                    <FormControl
+                      style={{ marginBottom: 4 }}
+                      required
+                      fullWidth
+                      disabled={isLoading}
+                    >
                       <Select
                         required
                         labelId="camera-label"
@@ -303,7 +308,7 @@ function Registry({}) {
                     <IconButton
                       size="large"
                       color="primary"
-                      disabled={camera === "" ? true : false}
+                      disabled={camera === "" || isLoading ? true : false}
                       onClick={() => addCameras(camera)}
                     >
                       <AddBoxIcon fontSize="large" color="primary" />
@@ -311,7 +316,12 @@ function Registry({}) {
                   </Grid>
                   <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <Typography variant="h5">Lenses</Typography>
-                    <FormControl style={{ marginBottom: 4 }} required fullWidth>
+                    <FormControl
+                      disabled={isLoading}
+                      style={{ marginBottom: 4 }}
+                      required
+                      fullWidth
+                    >
                       <Select
                         labelId="lenses-label"
                         id="lenses-label-select"
@@ -354,7 +364,7 @@ function Registry({}) {
                     style={{ justifyContent: "center", display: "flex" }}
                   >
                     <IconButton
-                      disabled={lens === "" ? true : false}
+                      disabled={lens === "" || isLoading ? true : false}
                       size="large"
                       onClick={() => addLens(lens)}
                       color="primary"
@@ -419,6 +429,7 @@ function Registry({}) {
             !phone ||
             !about ||
             !artType ||
+            !assetProfile ||
             selectedCameras.length === 0 ||
             selectedLens.length === 0
           }

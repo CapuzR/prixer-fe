@@ -33,24 +33,36 @@ function GalleryDetailList({ galleries, posts, navigate, galleryId }) {
             <ArrowCircleLeftOutlinedIcon fontSize="large" />
           </IconButton>
         </Box>
-        <Masonry columns={3} spacing={0.2}>
-          {posts?.map((item, index) => (
-            <div key={index} onClick={() => navigate(`/post/${item.postId}`)}>
-              <img
-                src={`${item.post.postBasics.asset}`}
-                srcSet={`${item.post.postBasics.asset}`}
-                alt={item.postId}
-                loading="lazy"
-                style={{
-                  borderBottomLeftRadius: 4,
-                  borderBottomRightRadius: 4,
-                  display: "block",
-                  width: "100%",
-                }}
-              />
-            </div>
-          ))}
-        </Masonry>
+        {posts.length === 0 ? (
+          <Box
+            style={{
+              marginTop: 32,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            No posts.
+          </Box>
+        ) : (
+          <Masonry columns={3} spacing={0.2}>
+            {posts?.map((item, index) => (
+              <div key={index} onClick={() => navigate(`/post/${item.postId}`)}>
+                <img
+                  src={`${item.post.postBasics.asset}`}
+                  srcSet={`${item.post.postBasics.asset}`}
+                  alt={item.postId}
+                  loading="lazy"
+                  style={{
+                    borderBottomLeftRadius: 4,
+                    borderBottomRightRadius: 4,
+                    display: "block",
+                    width: "100%",
+                  }}
+                />
+              </div>
+            ))}
+          </Masonry>
+        )}
       </Box>
     </Box>
   );
