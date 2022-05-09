@@ -37,6 +37,7 @@ const service = {
   createComment,
   removeComment,
   scrollToBottom,
+  principalToText,
 };
 
 export default service;
@@ -230,6 +231,7 @@ async function getFollowersByArtist(username) {
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.readArtistFollowers(username);
+  console.log("[GET FOLLOWERS BY ARTIST] => ", result);
   return result;
 }
 
@@ -353,4 +355,8 @@ function scrollToBottom() {
   const chatContainer = document.getElementById("scroll-btn");
   chatContainer.scrollTop = chatContainer.scrollHeight;
   return true;
+}
+
+function principalToText(principal) {
+  return Principal.toText(principal);
 }

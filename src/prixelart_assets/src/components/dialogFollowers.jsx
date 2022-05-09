@@ -102,7 +102,9 @@ function DialogFollowers({
                 }}
                 onClick={() => navigate(`/u/${user.artistUsername}`)}
               >
-                <Avatar />
+                <Avatar
+                  src={`http://localhost:8000/A${user.artistPrincipal.toText()}?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`}
+                />
               </Box>
               <Box
                 style={{

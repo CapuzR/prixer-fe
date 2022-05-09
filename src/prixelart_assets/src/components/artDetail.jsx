@@ -164,7 +164,14 @@ function ArtDetail({
         {post?.comments[0]?.map((comment) => (
           <Box style={{ marginBottom: 8, display: "flex" }}>
             <Box onClick={() => navigate(`/u/${comment[1]}`)}>
-              <Avatar size="small" />
+              <Avatar
+                size="small"
+                src={`http://localhost:8000/A${
+                  typeof comment[0] === "string"
+                    ? comment[0]
+                    : comment[0].toText()
+                }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`}
+              />
             </Box>
             <Box style={{ marginLeft: 8, width: "100%" }}>
               <Box
@@ -287,7 +294,7 @@ function ArtDetail({
 
   function onAddComment(comment) {
     const formatComment = [
-      "",
+      JSON.parse(localStorage.getItem("_scApp")).principal,
       localStorage.getItem("username"),
       `ID${localStorage.getItem("username")}-${
         post.comments.length === 0 ? "0" : post.comments[0].length + 1
@@ -313,7 +320,6 @@ function ArtDetail({
     const newComments = post?.comments[0]?.filter((comment) => {
       return comment[2] !== currentComment;
     });
-    console.log(newComments);
     post.comments[0] = newComments;
     setPost({ ...post });
   }
