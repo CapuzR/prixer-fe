@@ -56,8 +56,17 @@ function ArtForm({
 
   galleries,
 }) {
+  console.log(artist);
   return (
     <Box style={{ padding: 24 }}>
+      <Button
+        disabled={!artist}
+        onClick={async () => {
+          handleImg(artist, blob);
+        }}
+      >
+        Prueba
+      </Button>
       <Box style={{ display: "flex", alignItems: "center" }}>
         <Typography variant="h4">
           {isUpdate ? "Edit art" : "Create art"}
@@ -440,6 +449,40 @@ function ArtForm({
                     },
                     blob
                   );
+                  service._createPost(
+                    artist.canisterId,
+                    {
+                      artType: artType,
+                      description: aboutArt,
+                      details: [
+                        [
+                          "galleryId",
+                          { Text: galleryArt === "" ? "false" : galleryArt },
+                        ],
+                        [
+                          "location",
+                          { Text: artLocation === "" ? "false" : artLocation },
+                        ],
+
+                        [
+                          "camera",
+                          {
+                            Vec: [{ Text: artCamera }],
+                          },
+                        ],
+                        [
+                          "lens",
+                          {
+                            Vec: [{ Text: lensArt }],
+                          },
+                        ],
+                      ],
+                      tags: tagsArt,
+                      title: artTitle,
+                    },
+                    blob
+                  );
+
                   navigate("/main");
                 }
               }}
@@ -458,6 +501,15 @@ function ArtForm({
       </Grid>
     </Box>
   );
+
+  async function handleImg(artist) {
+    const actor = await service._storeActor(artist.assetCanisterId);
+    console.log(actor);
+    const chunkSize = 500000;
+    const batchId = await actor.create_batch({});
+    console.log(batchId);
+    // const chunkIds = [];
+  }
 }
 
 export default ArtForm;

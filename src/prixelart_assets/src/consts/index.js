@@ -14,5 +14,7 @@ export default {
   PROFILE_SCREEN_GALLERIES: "galleries",
   ARTIST_CAMERAS: "cameras",
   ARTIST_LENS: "lens",
+  ARTIST_CANISTERID: "canisterId",
+  ARTIST_ASSETCANISTERID: "assetCanId",
   ENTER_KEY_CODE: "Enter",
 };

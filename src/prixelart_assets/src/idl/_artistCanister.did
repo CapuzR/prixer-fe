@@ -1,0 +1,109 @@
+type Result_4 = 
+ variant {
+   err: Error;
+   ok: text;
+ };
+type Result_3 = 
+ variant {
+   err: Error;
+   ok: record {
+         principal;
+         principal;
+       };
+ };
+type Result_2 = 
+ variant {
+   err: Error;
+   ok: vec principal;
+ };
+type Result_1 = 
+ variant {
+   err: Error;
+   ok: Art;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Metadata__1 = 
+ record {
+   description: text;
+   details: vec record {
+                  text;
+                  DetailValue;
+                };
+   frontend: opt vec text;
+   name: text;
+   principal_id: principal;
+   thumbnail: text;
+ };
+type Metadata = 
+ record {
+   description: text;
+   details: vec record {
+                  text;
+                  DetailValue;
+                };
+   frontend: opt vec text;
+   name: text;
+   principal_id: principal;
+   thumbnail: text;
+ };
+type Error = 
+ variant {
+   BadParameters;
+   NonExistentItem;
+   NotAuthorized;
+   Unknown: text;
+ };
+type DetailValue = 
+ variant {
+   False;
+   Float: float64;
+   I64: int64;
+   Principal: principal;
+   Slice: vec nat8;
+   Text: text;
+   True;
+   U64: nat64;
+   Vec: vec DetailValue;
+ };
+type ArtistCanister = 
+ service {
+   artistMetadata: () -> (Metadata__1) query;
+   authorizedArr: () -> (Result_2) query;
+   createArt: (ArtUpdate) -> (Result_4);
+   createAssetCan: () -> (Result_3);
+   deleteArt: (text) -> (Result);
+   getAssetCanIds: () -> (Result_2) query;
+   getCanIds: () -> (vec principal) query;
+   getCanisterId: () -> (principal) query;
+   name: () -> (text) query;
+   privReadArtById: (text) -> (Result_1) query;
+   updateArt: (ArtUpdate, text) -> (Result);
+ };
+type ArtUpdate = 
+ record {
+   artBasics: ArtBasics;
+   thumbAsset: blob;
+   updateThumbnail: bool;
+ };
+type ArtBasics = 
+ record {
+   artType: text;
+   description: text;
+   details: vec record {
+                  text;
+                  DetailValue;
+                };
+   tags: vec text;
+   title: text;
+ };
+type Art = 
+ record {
+   artBasics: ArtBasics;
+   createdAt: int;
+   thumbnail: text;
+ };
+service : (Metadata) -> ArtistCanister

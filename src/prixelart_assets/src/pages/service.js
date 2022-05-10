@@ -3,6 +3,8 @@ import { createActor as createSocialsActor } from "../../../declarations/socials
 import { createActor as createArtistRegistryActor } from "../../../declarations/artistRegistry";
 import { canisterId as socialsCId } from "../../../declarations/socials/index.js";
 import { canisterId as artistRegistryCId } from "../../../declarations/artistRegistry/index.js";
+import { createActor as _artistCanister } from "../idl/index.js";
+import { createActor as _storeCanister } from "../idl/indexStore.js";
 import { Principal } from "@dfinity/principal";
 import consts from "../consts/index";
 
@@ -38,6 +40,8 @@ const service = {
   removeComment,
   scrollToBottom,
   principalToText,
+  _createPost,
+  _storeActor,
 };
 
 export default service;
@@ -71,7 +75,6 @@ async function socialsActor(identity) {
 }
 
 async function artistRegistryActor(identity) {
-  console.log("artistReg ", artistRegistryCId);
   return await createArtistRegistryActor(artistRegistryCId, {
     agentOptions: {
       identity: identity,
@@ -79,7 +82,25 @@ async function artistRegistryActor(identity) {
   });
 }
 
+async function _artistActor(canisterId, identity) {
+  return await _artistCanister(canisterId, {
+    agentOptions: {
+      identity: identity,
+    },
+  });
+}
+
+async function _storeActor(canisterId) {
+  const identity = await onSignInStoic();
+  return await _storeCanister(canisterId, {
+    agentOptions: {
+      identity: identity,
+    },
+  });
+}
+
 function parseArtist(artist) {
+  console.log(artist, "ARTIST");
   const parseArtist = {
     fullName: artist[0].name,
     principal: artist[0].principal_id,
@@ -118,8 +139,13 @@ function parseArtist(artist) {
     lens: artist[0].details.find(
       (detail) => detail[0] === consts.ARTIST_LENS
     )[1].Vec,
+    canisterId: artist[0].details.find(
+      (detail) => detail[0] === consts.ARTIST_CANISTERID
+    )[1].Principal,
+    assetCanisterId: artist[0].details.find(
+      (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
+    )[1].Principal,
   };
-
   return parseArtist;
 }
 
@@ -139,9 +165,10 @@ async function addArtist(artist, username) {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.add(artist);
+  const resultCreateCanister = await actor.createArtistCan();
   localStorage.setItem("username", username);
   console.log("[ADD ARTIST] => ", result);
-
+  console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
   return result;
 }
 
@@ -151,6 +178,7 @@ async function getArtist() {
   const result = await actor.get(
     Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
+
   console.log("[GET ARTIST] => ", result);
   return result;
 }
@@ -202,12 +230,32 @@ async function getPostsByCreation() {
   return result;
 }
 
+// async function artistRegistryActor(identity) {
+//   return await createArtistRegistryActor(artistRegistryCId, {
+//     agentOptions: {
+//       identity: identity,
+//     },
+//   });
+// }
+
 async function createPost(post, blob) {
   console.log("[PAYLOAD] => ", { postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });
   console.log("[CREATE POST] => ", result);
+  return result;
+}
+
+async function _createPost(canisterId, post, asset) {
+  const identity = await onSignInStoic();
+  const actor = await _artistActor(canisterId.toText(), identity);
+  const result = await actor.createArt({
+    artBasics: post,
+    thumbAsset: asset,
+    updateThumbnail: true,
+  });
+  console.log("[CREATE ART PRIVATE] => ", result);
   return result;
 }
 
@@ -227,9 +275,11 @@ async function removeFollow(principal) {
   return result;
 }
 
-async function getFollowersByArtist(username) {
+async function getFollowersByArtist(username, canisterId) {
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
+  const actorStore = await _storeCanister(canisterId, identity);
+  console.log(actorStore, "ACTOR STORE");
   const result = await actor.readArtistFollowers(username);
   console.log("[GET FOLLOWERS BY ARTIST] => ", result);
   return result;

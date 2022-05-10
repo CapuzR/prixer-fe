@@ -111,14 +111,12 @@ function Profile() {
       setIsLoading(true);
       if (params.username === localStorage.getItem("username")) {
         await Promise.all([
-          service.getArtistByUsername(params.username),
           service.getArtistDetailsByUsername(params.username),
           service.getGalleriesByArtist(params.username),
         ])
-          .then(([artistProfile, detailsProfile, galleries]) => {
+          .then(([detailsProfile, galleries]) => {
             setGalleries(galleries.ok);
-            const parseArtistProfile = service.parseArtist(artistProfile);
-            setArtist(parseArtistProfile);
+            setArtist(JSON.parse(localStorage.getItem("profile")));
             setDetails(detailsProfile.ok);
             setIsGuest(false);
             setIsLoading(false);

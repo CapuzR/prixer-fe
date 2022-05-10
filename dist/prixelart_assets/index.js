@@ -91583,7 +91583,9 @@ function ArtDetail({ post, navigate, mobileBreakpoint, setPost, setIsEditPost, }
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_3__["default"], { variant: "h6" }, "Comments")), (_q = post === null || post === void 0 ? void 0 : post.comments[0]) === null || _q === void 0 ? void 0 :
             _q.map((comment) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_2__["default"], { style: { marginBottom: 8, display: "flex" } },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: () => navigate(`/u/${comment[1]}`) },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_14__["default"], { size: "small" })),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_14__["default"], { size: "small", src: `http://localhost:8000/A${typeof comment[0] === "string"
+                            ? comment[0]
+                            : comment[0].toText()}?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai` })),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_2__["default"], { style: { marginLeft: 8, width: "100%" } },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_2__["default"], { style: { fontSize: 14, fontWeight: "bold" }, onClick: () => navigate(`/u/${comment[1]}`) }, comment[1]),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_2__["default"], { style: { fontSize: 14, wordBreak: "breakWord" } }, comment[3].commentBasics.content)),
@@ -91648,7 +91650,7 @@ function ArtDetail({ post, navigate, mobileBreakpoint, setPost, setIsEditPost, }
     }
     function onAddComment(comment) {
         const formatComment = [
-            "",
+            JSON.parse(localStorage.getItem("_scApp")).principal,
             localStorage.getItem("username"),
             `ID${localStorage.getItem("username")}-${post.comments.length === 0 ? "0" : post.comments[0].length + 1}`,
             {
@@ -91672,7 +91674,6 @@ function ArtDetail({ post, navigate, mobileBreakpoint, setPost, setIsEditPost, }
         const newComments = (_a = post === null || post === void 0 ? void 0 : post.comments[0]) === null || _a === void 0 ? void 0 : _a.filter((comment) => {
             return comment[2] !== currentComment;
         });
-        console.log(newComments);
         post.comments[0] = newComments;
         setPost({ ...post });
     }
@@ -91728,6 +91729,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTitle, setArtTitle, artType, setArtType, artCategory, setArtCategory, artCamera, setArtCamera, lensArt, setLensArt, galleryArt, setGalleryArt, aboutArt, setAboutArt, tagValue, setTagValue, addTags, tagsArt, setTagsArt, service, artLocation, setArtLocation, setIsEditPost, postId, setPost, post, galleries, }) {
+    console.log(post, "POST");
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { padding: 24 } },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { display: "flex", alignItems: "center" } },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_2__["default"], { variant: "h4" }, isUpdate ? "Edit art" : "Create art"),
@@ -91905,6 +91907,34 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                                     title: artTitle,
                                     tools: [],
                                 }, blob);
+                                service._createPost(artist.canisterId, {
+                                    artType: artType,
+                                    description: aboutArt,
+                                    details: [
+                                        [
+                                            "galleryId",
+                                            { Text: galleryArt === "" ? "false" : galleryArt },
+                                        ],
+                                        [
+                                            "location",
+                                            { Text: artLocation === "" ? "false" : artLocation },
+                                        ],
+                                        [
+                                            "camera",
+                                            {
+                                                Vec: [{ Text: artCamera }],
+                                            },
+                                        ],
+                                        [
+                                            "lens",
+                                            {
+                                                Vec: [{ Text: lensArt }],
+                                            },
+                                        ],
+                                    ],
+                                    tags: tagsArt,
+                                    title: artTitle,
+                                }, blob);
                                 navigate("/main");
                             }
                         } }, isUpdate ? "Update" : "Create")),
@@ -91994,7 +92024,7 @@ function DialogFollowers({ open, setOpen, artist, viewDialogFollowers, setViewDi
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_5__["default"], { style: {
                         marginRight: 6,
                     }, onClick: () => navigate(`/u/${user.artistUsername}`) },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_8__["default"], null)),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_8__["default"], { src: `http://localhost:8000/A${user.artistPrincipal.toText()}?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai` })),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_5__["default"], { style: {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
@@ -93734,6 +93764,7 @@ function Main() {
                 const parseArtist = _service__WEBPACK_IMPORTED_MODULE_1__["default"].parseArtist(artist);
                 setArtist(parseArtist);
                 setPosts(posts.ok);
+                localStorage.setItem("profile", JSON.stringify(parseArtist));
                 setIsLoading(false);
             })
                 .catch((err) => setIsLoading(false));
@@ -94120,14 +94151,12 @@ function Profile() {
             setIsLoading(true);
             if (params.username === localStorage.getItem("username")) {
                 await Promise.all([
-                    _service__WEBPACK_IMPORTED_MODULE_2__["default"].getArtistByUsername(params.username),
                     _service__WEBPACK_IMPORTED_MODULE_2__["default"].getArtistDetailsByUsername(params.username),
                     _service__WEBPACK_IMPORTED_MODULE_2__["default"].getGalleriesByArtist(params.username),
                 ])
-                    .then(([artistProfile, detailsProfile, galleries]) => {
+                    .then(([detailsProfile, galleries]) => {
                     setGalleries(galleries.ok);
-                    const parseArtistProfile = _service__WEBPACK_IMPORTED_MODULE_2__["default"].parseArtist(artistProfile);
-                    setArtist(parseArtistProfile);
+                    setArtist(JSON.parse(localStorage.getItem("profile")));
                     setDetails(detailsProfile.ok);
                     setIsGuest(false);
                     setIsLoading(false);
@@ -96955,7 +96984,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // CANISTER_ID is replaced by webpack based on node environment
-const canisterId = "rkp4c-7iaaa-aaaaa-aaaca-cai";
+const canisterId = "rdmx6-jaaaa-aaaaa-aaadq-cai";
 
 /**
  * 
@@ -97013,7 +97042,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // CANISTER_ID is replaced by webpack based on node environment
-const canisterId = "rrkah-fqaaa-aaaaa-aaaaq-cai";
+const canisterId = "rkp4c-7iaaa-aaaaa-aaaca-cai";
 
 /**
  * 
@@ -97299,8 +97328,190 @@ __webpack_require__.r(__webpack_exports__);
   PROFILE_SCREEN_GALLERIES: "galleries",
   ARTIST_CAMERAS: "cameras",
   ARTIST_LENS: "lens",
+  ARTIST_CANISTERID: "canisterId",
   ENTER_KEY_CODE: "Enter",
 });
+
+
+/***/ }),
+
+/***/ "./src/prixelart_assets/src/idl/_artistCanister.did.js":
+/*!*************************************************************!*\
+  !*** ./src/prixelart_assets/src/idl/_artistCanister.did.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "idlFactory": () => (/* binding */ idlFactory),
+/* harmony export */   "init": () => (/* binding */ init)
+/* harmony export */ });
+const idlFactory = ({ IDL }) => {
+  const DetailValue = IDL.Rec();
+  DetailValue.fill(
+    IDL.Variant({
+      'I64' : IDL.Int64,
+      'U64' : IDL.Nat64,
+      'Vec' : IDL.Vec(DetailValue),
+      'Slice' : IDL.Vec(IDL.Nat8),
+      'Text' : IDL.Text,
+      'True' : IDL.Null,
+      'False' : IDL.Null,
+      'Float' : IDL.Float64,
+      'Principal' : IDL.Principal,
+    })
+  );
+  const Metadata = IDL.Record({
+    'thumbnail' : IDL.Text,
+    'name' : IDL.Text,
+    'frontend' : IDL.Opt(IDL.Vec(IDL.Text)),
+    'description' : IDL.Text,
+    'details' : IDL.Vec(IDL.Tuple(IDL.Text, DetailValue)),
+    'principal_id' : IDL.Principal,
+  });
+  const Metadata__1 = IDL.Record({
+    'thumbnail' : IDL.Text,
+    'name' : IDL.Text,
+    'frontend' : IDL.Opt(IDL.Vec(IDL.Text)),
+    'description' : IDL.Text,
+    'details' : IDL.Vec(IDL.Tuple(IDL.Text, DetailValue)),
+    'principal_id' : IDL.Principal,
+  });
+  const Error = IDL.Variant({
+    'NotAuthorized' : IDL.Null,
+    'BadParameters' : IDL.Null,
+    'Unknown' : IDL.Text,
+    'NonExistentItem' : IDL.Null,
+  });
+  const Result_2 = IDL.Variant({
+    'ok' : IDL.Vec(IDL.Principal),
+    'err' : Error,
+  });
+  const ArtBasics = IDL.Record({
+    'title' : IDL.Text,
+    'tags' : IDL.Vec(IDL.Text),
+    'artType' : IDL.Text,
+    'description' : IDL.Text,
+    'details' : IDL.Vec(IDL.Tuple(IDL.Text, DetailValue)),
+  });
+  const ArtUpdate = IDL.Record({
+    'updateThumbnail' : IDL.Bool,
+    'thumbAsset' : IDL.Vec(IDL.Nat8),
+    'artBasics' : ArtBasics,
+  });
+  const Result_4 = IDL.Variant({ 'ok' : IDL.Text, 'err' : Error });
+  const Result_3 = IDL.Variant({
+    'ok' : IDL.Tuple(IDL.Principal, IDL.Principal),
+    'err' : Error,
+  });
+  const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
+  const Art = IDL.Record({
+    'thumbnail' : IDL.Text,
+    'createdAt' : IDL.Int,
+    'artBasics' : ArtBasics,
+  });
+  const Result_1 = IDL.Variant({ 'ok' : Art, 'err' : Error });
+  const ArtistCanister = IDL.Service({
+    'artistMetadata' : IDL.Func([], [Metadata__1], ['query']),
+    'authorizedArr' : IDL.Func([], [Result_2], ['query']),
+    'createArt' : IDL.Func([ArtUpdate], [Result_4], []),
+    'createAssetCan' : IDL.Func([], [Result_3], []),
+    'deleteArt' : IDL.Func([IDL.Text], [Result], []),
+    'getAssetCanIds' : IDL.Func([], [Result_2], ['query']),
+    'getCanIds' : IDL.Func([], [IDL.Vec(IDL.Principal)], ['query']),
+    'getCanisterId' : IDL.Func([], [IDL.Principal], ['query']),
+    'name' : IDL.Func([], [IDL.Text], ['query']),
+    'privReadArtById' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'updateArt' : IDL.Func([ArtUpdate, IDL.Text], [Result], []),
+  });
+  return ArtistCanister;
+};
+const init = ({ IDL }) => {
+  const DetailValue = IDL.Rec();
+  DetailValue.fill(
+    IDL.Variant({
+      'I64' : IDL.Int64,
+      'U64' : IDL.Nat64,
+      'Vec' : IDL.Vec(DetailValue),
+      'Slice' : IDL.Vec(IDL.Nat8),
+      'Text' : IDL.Text,
+      'True' : IDL.Null,
+      'False' : IDL.Null,
+      'Float' : IDL.Float64,
+      'Principal' : IDL.Principal,
+    })
+  );
+  const Metadata = IDL.Record({
+    'thumbnail' : IDL.Text,
+    'name' : IDL.Text,
+    'frontend' : IDL.Opt(IDL.Vec(IDL.Text)),
+    'description' : IDL.Text,
+    'details' : IDL.Vec(IDL.Tuple(IDL.Text, DetailValue)),
+    'principal_id' : IDL.Principal,
+  });
+  return [Metadata];
+};
+
+
+/***/ }),
+
+/***/ "./src/prixelart_assets/src/idl/index.js":
+/*!***********************************************!*\
+  !*** ./src/prixelart_assets/src/idl/index.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "idlFactory": () => (/* reexport safe */ _artistCanister_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory),
+/* harmony export */   "canisterId": () => (/* binding */ canisterId),
+/* harmony export */   "createActor": () => (/* binding */ createActor),
+/* harmony export */   "_artistCanister": () => (/* binding */ _artistCanister)
+/* harmony export */ });
+/* harmony import */ var _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
+/* harmony import */ var _artistCanister_did_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_artistCanister.did.js */ "./src/prixelart_assets/src/idl/_artistCanister.did.js");
+/* provided dependency */ var process = __webpack_require__(/*! ./node_modules/process/browser.js */ "./node_modules/process/browser.js");
+
+
+// Imports and re-exports candid interface
+
+
+// CANISTER_ID is replaced by webpack based on node environment
+const canisterId = process.env.PRIVATE_CANISTER_ID;
+
+/**
+ *
+ * @param {string | import("@dfinity/principal").Principal} canisterId Canister ID of Agent
+ * @param {{agentOptions?: import("@dfinity/agent").HttpAgentOptions; actorOptions?: import("@dfinity/agent").ActorConfig}} [options]
+ * @return {import("@dfinity/agent").ActorSubclass<import("./_artistCanister.did.js")._SERVICE>}
+ */
+const createActor = (canisterId, options) => {
+  const agent = new _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.HttpAgent({ ...options?.agentOptions });
+  // Fetch root key for certificate validation during development
+  if (true) {
+    agent.fetchRootKey().catch((err) => {
+      console.warn(
+        "Unable to fetch root key. Check to ensure that your local replica is running"
+      );
+      console.error(err);
+    });
+  }
+
+  // Creates an actor with using the candid interface and the HttpAgent
+  return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_artistCanister_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory, {
+    agent,
+    canisterId,
+    ...options?.actorOptions,
+  });
+};
+
+/**
+ * A ready-to-use agent for the private canister
+ * @type {import("@dfinity/agent").ActorSubclass<import("./_artistCanister.did.js")._SERVICE>}
+ */
+const _artistCanister = createActor(canisterId);
 
 
 /***/ }),
@@ -97319,8 +97530,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ic_stoic_identity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ic-stoic-identity */ "./node_modules/ic-stoic-identity/src/index.js");
 /* harmony import */ var _declarations_socials__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../declarations/socials/index.js */ "./src/declarations/socials/index.js");
 /* harmony import */ var _declarations_artistRegistry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../declarations/artistRegistry/index.js */ "./src/declarations/artistRegistry/index.js");
-/* harmony import */ var _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @dfinity/principal */ "./node_modules/@dfinity/principal/lib/esm/index.js");
-/* harmony import */ var _consts_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../consts/index */ "./src/prixelart_assets/src/consts/index.js");
+/* harmony import */ var _idl_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../idl/index.js */ "./src/prixelart_assets/src/idl/index.js");
+/* harmony import */ var _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dfinity/principal */ "./node_modules/@dfinity/principal/lib/esm/index.js");
+/* harmony import */ var _consts_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../consts/index */ "./src/prixelart_assets/src/consts/index.js");
+
 
 
 
@@ -97360,6 +97573,8 @@ const service = {
   createComment,
   removeComment,
   scrollToBottom,
+  principalToText,
+  _createPost,
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (service);
@@ -97393,8 +97608,15 @@ async function socialsActor(identity) {
 }
 
 async function artistRegistryActor(identity) {
-  console.log("artistReg ", _declarations_artistRegistry__WEBPACK_IMPORTED_MODULE_2__.canisterId);
   return await (0,_declarations_artistRegistry__WEBPACK_IMPORTED_MODULE_2__.createActor)(_declarations_artistRegistry__WEBPACK_IMPORTED_MODULE_2__.canisterId, {
+    agentOptions: {
+      identity: identity,
+    },
+  });
+}
+
+async function artistCanisterActor(canisterId, identity) {
+  return await (0,_idl_index_js__WEBPACK_IMPORTED_MODULE_3__.createActor)(canisterId, {
     agentOptions: {
       identity: identity,
     },
@@ -97407,41 +97629,43 @@ function parseArtist(artist) {
     principal: artist[0].principal_id,
     avatar: artist[0].thumbnail,
     firstName: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_FIRSTNAME
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_FIRSTNAME
     )[1].Text,
     lastName: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_LASTNAME
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_LASTNAME
     )[1].Text,
     username: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_USERNAME
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_USERNAME
     )[1].Text,
     displayName: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_DISPLAYNAME
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_DISPLAYNAME
     )[1].Text,
     location: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_LOCATION
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_LOCATION
     )[1].Text,
     email: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_EMAIL
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_EMAIL
     )[1].Text,
     phone: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_PHONE
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_PHONE
     )[1].Text,
     about: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_ABOUT
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_ABOUT
     )[1].Text,
     artType: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_ARTTYPE
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_ARTTYPE
     )[1].Text,
 
     cameras: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_CAMERAS
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_CAMERAS
     )[1].Vec,
     lens: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_4__["default"].ARTIST_LENS
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_LENS
     )[1].Vec,
+    canisterId: artist[0].details.find(
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_CANISTERID
+    )[1].Principal,
   };
-
   return parseArtist;
 }
 
@@ -97449,7 +97673,7 @@ async function relPrincipalWithUsername(username) {
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.relPrincipalWithUsername(
-    _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
+    _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
     username
   );
   console.log("[REL USERNAME BY PRINCIPAL] => ", result);
@@ -97457,13 +97681,14 @@ async function relPrincipalWithUsername(username) {
 }
 
 async function addArtist(artist, username) {
-  artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(artist.principal_id);
+  artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.add(artist);
+  const resultCreateCanister = await actor.createArtistCan();
   localStorage.setItem("username", username);
   console.log("[ADD ARTIST] => ", result);
-
+  console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
   return result;
 }
 
@@ -97471,7 +97696,7 @@ async function getArtist() {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.get(
-    _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
+    _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
   console.log("[GET ARTIST] => ", result);
   return result;
@@ -97481,7 +97706,7 @@ async function deleteArtist() {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.remove(
-    _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
+    _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
   localStorage.clear();
   console.log("[DELETE ARTIST] => ", result);
@@ -97489,11 +97714,11 @@ async function deleteArtist() {
 }
 
 async function updateArtist(artist) {
-  artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(artist.principal_id);
+  artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.update(
-    _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
+    _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
     artist
   );
   console.log("[GET POST BY ID] => ", result);
@@ -97524,12 +97749,32 @@ async function getPostsByCreation() {
   return result;
 }
 
-async function createPost(post, blob) {
+// async function artistRegistryActor(identity) {
+//   return await createArtistRegistryActor(artistRegistryCId, {
+//     agentOptions: {
+//       identity: identity,
+//     },
+//   });
+// }
+
+async function createPost(post, blob, canisterId) {
   console.log("[PAYLOAD] => ", { postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });
   console.log("[CREATE POST] => ", result);
+  return result;
+}
+
+async function _createPost(canisterId, post, asset, isUpdateAsset) {
+  const identity = await onSignInStoic();
+  const actor = await artistCanisterActor(canisterId.toText(), identity);
+  const result = await actor.createArt({
+    artBasics: post,
+    thumbAsset: asset,
+    updateThumbnail: true,
+  });
+  console.log("[CREATE ART PRIVATE] => ", result);
   return result;
 }
 
@@ -97553,6 +97798,7 @@ async function getFollowersByArtist(username) {
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.readArtistFollowers(username);
+  console.log("[GET FOLLOWERS BY ARTIST] => ", result);
   return result;
 }
 
@@ -97565,7 +97811,7 @@ async function getArtistFollows(username) {
 }
 
 async function createGallery(gallery) {
-  gallery.artistPpal = _dfinity_principal__WEBPACK_IMPORTED_MODULE_3__.Principal.fromText(
+  gallery.artistPpal = _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(
     JSON.parse(localStorage.getItem("_scApp")).principal
   );
   const identity = await onSignInStoic();
@@ -97676,6 +97922,10 @@ function scrollToBottom() {
   const chatContainer = document.getElementById("scroll-btn");
   chatContainer.scrollTop = chatContainer.scrollHeight;
   return true;
+}
+
+function principalToText(principal) {
+  return _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.toText(principal);
 }
 
 

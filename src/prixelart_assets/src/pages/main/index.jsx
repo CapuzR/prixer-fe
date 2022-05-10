@@ -54,13 +54,13 @@ function Main() {
           const parseArtist = service.parseArtist(artist);
           setArtist(parseArtist);
           setPosts(posts.ok);
+          localStorage.setItem("profile", JSON.stringify(parseArtist));
           setIsLoading(false);
         })
         .catch((err) => setIsLoading(false));
     }
     init();
   }, []);
-
   return (
     <div
       style={{
