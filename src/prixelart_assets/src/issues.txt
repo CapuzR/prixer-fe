@@ -1,0 +1,29 @@
+TO DO: 
+
+1.- Agregar expresiones regulares a entradas de datos del formulario de Registro.
+
+2.-Luego de registrar los datos, agregar pantalla de agregar primera foto, luego de esto al explorar.
+
+3.-En la vista de crear primer arte, que se cargue en background los datos necesarios para el explorar
+
+4.-Remover el get artist de las vistas de explorar y main.
+
+5.-Cargar en background la info del perfil
+
+6.-Optimizar los circular progress en la vista del perfil.
+
+7.-Evaluar agregar carga de banner.
+
+8.-Agregar busqueda de fotos en el perfil => SUPER PRIORIDAD.
+
+9.-Tags permiten agregar vacio.
+
+10.-Camara / Galerias / Lentes => disabled mientras dice loading.
+
+11.-Agregar logo de prixelart
+
+12.-Agregar evento followinf - ufollowing en el modal.
+
+13.-Cambiar delete de comentario por menu.
+
+14. Cambiar gallery por Galeries.
