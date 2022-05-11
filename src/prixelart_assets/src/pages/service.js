@@ -91,6 +91,7 @@ async function _artistActor(canisterId, identity) {
 }
 
 async function _storeActor(canisterId) {
+  console.log(canisterId);
   const identity = await onSignInStoic();
   return await _storeCanister(canisterId, {
     agentOptions: {

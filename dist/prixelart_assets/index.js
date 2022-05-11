@@ -91696,11 +91696,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _mui_material_Box__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mui/material/Box */ "./node_modules/@mui/material/Box/Box.js");
-/* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/Button.js");
-/* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/IconButton.js");
-/* harmony import */ var _mui_material_Typography__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mui/material/Typography */ "./node_modules/@mui/material/Typography/Typography.js");
-/* harmony import */ var _mui_material_Paper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/material/Paper */ "./node_modules/@mui/material/Paper/Paper.js");
-/* harmony import */ var _mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/material/Grid */ "./node_modules/@mui/material/Grid/Grid.js");
+/* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/Button.js");
+/* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/IconButton.js");
+/* harmony import */ var _mui_material_Typography__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material/Typography */ "./node_modules/@mui/material/Typography/Typography.js");
+/* harmony import */ var _mui_material_Paper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/material/Paper */ "./node_modules/@mui/material/Paper/Paper.js");
+/* harmony import */ var _mui_material_Grid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/material/Grid */ "./node_modules/@mui/material/Grid/Grid.js");
 /* harmony import */ var _mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/material/TextField */ "./node_modules/@mui/material/TextField/TextField.js");
 /* harmony import */ var _mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @mui/material/InputLabel */ "./node_modules/@mui/material/InputLabel/InputLabel.js");
 /* harmony import */ var _mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mui/material/MenuItem */ "./node_modules/@mui/material/MenuItem/MenuItem.js");
@@ -91709,7 +91709,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_Chip__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @mui/material/Chip */ "./node_modules/@mui/material/Chip/Chip.js");
 /* harmony import */ var _mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @mui/material/InputAdornment */ "./node_modules/@mui/material/InputAdornment/InputAdornment.js");
 /* harmony import */ var _mui_icons_material_AddPhotoAlternate__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/icons-material/AddPhotoAlternate */ "./node_modules/@mui/icons-material/AddPhotoAlternate.js");
-/* harmony import */ var _mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/icons-material/ArrowCircleLeftOutlined */ "./node_modules/@mui/icons-material/ArrowCircleLeftOutlined.js");
+/* harmony import */ var _mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/icons-material/ArrowCircleLeftOutlined */ "./node_modules/@mui/icons-material/ArrowCircleLeftOutlined.js");
 /* harmony import */ var _mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @mui/icons-material/AddBox */ "./node_modules/@mui/icons-material/AddBox.js");
 
 
@@ -91729,25 +91729,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTitle, setArtTitle, artType, setArtType, artCategory, setArtCategory, artCamera, setArtCamera, lensArt, setLensArt, galleryArt, setGalleryArt, aboutArt, setAboutArt, tagValue, setTagValue, addTags, tagsArt, setTagsArt, service, artLocation, setArtLocation, setIsEditPost, postId, setPost, post, galleries, }) {
-    console.log(post, "POST");
+    console.log(artist);
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { padding: 24 } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { disabled: !artist, onClick: async () => {
+                handleImg(artist, blob);
+            } }, "Prueba"),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { display: "flex", alignItems: "center" } },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_2__["default"], { variant: "h4" }, isUpdate ? "Edit art" : "Create art"),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_3__["default"], { color: "primary", onClick: () => (!isUpdate ? navigate(-1) : setIsEditPost(false)), style: { marginLeft: "auto" } },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_4__["default"], { fontSize: "large" }))),
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { container: true, spacing: 1 },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_6__["default"], { elevation: 5, style: { padding: 24, marginTop: 14, width: "100%" } },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { container: true, spacing: 1 },
-                    !isUpdate && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 4, xl: 4, style: { textAlign: "center" } }, asset ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_7__["default"], { fullWidth: true, component: "label" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_3__["default"], { variant: "h4" }, isUpdate ? "Edit art" : "Create art"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_4__["default"], { color: "primary", onClick: () => (!isUpdate ? navigate(-1) : setIsEditPost(false)), style: { marginLeft: "auto" } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_5__["default"], { fontSize: "large" }))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], { container: true, spacing: 1 },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Paper__WEBPACK_IMPORTED_MODULE_7__["default"], { elevation: 5, style: { padding: 24, marginTop: 14, width: "100%" } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], { container: true, spacing: 1 },
+                    !isUpdate && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], { item: true, xs: 12, sm: 12, md: 6, lg: 4, xl: 4, style: { textAlign: "center" } }, asset ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { fullWidth: true, component: "label" },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: asset, alt: "image", style: {
                                 width: "100%",
                                 maxHeight: 500,
                                 objectFit: "contain",
                             } }),
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_7__["default"], { fullWidth: true, component: "label" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { fullWidth: true, component: "label" },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddPhotoAlternate__WEBPACK_IMPORTED_MODULE_8__["default"], { style: { height: 230, width: 80 } }),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChange(event, false) }))))),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: isUpdate ? 12 : 6, lg: isUpdate ? 12 : 8, xl: isUpdate ? 12 : 8 },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], { item: true, xs: 12, sm: 12, md: isUpdate ? 12 : 6, lg: isUpdate ? 12 : 8, xl: isUpdate ? 12 : 8 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { display: "flex" } },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { width: "50%", marginRight: 4 } },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], { type: "text", label: "Title", variant: "outlined", required: true, fullWidth: true, style: { marginBottom: 4 }, value: artTitle, onChange: (event) => setArtTitle(event.target.value) })),
@@ -91777,16 +91780,16 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_10__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
                                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_11__["default"], { id: "camera-label" }, "Lens"),
                                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_12__["default"], { labelId: "camera-label", id: "category-select", value: lensArt, onChange: (event) => setLensArt(event.target.value), label: "Lens" }, artist ? (artist.lens.map((art, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], { key: index, value: art.Text }, art.Text)))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], null, "Loading..."))))))),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_10__["default"], { style: { marginBottom: 4 }, fullWidth: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_11__["default"], { id: "gallery-label" }, "Gallery"),
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_12__["default"], { labelId: "gallery-label", id: "gallery-select", value: galleryArt, onChange: (event) => setGalleryArt(event.target.value), label: "Labels" }, galleries ? (galleries.map((gallery) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], { value: gallery.id }, gallery.name)))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], null, "Loading..."))))),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], { type: "text", label: "About the art", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutArt, onChange: (event) => setAboutArt(event.target.value), required: true })),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], { placeholder: "labels", fullWidth: true, value: tagValue, onChange: (event) => setTagValue(event.target.value), InputProps: {
                                 endAdornment: (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_14__["default"], { position: "end" },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_3__["default"], { onClick: () => addTags(tagValue), color: "primary" },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_4__["default"], { onClick: () => addTags(tagValue), color: "primary" },
                                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_AddBox__WEBPACK_IMPORTED_MODULE_15__["default"], null)))),
                             } })),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { marginTop: "8px", padding: 8 } }, tagsArt === null || tagsArt === void 0 ? void 0 : tagsArt.map((tg) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_16__["default"], { key: tg, label: tg, variant: "outlined", style: {
@@ -91794,7 +91797,7 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                             marginRight: "2px",
                         }, onDelete: () => setTagsArt(tagsArt.filter((tag) => tag !== tg)) }))))),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_1__["default"], { style: { marginTop: 12 } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_7__["default"], { disabled: !artTitle ||
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { disabled: !artTitle ||
                             !aboutArt ||
                             !artType ||
                             !artCamera ||
@@ -91943,6 +91946,46 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                         display: "flex",
                         justifyContent: "center",
                     } })))));
+    async function handleImg(artist, blob) {
+        console.log(artist.assetCanisterId.toText());
+        const actor = await service._storeActor(artist.assetCanisterId);
+        console.log("[ACTOR STORE] => ", actor);
+        const chunkSize = 500000;
+        const batchId = await actor.create_batch({});
+        console.log("[BATCH_ID] => ", batchId);
+        const chunkIds = [];
+        for (let i = 0; i < blob.length; i += chunkSize) {
+            console.log("[INDEX] => ", i);
+            const chunk = blob.slice(i, i + chunkSize);
+            const chunkId = await actor.create_chunk({
+                batch_id: parseInt(batchId.batch_id),
+                content: chunk,
+            });
+            console.log("[CHUNK ID] => ", chunkId);
+            chunkIds.push(parseInt(chunkId.chunk_id));
+        }
+        console.log("[CHUNKS IDS] => ", chunkIds);
+        const result = await actor.commit_batch({
+            batch_id: parseInt(batchId.batch_id),
+            operations: [
+                {
+                    CreateAsset: {
+                        key: "KEY",
+                        content_type: "image/jpeg",
+                    },
+                },
+                {
+                    SetAssetContent: {
+                        key: "KEY",
+                        sha256: [],
+                        chunk_ids: chunkIds,
+                        content_encoding: "identity",
+                    },
+                },
+            ],
+        });
+        console.log(["CREATE ASSET AND ASSET CONTENT => "], result);
+    }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ArtForm);
 
@@ -96984,7 +97027,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // CANISTER_ID is replaced by webpack based on node environment
-const canisterId = "rdmx6-jaaaa-aaaaa-aaadq-cai";
+const canisterId = "rkp4c-7iaaa-aaaaa-aaaca-cai";
 
 /**
  * 
@@ -97042,7 +97085,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // CANISTER_ID is replaced by webpack based on node environment
-const canisterId = "rkp4c-7iaaa-aaaaa-aaaca-cai";
+const canisterId = "rrkah-fqaaa-aaaaa-aaaaq-cai";
 
 /**
  * 
@@ -97329,6 +97372,7 @@ __webpack_require__.r(__webpack_exports__);
   ARTIST_CAMERAS: "cameras",
   ARTIST_LENS: "lens",
   ARTIST_CANISTERID: "canisterId",
+  ARTIST_ASSETCANISTERID: "assetCanId",
   ENTER_KEY_CODE: "Enter",
 });
 
@@ -97456,6 +97500,169 @@ const init = ({ IDL }) => {
 
 /***/ }),
 
+/***/ "./src/prixelart_assets/src/idl/_storeCanister.did.js":
+/*!************************************************************!*\
+  !*** ./src/prixelart_assets/src/idl/_storeCanister.did.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "idlFactory": () => (/* binding */ idlFactory),
+/* harmony export */   "init": () => (/* binding */ init)
+/* harmony export */ });
+const idlFactory = ({ IDL }) => {
+  const ClearArguments = IDL.Record({});
+  const BatchId = IDL.Nat;
+  const Key = IDL.Text;
+  const CreateAssetArguments = IDL.Record({
+    'key' : Key,
+    'content_type' : IDL.Text,
+  });
+  const UnsetAssetContentArguments = IDL.Record({
+    'key' : Key,
+    'content_encoding' : IDL.Text,
+  });
+  const DeleteAssetArguments = IDL.Record({ 'key' : Key });
+  const ChunkId = IDL.Nat;
+  const SetAssetContentArguments = IDL.Record({
+    'key' : Key,
+    'sha256' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'chunk_ids' : IDL.Vec(ChunkId),
+    'content_encoding' : IDL.Text,
+  });
+  const BatchOperationKind = IDL.Variant({
+    'CreateAsset' : CreateAssetArguments,
+    'UnsetAssetContent' : UnsetAssetContentArguments,
+    'DeleteAsset' : DeleteAssetArguments,
+    'SetAssetContent' : SetAssetContentArguments,
+    'Clear' : ClearArguments,
+  });
+  const CommitBatchArguments = IDL.Record({
+    'batch_id' : BatchId,
+    'operations' : IDL.Vec(BatchOperationKind),
+  });
+  const HeaderField = IDL.Tuple(IDL.Text, IDL.Text);
+  const HttpRequest = IDL.Record({
+    'url' : IDL.Text,
+    'method' : IDL.Text,
+    'body' : IDL.Vec(IDL.Nat8),
+    'headers' : IDL.Vec(HeaderField),
+  });
+  const StreamingCallbackToken = IDL.Record({
+    'key' : IDL.Text,
+    'sha256' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'index' : IDL.Nat,
+    'content_encoding' : IDL.Text,
+  });
+  const StreamingCallbackHttpResponse = IDL.Record({
+    'token' : IDL.Opt(StreamingCallbackToken),
+    'body' : IDL.Vec(IDL.Nat8),
+  });
+  const StreamingStrategy = IDL.Variant({
+    'Callback' : IDL.Record({
+      'token' : StreamingCallbackToken,
+      'callback' : IDL.Func(
+          [StreamingCallbackToken],
+          [StreamingCallbackHttpResponse],
+          ['query'],
+        ),
+    }),
+  });
+  const HttpResponse = IDL.Record({
+    'body' : IDL.Vec(IDL.Nat8),
+    'headers' : IDL.Vec(HeaderField),
+    'streaming_strategy' : IDL.Opt(StreamingStrategy),
+    'status_code' : IDL.Nat16,
+  });
+  const Time = IDL.Int;
+  const AssetEncodingDetails = IDL.Record({
+    'modified' : Time,
+    'sha256' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'length' : IDL.Nat,
+    'content_encoding' : IDL.Text,
+  });
+  const AssetDetails = IDL.Record({
+    'key' : Key,
+    'encodings' : IDL.Vec(AssetEncodingDetails),
+    'content_type' : IDL.Text,
+  });
+  const Path = IDL.Text;
+  const Contents = IDL.Vec(IDL.Nat8);
+  const Assets = IDL.Service({
+    'authorize' : IDL.Func([IDL.Principal], [], []),
+    'clear' : IDL.Func([ClearArguments], [], []),
+    'commit_batch' : IDL.Func([CommitBatchArguments], [], []),
+    'create_asset' : IDL.Func([CreateAssetArguments], [], []),
+    'create_batch' : IDL.Func(
+        [IDL.Record({})],
+        [IDL.Record({ 'batch_id' : BatchId })],
+        [],
+      ),
+    'create_chunk' : IDL.Func(
+        [IDL.Record({ 'content' : IDL.Vec(IDL.Nat8), 'batch_id' : BatchId })],
+        [IDL.Record({ 'chunk_id' : ChunkId })],
+        [],
+      ),
+    'delete_asset' : IDL.Func([DeleteAssetArguments], [], []),
+    'get' : IDL.Func(
+        [IDL.Record({ 'key' : Key, 'accept_encodings' : IDL.Vec(IDL.Text) })],
+        [
+          IDL.Record({
+            'content' : IDL.Vec(IDL.Nat8),
+            'sha256' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+            'content_type' : IDL.Text,
+            'content_encoding' : IDL.Text,
+            'total_length' : IDL.Nat,
+          }),
+        ],
+        ['query'],
+      ),
+    'getCanisterId' : IDL.Func([], [IDL.Principal], ['query']),
+    'get_chunk' : IDL.Func(
+        [
+          IDL.Record({
+            'key' : Key,
+            'sha256' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+            'index' : IDL.Nat,
+            'content_encoding' : IDL.Text,
+          }),
+        ],
+        [IDL.Record({ 'content' : IDL.Vec(IDL.Nat8) })],
+        ['query'],
+      ),
+    'http_request' : IDL.Func([HttpRequest], [HttpResponse], ['query']),
+    'http_request_streaming_callback' : IDL.Func(
+        [StreamingCallbackToken],
+        [StreamingCallbackHttpResponse],
+        ['query'],
+      ),
+    'list' : IDL.Func([IDL.Record({})], [IDL.Vec(AssetDetails)], ['query']),
+    'retrieve' : IDL.Func([Path], [Contents], ['query']),
+    'set_asset_content' : IDL.Func([SetAssetContentArguments], [], []),
+    'store' : IDL.Func(
+        [
+          IDL.Record({
+            'key' : Key,
+            'content' : IDL.Vec(IDL.Nat8),
+            'sha256' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+            'content_type' : IDL.Text,
+            'content_encoding' : IDL.Text,
+          }),
+        ],
+        [],
+        [],
+      ),
+    'unset_asset_content' : IDL.Func([UnsetAssetContentArguments], [], []),
+  });
+  return Assets;
+};
+const init = ({ IDL }) => { return [IDL.Principal]; };
+
+
+/***/ }),
+
 /***/ "./src/prixelart_assets/src/idl/index.js":
 /*!***********************************************!*\
   !*** ./src/prixelart_assets/src/idl/index.js ***!
@@ -97516,6 +97723,67 @@ const _artistCanister = createActor(canisterId);
 
 /***/ }),
 
+/***/ "./src/prixelart_assets/src/idl/indexStore.js":
+/*!****************************************************!*\
+  !*** ./src/prixelart_assets/src/idl/indexStore.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "idlFactory": () => (/* reexport safe */ _storeCanister_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory),
+/* harmony export */   "canisterId": () => (/* binding */ canisterId),
+/* harmony export */   "createActor": () => (/* binding */ createActor),
+/* harmony export */   "storeCanister": () => (/* binding */ storeCanister)
+/* harmony export */ });
+/* harmony import */ var _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
+/* harmony import */ var _storeCanister_did_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_storeCanister.did.js */ "./src/prixelart_assets/src/idl/_storeCanister.did.js");
+/* provided dependency */ var process = __webpack_require__(/*! ./node_modules/process/browser.js */ "./node_modules/process/browser.js");
+
+
+// Imports and re-exports candid interface
+
+
+// CANISTER_ID is replaced by webpack based on node environment
+const canisterId = process.env.STORECANISTER_CANISTER_ID;
+
+/**
+ *
+ * @param {string | import("@dfinity/principal").Principal} canisterId Canister ID of Agent
+ * @param {{agentOptions?: import("@dfinity/agent").HttpAgentOptions; actorOptions?: import("@dfinity/agent").ActorConfig}} [options]
+ * @return {import("@dfinity/agent").ActorSubclass<import("./storeCanister.did.js")._SERVICE>}
+ */
+const createActor = (canisterId, options) => {
+  const agent = new _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.HttpAgent({ ...options?.agentOptions });
+
+  // Fetch root key for certificate validation during development
+  if (true) {
+    agent.fetchRootKey().catch((err) => {
+      console.warn(
+        "Unable to fetch root key. Check to ensure that your local replica is running"
+      );
+      console.error(err);
+    });
+  }
+
+  // Creates an actor with using the candid interface and the HttpAgent
+  return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_storeCanister_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory, {
+    agent,
+    canisterId,
+    ...options?.actorOptions,
+  });
+};
+
+/**
+ * A ready-to-use agent for the storeCanister canister
+ * @type {import("@dfinity/agent").ActorSubclass<import("./storeCanister.did.js")._SERVICE>}
+ */
+const storeCanister = createActor(canisterId);
+
+
+/***/ }),
+
 /***/ "./src/prixelart_assets/src/pages/service.js":
 /*!***************************************************!*\
   !*** ./src/prixelart_assets/src/pages/service.js ***!
@@ -97531,8 +97799,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _declarations_socials__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../declarations/socials/index.js */ "./src/declarations/socials/index.js");
 /* harmony import */ var _declarations_artistRegistry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../declarations/artistRegistry/index.js */ "./src/declarations/artistRegistry/index.js");
 /* harmony import */ var _idl_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../idl/index.js */ "./src/prixelart_assets/src/idl/index.js");
-/* harmony import */ var _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dfinity/principal */ "./node_modules/@dfinity/principal/lib/esm/index.js");
-/* harmony import */ var _consts_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../consts/index */ "./src/prixelart_assets/src/consts/index.js");
+/* harmony import */ var _idl_indexStore_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../idl/indexStore.js */ "./src/prixelart_assets/src/idl/indexStore.js");
+/* harmony import */ var _dfinity_principal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dfinity/principal */ "./node_modules/@dfinity/principal/lib/esm/index.js");
+/* harmony import */ var _consts_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../consts/index */ "./src/prixelart_assets/src/consts/index.js");
+
 
 
 
@@ -97575,6 +97845,7 @@ const service = {
   scrollToBottom,
   principalToText,
   _createPost,
+  _storeActor,
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (service);
@@ -97615,7 +97886,7 @@ async function artistRegistryActor(identity) {
   });
 }
 
-async function artistCanisterActor(canisterId, identity) {
+async function _artistActor(canisterId, identity) {
   return await (0,_idl_index_js__WEBPACK_IMPORTED_MODULE_3__.createActor)(canisterId, {
     agentOptions: {
       identity: identity,
@@ -97623,47 +97894,61 @@ async function artistCanisterActor(canisterId, identity) {
   });
 }
 
+async function _storeActor(canisterId) {
+  console.log(canisterId);
+  const identity = await onSignInStoic();
+  return await (0,_idl_indexStore_js__WEBPACK_IMPORTED_MODULE_4__.createActor)(canisterId, {
+    agentOptions: {
+      identity: identity,
+    },
+  });
+}
+
 function parseArtist(artist) {
+  console.log(artist, "ARTIST");
   const parseArtist = {
     fullName: artist[0].name,
     principal: artist[0].principal_id,
     avatar: artist[0].thumbnail,
     firstName: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_FIRSTNAME
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_FIRSTNAME
     )[1].Text,
     lastName: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_LASTNAME
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_LASTNAME
     )[1].Text,
     username: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_USERNAME
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_USERNAME
     )[1].Text,
     displayName: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_DISPLAYNAME
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_DISPLAYNAME
     )[1].Text,
     location: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_LOCATION
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_LOCATION
     )[1].Text,
     email: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_EMAIL
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_EMAIL
     )[1].Text,
     phone: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_PHONE
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_PHONE
     )[1].Text,
     about: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_ABOUT
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_ABOUT
     )[1].Text,
     artType: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_ARTTYPE
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_ARTTYPE
     )[1].Text,
 
     cameras: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_CAMERAS
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_CAMERAS
     )[1].Vec,
     lens: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_LENS
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_LENS
     )[1].Vec,
     canisterId: artist[0].details.find(
-      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_5__["default"].ARTIST_CANISTERID
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_CANISTERID
+    )[1].Principal,
+    assetCanisterId: artist[0].details.find(
+      (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_ASSETCANISTERID
     )[1].Principal,
   };
   return parseArtist;
@@ -97673,7 +97958,7 @@ async function relPrincipalWithUsername(username) {
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.relPrincipalWithUsername(
-    _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
+    _dfinity_principal__WEBPACK_IMPORTED_MODULE_5__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
     username
   );
   console.log("[REL USERNAME BY PRINCIPAL] => ", result);
@@ -97681,7 +97966,7 @@ async function relPrincipalWithUsername(username) {
 }
 
 async function addArtist(artist, username) {
-  artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(artist.principal_id);
+  artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_5__.Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.add(artist);
@@ -97696,8 +97981,9 @@ async function getArtist() {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.get(
-    _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
+    _dfinity_principal__WEBPACK_IMPORTED_MODULE_5__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
+
   console.log("[GET ARTIST] => ", result);
   return result;
 }
@@ -97706,7 +97992,7 @@ async function deleteArtist() {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.remove(
-    _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
+    _dfinity_principal__WEBPACK_IMPORTED_MODULE_5__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
   localStorage.clear();
   console.log("[DELETE ARTIST] => ", result);
@@ -97714,11 +98000,11 @@ async function deleteArtist() {
 }
 
 async function updateArtist(artist) {
-  artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(artist.principal_id);
+  artist.principal_id = _dfinity_principal__WEBPACK_IMPORTED_MODULE_5__.Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.update(
-    _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
+    _dfinity_principal__WEBPACK_IMPORTED_MODULE_5__.Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
     artist
   );
   console.log("[GET POST BY ID] => ", result);
@@ -97757,7 +98043,7 @@ async function getPostsByCreation() {
 //   });
 // }
 
-async function createPost(post, blob, canisterId) {
+async function createPost(post, blob) {
   console.log("[PAYLOAD] => ", { postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
@@ -97766,9 +98052,9 @@ async function createPost(post, blob, canisterId) {
   return result;
 }
 
-async function _createPost(canisterId, post, asset, isUpdateAsset) {
+async function _createPost(canisterId, post, asset) {
   const identity = await onSignInStoic();
-  const actor = await artistCanisterActor(canisterId.toText(), identity);
+  const actor = await _artistActor(canisterId.toText(), identity);
   const result = await actor.createArt({
     artBasics: post,
     thumbAsset: asset,
@@ -97794,9 +98080,11 @@ async function removeFollow(principal) {
   return result;
 }
 
-async function getFollowersByArtist(username) {
+async function getFollowersByArtist(username, canisterId) {
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
+  const actorStore = await (0,_idl_indexStore_js__WEBPACK_IMPORTED_MODULE_4__.createActor)(canisterId, identity);
+  console.log(actorStore, "ACTOR STORE");
   const result = await actor.readArtistFollowers(username);
   console.log("[GET FOLLOWERS BY ARTIST] => ", result);
   return result;
@@ -97811,7 +98099,7 @@ async function getArtistFollows(username) {
 }
 
 async function createGallery(gallery) {
-  gallery.artistPpal = _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(
+  gallery.artistPpal = _dfinity_principal__WEBPACK_IMPORTED_MODULE_5__.Principal.fromText(
     JSON.parse(localStorage.getItem("_scApp")).principal
   );
   const identity = await onSignInStoic();
@@ -97925,7 +98213,7 @@ function scrollToBottom() {
 }
 
 function principalToText(principal) {
-  return _dfinity_principal__WEBPACK_IMPORTED_MODULE_4__.Principal.toText(principal);
+  return _dfinity_principal__WEBPACK_IMPORTED_MODULE_5__.Principal.toText(principal);
 }
 
 

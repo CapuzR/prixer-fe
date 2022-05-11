@@ -502,13 +502,47 @@ function ArtForm({
     </Box>
   );
 
-  async function handleImg(artist) {
+  async function handleImg(artist, blob) {
+    console.log(artist.assetCanisterId.toText());
     const actor = await service._storeActor(artist.assetCanisterId);
-    console.log(actor);
+    console.log("[ACTOR STORE] => ", actor);
     const chunkSize = 500000;
     const batchId = await actor.create_batch({});
-    console.log(batchId);
-    // const chunkIds = [];
+    console.log("[BATCH_ID] => ", batchId);
+    const chunkIds = [];
+    for (let i = 0; i < blob.length; i += chunkSize) {
+      console.log("[INDEX] => ", i);
+      const chunk = blob.slice(i, i + chunkSize);
+      const chunkId = await actor.create_chunk({
+        batch_id: parseInt(batchId.batch_id),
+        content: chunk,
+      });
+      console.log("[CHUNK ID] => ", chunkId);
+
+      chunkIds.push(parseInt(chunkId.chunk_id));
+    }
+    console.log("[CHUNKS IDS] => ", chunkIds);
+
+    const result = await actor.commit_batch({
+      batch_id: parseInt(batchId.batch_id),
+      operations: [
+        {
+          CreateAsset: {
+            key: "KEY",
+            content_type: "image/jpeg",
+          },
+        },
+        {
+          SetAssetContent: {
+            key: "KEY",
+            sha256: [],
+            chunk_ids: chunkIds,
+            content_encoding: "identity",
+          },
+        },
+      ],
+    });
+    console.log(["CREATE ASSET AND ASSET CONTENT => "], result);
   }
 }
 
