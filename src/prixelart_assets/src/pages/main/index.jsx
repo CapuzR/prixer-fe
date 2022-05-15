@@ -49,12 +49,9 @@ function Main() {
     async function init() {
       if (!localStorage.getItem("wallet")) navigate("/login");
       setIsLoading(true);
-      await Promise.all([service.getArtist(), service.readPostByFollowers()])
-        .then(([artist, posts]) => {
-          const parseArtist = service.parseArtist(artist);
-          setArtist(parseArtist);
+      await Promise.all([service.readPostByFollowers()])
+        .then(([posts]) => {
           setPosts(posts.ok);
-          localStorage.setItem("profile", JSON.stringify(parseArtist));
           setIsLoading(false);
         })
         .catch((err) => setIsLoading(false));
@@ -271,6 +268,7 @@ function Main() {
               onClick={() => {
                 setAnchorElActionMenu(null);
                 setOpenActionMenu(false);
+                navigate("/addGallery");
               }}
             >
               Create Gallery

@@ -40,6 +40,7 @@ const service = {
   removeComment,
   scrollToBottom,
   principalToText,
+  readComments,
   _createPost,
   _storeActor,
 };
@@ -400,6 +401,14 @@ async function removeComment(postId, commentId) {
   const result = await actor.removeComment(postId, commentId);
   console.log("[REMOVE COMMENT] => ", result);
   return result;
+}
+
+async function readComments(id) {
+  const identity = await onSignInStoic();
+  const actor = await socialsActor(identity);
+  const result = await actor.readComments(id);
+  console.log("[READ COMMENTS] => ", result);
+  return result.ok ? result : { ok: [] };
 }
 
 function scrollToBottom() {

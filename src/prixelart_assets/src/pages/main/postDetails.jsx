@@ -7,6 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
 
+
 import Navbar from "../../components/navbar";
 import ArtDetail from "../../components/artDetail";
 import service from "../service";
@@ -144,13 +145,15 @@ function PostDetails() {
   }
 
   function addTags(currentTag) {
-    if (tagsArt.find((tag) => tag === currentTag)) {
-      setIsSnackbarOpen(true);
-      setSeverity("error");
-      setMessage("Item already exist");
-    } else {
-      setTagsArt([...tagsArt, currentTag]);
-      setTagValue("");
+    if (currentTag !== "") {
+      if (tagsArt.find((tag) => tag === currentTag)) {
+        setIsSnackbarOpen(true);
+        setSeverity("error");
+        setMessage("Item already exist");
+      } else {
+        setTagsArt([...tagsArt, currentTag]);
+        setTagValue("");
+      }
     }
   }
 }

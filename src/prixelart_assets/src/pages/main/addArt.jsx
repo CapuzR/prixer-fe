@@ -127,13 +127,15 @@ function AddArt() {
   }
 
   function addTags(currentTag) {
-    if (tagsArt.find((tag) => tag === currentTag)) {
-      setIsSnackbarOpen(true);
-      setSeverity("error");
-      setMessage("Item already exist");
-    } else {
-      setTagsArt([...tagsArt, currentTag]);
-      setTagValue("");
+    if (currentTag !== "") {
+      if (tagsArt.find((tag) => tag === currentTag)) {
+        setIsSnackbarOpen(true);
+        setSeverity("error");
+        setMessage("Item already exist");
+      } else {
+        setTagsArt([...tagsArt, currentTag]);
+        setTagValue("");
+      }
     }
   }
 }

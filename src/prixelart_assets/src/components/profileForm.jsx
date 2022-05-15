@@ -34,6 +34,9 @@ function ProfileForm({
   artType,
   setArtType,
   isLoading,
+  regexForEmail,
+  regexForPhone,
+  regexForName,
 }) {
   return (
     <>
@@ -94,7 +97,13 @@ function ProfileForm({
             type="text"
             label="Given name"
             value={givenName}
-            onChange={(event) => setGivenName(event.target.value)}
+            onChange={(event) => {
+              if (!regexForName.test(event.target.value)) {
+                return false;
+              } else {
+                setGivenName(event.target.value);
+              }
+            }}
             variant="outlined"
             fullWidth
           />
@@ -105,7 +114,13 @@ function ProfileForm({
             required
             type="text"
             label="Family name"
-            onChange={(event) => setFamilyName(event.target.value)}
+            onChange={(event) => {
+              if (!regexForName.test(event.target.value)) {
+                return false;
+              } else {
+                setFamilyName(event.target.value);
+              }
+            }}
             variant="outlined"
             value={familyName}
             fullWidth
@@ -134,6 +149,18 @@ function ProfileForm({
             variant="outlined"
             onChange={(event) => setEmail(event.target.value)}
           />
+          {!regexForEmail.test(email) && email !== "" && (
+            <div
+              style={{
+                paddingLeft: "12px",
+                fontSize: "12px",
+                marginBottom: "6px",
+                color: "red",
+              }}
+            >
+              Formato no valido
+            </div>
+          )}
         </Grid>
         <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
           <TextField
@@ -143,7 +170,13 @@ function ProfileForm({
             type="text"
             label="Phone"
             value={phone}
-            onChange={(event) => setPhone(event.target.value)}
+            onChange={(event) => {
+              if (!regexForPhone.test(event.target.value)) {
+                return false;
+              } else {
+                setPhone(event.target.value);
+              }
+            }}
             variant="outlined"
           />
         </Grid>

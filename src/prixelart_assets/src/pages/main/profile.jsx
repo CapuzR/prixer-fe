@@ -16,7 +16,6 @@ import Button from "@mui/material/Button";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import CircularProgress from "@mui/material/CircularProgress";
 
 import consts from "../../consts/index";
 import service from "../service";
@@ -29,6 +28,7 @@ import HandleProfileForms from "../../components/handleProfileForms";
 import ListArts from "../../components/listArts";
 import DialogFollowers from "../../components/dialogFollowers";
 import ListGalleries from "../../components/listGalleries";
+import SearchBar from "../../components/searchBar";
 
 function Profile() {
   const navigate = useNavigate();
@@ -58,6 +58,7 @@ function Profile() {
 
   const [isDialogFollowersOpen, setIsDialogFollowersOpen] = useState(false);
   const [viewDialogFollowers, setViewDialogFollowers] = useState("");
+  const [search, setSearch] = useState("");
   ///FORM PROFILE
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -101,6 +102,10 @@ function Profile() {
   const [selectedCameras, setSelectedCameras] = useState([]);
   const [selectedLens, setSelectedLens] = useState([]);
 
+  const regexForEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const regexForPhone = /^[0-9]*$/;
+  const regexForName = /^[a-zA-Z\s]*$/;
+
   const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -111,12 +116,14 @@ function Profile() {
       setIsLoading(true);
       if (params.username === localStorage.getItem("username")) {
         await Promise.all([
+          service.getArtist(),
           service.getArtistDetailsByUsername(params.username),
           service.getGalleriesByArtist(params.username),
         ])
-          .then(([detailsProfile, galleries]) => {
+          .then(([artist, detailsProfile, galleries]) => {
             setGalleries(galleries.ok);
-            setArtist(JSON.parse(localStorage.getItem("profile")));
+            const parseArtist = service.parseArtist(artist);
+            setArtist(parseArtist);
             setDetails(detailsProfile.ok);
             setIsGuest(false);
             setIsLoading(false);
@@ -209,6 +216,9 @@ function Profile() {
                 artType={artType}
                 setArtType={setArtType}
                 isLoading={isLoading}
+                regexForEmail={regexForEmail}
+                regexForPhone={regexForPhone}
+                regexForName={regexForName}
               />
             ) : (
               <ToolsForm
@@ -228,7 +238,22 @@ function Profile() {
             <Box style={{ marginTop: 12 }}>
               <Button
                 variant="outlined"
-                disabled={isLoading}
+                disabled={
+                  isLoading ||
+                  !regexForEmail.test(email) ||
+                  !username ||
+                  !displayName ||
+                  !givenName ||
+                  !familyName ||
+                  !location ||
+                  !email ||
+                  !phone ||
+                  !about ||
+                  !artType ||
+                  selectedCameras.length === 0 ||
+                  selectedLens.length === 0
+                  // !assetProfile
+                }
                 onClick={async () => {
                   const parseCameras = selectedCameras.map((camera) => ({
                     Text: camera,
@@ -383,17 +408,22 @@ function Profile() {
                     setProfileScreen(consts.PROFILE_SCREEN_GALLERIES)
                   }
                 >
-                  Gallery
+                  Galleries
                 </Button>
               </Box>
             </Box>
+            {!isLoading && profileScreen === consts.PROFILE_SCREEN_ART && (
+              <Box style={{ width: "100%", padding: 16 }}>
+                <SearchBar search={search} setSearch={setSearch} />
+              </Box>
+            )}
+
             <Box style={{ padding: 16, paddingBottom: 72 }}>
               {isLoading ? (
-                <Box style={{ marginTop: 32, textAlign: "center" }}>
-                  <CircularProgress />
-                </Box>
+                <Box style={{ marginTop: 32, textAlign: "center" }}></Box>
               ) : profileScreen === consts.PROFILE_SCREEN_ART ? (
                 <ListArts
+                  search={search}
                   navigate={navigate}
                   details={details}
                   artist={artist}
@@ -467,6 +497,7 @@ function Profile() {
                   onClick={() => {
                     setAnchorElActionMenu(null);
                     setOpenActionMenu(false);
+                    navigate("/addArt");
                   }}
                 >
                   Create Art
@@ -475,6 +506,7 @@ function Profile() {
                   onClick={() => {
                     setAnchorElActionMenu(null);
                     setOpenActionMenu(false);
+                    navigate("/addGallery");
                   }}
                 >
                   Create Gallery

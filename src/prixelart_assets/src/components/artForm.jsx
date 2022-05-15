@@ -214,6 +214,7 @@ function ArtForm({
                       value={artCamera}
                       onChange={(event) => setArtCamera(event.target.value)}
                       label="Camera"
+                      disabled={!artist}
                     >
                       {artist ? (
                         artist.cameras.map((art, index) => (
@@ -236,6 +237,7 @@ function ArtForm({
                       value={lensArt}
                       onChange={(event) => setLensArt(event.target.value)}
                       label="Lens"
+                      disabled={!artist}
                     >
                       {artist ? (
                         artist.lens.map((art, index) => (
@@ -260,6 +262,7 @@ function ArtForm({
                   value={galleryArt}
                   onChange={(event) => setGalleryArt(event.target.value)}
                   label="Labels"
+                  disabled={!galleries}
                 >
                   {galleries ? (
                     galleries.map((gallery) => (

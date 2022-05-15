@@ -117,7 +117,7 @@ function NavigationBar({
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
         <IconButton
-          disabled={!artist && params === localStorage.getItem("username")}
+          disabled={params === localStorage.getItem("username")}
           color="primary"
           onClick={() => navigate(`/u/${localStorage.getItem("username")}`)}
         >

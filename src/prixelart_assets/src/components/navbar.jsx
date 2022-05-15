@@ -5,6 +5,8 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
+import logo from "../assets/prixelart.png";
+
 function Navbar({ toolbarHeight, onLogout, isAuth }) {
   return (
     <MuiAppBar
@@ -14,8 +16,8 @@ function Navbar({ toolbarHeight, onLogout, isAuth }) {
         backgroundColor: isAuth && "transparent",
       }}
     >
-      <Toolbar>
-        <img src={""} alt="logo" />
+      <Toolbar style={{ alignItems: "center", height: toolbarHeight }}>
+        <img src={logo} alt="logo" style={{ width: 128 }} />
         <IconButton
           style={{ color: "white", marginLeft: "auto" }}
           onClick={onLogout}

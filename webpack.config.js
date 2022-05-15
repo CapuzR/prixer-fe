@@ -78,6 +78,15 @@ module.exports = {
   // tutorial, uncomment the following lines:
   module: {
     rules: [
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: "file-loader",
+          },
+        ],
+      },
+
       { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
     ],

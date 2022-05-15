@@ -51,6 +51,7 @@
     "@mui/material": "^5.4.2",
     "browser-image-resizer": "^2.2.1",
     "downshift": "^6.1.7",
+    "file-loader": "^6.2.0",
     "ic-stoic-identity": "^2.0.0",
     "install": "^0.13.0",
     "npm": "^8.5.1",

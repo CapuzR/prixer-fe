@@ -45,22 +45,34 @@ function Explore() {
   const [detailsPost, setDetailsPost] = useState();
   const [unfollowLoading, SetUnfollowLoading] = useState(false);
 
+  // useEffect(() => {
+  //   async function init() {
+  //     if (!localStorage.getItem("wallet")) navigate("/login");
+  //     setIsLoading(true);
+  //     const details = await service.getArtistDetailsByUsername(
+  //       localStorage.getItem("username")
+  //     );
+  //     console.log(details, "DETAILS");
+  //     setIsLoading(false);
+  //   }
+  //   init();
+  // }, []);
+
   useEffect(() => {
-    async function init() {
+    async function initExplore() {
       if (!localStorage.getItem("wallet")) navigate("/login");
       setIsLoading(true);
-      await Promise.all([service.getArtist(), service.getPostsByCreation()])
-        .then(([artist, posts]) => {
-          const parseArtist = service.parseArtist(artist);
-          setArtist(parseArtist);
-          setPosts(posts.ok);
-          setIsLoading(false);
-        })
-        .catch((err) => setIsLoading(false));
+      const details = await service.getArtistDetailsByUsername(
+        localStorage.getItem("username")
+      );
+      setIsLoading(false);
+
+      const posts = await service.getPostsByCreation();
+      setPosts(posts.ok);
     }
-    init();
+    initExplore();
   }, []);
-  console.log(posts);
+
   return (
     <div
       style={{
@@ -69,20 +81,20 @@ function Explore() {
     >
       <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
       <Box style={{ paddingTop: toolbarHeight, paddingBottom: 80 }}>
-        {!posts ? (
+        {isLoading ? (
           <Box
             style={{ marginTop: 48, display: "flex", justifyContent: "center" }}
           >
             <CircularProgress />
           </Box>
-        ) : posts.length === 0 ? (
+        ) : posts?.length === 0 ? (
           <Box
             style={{ marginTop: 48, display: "flex", justifyContent: "center" }}
           >
             No posts.
           </Box>
         ) : (
-          posts.map((item, index) => (
+          posts?.map((item, index) => (
             <>
               <Box
                 key={index}
@@ -249,6 +261,7 @@ function Explore() {
             onClose={() => {
               setAnchorElActionMenu(null);
               setOpenActionMenu(false);
+              navigate("/addArt");
             }}
             MenuListProps={{
               "aria-labelledby": "basic-button",
@@ -266,6 +279,7 @@ function Explore() {
               onClick={() => {
                 setAnchorElActionMenu(null);
                 setOpenActionMenu(false);
+                navigate("/addGallery");
               }}
             >
               Create Gallery

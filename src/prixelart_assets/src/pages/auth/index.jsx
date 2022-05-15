@@ -66,7 +66,7 @@ function Auth() {
       if (artist.length > 0) {
         const parseArtist = service.parseArtist(artist);
         localStorage.setItem("username", parseArtist.username);
-        navigate("/main");
+        navigate("/explore");
       } else {
         navigate("/registry");
       }

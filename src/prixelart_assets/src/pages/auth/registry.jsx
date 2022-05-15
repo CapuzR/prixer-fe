@@ -30,6 +30,10 @@ import service from "../service";
 import Navbar from "../../components/navbar";
 
 function Registry({}) {
+  const regexForEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const regexForPhone = /^[0-9]*$/;
+  const regexForName = /^[a-zA-Z\s]*$/;
+
   const [isUserData, setIsUserData] = useState(false);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -159,7 +163,13 @@ function Registry({}) {
                         fullWidth
                         required
                         value={givenName}
-                        onChange={(event) => setGivenName(event.target.value)}
+                        onChange={(event) => {
+                          if (!regexForName.test(event.target.value)) {
+                            return false;
+                          } else {
+                            setGivenName(event.target.value);
+                          }
+                        }}
                       />
                     </Grid>
                     <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
@@ -171,7 +181,13 @@ function Registry({}) {
                         required
                         fullWidth
                         value={familyName}
-                        onChange={(event) => setFamilyName(event.target.value)}
+                        onChange={(event) => {
+                          if (!regexForName.test(event.target.value)) {
+                            return false;
+                          } else {
+                            setFamilyName(event.target.value);
+                          }
+                        }}
                       />
                     </Grid>
                     <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
@@ -197,6 +213,18 @@ function Registry({}) {
                         required
                         variant="outlined"
                       />
+                      {!regexForEmail.test(email) && email !== "" && (
+                        <div
+                          style={{
+                            paddingLeft: "12px",
+                            fontSize: "12px",
+                            marginBottom: "6px",
+                            color: "red",
+                          }}
+                        >
+                          Formato no valido
+                        </div>
+                      )}
                     </Grid>
                     <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
                       <TextField
@@ -207,8 +235,26 @@ function Registry({}) {
                         variant="outlined"
                         value={phone}
                         required
-                        onChange={(event) => setPhone(event.target.value)}
+                        onChange={(event) => {
+                          if (!regexForPhone.test(event.target.value)) {
+                            return false;
+                          } else {
+                            setPhone(event.target.value);
+                          }
+                        }}
                       />
+                      {!regexForPhone.test(phone) && phone !== "" && (
+                        <div
+                          style={{
+                            paddingLeft: "12px",
+                            fontSize: "12px",
+                            marginBottom: "6px",
+                            color: "red",
+                          }}
+                        >
+                          Formato no valido
+                        </div>
+                      )}
                     </Grid>
                     <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
                       <FormControl
@@ -430,6 +476,7 @@ function Registry({}) {
             !about ||
             !artType ||
             !assetProfile ||
+            !regexForEmail.test(email) ||
             selectedCameras.length === 0 ||
             selectedLens.length === 0
           }
