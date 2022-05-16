@@ -107,7 +107,7 @@ function ArtForm({
                       alt="image"
                       style={{
                         width: "100%",
-                        maxHeight: 180,
+                        maxHeight: 500,
                         objectFit: "contain",
                       }}
                     />
