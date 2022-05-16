@@ -37,6 +37,7 @@ function ProfileForm({
   regexForEmail,
   regexForPhone,
   regexForName,
+  imageProfile,
 }) {
   return (
     <>
@@ -53,7 +54,7 @@ function ProfileForm({
           ) : (
             <>
               <Avatar
-                src={avatar && avatar}
+                src={imageProfile}
                 style={{ width: "120px", height: "120px" }}
               />
               <input

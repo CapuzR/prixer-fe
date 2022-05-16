@@ -1,5 +1,6 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import * as React from "react";
+import { readAndCompressImage } from "browser-image-resizer";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 
@@ -16,6 +17,7 @@ import Button from "@mui/material/Button";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import EditIcon from "@mui/icons-material/Edit";
 
 import consts from "../../consts/index";
 import service from "../service";
@@ -38,10 +40,12 @@ function Profile() {
   const mobileBreakpoint = useMediaQuery(theme.breakpoints.up("md"));
   const [isGuest, setIsGuest] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [assetProfile, setAssetProfile] = useState();
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [editProfileScreen, setEditProfileScreen] = useState(
     consts.UPDATE_ARTIST_SCREEN_USER
   );
+  const [isUpdateBanner, setIsUpdateBanner] = useState(false);
   const [profileScreen, setProfileScreen] = useState(consts.PROFILE_SCREEN_ART);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
@@ -69,7 +73,17 @@ function Profile() {
   const [phone, setPhone] = useState("");
   const [about, setAbout] = useState("");
   const [artType, setArtType] = useState("");
+  const [imageProfile, setImageProfile] = useState(
+    service.getUrl(
+      consts.ASSET_CANISTER_ID_ARTIST,
+      `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
+    )
+  );
 
+  const urlBanner = `http://localhost:8000/B${
+    JSON.parse(localStorage.getItem("_scApp")).principal
+  }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`;
+  console.log(artist, "ARTIST");
   ///FORM TOOLS
   const [tools] = useState([
     {
@@ -196,7 +210,8 @@ function Profile() {
             {editProfileScreen === consts.UPDATE_ARTIST_SCREEN_USER ? (
               <ProfileForm
                 avatar={artist?.avatar}
-                // handleChange={handleChange}
+                imageProfile={imageProfile}
+                handleChange={handleChangeAvatarProfile}
                 username={username}
                 setUsername={setUsername}
                 displayName={displayName}
@@ -269,10 +284,17 @@ function Profile() {
                       ["artType", { Text: artType }],
                       ["username", { Text: username }],
                       ["displayName", { Text: displayName }],
+                      [
+                        "avatarAsset",
+                        { Vec: [{ Slice: assetProfile }, { True: null }] },
+                      ],
+                      ["bannerAsset", { Vec: [{ False: null }] }],
                       ["location", { Text: location }],
                       ["email", { Text: email }],
                       ["phone", { Text: phone }],
                       ["about", { Text: about }],
+                      ["canisterId", { Principal: artist.canisterId }],
+                      ["assetCanId", { Principal: artist.assetCanisterId }],
                       [
                         "cameras",
                         {
@@ -290,8 +312,10 @@ function Profile() {
                     name: `${givenName} ${familyName}`,
                     principal_id: JSON.parse(localStorage.getItem("_scApp"))
                       .principal,
-                    thumbnail:
-                      "https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg",
+
+                    thumbnail: `http://localhost:8000/A${
+                      JSON.parse(localStorage.getItem("_scApp")).principal
+                    }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`,
                   });
                 }}
               >
@@ -308,12 +332,28 @@ function Profile() {
           <>
             <div
               style={{
+                display: "flex",
                 height: 100,
-                backgroundImage:
-                  "url('https://images.unsplash.com/photo-1643041447984-ff891bdf0815?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTM4NTM1NA&ixlib=rb-1.2.1&q=80&w=1080')",
+
+                backgroundImage: `url(${artist?.banner})`,
                 backgroundSize: "cover",
+                alignItems: "flex-start",
+                padding: "8px",
               }}
-            />
+            >
+              <IconButton
+                size="small"
+                style={{ marginLeft: "auto", backgroundColor: "#C5C5C5" }}
+                component="label"
+              >
+                <EditIcon fontSize="small" color="primary" />
+                <input
+                  type="file"
+                  hidden
+                  onChange={(event) => handleChangeBanner(event)}
+                />
+              </IconButton>
+            </div>
             <Box>
               <PaperProfile
                 handleOpenActionMenuProfile={handleOpenActionMenuProfile}
@@ -591,6 +631,7 @@ function Profile() {
   async function onUpdateArtist(artist) {
     setIsLoading(true);
     setIsEditProfile(false);
+    localStorage.setItem("username", username);
     await Promise.all([
       service.updateArtist(artist),
       service.relPrincipalWithUsername(username),
@@ -615,6 +656,80 @@ function Profile() {
       setDetails(newData);
       await service.addFollow(artist.username);
     }
+  }
+
+  async function handleChangeBanner(event) {
+    const file = event.target.files[0];
+
+    const data = [...new Uint8Array(await file.arrayBuffer())];
+    const parseCameras = artist.cameras.map((camera) => {
+      return {
+        Text: camera.Text,
+      };
+    });
+    console.log(parseCameras);
+    const parseLens = artist.lens.map((lens) => {
+      return {
+        Text: lens.Text,
+      };
+    });
+    // console.log(parsedCameras);
+    await service.updateArtist({
+      description: "Artista de prueba",
+      details: [
+        ["firstName", { Text: artist.firstName }],
+        ["lastName", { Text: artist.lastName }],
+        ["artType", { Text: artist.artType }],
+        ["username", { Text: artist.username }],
+        ["displayName", { Text: artist.displayName }],
+        // ["avatarAsset", { Vec: { False: null } }],
+        ["bannerAsset", { Vec: [{ Slice: data }, { True: null }] }],
+        ["canisterId", { Principal: artist.canisterId }],
+        ["assetCanId", { Principal: artist.assetCanisterId }],
+        ["location", { Text: artist.location }],
+        ["email", { Text: artist.email }],
+        ["phone", { Text: artist.phone }],
+        ["about", { Text: artist.about }],
+        [
+          "cameras",
+          {
+            Vec: parseCameras,
+          },
+        ],
+        [
+          "lens",
+          {
+            Vec: parseLens,
+          },
+        ],
+      ],
+      thumbnail: `http://localhost:8000/A${
+        JSON.parse(localStorage.getItem("_scApp")).principal
+      }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`,
+      frontend: [],
+      name: `${artist.fullName}`,
+      principal_id: JSON.parse(localStorage.getItem("_scApp")).principal,
+    });
+    setIsUpdateBanner(false);
+  }
+
+  function convertToBase64(blob) {
+    return new Promise((resolve) => {
+      var reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function handleChangeAvatarProfile(e) {
+    const file = e.target.files[0];
+    const resizedString = await convertToBase64(file);
+
+    const data = [...new Uint8Array(await file.arrayBuffer())];
+    setImageProfile(resizedString);
+    setAssetProfile(data);
   }
 }
 

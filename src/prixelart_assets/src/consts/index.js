@@ -17,4 +17,6 @@ export default {
   ARTIST_CANISTERID: "canisterId",
   ARTIST_ASSETCANISTERID: "assetCanId",
   ENTER_KEY_CODE: "Enter",
+  ASSET_CANISTER_ID_ARTIST: "rno2w-sqaaa-aaaaa-aaacq-cai",
+  ASSET_CANISTER_ID_SOCIALS: "r7inp-6aaaa-aaaaa-aaabq-cai",
 };

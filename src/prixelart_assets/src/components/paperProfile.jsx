@@ -11,8 +11,10 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
+import service from "../pages/service";
 
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import consts from "../consts/index";
 
 function PaperProfile({
   mobileBreakpoint,
@@ -53,7 +55,13 @@ function PaperProfile({
         <>
           <Box style={{ display: "flex" }}>
             <Box style={{ marginRight: "12px" }}>
-              <Avatar src={artist?.avatar} style={{ width: 92, height: 92 }} />
+              <Avatar
+                src={service.getUrl(
+                  consts.ASSET_CANISTER_ID_ARTIST,
+                  `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
+                )}
+                style={{ width: 92, height: 92 }}
+              />
             </Box>
             <Box
               style={{

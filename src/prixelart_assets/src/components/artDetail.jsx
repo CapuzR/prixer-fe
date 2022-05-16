@@ -28,7 +28,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import CircularProgress from "@mui/material/CircularProgress";
 import DateObject from "react-date-object";
 
-// import consts from "../consts/index";
+import consts from "../consts/index";
 import service from "../pages/service";
 
 function ArtDetail({
@@ -75,8 +75,14 @@ function ArtDetail({
         </Box>
       </Box>
       <img
-        src={post?.post?.postBasics?.asset}
-        srcSet={post?.post?.postBasics?.asset}
+        src={service.getUrl(
+          consts.ASSET_CANISTER_ID_SOCIALS,
+          `${post?.postId}`
+        )}
+        srcSet={service.getUrl(
+          consts.ASSET_CANISTER_ID_SOCIALS,
+          `${post?.postId}`
+        )}
         alt={"image"}
         loading="lazy"
         style={{
@@ -182,11 +188,14 @@ function ArtDetail({
               <Box onClick={() => navigate(`/u/${comment[1]}`)}>
                 <Avatar
                   size="small"
-                  src={`http://localhost:8000/A${
-                    typeof comment[0] === "string"
-                      ? comment[0]
-                      : comment[0].toText()
-                  }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`}
+                  src={service.getUrl(
+                    consts.ASSET_CANISTER_ID_ARTIST,
+                    `A${
+                      typeof comment[0] === "string"
+                        ? comment[0]
+                        : comment[0].toText()
+                    }`
+                  )}
                 />
               </Box>
               <Box
@@ -257,11 +266,14 @@ function ArtDetail({
                     <Box onClick={() => navigate(`/u/${comment[1]}`)}>
                       <Avatar
                         size="small"
-                        src={`http://localhost:8000/A${
-                          typeof comment[0] === "string"
-                            ? comment[0]
-                            : comment[0].toText()
-                        }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`}
+                        src={service.getUrl(
+                          consts.ASSET_CANISTER_ID_ARTIST,
+                          `A${
+                            typeof comment[0] === "string"
+                              ? comment[0]
+                              : comment[0].toText()
+                          }`
+                        )}
                       />
                     </Box>
                     <Box

@@ -41,6 +41,7 @@ const service = {
   scrollToBottom,
   principalToText,
   readComments,
+  getUrl,
   _createPost,
   _storeActor,
 };
@@ -101,6 +102,7 @@ async function _storeActor(canisterId) {
 }
 
 function parseArtist(artist) {
+  console.log(artist, "PARSE");
   const parseArtist = {
     fullName: artist[0].name,
     principal: artist[0].principal_id,
@@ -145,6 +147,12 @@ function parseArtist(artist) {
     assetCanisterId: artist[0].details.find(
       (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
     )[1].Principal,
+    banner: artist[0].details.find((detail) => detail[0] === "bannerAsset")
+      ? getUrl(
+          consts.ASSET_CANISTER_ID_ARTIST,
+          `B${JSON.parse(localStorage.getItem("_scApp")).principal}`
+        )
+      : "https://images.unsplash.com/photo-1651135094094-7f2a48224da8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1MjcxNTgwMA&ixlib=rb-1.2.1&q=80&w=1080",
   };
   return parseArtist;
 }
@@ -195,14 +203,15 @@ async function deleteArtist() {
 }
 
 async function updateArtist(artist) {
+  console.log(artist);
   artist.principal_id = Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.update(
-    Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
+    // Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal),
     artist
   );
-  console.log("[GET POST BY ID] => ", result);
+  console.log("[UPDATE ARTIST] => ", result);
   return result;
 }
 
@@ -417,4 +426,16 @@ function scrollToBottom() {
 
 function principalToText(principal) {
   return Principal.toText(principal);
+}
+
+function getUrl(canisterId, id) {
+  const network =
+    process.env.DFX_NETWORK ||
+    (process.env.NODE_ENV === "production" ? "ic" : "local");
+  const host =
+    network != "ic"
+      ? `http://localhost:8000/${id}?canisterId=${canisterId}`
+      : `http://${canisterId}.raw.ic0.app/${id}`;
+
+  return host;
 }

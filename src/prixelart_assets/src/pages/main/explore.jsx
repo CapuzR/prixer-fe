@@ -144,8 +144,14 @@ function Explore() {
               <Box style={{ marginTop: 4, marginBottom: 4 }}>
                 <img
                   onClick={() => navigate(`/post/${item.postId}`)}
-                  src={item.post.postBasics.asset}
-                  srcSet={item.post.postBasics.asset}
+                  src={service.getUrl(
+                    consts.ASSET_CANISTER_ID_SOCIALS,
+                    `${item.postId}`
+                  )}
+                  srcSet={service.getUrl(
+                    consts.ASSET_CANISTER_ID_SOCIALS,
+                    `${item.postId}`
+                  )}
                   alt={index}
                   loading="lazy"
                   style={{
