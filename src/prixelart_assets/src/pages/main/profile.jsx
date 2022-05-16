@@ -3,6 +3,7 @@ import * as React from "react";
 import { readAndCompressImage } from "browser-image-resizer";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
@@ -73,6 +74,7 @@ function Profile() {
   const [phone, setPhone] = useState("");
   const [about, setAbout] = useState("");
   const [artType, setArtType] = useState("");
+  const [isLoadingChangeBanner, setIsLoadingChangeBanner] = useState(false);
   const [imageProfile, setImageProfile] = useState(
     service.getUrl(
       consts.ASSET_CANISTER_ID_ARTIST,
@@ -80,10 +82,6 @@ function Profile() {
     )
   );
 
-  const urlBanner = `http://localhost:8000/B${
-    JSON.parse(localStorage.getItem("_scApp")).principal
-  }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`;
-  console.log(artist, "ARTIST");
   ///FORM TOOLS
   const [tools] = useState([
     {
@@ -341,18 +339,25 @@ function Profile() {
                 padding: "8px",
               }}
             >
-              <IconButton
-                size="small"
-                style={{ marginLeft: "auto", backgroundColor: "#C5C5C5" }}
-                component="label"
-              >
-                <EditIcon fontSize="small" color="primary" />
-                <input
-                  type="file"
-                  hidden
-                  onChange={(event) => handleChangeBanner(event)}
-                />
-              </IconButton>
+              {!isLoading && (
+                <IconButton
+                  disabled={isLoadingChangeBanner}
+                  size="small"
+                  style={{ marginLeft: "auto", backgroundColor: "#C5C5C5" }}
+                  component="label"
+                >
+                  {isLoadingChangeBanner ? (
+                    <CircularProgress size={32} />
+                  ) : (
+                    <EditIcon fontSize="small" color="primary" />
+                  )}
+                  <input
+                    type="file"
+                    hidden
+                    onChange={(event) => handleChangeBanner(event)}
+                  />
+                </IconButton>
+              )}
             </div>
             <Box>
               <PaperProfile
@@ -659,6 +664,7 @@ function Profile() {
   }
 
   async function handleChangeBanner(event) {
+    setIsLoadingChangeBanner(true);
     const file = event.target.files[0];
 
     const data = [...new Uint8Array(await file.arrayBuffer())];
@@ -667,7 +673,6 @@ function Profile() {
         Text: camera.Text,
       };
     });
-    console.log(parseCameras);
     const parseLens = artist.lens.map((lens) => {
       return {
         Text: lens.Text,
@@ -703,14 +708,16 @@ function Profile() {
           },
         ],
       ],
-      thumbnail: `http://localhost:8000/A${
-        JSON.parse(localStorage.getItem("_scApp")).principal
-      }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`,
+      thumbnail: service.getUrl(
+        consts.ASSET_CANISTER_ID_ARTIST,
+        `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
+      ),
       frontend: [],
       name: `${artist.fullName}`,
       principal_id: JSON.parse(localStorage.getItem("_scApp")).principal,
     });
     setIsUpdateBanner(false);
+    setIsLoadingChangeBanner(false);
   }
 
   function convertToBase64(blob) {

@@ -91541,7 +91541,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ArtDetail({ post, navigate, mobileBreakpoint, setPost, setIsEditPost, }) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     const camera = (_b = (_a = post === null || post === void 0 ? void 0 : post.post) === null || _a === void 0 ? void 0 : _a.postBasics) === null || _b === void 0 ? void 0 : _b.details.find((item) => item[0] === "camera")[1].Vec[0].Text;
     const lens = (_d = (_c = post === null || post === void 0 ? void 0 : post.post) === null || _c === void 0 ? void 0 : _c.postBasics) === null || _d === void 0 ? void 0 : _d.details.find((item) => item[0] === "lens")[1].Vec[0].Text;
     const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
@@ -91564,7 +91564,7 @@ function ArtDetail({ post, navigate, mobileBreakpoint, setPost, setIsEditPost, }
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_5__["default"], { color: "primary", onClick: () => navigate(-1), style: { marginLeft: "auto" } },
                     " ",
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_6__["default"], { fontSize: "large" })))),
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: (_f = (_e = post === null || post === void 0 ? void 0 : post.post) === null || _e === void 0 ? void 0 : _e.postBasics) === null || _f === void 0 ? void 0 : _f.asset, srcSet: (_h = (_g = post === null || post === void 0 ? void 0 : post.post) === null || _g === void 0 ? void 0 : _g.postBasics) === null || _h === void 0 ? void 0 : _h.asset, alt: "image", loading: "lazy", style: {
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { src: _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl(_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_SOCIALS, `${post === null || post === void 0 ? void 0 : post.postId}`), srcSet: _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl(_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_SOCIALS, `${post === null || post === void 0 ? void 0 : post.postId}`), alt: "image", loading: "lazy", style: {
                 borderBottomLeftRadius: 4,
                 borderBottomRightRadius: 4,
                 display: "block",
@@ -91576,7 +91576,7 @@ function ArtDetail({ post, navigate, mobileBreakpoint, setPost, setIsEditPost, }
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { style: { display: "flex" } },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], null,
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { style: { display: "flex", alignItems: "center" } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_4__["default"], { variant: "h5" }, (_k = (_j = post === null || post === void 0 ? void 0 : post.post) === null || _j === void 0 ? void 0 : _j.postBasics) === null || _k === void 0 ? void 0 : _k.title),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_4__["default"], { variant: "h5" }, (_f = (_e = post === null || post === void 0 ? void 0 : post.post) === null || _e === void 0 ? void 0 : _e.postBasics) === null || _f === void 0 ? void 0 : _f.title),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_5__["default"], { color: "primary", onClick: () => {
                                 if (post === null || post === void 0 ? void 0 : post.likedByCaller) {
                                     _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].removeLike(post === null || post === void 0 ? void 0 : post.postId);
@@ -91588,7 +91588,7 @@ function ArtDetail({ post, navigate, mobileBreakpoint, setPost, setIsEditPost, }
                             } }, (post === null || post === void 0 ? void 0 : post.likedByCaller) ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Favorite__WEBPACK_IMPORTED_MODULE_7__["default"], null)) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_FavoriteBorder__WEBPACK_IMPORTED_MODULE_8__["default"], null))),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], null, parseInt(post === null || post === void 0 ? void 0 : post.likesQty))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], null,
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_4__["default"], { variant: "body1" }, (_m = (_l = post === null || post === void 0 ? void 0 : post.post) === null || _l === void 0 ? void 0 : _l.postBasics) === null || _m === void 0 ? void 0 : _m.description))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_4__["default"], { variant: "body1" }, (_h = (_g = post === null || post === void 0 ? void 0 : post.post) === null || _g === void 0 ? void 0 : _g.postBasics) === null || _h === void 0 ? void 0 : _h.description))),
                 (post === null || post === void 0 ? void 0 : post.artistUsername) === localStorage.getItem("username") && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { style: { marginLeft: "auto" } },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_5__["default"], { color: "primary", onClick: async () => {
                             setIsLoading(true);
@@ -91610,16 +91610,16 @@ function ArtDetail({ post, navigate, mobileBreakpoint, setPost, setIsEditPost, }
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], null,
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_4__["default"], { variant: "p" }, lens)))),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { style: { marginTop: 16 } },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_4__["default"], { variant: "h6" }, "Categories"), (_p = (_o = post === null || post === void 0 ? void 0 : post.post) === null || _o === void 0 ? void 0 : _o.postBasics) === null || _p === void 0 ? void 0 :
-                _p.tags.map((tag, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_14__["default"], { label: tag, variant: "outlined", style: { marginBottom: "6px", marginRight: "2px" }, key: index })))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_4__["default"], { variant: "h6" }, "Categories"), (_k = (_j = post === null || post === void 0 ? void 0 : post.post) === null || _j === void 0 ? void 0 : _j.postBasics) === null || _k === void 0 ? void 0 :
+                _k.tags.map((tag, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_14__["default"], { label: tag, variant: "outlined", style: { marginBottom: "6px", marginRight: "2px" }, key: index })))),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { style: { marginTop: 16, marginBottom: 12 } },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_4__["default"], { variant: "h6" }, "Comments")), (_q = post === null || post === void 0 ? void 0 : post.comments[0]) === null || _q === void 0 ? void 0 :
-            _q.map((comment, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_4__["default"], { variant: "h6" }, "Comments")), (_l = post === null || post === void 0 ? void 0 : post.comments[0]) === null || _l === void 0 ? void 0 :
+            _l.map((comment, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], null,
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { style: { marginBottom: 8, display: "flex" } },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { onClick: () => navigate(`/u/${comment[1]}`) },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_15__["default"], { size: "small", src: _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl() `http://localhost:8000/A${typeof comment[0] === "string"
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_15__["default"], { size: "small", src: _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl(_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_ARTIST, `A${typeof comment[0] === "string"
                                 ? comment[0]
-                                : comment[0].toText()}?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai` })),
+                                : comment[0].toText()}`) })),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { onClick: async () => {
                             setSelectedForReply(index + 1);
                             setIsLoadingForComments(true);
@@ -91648,9 +91648,9 @@ function ArtDetail({ post, navigate, mobileBreakpoint, setPost, setIsEditPost, }
                         paddingLeft: 24,
                     } },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { onClick: () => navigate(`/u/${comment[1]}`) },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_15__["default"], { size: "small", src: `http://localhost:8000/A${typeof comment[0] === "string"
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Avatar__WEBPACK_IMPORTED_MODULE_15__["default"], { size: "small", src: _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl(_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_ARTIST, `A${typeof comment[0] === "string"
                                 ? comment[0]
-                                : comment[0].toText()}?canisterId=${_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_SOCIALS}` })),
+                                : comment[0].toText()}`) })),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_3__["default"], { onClick: async () => {
                             setSelectedForReply(index + 1);
                             setIsLoadingForComments(true);
@@ -93855,7 +93855,7 @@ function Explore() {
                                 ? `basic-menu-post${index + 1}`
                                 : undefined, "aria-haspopup": "true", "aria-expanded": openActionMenuPost ? "true" : undefined }, unfollowLoading && (detailsPost === null || detailsPost === void 0 ? void 0 : detailsPost.postId) === item.postId ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CircularProgress__WEBPACK_IMPORTED_MODULE_9__["default"], { size: 32 })) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_MoreHoriz__WEBPACK_IMPORTED_MODULE_12__["default"], null))))),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_8__["default"], { style: { marginTop: 4, marginBottom: 4 } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { onClick: () => navigate(`/post/${item.postId}`), src: item.post.postBasics.asset, srcSet: item.post.postBasics.asset, alt: index, loading: "lazy", style: {
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { onClick: () => navigate(`/post/${item.postId}`), src: _service__WEBPACK_IMPORTED_MODULE_1__["default"].getUrl(consts.ASSET_CANISTER_ID_SOCIALS, `${item.postId}`), srcSet: _service__WEBPACK_IMPORTED_MODULE_1__["default"].getUrl(consts.ASSET_CANISTER_ID_SOCIALS, `${item.postId}`), alt: index, loading: "lazy", style: {
                             display: "block",
                             width: "100%",
                             maxHeight: 500,
@@ -94123,7 +94123,7 @@ function Main() {
                                 ? `basic-menu-post${index + 1}`
                                 : undefined, "aria-haspopup": "true", "aria-expanded": openActionMenuPost ? "true" : undefined }, unfollowLoading && (detailsPost === null || detailsPost === void 0 ? void 0 : detailsPost.postId) === item.postId ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CircularProgress__WEBPACK_IMPORTED_MODULE_9__["default"], { size: 32 })) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_MoreHoriz__WEBPACK_IMPORTED_MODULE_12__["default"], null))))),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_8__["default"], { style: { marginTop: 4, marginBottom: 4 } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { onClick: () => navigate(`/post/${item.postId}`), src: item.post.postBasics.asset, srcSet: item.post.postBasics.asset, alt: index, loading: "lazy", style: {
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { onClick: () => navigate(`/post/${item.postId}`), src: _service__WEBPACK_IMPORTED_MODULE_1__["default"].getUrl(consts.ASSET_CANISTER_ID_SOCIALS, `${item.postId}`), srcSet: _service__WEBPACK_IMPORTED_MODULE_1__["default"].getUrl(consts.ASSET_CANISTER_ID_SOCIALS, `${item.postId}`), alt: index, loading: "lazy", style: {
                             display: "block",
                             width: "100%",
                             maxHeight: 500,
@@ -94446,7 +94446,7 @@ function Profile() {
     const [phone, setPhone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [about, setAbout] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [artType, setArtType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-    const [imageProfile, setImageProfile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(`http://localhost:8000/A${JSON.parse(localStorage.getItem("_scApp")).principal}?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`);
+    const [imageProfile, setImageProfile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl(_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_ARTIST, `A${JSON.parse(localStorage.getItem("_scApp")).principal}`));
     const urlBanner = `http://localhost:8000/B${JSON.parse(localStorage.getItem("_scApp")).principal}?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`;
     console.log(artist, "ARTIST");
     ///FORM TOOLS
@@ -98349,12 +98349,13 @@ function parseArtist(artist) {
     assetCanisterId: artist[0].details.find(
       (detail) => detail[0] === _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ARTIST_ASSETCANISTERID
     )[1].Principal,
-    banner: getUrl(
-      _declarations_artistRegistry__WEBPACK_IMPORTED_MODULE_2__.canisterId,
-      `B${JSON.parse(localStorage.getItem("_scApp")).principal}`
-    ),
+    banner: artist[0].details.find((detail) => detail[0] === "bannerAsset")
+      ? getUrl(
+          _consts_index__WEBPACK_IMPORTED_MODULE_6__["default"].ASSET_CANISTER_ID_ARTIST,
+          `B${JSON.parse(localStorage.getItem("_scApp")).principal}`
+        )
+      : "https://images.unsplash.com/photo-1651135094094-7f2a48224da8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1MjcxNTgwMA&ixlib=rb-1.2.1&q=80&w=1080",
   };
-  console.log(parseArtist);
   return parseArtist;
 }
 

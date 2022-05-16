@@ -107,7 +107,7 @@ function ArtForm({
                       alt="image"
                       style={{
                         width: "100%",
-                        maxHeight: 500,
+                        maxHeight: 180,
                         objectFit: "contain",
                       }}
                     />
@@ -257,27 +257,30 @@ function ArtForm({
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-              <FormControl style={{ marginBottom: 4 }} fullWidth>
-                <InputLabel id="gallery-label">Gallery</InputLabel>
-                <Select
-                  labelId="gallery-label"
-                  id="gallery-select"
-                  value={galleryArt}
-                  onChange={(event) => setGalleryArt(event.target.value)}
-                  label="Labels"
-                  disabled={!galleries}
-                >
-                  {galleries ? (
-                    galleries.map((gallery) => (
-                      <MenuItem value={gallery.id}>{gallery.name}</MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem>Loading...</MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-            </Grid>
+            {!firstArt && (
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <FormControl style={{ marginBottom: 4 }} fullWidth>
+                  <InputLabel id="gallery-label">Gallery</InputLabel>
+                  <Select
+                    labelId="gallery-label"
+                    id="gallery-select"
+                    value={galleryArt}
+                    onChange={(event) => setGalleryArt(event.target.value)}
+                    label="Labels"
+                    disabled={!galleries}
+                  >
+                    {galleries ? (
+                      galleries.map((gallery) => (
+                        <MenuItem value={gallery.id}>{gallery.name}</MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem>Loading...</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+              </Grid>
+            )}
+
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
                 type="text"
