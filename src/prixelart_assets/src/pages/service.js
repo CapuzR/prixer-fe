@@ -92,7 +92,6 @@ async function _artistActor(canisterId, identity) {
 }
 
 async function _storeActor(canisterId) {
-  console.log(canisterId);
   const identity = await onSignInStoic();
   return await _storeCanister(canisterId, {
     agentOptions: {
@@ -102,7 +101,6 @@ async function _storeActor(canisterId) {
 }
 
 function parseArtist(artist) {
-  console.log(artist, "ARTIST");
   const parseArtist = {
     fullName: artist[0].name,
     principal: artist[0].principal_id,

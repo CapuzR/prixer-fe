@@ -62,9 +62,10 @@ function Explore() {
     async function initExplore() {
       if (!localStorage.getItem("wallet")) navigate("/login");
       setIsLoading(true);
-      const details = await service.getArtistDetailsByUsername(
-        localStorage.getItem("username")
-      );
+      // const details = await service.getArtistDetailsByUsername(
+      //   localStorage.getItem("username")
+      // );
+
       setIsLoading(false);
 
       const posts = await service.getPostsByCreation();

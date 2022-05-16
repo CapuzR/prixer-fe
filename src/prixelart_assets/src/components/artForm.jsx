@@ -53,32 +53,36 @@ function ArtForm({
   postId,
   setPost,
   post,
-
+  firstArt,
   galleries,
 }) {
-  console.log(artist);
   return (
     <Box style={{ padding: 24 }}>
-      <Button
+      {/* <Button
         disabled={!artist}
         onClick={async () => {
           handleImg(artist, blob);
         }}
       >
         Prueba
-      </Button>
+      </Button> */}
       <Box style={{ display: "flex", alignItems: "center" }}>
         <Typography variant="h4">
-          {isUpdate ? "Edit art" : "Create art"}
+          {firstArt
+            ? "Add your first post"
+            : isUpdate
+            ? "Edit post"
+            : "Create post"}
         </Typography>
-
-        <IconButton
-          color="primary"
-          onClick={() => (!isUpdate ? navigate(-1) : setIsEditPost(false))}
-          style={{ marginLeft: "auto" }}
-        >
-          <ArrowCircleLeftOutlinedIcon fontSize="large" />
-        </IconButton>
+        {!firstArt && (
+          <IconButton
+            color="primary"
+            onClick={() => (!isUpdate ? navigate(-1) : setIsEditPost(false))}
+            style={{ marginLeft: "auto" }}
+          >
+            <ArrowCircleLeftOutlinedIcon fontSize="large" />
+          </IconButton>
+        )}
       </Box>
       <Grid container spacing={1}>
         <Paper
@@ -325,7 +329,7 @@ function ArtForm({
               ))}
             </Box>
           </Grid>
-          <Box style={{ marginTop: 12 }}>
+          <Box style={{ marginTop: 12, display: "flex" }}>
             <Button
               disabled={
                 !artTitle ||
@@ -492,6 +496,16 @@ function ArtForm({
             >
               {isUpdate ? "Update" : "Create"}
             </Button>
+            {firstArt && (
+              <Button
+                style={{ marginLeft: "auto" }}
+                variant="outlined"
+                onClick={() => navigate("/explore")}
+                disabled={!artist}
+              >
+                Go to explore
+              </Button>
+            )}
           </Box>
           <Box
             style={{

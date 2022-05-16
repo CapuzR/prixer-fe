@@ -486,7 +486,6 @@ function ArtDetail({
     }
     const newComments = post.comments[0];
     newComments.push(formatComment);
-    console.log(post);
     post.comments[0] = newComments;
     setPost({ ...post });
     setComment("");
