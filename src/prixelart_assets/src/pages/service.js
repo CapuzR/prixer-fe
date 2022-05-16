@@ -102,7 +102,6 @@ async function _storeActor(canisterId) {
 }
 
 function parseArtist(artist) {
-  console.log(artist, "PARSE");
   const parseArtist = {
     fullName: artist[0].name,
     principal: artist[0].principal_id,
