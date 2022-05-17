@@ -651,9 +651,7 @@ function Registry({}) {
     const resizedImage = await readAndCompressImage(file, config);
     const resizedString = await convertToBase64(file);
     const data = [...new Uint8Array(await file.arrayBuffer())];
-
     setBlob(data);
-
     setAsset(resizedString);
   }
 

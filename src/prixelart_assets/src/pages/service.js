@@ -172,10 +172,10 @@ async function addArtist(artist, username) {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.add(artist);
-  const resultCreateCanister = await actor.createArtistCan();
+  // const resultCreateCanister = await actor.createArtistCan();
   localStorage.setItem("username", username);
   console.log("[ADD ARTIST] => ", result);
-  console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
+  // console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
   return result;
 }
 
