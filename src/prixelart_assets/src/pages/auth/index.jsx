@@ -12,11 +12,29 @@ import Navbar from "../../components/navbar";
 const toolbarHeight = 68;
 
 function Auth() {
-  const [isWalletAuth, setIsWalletAuth] = useState(
-    Boolean(localStorage.getItem("wallet"))
-  );
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const onSignInStoic = async () => {
+    setIsLoading(true);
+    const identity = await service.onSignInStoic();
+    if (identity) {
+      localStorage.setItem("wallet", "Stoic");
+      const artist = await service.getArtist();
+      if (artist.length > 0) {
+        const parseArtist = service.parseArtist(artist);
+        localStorage.setItem("username", parseArtist.username);
+        navigate("/explore");
+      } else {
+        navigate("/registry");
+      }
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      alert("stoic auth err!");
+    }
+  };
+
   return isLoading ? (
     <Loading />
   ) : (
@@ -47,7 +65,7 @@ function Auth() {
             <Button
               variant="contained"
               style={{ textTransform: "capitalize" }}
-              onClick={() => onSignInStoic}
+              onClick={() => onSignInStoic()}
             >
               Connect stoic
             </Button>
@@ -56,26 +74,6 @@ function Auth() {
       </div>
     </div>
   );
-
-  async function onSignInStoic() {
-    setIsLoading(true);
-    const identity = await service.onSignInStoic();
-    if (identity) {
-      localStorage.setItem("wallet", "Stoic");
-      const artist = await service.getArtist();
-      if (artist.length > 0) {
-        const parseArtist = service.parseArtist(artist);
-        localStorage.setItem("username", parseArtist.username);
-        navigate("/explore");
-      } else {
-        navigate("/registry");
-      }
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-      alert("stoic auth err!");
-    }
-  }
 }
 
 export default Auth;

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import * as React from "react";
+
+import Compressor from "compressorjs";
 import { readAndCompressImage } from "browser-image-resizer";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
@@ -55,7 +57,7 @@ function Registry({}) {
   const [message, setMessage] = useState(undefined);
   const [severity, setSeverity] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
-
+  console.log(assetProfile);
   const [tools] = useState([
     {
       id: 1,
@@ -630,11 +632,20 @@ function Registry({}) {
 
   async function handleChangeAvatarProfile(e) {
     const file = e.target.files[0];
-    const resizedString = await convertToBase64(file);
 
+    const config = {
+      quality: 1,
+      maxWidth: 600,
+      maxHeight: 600,
+      autoRotate: true,
+      debug: true,
+    };
+    const resizedString = await convertToBase64(file);
+    const resizedImage = await readAndCompressImage(file, config);
+    const data2 = [...new Uint8Array(await resizedImage.arrayBuffer())];
     const data = [...new Uint8Array(await file.arrayBuffer())];
     setImageProfile(resizedString);
-    setAssetProfile(data);
+    setAssetProfile(data2);
   }
 
   async function handleChange(event) {
@@ -686,6 +697,7 @@ function Registry({}) {
   }
 
   async function onCreateArtist(artist, username) {
+    console.log(artist);
     setIsLoading(true);
     setIsAddFirstArt(true);
     Promise.all([

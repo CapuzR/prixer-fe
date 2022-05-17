@@ -667,6 +667,16 @@ function Profile() {
     setIsLoadingChangeBanner(true);
     const file = event.target.files[0];
 
+    const config = {
+      quality: 1,
+      maxWidth: 600,
+      maxHeight: 600,
+      autoRotate: true,
+      debug: true,
+    };
+    const resizedImage = await readAndCompressImage(file, config);
+    const data2 = [...new Uint8Array(await resizedImage.arrayBuffer())];
+
     const data = [...new Uint8Array(await file.arrayBuffer())];
     const parseCameras = artist.cameras.map((camera) => {
       return {
@@ -688,7 +698,7 @@ function Profile() {
         ["username", { Text: artist.username }],
         ["displayName", { Text: artist.displayName }],
         // ["avatarAsset", { Vec: { False: null } }],
-        ["bannerAsset", { Vec: [{ Slice: data }, { True: null }] }],
+        ["bannerAsset", { Vec: [{ Slice: data2 }, { True: null }] }],
         ["canisterId", { Principal: artist.canisterId }],
         ["assetCanId", { Principal: artist.assetCanisterId }],
         ["location", { Text: artist.location }],
@@ -732,11 +742,20 @@ function Profile() {
 
   async function handleChangeAvatarProfile(e) {
     const file = e.target.files[0];
+    const config = {
+      quality: 1,
+      maxWidth: 600,
+      maxHeight: 600,
+      autoRotate: true,
+      debug: true,
+    };
     const resizedString = await convertToBase64(file);
+    const resizedImage = await readAndCompressImage(file, config);
+    const data2 = [...new Uint8Array(await resizedImage.arrayBuffer())];
 
     const data = [...new Uint8Array(await file.arrayBuffer())];
     setImageProfile(resizedString);
-    setAssetProfile(data);
+    setAssetProfile(data2);
   }
 }
 

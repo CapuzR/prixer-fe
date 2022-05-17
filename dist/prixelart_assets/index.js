@@ -91895,10 +91895,10 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_10__["default"], { style: { marginBottom: 4 }, required: true, fullWidth: true },
                                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_11__["default"], { id: "camera-label" }, "Lens"),
                                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_12__["default"], { labelId: "camera-label", id: "category-select", value: lensArt, onChange: (event) => setLensArt(event.target.value), label: "Lens", disabled: !artist }, artist ? (artist.lens.map((art, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], { key: index, value: art.Text }, art.Text)))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], null, "Loading..."))))))),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+                    !firstArt && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_10__["default"], { style: { marginBottom: 4 }, fullWidth: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_11__["default"], { id: "gallery-label" }, "Gallery"),
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_12__["default"], { labelId: "gallery-label", id: "gallery-select", value: galleryArt, onChange: (event) => setGalleryArt(event.target.value), label: "Labels", disabled: !galleries }, galleries ? (galleries.map((gallery) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], { value: gallery.id }, gallery.name)))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], null, "Loading..."))))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_12__["default"], { labelId: "gallery-label", id: "gallery-select", value: galleryArt, onChange: (event) => setGalleryArt(event.target.value), label: "Labels", disabled: !galleries }, galleries ? (galleries.map((gallery) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], { value: gallery.id }, gallery.name)))) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], null, "Loading...")))))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], { type: "text", label: "About the art", variant: "outlined", fullWidth: true, style: { marginBottom: 4 }, multiline: true, rows: 4, value: aboutArt, onChange: (event) => setAboutArt(event.target.value), required: true })),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_5__["default"], { item: true, xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
@@ -92025,34 +92025,38 @@ function ArtForm({ asset, blob, artist, navigate, isUpdate, handleChange, artTit
                                     title: artTitle,
                                     tools: [],
                                 }, blob);
-                                service._createPost(artist.canisterId, {
-                                    artType: artType,
-                                    description: aboutArt,
-                                    details: [
-                                        [
-                                            "galleryId",
-                                            { Text: galleryArt === "" ? "false" : galleryArt },
-                                        ],
-                                        [
-                                            "location",
-                                            { Text: artLocation === "" ? "false" : artLocation },
-                                        ],
-                                        [
-                                            "camera",
-                                            {
-                                                Vec: [{ Text: artCamera }],
-                                            },
-                                        ],
-                                        [
-                                            "lens",
-                                            {
-                                                Vec: [{ Text: lensArt }],
-                                            },
-                                        ],
-                                    ],
-                                    tags: tagsArt,
-                                    title: artTitle,
-                                }, blob);
+                                // service._createPost(
+                                //   artist.canisterId,
+                                //   {
+                                //     artType: artType,
+                                //     description: aboutArt,
+                                //     details: [
+                                //       [
+                                //         "galleryId",
+                                //         { Text: galleryArt === "" ? "false" : galleryArt },
+                                //       ],
+                                //       [
+                                //         "location",
+                                //         { Text: artLocation === "" ? "false" : artLocation },
+                                //       ],
+                                //       [
+                                //         "camera",
+                                //         {
+                                //           Vec: [{ Text: artCamera }],
+                                //         },
+                                //       ],
+                                //       [
+                                //         "lens",
+                                //         {
+                                //           Vec: [{ Text: lensArt }],
+                                //         },
+                                //       ],
+                                //     ],
+                                //     tags: tagsArt,
+                                //     title: artTitle,
+                                //   },
+                                //   blob
+                                // );
                                 navigate("/main");
                             }
                         } }, isUpdate ? "Update" : "Create"),
@@ -93101,25 +93105,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const toolbarHeight = 68;
 function Auth() {
-    const [isWalletAuth, setIsWalletAuth] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(Boolean(localStorage.getItem("wallet")));
     const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
-    return isLoading ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_loading__WEBPACK_IMPORTED_MODULE_1__["default"], null)) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: {
-                backgroundImage: "url('https://images.unsplash.com/photo-1644256086122-7988468e2545?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTE5NzQxNg&ixlib=rb-1.2.1&q=80&w=1080')",
-                height: "100vh",
-                backgroundSize: "cover",
-            } },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_navbar__WEBPACK_IMPORTED_MODULE_3__["default"], { onLogout: console.log, toolbarHeight: toolbarHeight, isAuth: true }),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_5__["default"], { style: { paddingTop: toolbarHeight } },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_5__["default"], { style: {
-                        height: `calc(100vh - ${toolbarHeight}px)`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_6__["default"], { variant: "contained", style: { textTransform: "capitalize" }, onClick: onSignInStoic }, "Connect stoic"))))));
-    async function onSignInStoic() {
+    const onSignInStoic = async () => {
         setIsLoading(true);
         const identity = await _service__WEBPACK_IMPORTED_MODULE_2__["default"].onSignInStoic();
         if (identity) {
@@ -93139,7 +93127,22 @@ function Auth() {
             setIsLoading(false);
             alert("stoic auth err!");
         }
-    }
+    };
+    return isLoading ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_loading__WEBPACK_IMPORTED_MODULE_1__["default"], null)) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: {
+                backgroundImage: "url('https://images.unsplash.com/photo-1644256086122-7988468e2545?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTE5NzQxNg&ixlib=rb-1.2.1&q=80&w=1080')",
+                height: "100vh",
+                backgroundSize: "cover",
+            } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_navbar__WEBPACK_IMPORTED_MODULE_3__["default"], { onLogout: console.log, toolbarHeight: toolbarHeight, isAuth: true }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_5__["default"], { style: { paddingTop: toolbarHeight } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_5__["default"], { style: {
+                        height: `calc(100vh - ${toolbarHeight}px)`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_6__["default"], { variant: "contained", style: { textTransform: "capitalize" }, onClick: () => onSignInStoic() }, "Connect stoic"))))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Auth);
 
@@ -93231,6 +93234,7 @@ function Registry({}) {
     const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(undefined);
     const [severity, setSeverity] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(undefined);
     const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    console.log(assetProfile);
     const [tools] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([
         {
             id: 1,
@@ -93469,10 +93473,22 @@ function Registry({}) {
     }
     async function handleChangeAvatarProfile(e) {
         const file = e.target.files[0];
+        const config = {
+            quality: 1,
+            maxWidth: 500,
+            maxHeight: 500,
+            autoRotate: true,
+            debug: true,
+        };
+        console.log(file);
         const resizedString = await convertToBase64(file);
+        const resizedImage = await (0,browser_image_resizer__WEBPACK_IMPORTED_MODULE_1__.readAndCompressImage)(file, config);
+        const data2 = [...new Uint8Array(await resizedImage.arrayBuffer())];
+        console.log(data2);
         const data = [...new Uint8Array(await file.arrayBuffer())];
+        console.log(data);
         setImageProfile(resizedString);
-        setAssetProfile(data);
+        setAssetProfile(data2);
     }
     async function handleChange(event) {
         const file = event.target.files[0];
@@ -93514,6 +93530,7 @@ function Registry({}) {
         navigate("/login");
     }
     async function onCreateArtist(artist, username) {
+        console.log(artist);
         setIsLoading(true);
         setIsAddFirstArt(true);
         Promise.all([
@@ -94354,20 +94371,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _mui_material_styles__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @mui/material/styles */ "./node_modules/@mui/material/styles/useTheme.js");
+/* harmony import */ var _mui_material_CircularProgress__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @mui/material/CircularProgress */ "./node_modules/@mui/material/CircularProgress/CircularProgress.js");
 /* harmony import */ var _mui_material_useMediaQuery__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @mui/material/useMediaQuery */ "./node_modules/@mui/material/useMediaQuery/useMediaQuery.js");
 /* harmony import */ var _mui_material_Box__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @mui/material/Box */ "./node_modules/@mui/material/Box/Box.js");
-/* harmony import */ var _mui_material_Fab__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @mui/material/Fab */ "./node_modules/@mui/material/Fab/Fab.js");
-/* harmony import */ var _mui_material_Menu__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @mui/material/Menu */ "./node_modules/@mui/material/Menu/Menu.js");
-/* harmony import */ var _mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @mui/material/MenuItem */ "./node_modules/@mui/material/MenuItem/MenuItem.js");
-/* harmony import */ var _mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @mui/icons-material/Add */ "./node_modules/@mui/icons-material/Add.js");
+/* harmony import */ var _mui_material_Fab__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @mui/material/Fab */ "./node_modules/@mui/material/Fab/Fab.js");
+/* harmony import */ var _mui_material_Menu__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @mui/material/Menu */ "./node_modules/@mui/material/Menu/Menu.js");
+/* harmony import */ var _mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @mui/material/MenuItem */ "./node_modules/@mui/material/MenuItem/MenuItem.js");
+/* harmony import */ var _mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @mui/icons-material/Add */ "./node_modules/@mui/icons-material/Add.js");
 /* harmony import */ var _mui_icons_material_ArrowCircleLeftOutlined__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @mui/icons-material/ArrowCircleLeftOutlined */ "./node_modules/@mui/icons-material/ArrowCircleLeftOutlined.js");
 /* harmony import */ var _mui_material_Typography__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @mui/material/Typography */ "./node_modules/@mui/material/Typography/Typography.js");
 /* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/IconButton.js");
 /* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/Button.js");
-/* harmony import */ var _mui_material_Slide__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @mui/material/Slide */ "./node_modules/@mui/material/Slide/Slide.js");
+/* harmony import */ var _mui_material_Slide__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @mui/material/Slide */ "./node_modules/@mui/material/Slide/Slide.js");
 /* harmony import */ var _mui_material_Alert__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @mui/material/Alert */ "./node_modules/@mui/material/Alert/Alert.js");
-/* harmony import */ var _mui_material_Snackbar__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @mui/material/Snackbar */ "./node_modules/@mui/material/Snackbar/Snackbar.js");
-/* harmony import */ var _mui_icons_material_Edit__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @mui/icons-material/Edit */ "./node_modules/@mui/icons-material/Edit.js");
+/* harmony import */ var _mui_material_Snackbar__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @mui/material/Snackbar */ "./node_modules/@mui/material/Snackbar/Snackbar.js");
+/* harmony import */ var _mui_icons_material_Edit__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @mui/icons-material/Edit */ "./node_modules/@mui/icons-material/Edit.js");
 /* harmony import */ var _consts_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../consts/index */ "./src/prixelart_assets/src/consts/index.js");
 /* harmony import */ var _service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../service */ "./src/prixelart_assets/src/pages/service.js");
 /* harmony import */ var _components_navbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/navbar */ "./src/prixelart_assets/src/components/navbar.jsx");
@@ -94380,6 +94398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_dialogFollowers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../components/dialogFollowers */ "./src/prixelart_assets/src/components/dialogFollowers.jsx");
 /* harmony import */ var _components_listGalleries__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../components/listGalleries */ "./src/prixelart_assets/src/components/listGalleries.jsx");
 /* harmony import */ var _components_searchBar__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../components/searchBar */ "./src/prixelart_assets/src/components/searchBar.jsx");
+
 
 
 
@@ -94446,9 +94465,8 @@ function Profile() {
     const [phone, setPhone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [about, setAbout] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
     const [artType, setArtType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+    const [isLoadingChangeBanner, setIsLoadingChangeBanner] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const [imageProfile, setImageProfile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl(_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_ARTIST, `A${JSON.parse(localStorage.getItem("_scApp")).principal}`));
-    const urlBanner = `http://localhost:8000/B${JSON.parse(localStorage.getItem("_scApp")).principal}?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`;
-    console.log(artist, "ARTIST");
     ///FORM TOOLS
     const [tools] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([
         {
@@ -94624,24 +94642,23 @@ function Profile() {
                     backgroundSize: "cover",
                     alignItems: "flex-start",
                     padding: "8px",
-                } },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_19__["default"], { size: "small", style: { marginLeft: "auto", backgroundColor: "#C5C5C5" }, component: "label" },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Edit__WEBPACK_IMPORTED_MODULE_22__["default"], { fontSize: "small", color: "primary" }),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChangeBanner(event) }))),
+                } }, !isLoading && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_19__["default"], { disabled: isLoadingChangeBanner, size: "small", style: { marginLeft: "auto", backgroundColor: "#C5C5C5" }, component: "label" },
+                isLoadingChangeBanner ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_CircularProgress__WEBPACK_IMPORTED_MODULE_22__["default"], { size: 32 })) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Edit__WEBPACK_IMPORTED_MODULE_23__["default"], { fontSize: "small", color: "primary" })),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "file", hidden: true, onChange: (event) => handleChangeBanner(event) })))),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Box__WEBPACK_IMPORTED_MODULE_17__["default"], null,
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_paperProfile__WEBPACK_IMPORTED_MODULE_4__["default"], { handleOpenActionMenuProfile: handleOpenActionMenuProfile, openActionMenuProfile: openActionMenuProfile, mobileBreakpoint: mobileBreakpoint, isLoading: isLoading, artist: artist, isGuest: isGuest, service: _service__WEBPACK_IMPORTED_MODULE_2__["default"], details: details, handleFollowers: handleFollowers, isLoadingFollows: isLoadingFollows, setViewDialogFollowers: setViewDialogFollowers, setDetails: setDetails, setOpenDialogFollowers: setIsDialogFollowersOpen }),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Menu__WEBPACK_IMPORTED_MODULE_23__["default"], { id: "basic-menu-profile", anchorEl: anchorElActionMenuProfile, open: openActionMenuProfile, onClose: () => {
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Menu__WEBPACK_IMPORTED_MODULE_24__["default"], { id: "basic-menu-profile", anchorEl: anchorElActionMenuProfile, open: openActionMenuProfile, onClose: () => {
                         setAnchorElActionMenuProfile(null);
                         setOpenActionMenuProfile(false);
                     }, MenuListProps: {
                         "aria-labelledby": "basic-button-profile",
                     } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_24__["default"], { onClick: () => {
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_25__["default"], { onClick: () => {
                             setAnchorElActionMenuProfile(null);
                             setOpenActionMenuProfile(false);
                             setIsEditProfile(true);
                         } }, "Edit profile"),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_24__["default"], { style: { color: "red" }, onClick: async () => {
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_25__["default"], { style: { color: "red" }, onClick: async () => {
                             setIsLoading(true);
                             setAnchorElActionMenuProfile(null);
                             setOpenActionMenuProfile(false);
@@ -94680,29 +94697,29 @@ function Profile() {
         !mobileBreakpoint
             ? !isEditProfile && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_navigationBar__WEBPACK_IMPORTED_MODULE_5__["default"], { openActionMenu: openActionMenu, setOpenActionMenu: setOpenActionMenu, hanleOpenActionMenu: hanleOpenActionMenu, setAnchorElActionMenu: setAnchorElActionMenu, anchorElActionMenu: anchorElActionMenu, navigate: navigate, params: params.username, setIsCreateArt: console.log, setIsCrateGallery: console.log }))
             : !isEditProfile && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Fab__WEBPACK_IMPORTED_MODULE_25__["default"], { color: "primary", id: "basic-button", "aria-controls": openActionMenu ? "basic-menu" : undefined, "aria-haspopup": "true", "aria-expanded": openActionMenu ? "true" : undefined, onClick: hanleOpenActionMenu, style: { position: "fixed", bottom: 16, right: 16 } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_26__["default"], null)),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Menu__WEBPACK_IMPORTED_MODULE_23__["default"], { id: "basic-menu", anchorEl: anchorElActionMenu, open: openActionMenu, onClose: () => {
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Fab__WEBPACK_IMPORTED_MODULE_26__["default"], { color: "primary", id: "basic-button", "aria-controls": openActionMenu ? "basic-menu" : undefined, "aria-haspopup": "true", "aria-expanded": openActionMenu ? "true" : undefined, onClick: hanleOpenActionMenu, style: { position: "fixed", bottom: 16, right: 16 } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_27__["default"], null)),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Menu__WEBPACK_IMPORTED_MODULE_24__["default"], { id: "basic-menu", anchorEl: anchorElActionMenu, open: openActionMenu, onClose: () => {
                         setAnchorElActionMenu(null);
                         setOpenActionMenu(false);
                     }, MenuListProps: {
                         "aria-labelledby": "basic-button",
                     } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_24__["default"], { onClick: () => {
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_25__["default"], { onClick: () => {
                             setAnchorElActionMenu(null);
                             setOpenActionMenu(false);
                             navigate("/addArt");
                         } }, "Create Art"),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_24__["default"], { onClick: () => {
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_25__["default"], { onClick: () => {
                             setAnchorElActionMenu(null);
                             setOpenActionMenu(false);
                             navigate("/addGallery");
                         } }, "Create Gallery")))),
         isDialogFollowersOpen && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_dialogFollowers__WEBPACK_IMPORTED_MODULE_10__["default"], { open: isDialogFollowersOpen, setOpen: setIsDialogFollowersOpen, artist: artist, viewDialogFollowers: viewDialogFollowers, setViewDialogFollowers: setViewDialogFollowers, navigate: navigate })),
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Snackbar__WEBPACK_IMPORTED_MODULE_27__["default"], { autoHideDuration: 3000, anchorOrigin: { vertical: "bottom", horizontal: "right" }, onClose: handleCloseSnackbar, open: isSnackbarOpen, TransitionComponent: SlideTransition, style: { display: isSnackbarOpen ? "flex" : "none" } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Snackbar__WEBPACK_IMPORTED_MODULE_28__["default"], { autoHideDuration: 3000, anchorOrigin: { vertical: "bottom", horizontal: "right" }, onClose: handleCloseSnackbar, open: isSnackbarOpen, TransitionComponent: SlideTransition, style: { display: isSnackbarOpen ? "flex" : "none" } },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(Alert, { severity: severity }, message))));
     function SlideTransition(props) {
-        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Slide__WEBPACK_IMPORTED_MODULE_28__["default"], { ...props, direction: "left" });
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Slide__WEBPACK_IMPORTED_MODULE_29__["default"], { ...props, direction: "left" });
     }
     function handleCloseSnackbar(event, reason) {
         if (reason === "clickaway") {
@@ -94775,6 +94792,7 @@ function Profile() {
         }
     }
     async function handleChangeBanner(event) {
+        setIsLoadingChangeBanner(true);
         const file = event.target.files[0];
         const data = [...new Uint8Array(await file.arrayBuffer())];
         const parseCameras = artist.cameras.map((camera) => {
@@ -94782,7 +94800,6 @@ function Profile() {
                 Text: camera.Text,
             };
         });
-        console.log(parseCameras);
         const parseLens = artist.lens.map((lens) => {
             return {
                 Text: lens.Text,
@@ -94818,12 +94835,13 @@ function Profile() {
                     },
                 ],
             ],
-            thumbnail: `http://localhost:8000/A${JSON.parse(localStorage.getItem("_scApp")).principal}?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`,
+            thumbnail: _service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl(_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_ARTIST, `A${JSON.parse(localStorage.getItem("_scApp")).principal}`),
             frontend: [],
             name: `${artist.fullName}`,
             principal_id: JSON.parse(localStorage.getItem("_scApp")).principal,
         });
         setIsUpdateBanner(false);
+        setIsLoadingChangeBanner(false);
     }
     function convertToBase64(blob) {
         return new Promise((resolve) => {
@@ -98304,7 +98322,6 @@ async function _storeActor(canisterId) {
 }
 
 function parseArtist(artist) {
-  console.log(artist, "PARSE");
   const parseArtist = {
     fullName: artist[0].name,
     principal: artist[0].principal_id,
@@ -98375,10 +98392,10 @@ async function addArtist(artist, username) {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.add(artist);
-  const resultCreateCanister = await actor.createArtistCan();
+  // const resultCreateCanister = await actor.createArtistCan();
   localStorage.setItem("username", username);
   console.log("[ADD ARTIST] => ", result);
-  console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
+  // console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
   return result;
 }
 
