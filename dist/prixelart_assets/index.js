@@ -93475,8 +93475,8 @@ function Registry({}) {
         const file = e.target.files[0];
         const config = {
             quality: 1,
-            maxWidth: 600,
-            maxHeight: 600,
+            maxWidth: 200,
+            maxHeight: 200,
             autoRotate: true,
             debug: true,
         };
@@ -93491,14 +93491,14 @@ function Registry({}) {
         const file = event.target.files[0];
         const config = {
             quality: 1,
-            maxWidth: 200,
-            maxHeight: 200,
+            maxWidth: 600,
+            maxHeight: 600,
             autoRotate: true,
             debug: true,
         };
         const resizedImage = await (0,browser_image_resizer__WEBPACK_IMPORTED_MODULE_1__.readAndCompressImage)(file, config);
         const resizedString = await convertToBase64(file);
-        const data = [...new Uint8Array(await file.arrayBuffer())];
+        const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
         setBlob(data);
         setAsset(resizedString);
     }
@@ -93664,14 +93664,14 @@ function AddArt() {
         const file = event.target.files[0];
         const config = {
             quality: 1,
-            maxWidth: 640,
-            maxHeight: 640,
+            maxWidth: 600,
+            maxHeight: 600,
             autoRotate: true,
             debug: true,
         };
         const resizedImage = await (0,browser_image_resizer__WEBPACK_IMPORTED_MODULE_1__.readAndCompressImage)(file, config);
         const resizedString = await convertToBase64(file);
-        const data = [...new Uint8Array(await file.arrayBuffer())];
+        const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
         setBlob(data);
         setAsset(resizedString);
     }

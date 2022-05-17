@@ -6,6 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 
+import consts from "../consts/index";
 import service from "../pages/service";
 
 function ListArts({ arts, navigate, setDetails, details, search }) {
@@ -21,8 +22,14 @@ function ListArts({ arts, navigate, setDetails, details, search }) {
           <div key={index}>
             <img
               onClick={() => navigate(`/post/${item.postId}`)}
-              src={`${item.post.postBasics.asset}`}
-              srcSet={`${item.post.postBasics.asset}`}
+              src={service.getUrl(
+                consts.ASSET_CANISTER_ID_SOCIALS,
+                `${item.postId}`
+              )}
+              srcSet={service.getUrl(
+                consts.ASSET_CANISTER_ID_SOCIALS,
+                `${item.postId}`
+              )}
               alt={index}
               loading="lazy"
               style={{

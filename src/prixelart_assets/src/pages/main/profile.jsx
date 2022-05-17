@@ -291,8 +291,8 @@ function Profile() {
                       ["email", { Text: email }],
                       ["phone", { Text: phone }],
                       ["about", { Text: about }],
-                      ["canisterId", { Principal: artist.canisterId }],
-                      ["assetCanId", { Principal: artist.assetCanisterId }],
+                      // ["canisterId", { Principal: artist.canisterId }],
+                      // ["assetCanId", { Principal: artist.assetCanisterId }],
                       [
                         "cameras",
                         {
@@ -699,8 +699,8 @@ function Profile() {
         ["displayName", { Text: artist.displayName }],
         // ["avatarAsset", { Vec: { False: null } }],
         ["bannerAsset", { Vec: [{ Slice: data2 }, { True: null }] }],
-        ["canisterId", { Principal: artist.canisterId }],
-        ["assetCanId", { Principal: artist.assetCanisterId }],
+        // ["canisterId", { Principal: artist.canisterId }],
+        // ["assetCanId", { Principal: artist.assetCanisterId }],
         ["location", { Text: artist.location }],
         ["email", { Text: artist.email }],
         ["phone", { Text: artist.phone }],
