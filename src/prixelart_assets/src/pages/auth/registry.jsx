@@ -292,7 +292,7 @@ function Registry({}) {
                                 color: "red",
                               }}
                             >
-                              Formato no valido
+                              Plase use email format.
                             </div>
                           )}
                         </Grid>
@@ -653,8 +653,8 @@ function Registry({}) {
 
     const config = {
       quality: 1,
-      maxWidth: 640,
-      maxHeight: 640,
+      maxWidth: 200,
+      maxHeight: 200,
       autoRotate: true,
       debug: true,
     };

@@ -493,7 +493,7 @@ function ArtForm({
                   //   blob
                   // );
 
-                  navigate("/main");
+                  navigate(firstArt ? "/explore" : "/main");
                 }
               }}
             >
