@@ -635,8 +635,8 @@ function Registry({}) {
 
     const config = {
       quality: 1,
-      maxWidth: 600,
-      maxHeight: 600,
+      maxWidth: 200,
+      maxHeight: 200,
       autoRotate: true,
       debug: true,
     };
@@ -653,15 +653,15 @@ function Registry({}) {
 
     const config = {
       quality: 1,
-      maxWidth: 200,
-      maxHeight: 200,
+      maxWidth: 600,
+      maxHeight: 600,
       autoRotate: true,
       debug: true,
     };
 
     const resizedImage = await readAndCompressImage(file, config);
     const resizedString = await convertToBase64(file);
-    const data = [...new Uint8Array(await file.arrayBuffer())];
+    const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
     setBlob(data);
     setAsset(resizedString);
   }
