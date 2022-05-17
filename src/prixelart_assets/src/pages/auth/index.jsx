@@ -47,7 +47,7 @@ function Auth() {
             <Button
               variant="contained"
               style={{ textTransform: "capitalize" }}
-              onClick={onSignInStoic}
+              onClick={() => onSignInStoic}
             >
               Connect stoic
             </Button>
