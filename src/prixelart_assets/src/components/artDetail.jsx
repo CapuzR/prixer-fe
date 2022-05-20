@@ -30,6 +30,7 @@ import DateObject from "react-date-object";
 
 import consts from "../consts/index";
 import service from "../pages/service";
+import DialogConfirmDelete from "./dialogConfirmDelete";
 
 function ArtDetail({
   post,
@@ -58,6 +59,8 @@ function ArtDetail({
   const [selectedForReply, setSelectedForReply] = useState();
   const [comments, setComments] = useState([]);
   const [isLoadingForComments, setIsLoadingForComments] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [typeDelete, setTypeDelete] = useState("");
   return (
     <Box>
       <Box style={{ padding: 16 }}>
@@ -131,10 +134,8 @@ function ArtDetail({
               <IconButton
                 color="primary"
                 onClick={async () => {
-                  setIsLoading(true);
-                  await service.removePost(post?.postId);
-                  setIsLoading(false);
-                  navigate(-1);
+                  setOpenDelete(true);
+                  setTypeDelete("post");
                 }}
                 disabled={isLoading}
               >
@@ -182,6 +183,81 @@ function ArtDetail({
         <Box style={{ marginTop: 16, marginBottom: 12 }}>
           <Typography variant="h6">Comments</Typography>
         </Box>
+
+        {/* DD/MM/YYYY -  */}
+        {isShowInputComment ? (
+          <Box
+            style={{
+              marginTop: 12,
+              marginBottom: 8,
+            }}
+          >
+            <FormControl fullWidth disabled={isLoading}>
+              <OutlinedInput
+                multiline
+                size="small"
+                rows={3}
+                maxRows={3}
+                value={comment}
+                onChange={(event) => setComment(event.target.value)}
+                style={{
+                  borderRadius: "30px",
+                  backgroundColor: "#FFFFFF",
+                }}
+                // onKeyUp={(e) => {
+                //   if (e.code === consts.ENTER_KEY_CODE) {
+                //     if (isLoading) return false;
+                //     else if (comment.trim().length === 0) return false;
+                //     else {
+                //       alert("SOY UN COMENTARIO");
+                //     }
+                //   }
+                // }}
+                placeholder="Enter your comment"
+              />
+            </FormControl>
+            <Button
+              variant="outlined"
+              style={{
+                textTransform: "capitalize",
+                marginLeft: "auto",
+                display: "flex",
+                marginTop: 8,
+                borderRadius: 30,
+              }}
+              id={"scroll-btn"}
+              disabled={comment === ""}
+              onClick={async () => {
+                onAddComment(comment);
+
+                await service.createComment(post.postId, {
+                  commentBasics: {
+                    category: [],
+                    content: comment,
+                    details: [],
+                  },
+                });
+              }}
+            >
+              Send
+            </Button>
+          </Box>
+        ) : (
+          <Box
+            style={{
+              fontSize: 14,
+              marginTop: 12,
+              textDecoration: "underline",
+              marginBottom: 8,
+            }}
+            onClick={async () => {
+              setIsShowInputComment(true);
+              // service.scrollToBottom();
+            }}
+          >
+            Add a new comment
+          </Box>
+        )}
         {post?.comments[0]?.map((comment, index) => (
           <Box>
             <Box style={{ marginBottom: 8, display: "flex" }}>
@@ -348,80 +424,6 @@ function ArtDetail({
             )}
           </Box>
         ))}
-        {/* DD/MM/YYYY -  */}
-        {isShowInputComment ? (
-          <Box
-            style={{
-              marginTop: 12,
-              marginBottom: 8,
-            }}
-          >
-            <FormControl fullWidth disabled={isLoading}>
-              <OutlinedInput
-                multiline
-                size="small"
-                rows={3}
-                maxRows={3}
-                value={comment}
-                onChange={(event) => setComment(event.target.value)}
-                style={{
-                  borderRadius: "30px",
-                  backgroundColor: "#FFFFFF",
-                }}
-                // onKeyUp={(e) => {
-                //   if (e.code === consts.ENTER_KEY_CODE) {
-                //     if (isLoading) return false;
-                //     else if (comment.trim().length === 0) return false;
-                //     else {
-                //       alert("SOY UN COMENTARIO");
-                //     }
-                //   }
-                // }}
-                placeholder="Enter your comment"
-              />
-            </FormControl>
-            <Button
-              variant="outlined"
-              style={{
-                textTransform: "capitalize",
-                marginLeft: "auto",
-                display: "flex",
-                marginTop: 8,
-                borderRadius: 30,
-              }}
-              id={"scroll-btn"}
-              disabled={comment === ""}
-              onClick={async () => {
-                onAddComment(comment);
-
-                await service.createComment(post.postId, {
-                  commentBasics: {
-                    category: [],
-                    content: comment,
-                    details: [],
-                  },
-                });
-              }}
-            >
-              Send
-            </Button>
-          </Box>
-        ) : (
-          <Box
-            style={{
-              fontSize: 14,
-              marginTop: 12,
-              textDecoration: "underline",
-              marginBottom: 8,
-            }}
-            onClick={async () => {
-              setIsShowInputComment(true);
-              // service.scrollToBottom();
-            }}
-          >
-            Add a new comment
-          </Box>
-        )}
       </Box>
       {commentSelected && anchorElActionMenu !== null && (
         <Menu
@@ -441,11 +443,8 @@ function ArtDetail({
           {localStorage.getItem("username") === commentUsername && (
             <MenuItem
               onClick={async () => {
-                setCommentSelected(undefined);
-                setAnchorElActionMenu(null);
-                setOpenActionMenu(false);
-                onRemoveComment(commentId);
-                await service.removeComment(post?.postId, commentId);
+                setOpenDelete(true);
+                setTypeDelete("comment");
               }}
             >
               Delete
@@ -463,6 +462,28 @@ function ArtDetail({
           </MenuItem>
         </Menu>
       )}
+
+      <DialogConfirmDelete
+        open={openDelete}
+        setOpen={setOpenDelete}
+        type={typeDelete}
+        onDelete={async () => {
+          if (typeDelete === "post") {
+            setIsLoading(true);
+            setOpenDelete(false);
+            await service.removePost(post?.postId);
+            setIsLoading(false);
+            navigate(-1);
+          } else {
+            setCommentSelected(undefined);
+            setAnchorElActionMenu(null);
+            setOpenActionMenu(false);
+            onRemoveComment(commentId);
+            setOpenDelete(false);
+            await service.removeComment(post?.postId, commentId);
+          }
+        }}
+      />
     </Box>
   );
 

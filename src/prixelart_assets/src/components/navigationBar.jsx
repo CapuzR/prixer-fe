@@ -15,6 +15,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
+import StarIcon from "@mui/icons-material/Star";
 
 function NavigationBar({
   openActionMenu,
@@ -55,7 +56,9 @@ function NavigationBar({
               fontWeight: "bold",
             }}
           >
-            P
+            <IconButton color="primary">
+              <StarIcon fontSize="large" />
+            </IconButton>
           </Typography>
         </IconButton>
       </Box>
@@ -96,7 +99,7 @@ function NavigationBar({
               navigate("/addArt");
             }}
           >
-            Create Art
+            Add post
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -106,20 +109,29 @@ function NavigationBar({
               navigate("/addGallery");
             }}
           >
-            Create Gallery
+            Add gallery
           </MenuItem>
         </Menu>
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
-        <IconButton color="primary" onClick={() => navigate("/explore")}>
+        <IconButton
+          color="primary"
+          onClick={() => navigate("/explore")}
+          disabled={true}
+        >
           <SearchIcon fontSize="large" />
         </IconButton>
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
         <IconButton
-          disabled={params === localStorage.getItem("username")}
           color="primary"
-          onClick={() => navigate(`/u/${localStorage.getItem("username")}`)}
+          onClick={() => {
+            if (params === localStorage.getItem("username")) {
+              return false;
+            } else {
+              navigate(`/u/${localStorage.getItem("username")}`);
+            }
+          }}
         >
           <AccountCircleIcon fontSize="large" />
         </IconButton>

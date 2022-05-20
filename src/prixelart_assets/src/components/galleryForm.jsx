@@ -24,15 +24,10 @@ function GalleryForm({
   return (
     <Box style={{ padding: 24 }}>
       <Box style={{ display: "flex", alignItems: "center" }}>
-        <Typography variant="h4">Create Gallery</Typography>
-
-        <IconButton
-          color="primary"
-          onClick={() => navigate(-1)}
-          style={{ marginLeft: "auto" }}
-        >
+        <IconButton color="primary" onClick={() => navigate(-1)}>
           <ArrowCircleLeftOutlinedIcon fontSize="large" />
         </IconButton>
+        <Typography variant="h4">Create Gallery</Typography>
       </Box>
       <Grid container spacing={1}>
         <Paper
@@ -44,7 +39,7 @@ function GalleryForm({
               <TextField
                 disabled={isLoading}
                 type="text"
-                label="title"
+                label="Title"
                 variant="outlined"
                 fullWidth
                 style={{ marginBottom: 4 }}
@@ -56,7 +51,7 @@ function GalleryForm({
               <TextField
                 disabled={isLoading}
                 type="text"
-                label="About the gallery"
+                label="About"
                 variant="outlined"
                 fullWidth
                 style={{ marginBottom: 4 }}

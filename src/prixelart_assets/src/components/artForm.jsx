@@ -67,22 +67,17 @@ function ArtForm({
         Prueba
       </Button> */}
       <Box style={{ display: "flex", alignItems: "center" }}>
-        <Typography variant="h4">
-          {firstArt
-            ? "Add your first post"
-            : isUpdate
-            ? "Edit post"
-            : "Create post"}
-        </Typography>
         {!firstArt && (
           <IconButton
             color="primary"
             onClick={() => (!isUpdate ? navigate(-1) : setIsEditPost(false))}
-            style={{ marginLeft: "auto" }}
           >
             <ArrowCircleLeftOutlinedIcon fontSize="large" />
           </IconButton>
         )}
+        <Typography variant="h4">
+          {firstArt ? "Add post" : isUpdate ? "Edit post" : "Add post"}
+        </Typography>
       </Box>
       <Grid container spacing={1}>
         <Paper
@@ -234,7 +229,7 @@ function ArtForm({
                 </Box>
                 <Box style={{ width: "50%" }}>
                   <FormControl style={{ marginBottom: 4 }} required fullWidth>
-                    <InputLabel id="camera-label">Lens</InputLabel>
+                    <InputLabel id="camera-label">Lenses</InputLabel>
                     <Select
                       labelId="camera-label"
                       id="category-select"
@@ -284,7 +279,7 @@ function ArtForm({
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
                 type="text"
-                label="About the art"
+                label="About"
                 variant="outlined"
                 fullWidth
                 style={{ marginBottom: 4 }}
@@ -297,7 +292,7 @@ function ArtForm({
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
-                placeholder="labels"
+                placeholder="Labels"
                 fullWidth
                 value={tagValue}
                 onChange={(event) => setTagValue(event.target.value)}
@@ -500,14 +495,18 @@ function ArtForm({
               {isUpdate ? "Update" : "Create"}
             </Button>
             {firstArt && (
-              <Button
-                style={{ marginLeft: "auto" }}
+              <Typography
+                style={{
+                  marginLeft: "auto",
+                  textDecoration: "underline",
+                  opacity: !artist && "0.3",
+                }}
                 variant="outlined"
                 onClick={() => navigate("/explore")}
-                disabled={!artist}
+                className="skyp-text"
               >
-                Go to explore
-              </Button>
+                Skip
+              </Typography>
             )}
           </Box>
           <Box

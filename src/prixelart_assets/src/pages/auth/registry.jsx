@@ -49,15 +49,12 @@ function Registry({}) {
   const [phone, setPhone] = useState("");
   const [about, setAbout] = useState("");
   const [assetProfile, setAssetProfile] = useState();
-  const [imageProfile, setImageProfile] = useState(
-    "https://via.placeholder.com/300.png/09f/fff"
-  );
+  const [imageProfile, setImageProfile] = useState();
   const [artType, setArtType] = useState("");
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [message, setMessage] = useState(undefined);
   const [severity, setSeverity] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(assetProfile);
   const [tools] = useState([
     {
       id: 1,
@@ -174,7 +171,7 @@ function Registry({}) {
               </>
             ) : (
               <>
-                <Typography variant="h4">Welcome!</Typography>
+                <Typography variant="h4">Welcome</Typography>
                 <Paper elevation={3} style={{ padding: "24px" }}>
                   {!isUserData ? (
                     <>

@@ -92398,12 +92398,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mui/lab/Masonry */ "./node_modules/@mui/lab/Masonry/Masonry.js");
-/* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/IconButton.js");
-/* harmony import */ var _mui_icons_material_FavoriteBorder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/icons-material/FavoriteBorder */ "./node_modules/@mui/icons-material/FavoriteBorder.js");
-/* harmony import */ var _mui_icons_material_Favorite__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/icons-material/Favorite */ "./node_modules/@mui/icons-material/Favorite.js");
-/* harmony import */ var _mui_icons_material_Comment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/icons-material/Comment */ "./node_modules/@mui/icons-material/Comment.js");
-/* harmony import */ var _pages_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../pages/service */ "./src/prixelart_assets/src/pages/service.js");
+/* harmony import */ var _mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/lab/Masonry */ "./node_modules/@mui/lab/Masonry/Masonry.js");
+/* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/IconButton.js");
+/* harmony import */ var _mui_icons_material_FavoriteBorder__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/icons-material/FavoriteBorder */ "./node_modules/@mui/icons-material/FavoriteBorder.js");
+/* harmony import */ var _mui_icons_material_Favorite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/icons-material/Favorite */ "./node_modules/@mui/icons-material/Favorite.js");
+/* harmony import */ var _mui_icons_material_Comment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/icons-material/Comment */ "./node_modules/@mui/icons-material/Comment.js");
+/* harmony import */ var _consts_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../consts/index */ "./src/prixelart_assets/src/consts/index.js");
+/* harmony import */ var _pages_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pages/service */ "./src/prixelart_assets/src/pages/service.js");
+
 
 
 
@@ -92412,10 +92414,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ListArts({ arts, navigate, setDetails, details, search }) {
-    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_2__["default"], { columns: 3, spacing: 0.2 }, arts === null || arts === void 0 ? void 0 : arts.filter((item) => item.post.postBasics.title
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_lab_Masonry__WEBPACK_IMPORTED_MODULE_3__["default"], { columns: 3, spacing: 0.2 }, arts === null || arts === void 0 ? void 0 : arts.filter((item) => item.post.postBasics.title
         .toLowerCase()
         .includes(search.toLowerCase())).map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index },
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { onClick: () => navigate(`/post/${item.postId}`), src: `${item.post.postBasics.asset}`, srcSet: `${item.post.postBasics.asset}`, alt: index, loading: "lazy", style: {
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { onClick: () => navigate(`/post/${item.postId}`), src: _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl(_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_SOCIALS, `${item.postId}`), srcSet: _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUrl(_consts_index__WEBPACK_IMPORTED_MODULE_1__["default"].ASSET_CANISTER_ID_SOCIALS, `${item.postId}`), alt: index, loading: "lazy", style: {
                 display: "block",
                 width: "100%",
             } }),
@@ -92428,17 +92430,17 @@ function ListArts({ arts, navigate, setDetails, details, search }) {
                 alignItems: "center",
                 color: "white",
             } },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_3__["default"], { style: { color: "white" }, size: "small", onClick: () => {
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_4__["default"], { style: { color: "white" }, size: "small", onClick: () => {
                     if (item.likedByCaller) {
-                        _pages_service__WEBPACK_IMPORTED_MODULE_1__["default"].removeLike(item.postId);
+                        _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].removeLike(item.postId);
                     }
                     else {
-                        _pages_service__WEBPACK_IMPORTED_MODULE_1__["default"].addLike(item.postId);
+                        _pages_service__WEBPACK_IMPORTED_MODULE_2__["default"].addLike(item.postId);
                     }
                     handleLikePost(item.postId);
-                } }, item.likedByCaller ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Favorite__WEBPACK_IMPORTED_MODULE_4__["default"], { fontSize: "small" })) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_FavoriteBorder__WEBPACK_IMPORTED_MODULE_5__["default"], { fontSize: "small" }))),
+                } }, item.likedByCaller ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Favorite__WEBPACK_IMPORTED_MODULE_5__["default"], { fontSize: "small" })) : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_FavoriteBorder__WEBPACK_IMPORTED_MODULE_6__["default"], { fontSize: "small" }))),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: { paddingTop: 3 } }, parseInt(item.likesQty)),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Comment__WEBPACK_IMPORTED_MODULE_6__["default"], { fontSize: "small", style: { marginLeft: 12, paddingTop: 2 } }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_icons_material_Comment__WEBPACK_IMPORTED_MODULE_7__["default"], { fontSize: "small", style: { marginLeft: 12, paddingTop: 2 } }),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: { paddingTop: 3, marginLeft: 6 } }, parseInt(item.comments.length === 0 ? 0 : item.comments[0].length))))))));
     function handleLikePost(postId) {
         const posts = [...arts];
@@ -94612,8 +94614,8 @@ function Profile() {
                                 ["email", { Text: email }],
                                 ["phone", { Text: phone }],
                                 ["about", { Text: about }],
-                                ["canisterId", { Principal: artist.canisterId }],
-                                ["assetCanId", { Principal: artist.assetCanisterId }],
+                                // ["canisterId", { Principal: artist.canisterId }],
+                                // ["assetCanId", { Principal: artist.assetCanisterId }],
                                 [
                                     "cameras",
                                     {
@@ -94825,8 +94827,8 @@ function Profile() {
                 ["displayName", { Text: artist.displayName }],
                 // ["avatarAsset", { Vec: { False: null } }],
                 ["bannerAsset", { Vec: [{ Slice: data2 }, { True: null }] }],
-                ["canisterId", { Principal: artist.canisterId }],
-                ["assetCanId", { Principal: artist.assetCanisterId }],
+                // ["canisterId", { Principal: artist.canisterId }],
+                // ["assetCanId", { Principal: artist.assetCanisterId }],
                 ["location", { Text: artist.location }],
                 ["email", { Text: artist.email }],
                 ["phone", { Text: artist.phone }],

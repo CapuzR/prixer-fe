@@ -19,6 +19,7 @@ import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import EditIcon from "@mui/icons-material/Edit";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import consts from "../../consts/index";
 import service from "../service";
@@ -32,6 +33,7 @@ import ListArts from "../../components/listArts";
 import DialogFollowers from "../../components/dialogFollowers";
 import ListGalleries from "../../components/listGalleries";
 import SearchBar from "../../components/searchBar";
+import DialogConfirmDelete from "../../components/dialogConfirmDelete";
 
 function Profile() {
   const navigate = useNavigate();
@@ -64,6 +66,9 @@ function Profile() {
   const [isDialogFollowersOpen, setIsDialogFollowersOpen] = useState(false);
   const [viewDialogFollowers, setViewDialogFollowers] = useState("");
   const [search, setSearch] = useState("");
+  const [openDelete, setOpenDelete] = useState(false);
+  const [typeDelete, setTypeDelete] = useState("");
+
   ///FORM PROFILE
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -190,7 +195,13 @@ function Profile() {
     >
       <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
       <Box style={{ paddingTop: toolbarHeight }}>
-        {isEditProfile ? (
+        {isLoading ? (
+          <Box
+            style={{ display: "flex", justifyContent: "center", marginTop: 32 }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : isEditProfile ? (
           <Box style={{ padding: 16 }}>
             <Box style={{ display: "flex", alignItems: "center" }}>
               <Typography variant="h4">
@@ -399,12 +410,8 @@ function Profile() {
                 <MenuItem
                   style={{ color: "red" }}
                   onClick={async () => {
-                    setIsLoading(true);
-                    setAnchorElActionMenuProfile(null);
-                    setOpenActionMenuProfile(false);
-                    await service.deleteArtist();
-                    navigate("/login");
-                    setIsLoading(false);
+                    setOpenDelete(true);
+                    setTypeDelete("profile");
                   }}
                 >
                   Delete profile
@@ -434,7 +441,7 @@ function Profile() {
                   fullWidth
                   onClick={() => setProfileScreen(consts.PROFILE_SCREEN_ART)}
                 >
-                  Art
+                  Posts
                 </Button>
               </Box>
               <Box style={{ width: "50%" }}>
@@ -545,7 +552,7 @@ function Profile() {
                     navigate("/addArt");
                   }}
                 >
-                  Create Art
+                  Add post
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
@@ -554,7 +561,7 @@ function Profile() {
                     navigate("/addGallery");
                   }}
                 >
-                  Create Gallery
+                  Add gallery
                 </MenuItem>
               </Menu>
             </>
@@ -580,6 +587,20 @@ function Profile() {
       >
         <Alert severity={severity}>{message}</Alert>
       </Snackbar>
+      <DialogConfirmDelete
+        open={openDelete}
+        setOpen={setOpenDelete}
+        type={typeDelete}
+        onDelete={async () => {
+          setIsLoading(true);
+          setOpenDelete(false);
+          setAnchorElActionMenuProfile(null);
+          setOpenActionMenuProfile(false);
+          await service.deleteArtist();
+          navigate("/login");
+          setIsLoading(false);
+        }}
+      />
     </div>
   );
 

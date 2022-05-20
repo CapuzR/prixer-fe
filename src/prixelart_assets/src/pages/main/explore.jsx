@@ -280,7 +280,7 @@ function Explore() {
                 setOpenActionMenu(false);
               }}
             >
-              Create Art
+              Add post
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -289,7 +289,7 @@ function Explore() {
                 navigate("/addGallery");
               }}
             >
-              Create Gallery
+              Add gallery
             </MenuItem>
           </Menu>
         </>
