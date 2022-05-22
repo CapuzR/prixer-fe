@@ -689,19 +689,32 @@ function Profile() {
 
   async function handleChangeBanner(event) {
     setIsLoadingChangeBanner(true);
+
     const file = event.target.files[0];
 
-    const config = {
+    let config = {
       quality: 1,
-      maxWidth: 600,
-      maxHeight: 600,
+      maxWidth: 1000,
+      maxHeight: 1000,
       autoRotate: true,
       debug: true,
     };
-    const resizedImage = await readAndCompressImage(file, config);
-    const data2 = [...new Uint8Array(await resizedImage.arrayBuffer())];
 
-    const data = [...new Uint8Array(await file.arrayBuffer())];
+    let resizedImage = await readAndCompressImage(file, config);
+
+    while (resizedImage.size > 300000) {
+      config = {
+        quality: 1,
+        maxWidth: config.maxWidth - 50,
+        maxHeight: config.maxWidth - 50,
+        autoRotate: true,
+        debug: true,
+      };
+      resizedImage = await readAndCompressImage(file, config);
+    }
+
+    const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
+
     const parseCameras = artist.cameras.map((camera) => {
       return {
         Text: camera.Text,
@@ -722,7 +735,7 @@ function Profile() {
         ["username", { Text: artist.username }],
         ["displayName", { Text: artist.displayName }],
         // ["avatarAsset", { Vec: { False: null } }],
-        ["bannerAsset", { Vec: [{ Slice: data2 }, { True: null }] }],
+        ["bannerAsset", { Vec: [{ Slice: data }, { True: null }] }],
         // ["canisterId", { Principal: artist.canisterId }],
         // ["assetCanId", { Principal: artist.assetCanisterId }],
         ["location", { Text: artist.location }],
@@ -765,21 +778,35 @@ function Profile() {
   }
 
   async function handleChangeAvatarProfile(e) {
-    const file = e.target.files[0];
-    const config = {
+    const file = event.target.files[0];
+
+    let config = {
       quality: 1,
-      maxWidth: 600,
-      maxHeight: 600,
+      maxWidth: 200,
+      maxHeight: 200,
       autoRotate: true,
       debug: true,
     };
-    const resizedString = await convertToBase64(file);
-    const resizedImage = await readAndCompressImage(file, config);
-    const data2 = [...new Uint8Array(await resizedImage.arrayBuffer())];
 
-    const data = [...new Uint8Array(await file.arrayBuffer())];
+    let resizedImage = await readAndCompressImage(file, config);
+
+    while (resizedImage.size > 300000) {
+      config = {
+        quality: 1,
+        maxWidth: config.maxWidth - 50,
+        maxHeight: config.maxWidth - 50,
+        autoRotate: true,
+        debug: true,
+      };
+      resizedImage = await readAndCompressImage(file, config);
+    }
+
+    const resizedString = await convertToBase64(file);
+    const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
+
+    setAssetProfile(data);
+
     setImageProfile(resizedString);
-    setAssetProfile(data2);
   }
 
   function getGalleryImage(id) {

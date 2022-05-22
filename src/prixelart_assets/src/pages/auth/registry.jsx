@@ -650,27 +650,42 @@ function Registry({}) {
     });
   }
 
-  async function handleChangeAvatarProfile(e) {
-    const file = e.target.files[0];
+  async function handleChangeAvatarProfile(event) {
+    const file = event.target.files[0];
 
-    const config = {
+    let config = {
       quality: 1,
       maxWidth: 200,
       maxHeight: 200,
       autoRotate: true,
       debug: true,
     };
+
+    let resizedImage = await readAndCompressImage(file, config);
+
+    while (resizedImage.size > 300000) {
+      config = {
+        quality: 1,
+        maxWidth: config.maxWidth - 50,
+        maxHeight: config.maxWidth - 50,
+        autoRotate: true,
+        debug: true,
+      };
+      resizedImage = await readAndCompressImage(file, config);
+    }
+
     const resizedString = await convertToBase64(file);
-    const resizedImage = await readAndCompressImage(file, config);
-    const data2 = [...new Uint8Array(await resizedImage.arrayBuffer())];
+    const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
+
+    setAssetProfile(data);
+
     setImageProfile(resizedString);
-    setAssetProfile(data2);
   }
 
   async function handleChange(event) {
     const file = event.target.files[0];
 
-    const config = {
+    let config = {
       quality: 1,
       maxWidth: 600,
       maxHeight: 600,
@@ -678,10 +693,24 @@ function Registry({}) {
       debug: true,
     };
 
-    const resizedImage = await readAndCompressImage(file, config);
+    let resizedImage = await readAndCompressImage(file, config);
+
+    while (resizedImage.size > 300000) {
+      config = {
+        quality: 1,
+        maxWidth: config.maxWidth - 50,
+        maxHeight: config.maxWidth - 50,
+        autoRotate: true,
+        debug: true,
+      };
+      resizedImage = await readAndCompressImage(file, config);
+    }
+
     const resizedString = await convertToBase64(file);
     const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
+
     setBlob(data);
+
     setAsset(resizedString);
   }
 
