@@ -16,7 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -65,16 +65,10 @@ function ArtDetail({
     <Box>
       <Box style={{ padding: 16 }}>
         <Box style={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h4">Post Detail</Typography>
-
-          <IconButton
-            color="primary"
-            onClick={() => navigate(-1)}
-            style={{ marginLeft: "auto" }}
-          >
-            {" "}
-            <ArrowCircleLeftOutlinedIcon fontSize="large" />
+          <IconButton color="primary" onClick={() => navigate(-1)}>
+            <ArrowBackIcon fontSize="medium" />
           </IconButton>
+          <Typography variant="h6">Post Detail</Typography>
         </Box>
       </Box>
       <img

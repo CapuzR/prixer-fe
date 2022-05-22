@@ -171,7 +171,101 @@ function Registry({}) {
               </>
             ) : (
               <>
-                <Typography variant="h4">Welcome</Typography>
+                <Box
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 8,
+                  }}
+                >
+                  <Typography
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      width: "100%",
+                    }}
+                    variant="h6"
+                  >
+                    Welcome
+                  </Typography>
+                  {!isAddFirstArt && (
+                    <Button
+                      onClick={() => {
+                        if (
+                          !username ||
+                          !displayName ||
+                          !givenName ||
+                          !familyName ||
+                          !location ||
+                          !email ||
+                          !phone ||
+                          !about ||
+                          !artType ||
+                          !assetProfile ||
+                          !regexForEmail.test(email) ||
+                          selectedCameras.length === 0 ||
+                          selectedLens.length === 0
+                        ) {
+                          setIsSnackbarOpen(true);
+                          setSeverity("error");
+                          setMessage("please complete the form");
+                        } else {
+                          const parseCameras = selectedCameras.map(
+                            (camera) => ({
+                              Text: camera,
+                            })
+                          );
+                          const parseLens = selectedLens.map((lens) => ({
+                            Text: lens,
+                          }));
+                          onCreateArtist(
+                            {
+                              description: "Artista de prueba",
+                              details: [
+                                ["firstName", { Text: givenName }],
+                                ["lastName", { Text: familyName }],
+                                ["artType", { Text: artType }],
+                                ["username", { Text: username }],
+                                ["displayName", { Text: displayName }],
+                                ["location", { Text: location }],
+                                ["email", { Text: email }],
+                                ["phone", { Text: phone }],
+                                ["about", { Text: about }],
+                                ["avatarAsset", { Slice: assetProfile }],
+                                [
+                                  "cameras",
+                                  {
+                                    Vec: parseCameras,
+                                  },
+                                ],
+                                [
+                                  "lens",
+                                  {
+                                    Vec: parseLens,
+                                  },
+                                ],
+                              ],
+                              frontend: [],
+                              name: `${givenName} ${familyName}`,
+                              principal_id: JSON.parse(
+                                localStorage.getItem("_scApp")
+                              ).principal,
+                              thumbnail: "",
+                            },
+                            username
+                          );
+                        }
+                      }}
+                      style={{
+                        color: "#5DBB63",
+                        position: "absolute",
+                        right: 35,
+                      }}
+                    >
+                      Create
+                    </Button>
+                  )}
+                </Box>
                 <Paper elevation={3} style={{ padding: "24px" }}>
                   {!isUserData ? (
                     <>
@@ -532,77 +626,6 @@ function Registry({}) {
             )}
           </Box>
         </Box>
-        {!isAddFirstArt && (
-          <Fab
-            color="primary"
-            aria-label="add"
-            style={{ position: "absolute", bottom: 16, right: 16 }}
-            disabled={
-              !username ||
-              !displayName ||
-              !givenName ||
-              !familyName ||
-              !location ||
-              !email ||
-              !phone ||
-              !about ||
-              !artType ||
-              !assetProfile ||
-              !regexForEmail.test(email) ||
-              selectedCameras.length === 0 ||
-              selectedLens.length === 0
-            }
-            onClick={async () => {
-              const parseCameras = selectedCameras.map((camera) => ({
-                Text: camera,
-              }));
-              const parseLens = selectedLens.map((lens) => ({
-                Text: lens,
-              }));
-              onCreateArtist(
-                {
-                  description: "Artista de prueba",
-                  details: [
-                    ["firstName", { Text: givenName }],
-                    ["lastName", { Text: familyName }],
-                    ["artType", { Text: artType }],
-                    ["username", { Text: username }],
-                    ["displayName", { Text: displayName }],
-                    ["location", { Text: location }],
-                    ["email", { Text: email }],
-                    ["phone", { Text: phone }],
-                    ["about", { Text: about }],
-                    ["avatarAsset", { Slice: assetProfile }],
-                    [
-                      "cameras",
-                      {
-                        Vec: parseCameras,
-                      },
-                    ],
-                    [
-                      "lens",
-                      {
-                        Vec: parseLens,
-                      },
-                    ],
-                  ],
-                  frontend: [],
-                  name: `${givenName} ${familyName}`,
-                  principal_id: JSON.parse(localStorage.getItem("_scApp"))
-                    .principal,
-                  thumbnail: "",
-                },
-                username
-              );
-            }}
-          >
-            {isLoading ? (
-              <CircularProgress style={{ color: "#FFFFFF" }} />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </Fab>
-        )}
       </div>
       <Snackbar
         autoHideDuration={3000}
@@ -640,7 +663,6 @@ function Registry({}) {
     const resizedString = await convertToBase64(file);
     const resizedImage = await readAndCompressImage(file, config);
     const data2 = [...new Uint8Array(await resizedImage.arrayBuffer())];
-    const data = [...new Uint8Array(await file.arrayBuffer())];
     setImageProfile(resizedString);
     setAssetProfile(data2);
   }
@@ -662,15 +684,6 @@ function Registry({}) {
     setBlob(data);
     setAsset(resizedString);
   }
-
-  // async function handleChange(e) {
-  //   const file = e.target.files[0];
-  //   const resizedString = await convertToBase64(file);
-
-  //   const data = [...new Uint8Array(await file.arrayBuffer())];
-  //   setImage(resizedString);
-  //   setAsset(data);
-  // }
 
   function onHandleScreem(screen) {
     setIsUserData(screen);
@@ -694,7 +707,6 @@ function Registry({}) {
   }
 
   async function onCreateArtist(artist, username) {
-    console.log(artist);
     setIsLoading(true);
     setIsAddFirstArt(true);
     Promise.all([

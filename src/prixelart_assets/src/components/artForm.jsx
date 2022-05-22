@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, forwardRef } from "react";
 import * as React from "react";
 
 import Box from "@mui/material/Box";
@@ -15,9 +15,11 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import MenuItem from "@mui/material/MenuItem";
 import InputAdornment from "@mui/material/InputAdornment";
-
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
+import MuiAlert from "@mui/material/Alert";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 function ArtForm({
@@ -56,6 +58,14 @@ function ArtForm({
   firstArt,
   galleries,
 }) {
+  const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [message, setMessage] = useState(undefined);
+  const [severity, setSeverity] = useState(undefined);
+
   return (
     <Box style={{ padding: 24 }}>
       {/* <Button
@@ -72,17 +82,167 @@ function ArtForm({
             color="primary"
             onClick={() => (!isUpdate ? navigate(-1) : setIsEditPost(false))}
           >
-            <ArrowCircleLeftOutlinedIcon fontSize="large" />
+            <ArrowBackIcon fontSize="medium" />
           </IconButton>
         )}
-        <Typography variant="h4">
-          {firstArt ? "Add post" : isUpdate ? "Edit post" : "Add post"}
+        <Typography
+          variant="h6"
+          style={{ textAlign: "center", width: "-webkit-fill-available" }}
+        >
+          {firstArt ? "New post" : isUpdate ? "Edit post" : "New post"}
         </Typography>
+
+        <Button
+          onClick={async () => {
+            if (
+              !artTitle ||
+              !aboutArt ||
+              !artType ||
+              !artCamera ||
+              !lensArt ||
+              (!isUpdate && !asset) ||
+              !artCategory
+            ) {
+              setIsSnackbarOpen(true);
+              setSeverity("error");
+              setMessage("please complete the form");
+            } else {
+              if (isUpdate) {
+                service.updatePost(
+                  {
+                    artCategory: artCategory,
+                    artType: artType,
+                    description: aboutArt,
+                    details: [
+                      [
+                        "galleryId",
+                        { Text: galleryArt === "" ? "false" : galleryArt },
+                      ],
+                      [
+                        "location",
+                        { Text: artLocation === "" ? "false" : artLocation },
+                      ],
+
+                      [
+                        "camera",
+                        {
+                          Vec: [{ Text: artCamera }],
+                        },
+                      ],
+                      [
+                        "lens",
+                        {
+                          Vec: [{ Text: lensArt }],
+                        },
+                      ],
+                    ],
+                    tags: tagsArt,
+                    asset: "URL DE IMAGEN",
+                    title: artTitle,
+                    tools: [],
+                  },
+                  postId
+                );
+                setPost({
+                  ...post,
+                  post: {
+                    postBasics: {
+                      artCategory: artCategory,
+                      artType: artType,
+                      description: aboutArt,
+                      details: [
+                        [
+                          "galleryId",
+                          {
+                            Text: galleryArt === "" ? "false" : galleryArt,
+                          },
+                        ],
+                        [
+                          "location",
+                          {
+                            Text: artLocation === "" ? "false" : artLocation,
+                          },
+                        ],
+
+                        [
+                          "camera",
+                          {
+                            Vec: [{ Text: artCamera }],
+                          },
+                        ],
+                        [
+                          "lens",
+                          {
+                            Vec: [{ Text: lensArt }],
+                          },
+                        ],
+                      ],
+                      tags: tagsArt,
+                      asset: "URL DE IMAGEN",
+                      title: artTitle,
+                      tools: [],
+                    },
+                  },
+                });
+                setIsEditPost(false);
+              } else {
+                service.createPost(
+                  {
+                    artCategory: artCategory,
+                    artType: artType,
+                    description: aboutArt,
+                    details: [
+                      [
+                        "galleryId",
+                        { Text: galleryArt === "" ? "false" : galleryArt },
+                      ],
+                      [
+                        "location",
+                        { Text: artLocation === "" ? "false" : artLocation },
+                      ],
+
+                      [
+                        "camera",
+                        {
+                          Vec: [{ Text: artCamera }],
+                        },
+                      ],
+                      [
+                        "lens",
+                        {
+                          Vec: [{ Text: lensArt }],
+                        },
+                      ],
+                    ],
+                    tags: tagsArt,
+                    asset: "URL DE IMAGEN",
+                    title: artTitle,
+                    tools: [],
+                  },
+                  blob
+                );
+                navigate(firstArt ? "/explore" : "/main");
+              }
+            }
+          }}
+          style={{
+            marginLeft: !firstArt && "auto",
+            color: "#5DBB63",
+            position: firstArt && "absolute",
+            right: firstArt && 35,
+          }}
+        >
+          {isUpdate ? "Update" : "Add"}
+        </Button>
       </Box>
       <Grid container spacing={1}>
         <Paper
           elevation={5}
-          style={{ padding: 24, marginTop: 14, width: "100%" }}
+          style={{
+            padding: "24px 24px 0px 24px",
+            marginTop: 14,
+            width: "100%",
+          }}
         >
           <Grid container spacing={1}>
             {!isUpdate && (
@@ -114,7 +274,7 @@ function ArtForm({
                   </Button>
                 ) : (
                   <Button fullWidth component="label">
-                    <AddPhotoAlternateIcon style={{ height: 230, width: 80 }} />
+                    <AddPhotoAlternateIcon style={{ height: 112, width: 80 }} />
                     <input
                       type="file"
                       hidden
@@ -133,7 +293,7 @@ function ArtForm({
               lg={isUpdate ? 12 : 8}
               xl={isUpdate ? 12 : 8}
             >
-              <Box style={{ display: "flex" }}>
+              <Box style={{ display: "flex", marginBottom: 8 }}>
                 <Box style={{ width: "50%", marginRight: 4 }}>
                   <TextField
                     type="text"
@@ -141,7 +301,6 @@ function ArtForm({
                     variant="outlined"
                     required
                     fullWidth
-                    style={{ marginBottom: 4 }}
                     value={artTitle}
                     onChange={(event) => setArtTitle(event.target.value)}
                   />
@@ -168,7 +327,7 @@ function ArtForm({
                   </FormControl>
                 </Box>
               </Box>
-              <Box style={{ display: "flex" }}>
+              <Box style={{ display: "flex", marginBottom: 8 }}>
                 <Box style={{ width: "50%", marginRight: 4 }}>
                   <FormControl style={{ marginBottom: 4 }} required fullWidth>
                     <InputLabel id="category-label">Category</InputLabel>
@@ -228,7 +387,7 @@ function ArtForm({
                   </FormControl>
                 </Box>
                 <Box style={{ width: "50%" }}>
-                  <FormControl style={{ marginBottom: 4 }} required fullWidth>
+                  <FormControl required fullWidth>
                     <InputLabel id="camera-label">Lenses</InputLabel>
                     <Select
                       labelId="camera-label"
@@ -328,176 +487,10 @@ function ArtForm({
             </Box>
           </Grid>
           <Box style={{ marginTop: 12, display: "flex" }}>
-            <Button
-              disabled={
-                !artTitle ||
-                !aboutArt ||
-                !artType ||
-                !artCamera ||
-                !lensArt ||
-                (!isUpdate && !asset) ||
-                !artCategory
-              }
-              variant="outlined"
-              onClick={async () => {
-                if (isUpdate) {
-                  service.updatePost(
-                    {
-                      artCategory: artCategory,
-                      artType: artType,
-                      description: aboutArt,
-                      details: [
-                        [
-                          "galleryId",
-                          { Text: galleryArt === "" ? "false" : galleryArt },
-                        ],
-                        [
-                          "location",
-                          { Text: artLocation === "" ? "false" : artLocation },
-                        ],
-
-                        [
-                          "camera",
-                          {
-                            Vec: [{ Text: artCamera }],
-                          },
-                        ],
-                        [
-                          "lens",
-                          {
-                            Vec: [{ Text: lensArt }],
-                          },
-                        ],
-                      ],
-                      tags: tagsArt,
-                      asset: "URL DE IMAGEN",
-                      title: artTitle,
-                      tools: [],
-                    },
-                    postId
-                  );
-                  setPost({
-                    ...post,
-                    post: {
-                      postBasics: {
-                        artCategory: artCategory,
-                        artType: artType,
-                        description: aboutArt,
-                        details: [
-                          [
-                            "galleryId",
-                            {
-                              Text: galleryArt === "" ? "false" : galleryArt,
-                            },
-                          ],
-                          [
-                            "location",
-                            {
-                              Text: artLocation === "" ? "false" : artLocation,
-                            },
-                          ],
-
-                          [
-                            "camera",
-                            {
-                              Vec: [{ Text: artCamera }],
-                            },
-                          ],
-                          [
-                            "lens",
-                            {
-                              Vec: [{ Text: lensArt }],
-                            },
-                          ],
-                        ],
-                        tags: tagsArt,
-                        asset: "URL DE IMAGEN",
-                        title: artTitle,
-                        tools: [],
-                      },
-                    },
-                  });
-                  setIsEditPost(false);
-                } else {
-                  service.createPost(
-                    {
-                      artCategory: artCategory,
-                      artType: artType,
-                      description: aboutArt,
-                      details: [
-                        [
-                          "galleryId",
-                          { Text: galleryArt === "" ? "false" : galleryArt },
-                        ],
-                        [
-                          "location",
-                          { Text: artLocation === "" ? "false" : artLocation },
-                        ],
-
-                        [
-                          "camera",
-                          {
-                            Vec: [{ Text: artCamera }],
-                          },
-                        ],
-                        [
-                          "lens",
-                          {
-                            Vec: [{ Text: lensArt }],
-                          },
-                        ],
-                      ],
-                      tags: tagsArt,
-                      asset: "URL DE IMAGEN",
-                      title: artTitle,
-                      tools: [],
-                    },
-                    blob
-                  );
-                  // service._createPost(
-                  //   artist.canisterId,
-                  //   {
-                  //     artType: artType,
-                  //     description: aboutArt,
-                  //     details: [
-                  //       [
-                  //         "galleryId",
-                  //         { Text: galleryArt === "" ? "false" : galleryArt },
-                  //       ],
-                  //       [
-                  //         "location",
-                  //         { Text: artLocation === "" ? "false" : artLocation },
-                  //       ],
-
-                  //       [
-                  //         "camera",
-                  //         {
-                  //           Vec: [{ Text: artCamera }],
-                  //         },
-                  //       ],
-                  //       [
-                  //         "lens",
-                  //         {
-                  //           Vec: [{ Text: lensArt }],
-                  //         },
-                  //       ],
-                  //     ],
-                  //     tags: tagsArt,
-                  //     title: artTitle,
-                  //   },
-                  //   blob
-                  // );
-
-                  navigate(firstArt ? "/explore" : "/main");
-                }
-              }}
-            >
-              {isUpdate ? "Update" : "Create"}
-            </Button>
             {firstArt && (
               <Typography
                 style={{
-                  marginLeft: "auto",
+                  // marginLeft: "auto",
                   textDecoration: "underline",
                   opacity: !artist && "0.3",
                 }}
@@ -518,6 +511,16 @@ function ArtForm({
           ></Box>
         </Paper>
       </Grid>
+      <Snackbar
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        onClose={handleCloseSnackbar}
+        open={isSnackbarOpen}
+        TransitionComponent={SlideTransition}
+        style={{ display: isSnackbarOpen ? "flex" : "none" }}
+      >
+        <Alert severity={severity}>{message}</Alert>
+      </Snackbar>
     </Box>
   );
 
@@ -562,6 +565,17 @@ function ArtForm({
       ],
     });
     console.log(["CREATE ASSET AND ASSET CONTENT => "], result);
+  }
+
+  function SlideTransition(props) {
+    return <Slide {...props} direction="left" />;
+  }
+
+  function handleCloseSnackbar(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+    setIsSnackbarOpen(false);
   }
 }
 

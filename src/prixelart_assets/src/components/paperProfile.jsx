@@ -29,6 +29,7 @@ function PaperProfile({
   isLoadingFollows,
   setOpenDialogFollowers,
 }) {
+  console.log(artist);
   return (
     <Paper
       elevation={3}
@@ -58,7 +59,7 @@ function PaperProfile({
               <Avatar
                 src={service.getUrl(
                   consts.ASSET_CANISTER_ID_ARTIST,
-                  `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
+                  `A${artist?.principal.toText()}`
                 )}
                 style={{ width: 92, height: 92 }}
               />

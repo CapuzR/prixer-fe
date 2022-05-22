@@ -11,7 +11,7 @@ import Fab from "@mui/material/Fab";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
-import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
@@ -204,17 +204,15 @@ function Profile() {
         ) : isEditProfile ? (
           <Box style={{ padding: 16 }}>
             <Box style={{ display: "flex", alignItems: "center" }}>
-              <Typography variant="h4">
-                {isEditProfile ? "Profile" : "Your cameras & lenses"}
-              </Typography>
-
               <IconButton
                 color="primary"
                 onClick={() => setIsEditProfile(false)}
-                style={{ marginLeft: "auto" }}
               >
-                <ArrowCircleLeftOutlinedIcon fontSize="large" />
+                <ArrowBackIcon fontSize="medium" />
               </IconButton>
+              <Typography variant="h6">
+                {isEditProfile ? "Profile" : "Your cameras & lenses"}
+              </Typography>
             </Box>
             {editProfileScreen === consts.UPDATE_ARTIST_SCREEN_USER ? (
               <ProfileForm
@@ -350,25 +348,26 @@ function Profile() {
                 padding: "8px",
               }}
             >
-              {!isLoading && (
-                <IconButton
-                  disabled={isLoadingChangeBanner}
-                  size="small"
-                  style={{ marginLeft: "auto", backgroundColor: "#C5C5C5" }}
-                  component="label"
-                >
-                  {isLoadingChangeBanner ? (
-                    <CircularProgress size={32} />
-                  ) : (
-                    <EditIcon fontSize="small" color="primary" />
-                  )}
-                  <input
-                    type="file"
-                    hidden
-                    onChange={(event) => handleChangeBanner(event)}
-                  />
-                </IconButton>
-              )}
+              {artist?.username === localStorage.getItem("username") &&
+                !isLoading && (
+                  <IconButton
+                    disabled={isLoadingChangeBanner}
+                    size="small"
+                    style={{ marginLeft: "auto", backgroundColor: "#C5C5C5" }}
+                    component="label"
+                  >
+                    {isLoadingChangeBanner ? (
+                      <CircularProgress size={32} />
+                    ) : (
+                      <EditIcon fontSize="small" color="primary" />
+                    )}
+                    <input
+                      type="file"
+                      hidden
+                      onChange={(event) => handleChangeBanner(event)}
+                    />
+                  </IconButton>
+                )}
             </div>
             <Box>
               <PaperProfile

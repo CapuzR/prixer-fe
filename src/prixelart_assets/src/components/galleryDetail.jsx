@@ -5,14 +5,23 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Masonry from "@mui/lab/Masonry";
+import consts from "../consts/index";
 
-import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import service from "../pages/service";
 
 function GalleryDetailList({ galleries, posts, navigate, galleryId }) {
   return (
     <Box>
       <Box style={{ padding: 16 }}>
         <Box style={{ display: "flex", alignItems: "center" }}>
+          <IconButton
+            color="primary"
+            onClick={() => navigate(-1)}
+            // style={{ }}
+          >
+            <ArrowBackIcon fontSize="medium" />
+          </IconButton>
           <Typography
             style={{
               whiteSpace: "nowrap",
@@ -20,18 +29,10 @@ function GalleryDetailList({ galleries, posts, navigate, galleryId }) {
               textOverflow: "ellipsis",
               margiBottom: 8,
             }}
-            variant="h4"
+            variant="h6"
           >
             {galleries?.find((gallery) => gallery.id === galleryId)?.name}
           </Typography>
-
-          <IconButton
-            color="primary"
-            onClick={() => navigate(-1)}
-            style={{ marginLeft: "auto" }}
-          >
-            <ArrowCircleLeftOutlinedIcon fontSize="large" />
-          </IconButton>
         </Box>
         {posts.length === 0 ? (
           <Box
@@ -48,8 +49,14 @@ function GalleryDetailList({ galleries, posts, navigate, galleryId }) {
             {posts?.map((item, index) => (
               <div key={index} onClick={() => navigate(`/post/${item.postId}`)}>
                 <img
-                  src={`${item.post.postBasics.asset}`}
-                  srcSet={`${item.post.postBasics.asset}`}
+                  src={service.getUrl(
+                    consts.ASSET_CANISTER_ID_SOCIALS,
+                    `${item.postId}`
+                  )}
+                  srcSet={service.getUrl(
+                    consts.ASSET_CANISTER_ID_SOCIALS,
+                    `${item.postId}`
+                  )}
                   alt={item.postId}
                   loading="lazy"
                   style={{
