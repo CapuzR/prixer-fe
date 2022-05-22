@@ -18,7 +18,7 @@ function GalleryDetailList({ galleries, posts, navigate, galleryId }) {
           <IconButton
             color="primary"
             onClick={() => navigate(-1)}
-            // style={{ }}
+            style={{ position: "absolute" }}
           >
             <ArrowBackIcon fontSize="medium" />
           </IconButton>
@@ -28,6 +28,8 @@ function GalleryDetailList({ galleries, posts, navigate, galleryId }) {
               overflow: "hidden",
               textOverflow: "ellipsis",
               margiBottom: 8,
+              width: "100%",
+              textAlign: "center",
             }}
             variant="h6"
           >

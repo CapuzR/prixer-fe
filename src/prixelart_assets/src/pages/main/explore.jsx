@@ -67,9 +67,9 @@ function Explore() {
       //   localStorage.getItem("username")
       // );
 
+      const posts = await service.getPostsByCreation();
       setIsLoading(false);
 
-      const posts = await service.getPostsByCreation();
       setPosts(posts.ok);
     }
     initExplore();

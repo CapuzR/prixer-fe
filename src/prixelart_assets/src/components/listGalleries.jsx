@@ -20,6 +20,7 @@ function ListGalleries({
   setDetails,
   details,
   username,
+  getGalleryImage,
 }) {
   const [isLoading, setIsLoading] = useState(undefined);
 
@@ -33,11 +34,7 @@ function ListGalleries({
             <CardMedia
               component="img"
               height="180"
-              image={
-                item.image
-                  ? item.image.image
-                  : "https://images.unsplash.com/photo-1643310638896-b73dd89c4597?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0NTQwNjY0MA&ixlib=rb-1.2.1&q=80&w=1080"
-              }
+              image={getGalleryImage(item.id)}
               alt="image"
             />
             <CardContent>

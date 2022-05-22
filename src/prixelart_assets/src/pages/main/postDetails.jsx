@@ -68,6 +68,11 @@ function PostDetails() {
       const lens = post?.post?.postBasics?.details?.find((detail) => {
         return detail[0] === "lens";
       });
+      const gallery =  post?.post?.postBasics?.details?.find((detail) => {
+        return detail[0] === "galleryId";
+      });
+
+      console.log(gallery[1], "GALLERIA")
       setArtTitle(post?.post?.postBasics?.title);
       setAboutArt(post?.post?.postBasics?.description);
       setArtType(post?.post?.postBasics?.artType);
@@ -76,9 +81,10 @@ function PostDetails() {
       setArtLocation(location[1].Text);
       setArtCamera(camera[1].Vec[0].Text);
       setLensArt(lens[1].Vec[0].Text);
+      setGalleryArt(gallery[1].Text)
     }
   }, [isEditPost]);
-
+  console.log(galleryArt)
   return (
     <div
       style={{

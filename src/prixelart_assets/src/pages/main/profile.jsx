@@ -489,6 +489,7 @@ function Profile() {
                 />
               ) : (
                 <ListGalleries
+                  getGalleryImage={getGalleryImage}
                   galleries={galleries}
                   navigate={navigate}
                   setGalleries={setGalleries}
@@ -777,6 +778,23 @@ function Profile() {
     setImageProfile(resizedString);
     setAssetProfile(data2);
   }
+
+  function getGalleryImage(id) {
+    const posts = details?.postsRead[0];
+    let postBD;
+    posts.map((post) =>
+      post.post.postBasics.details.map((detail) => {
+        if (detail[1].Text === id) {
+          postBD = post;
+        }
+      })
+    );
+    return service.getUrl(consts.ASSET_CANISTER_ID_SOCIALS, `${postBD.postId}`);
+  }
 }
 
 export default Profile;
+service.getUrl(
+  consts.ASSET_CANISTER_ID_ARTIST,
+  `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
+);

@@ -65,10 +65,19 @@ function ArtDetail({
     <Box>
       <Box style={{ padding: 16 }}>
         <Box style={{ display: "flex", alignItems: "center" }}>
-          <IconButton color="primary" onClick={() => navigate(-1)}>
+          <IconButton
+            style={{ position: "absolute" }}
+            color="primary"
+            onClick={() => navigate(-1)}
+          >
             <ArrowBackIcon fontSize="medium" />
           </IconButton>
-          <Typography variant="h6">Post Detail</Typography>
+          <Typography
+            variant="h6"
+            style={{ width: "100%", textAlign: "center" }}
+          >
+            Post Detail
+          </Typography>
         </Box>
       </Box>
       <img

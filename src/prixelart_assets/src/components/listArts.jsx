@@ -42,7 +42,8 @@ function ListArts({ arts, navigate, setDetails, details, search }) {
                 backgroundColor: "#2D2D2D",
                 borderBottomLeftRadius: 4,
                 borderBottomRightRadius: 4,
-                height: 40,
+                height: 20,
+
                 display: "flex",
                 alignItems: "center",
                 color: "white",
@@ -61,17 +62,18 @@ function ListArts({ arts, navigate, setDetails, details, search }) {
                 }}
               >
                 {item.likedByCaller ? (
-                  <FavoriteIcon fontSize="small" />
+                  <FavoriteIcon style={{ width: 12 }} />
                 ) : (
-                  <FavoriteBorderIcon fontSize="small" />
+                  <FavoriteBorderIcon fontSize="small" style={{ width: 15 }} />
                 )}
               </IconButton>
-              <div style={{ paddingTop: 3 }}>{parseInt(item.likesQty)}</div>
+              <div style={{ paddingTop: 3, fontSize: 12 }}>
+                {parseInt(item.likesQty)}
+              </div>
               <CommentIcon
-                fontSize="small"
-                style={{ marginLeft: 12, paddingTop: 2 }}
+                style={{ marginLeft: 12, paddingTop: 2, width: 12 }}
               />
-              <div style={{ paddingTop: 3, marginLeft: 6 }}>
+              <div style={{ paddingTop: 3, marginLeft: 6, fontSize: 12 }}>
                 {parseInt(
                   item.comments.length === 0 ? 0 : item.comments[0].length
                 )}

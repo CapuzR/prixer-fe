@@ -56,7 +56,7 @@ function NavigationBar({
               fontWeight: "bold",
             }}
           >
-            <IconButton color="primary">
+            <IconButton disabled={true} color="primary">
               <StarIcon fontSize="large" />
             </IconButton>
           </Typography>
@@ -114,11 +114,7 @@ function NavigationBar({
         </Menu>
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
-        <IconButton
-          color="primary"
-          onClick={() => navigate("/explore")}
-          disabled={true}
-        >
+        <IconButton color="primary" onClick={() => navigate("/explore")}>
           <SearchIcon fontSize="large" />
         </IconButton>
       </Box>
