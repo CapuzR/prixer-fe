@@ -342,7 +342,10 @@ function Profile() {
                 display: "flex",
                 height: 100,
 
-                backgroundImage: `url(${artist?.banner})`,
+                backgroundImage: `url(${service.getUrl(
+                  consts.ASSET_CANISTER_ID_ARTIST,
+                  `B${artist?.principal.toText()}`
+                )})`,
                 backgroundSize: "cover",
                 alignItems: "flex-start",
                 padding: "8px",
