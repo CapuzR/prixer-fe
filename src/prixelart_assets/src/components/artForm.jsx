@@ -221,6 +221,39 @@ function ArtForm({
                   },
                   blob
                 );
+                service._createPost(
+                  artist.canisterId,
+                  {
+                    artType: artType,
+                    description: aboutArt,
+                    details: [
+                      [
+                        "galleryId",
+                        { Text: galleryArt === "" ? "false" : galleryArt },
+                      ],
+                      [
+                        "location",
+                        { Text: artLocation === "" ? "false" : artLocation },
+                      ],
+
+                      [
+                        "camera",
+                        {
+                          Vec: [{ Text: artCamera }],
+                        },
+                      ],
+                      [
+                        "lens",
+                        {
+                          Vec: [{ Text: lensArt }],
+                        },
+                      ],
+                    ],
+                    tags: tagsArt,
+                    title: artTitle,
+                  },
+                  blob
+                );
                 navigate(firstArt ? "/explore" : "/main");
               }
             }
