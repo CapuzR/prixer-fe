@@ -264,6 +264,7 @@ async function _createPost(canisterId, post, asset) {
     updateThumbnail: true,
   });
   console.log("[CREATE ART PRIVATE] => ", result);
+  console.log("[CANISTER ID] => ", canisterId.toText());
   return result;
 }
 
