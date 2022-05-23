@@ -689,7 +689,6 @@ function Profile() {
 
   async function handleChangeBanner(event) {
     setIsLoadingChangeBanner(true);
-
     const file = event.target.files[0];
 
     let config = {
@@ -702,7 +701,7 @@ function Profile() {
 
     let resizedImage = await readAndCompressImage(file, config);
 
-    while (resizedImage.size > 300000) {
+    while (resizedImage.size > 25000) {
       config = {
         quality: 1,
         maxWidth: config.maxWidth - 50,
@@ -713,8 +712,8 @@ function Profile() {
       resizedImage = await readAndCompressImage(file, config);
     }
 
+    const resizedString = await convertToBase64(file);
     const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
-
     const parseCameras = artist.cameras.map((camera) => {
       return {
         Text: camera.Text,
@@ -790,7 +789,7 @@ function Profile() {
 
     let resizedImage = await readAndCompressImage(file, config);
 
-    while (resizedImage.size > 300000) {
+    while (resizedImage.size > 25000) {
       config = {
         quality: 1,
         maxWidth: config.maxWidth - 50,
@@ -803,18 +802,16 @@ function Profile() {
 
     const resizedString = await convertToBase64(file);
     const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
-
-    setAssetProfile(data);
-
     setImageProfile(resizedString);
+    setAssetProfile(data);
   }
 
   function getGalleryImage(id) {
     const posts = details?.postsRead[0];
     let postBD;
-    posts.map((post) =>
-      post.post.postBasics.details.map((detail) => {
-        if (detail[1].Text === id) {
+    posts?.map((post) =>
+      post?.post?.postBasics?.details?.map((detail) => {
+        if (detail[1]?.Text === id) {
           postBD = post;
         }
       })
@@ -824,7 +821,3 @@ function Profile() {
 }
 
 export default Profile;
-service.getUrl(
-  consts.ASSET_CANISTER_ID_ARTIST,
-  `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
-);

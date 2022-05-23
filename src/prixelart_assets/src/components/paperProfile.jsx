@@ -29,7 +29,6 @@ function PaperProfile({
   isLoadingFollows,
   setOpenDialogFollowers,
 }) {
-  console.log(artist);
   return (
     <Paper
       elevation={3}

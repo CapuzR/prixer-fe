@@ -663,7 +663,7 @@ function Registry({}) {
 
     let resizedImage = await readAndCompressImage(file, config);
 
-    while (resizedImage.size > 300000) {
+    while (resizedImage.size > 250000) {
       config = {
         quality: 1,
         maxWidth: config.maxWidth - 50,
@@ -695,7 +695,7 @@ function Registry({}) {
 
     let resizedImage = await readAndCompressImage(file, config);
 
-    while (resizedImage.size > 300000) {
+    while (resizedImage.size > 250000) {
       config = {
         quality: 1,
         maxWidth: config.maxWidth - 50,

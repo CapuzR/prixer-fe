@@ -113,7 +113,7 @@ function AddArt() {
 
     let resizedImage = await readAndCompressImage(file, config);
 
-    while (resizedImage.size > 300000) {
+    while (resizedImage.size > 25000) {
       config = {
         quality: 1,
         maxWidth: config.maxWidth - 50,
