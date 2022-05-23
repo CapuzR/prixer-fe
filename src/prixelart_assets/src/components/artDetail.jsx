@@ -85,10 +85,6 @@ function ArtDetail({
           consts.ASSET_CANISTER_ID_SOCIALS,
           `${post?.postId}`
         )}
-        srcSet={service.getUrl(
-          consts.ASSET_CANISTER_ID_SOCIALS,
-          `${post?.postId}`
-        )}
         alt={"image"}
         loading="lazy"
         style={{

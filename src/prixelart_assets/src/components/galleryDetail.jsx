@@ -55,10 +55,6 @@ function GalleryDetailList({ galleries, posts, navigate, galleryId }) {
                     consts.ASSET_CANISTER_ID_SOCIALS,
                     `${item.postId}`
                   )}
-                  srcSet={service.getUrl(
-                    consts.ASSET_CANISTER_ID_SOCIALS,
-                    `${item.postId}`
-                  )}
                   alt={item.postId}
                   loading="lazy"
                   style={{
