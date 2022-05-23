@@ -824,7 +824,9 @@ function Profile() {
         }
       })
     );
-    return service.getUrl(consts.ASSET_CANISTER_ID_SOCIALS, `${postBD.postId}`);
+    return postBD
+      ? service.getUrl(consts.ASSET_CANISTER_ID_SOCIALS, `${postBD?.postId}`)
+      : "https://images.unsplash.com/photo-1650797392850-8f787504247f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1MzI4Mjk4Nw&ixlib=rb-1.2.1&q=80&w=1080";
   }
 }
 
