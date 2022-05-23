@@ -140,12 +140,12 @@ function parseArtist(artist) {
     lens: artist[0].details.find(
       (detail) => detail[0] === consts.ARTIST_LENS
     )[1].Vec,
-    // canisterId: artist[0].details.find(
-    //   (detail) => detail[0] === consts.ARTIST_CANISTERID
-    // )[1].Principal,
-    // assetCanisterId: artist[0].details.find(
-    //   (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
-    // )[1].Principal,
+    canisterId: artist[0].details.find(
+      (detail) => detail[0] === consts.ARTIST_CANISTERID
+    )[1].Principal,
+    assetCanisterId: artist[0].details.find(
+      (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
+    )[1].Principal,
     banner: artist[0].details.find((detail) => detail[0] === "bannerAsset")
       ? getUrl(
           consts.ASSET_CANISTER_ID_ARTIST,
