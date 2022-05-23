@@ -210,9 +210,88 @@ function Profile() {
               >
                 <ArrowBackIcon fontSize="medium" />
               </IconButton>
-              <Typography variant="h6">
+              <Typography
+                variant="h6"
+                style={{ textAlign: "center", width: "-webkit-fill-available" }}
+              >
                 {isEditProfile ? "Profile" : "Your cameras & lenses"}
               </Typography>
+              <Button
+                onClick={() => {
+                  if (
+                    !regexForEmail.test(email) ||
+                    !username ||
+                    !displayName ||
+                    !givenName ||
+                    !familyName ||
+                    !location ||
+                    !email ||
+                    !phone ||
+                    !about ||
+                    !artType ||
+                    selectedCameras.length === 0 ||
+                    selectedLens.length === 0
+                  ) {
+                    setIsSnackbarOpen(true);
+                    setSeverity("error");
+                    setMessage("please complete the form");
+                  } else {
+                    const parseCameras = selectedCameras.map((camera) => ({
+                      Text: camera,
+                    }));
+                    const parseLens = selectedLens.map((lens) => ({
+                      Text: lens,
+                    }));
+                    onUpdateArtist({
+                      description: "Artista de prueba",
+                      details: [
+                        ["firstName", { Text: givenName }],
+                        ["lastName", { Text: familyName }],
+                        ["artType", { Text: artType }],
+                        ["username", { Text: username }],
+                        ["displayName", { Text: displayName }],
+                        [
+                          "avatarAsset",
+                          { Vec: [{ Slice: assetProfile }, { True: null }] },
+                        ],
+                        ["bannerAsset", { Vec: [{ False: null }] }],
+                        ["location", { Text: location }],
+                        ["email", { Text: email }],
+                        ["phone", { Text: phone }],
+                        ["about", { Text: about }],
+                        // ["canisterId", { Principal: artist.canisterId }],
+                        // ["assetCanId", { Principal: artist.assetCanisterId }],
+                        [
+                          "cameras",
+                          {
+                            Vec: parseCameras,
+                          },
+                        ],
+                        [
+                          "lens",
+                          {
+                            Vec: parseLens,
+                          },
+                        ],
+                      ],
+                      frontend: [],
+                      name: `${givenName} ${familyName}`,
+                      principal_id: JSON.parse(localStorage.getItem("_scApp"))
+                        .principal,
+
+                      thumbnail: `http://localhost:8000/A${
+                        JSON.parse(localStorage.getItem("_scApp")).principal
+                      }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`,
+                    });
+                  }
+                }}
+                style={{
+                  marginLeft: "auto",
+                  color: "#5DBB63",
+                }}
+              >
+                Update
+              </Button>
             </Box>
             {editProfileScreen === consts.UPDATE_ARTIST_SCREEN_USER ? (
               <ProfileForm
@@ -257,78 +336,7 @@ function Profile() {
                 setSelectedLens={setSelectedLens}
               />
             )}
-            <Box style={{ marginTop: 12 }}>
-              <Button
-                variant="outlined"
-                disabled={
-                  isLoading ||
-                  !regexForEmail.test(email) ||
-                  !username ||
-                  !displayName ||
-                  !givenName ||
-                  !familyName ||
-                  !location ||
-                  !email ||
-                  !phone ||
-                  !about ||
-                  !artType ||
-                  selectedCameras.length === 0 ||
-                  selectedLens.length === 0
-                  // !assetProfile
-                }
-                onClick={async () => {
-                  const parseCameras = selectedCameras.map((camera) => ({
-                    Text: camera,
-                  }));
-                  const parseLens = selectedLens.map((lens) => ({
-                    Text: lens,
-                  }));
-                  onUpdateArtist({
-                    description: "Artista de prueba",
-                    details: [
-                      ["firstName", { Text: givenName }],
-                      ["lastName", { Text: familyName }],
-                      ["artType", { Text: artType }],
-                      ["username", { Text: username }],
-                      ["displayName", { Text: displayName }],
-                      [
-                        "avatarAsset",
-                        { Vec: [{ Slice: assetProfile }, { True: null }] },
-                      ],
-                      ["bannerAsset", { Vec: [{ False: null }] }],
-                      ["location", { Text: location }],
-                      ["email", { Text: email }],
-                      ["phone", { Text: phone }],
-                      ["about", { Text: about }],
-                      // ["canisterId", { Principal: artist.canisterId }],
-                      // ["assetCanId", { Principal: artist.assetCanisterId }],
-                      [
-                        "cameras",
-                        {
-                          Vec: parseCameras,
-                        },
-                      ],
-                      [
-                        "lens",
-                        {
-                          Vec: parseLens,
-                        },
-                      ],
-                    ],
-                    frontend: [],
-                    name: `${givenName} ${familyName}`,
-                    principal_id: JSON.parse(localStorage.getItem("_scApp"))
-                      .principal,
 
-                    thumbnail: `http://localhost:8000/A${
-                      JSON.parse(localStorage.getItem("_scApp")).principal
-                    }?canisterId=rno2w-sqaaa-aaaaa-aaacq-cai`,
-                  });
-                }}
-              >
-                Update
-              </Button>
-            </Box>
             <HandleProfileForms
               isLoading={isLoading}
               editProfileScreen={editProfileScreen}
