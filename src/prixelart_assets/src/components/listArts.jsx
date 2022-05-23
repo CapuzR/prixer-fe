@@ -26,10 +26,6 @@ function ListArts({ arts, navigate, setDetails, details, search }) {
                 consts.ASSET_CANISTER_ID_SOCIALS,
                 `${item.postId}`
               )}
-              srcSet={service.getUrl(
-                consts.ASSET_CANISTER_ID_SOCIALS,
-                `${item.postId}`
-              )}
               alt={index}
               loading="lazy"
               style={{
