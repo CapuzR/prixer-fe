@@ -61,7 +61,7 @@ function ArtDetail({
   const [isLoadingForComments, setIsLoadingForComments] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [typeDelete, setTypeDelete] = useState("");
-
+  console.log(comments);
   return (
     <Box>
       <Box style={{ padding: 16 }}>
@@ -409,6 +409,22 @@ function ArtDetail({
                   id={"scroll-btn"}
                   disabled={commentToReply === ""}
                   onClick={async () => {
+                    const formatComment = [
+                      JSON.parse(localStorage.getItem("_scApp")).principal,
+                      localStorage.getItem("username"),
+                      `ID${localStorage.getItem("username")}-${
+                        comments.length === 0 ? "0" : comments.length + 1
+                      }`,
+                      {
+                        createdAt: new Date(),
+                        commentBasics: {
+                          content: commentToReply,
+                        },
+                      },
+                      "optimized",
+                    ];
+                    setComments([...comments, formatComment]);
+                    setCommentToReply("");
                     await service.createComment(comment[2], {
                       commentBasics: {
                         category: [],

@@ -29,7 +29,6 @@ function NavigationBar({
   params,
 }) {
   const location = useLocation();
-  console.log(location);
   return (
     <Paper
       elevation={5}
