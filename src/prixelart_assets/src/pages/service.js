@@ -153,6 +153,7 @@ function parseArtist(artist) {
         )
       : "https://images.unsplash.com/photo-1651135094094-7f2a48224da8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1MjcxNTgwMA&ixlib=rb-1.2.1&q=80&w=1080",
   };
+  console.log(artist[0].details.find((detail) => detail[0] === "bannerAsset"));
   return parseArtist;
 }
 
@@ -238,16 +239,7 @@ async function getPostsByCreation() {
   return result;
 }
 
-// async function artistRegistryActor(identity) {
-//   return await createArtistRegistryActor(artistRegistryCId, {
-//     agentOptions: {
-//       identity: identity,
-//     },
-//   });
-// }
-
 async function createPost(post, blob) {
-  console.log("[PAYLOAD] => ", { postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });
@@ -264,6 +256,7 @@ async function _createPost(canisterId, post, asset) {
     updateThumbnail: true,
   });
   console.log("[CREATE ART PRIVATE] => ", result);
+  console.log("[CANISTER ID] => ", canisterId.toText());
   return result;
 }
 
@@ -335,6 +328,7 @@ async function removeGallery(id) {
 }
 
 async function addLike(id) {
+  console.log(id);
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.addLike(id);

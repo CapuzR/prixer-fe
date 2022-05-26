@@ -350,10 +350,7 @@ function Profile() {
                 display: "flex",
                 height: 100,
 
-                backgroundImage: `url(${service.getUrl(
-                  consts.ASSET_CANISTER_ID_ARTIST,
-                  `B${artist?.principal.toText()}`
-                )})`,
+                backgroundImage: `url(${artist?.banner})`,
                 backgroundSize: "cover",
                 alignItems: "flex-start",
                 padding: "8px",
@@ -743,8 +740,8 @@ function Profile() {
         ["displayName", { Text: artist.displayName }],
         // ["avatarAsset", { Vec: { False: null } }],
         ["bannerAsset", { Vec: [{ Slice: data }, { True: null }] }],
-        // ["canisterId", { Principal: artist.canisterId }],
-        // ["assetCanId", { Principal: artist.assetCanisterId }],
+        ["canisterId", { Principal: artist.canisterId }],
+        ["assetCanId", { Principal: artist.assetCanisterId }],
         ["location", { Text: artist.location }],
         ["email", { Text: artist.email }],
         ["phone", { Text: artist.phone }],
