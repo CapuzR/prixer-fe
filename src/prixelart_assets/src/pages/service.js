@@ -140,12 +140,12 @@ function parseArtist(artist) {
     lens: artist[0].details.find(
       (detail) => detail[0] === consts.ARTIST_LENS
     )[1].Vec,
-    canisterId: artist[0].details.find(
-      (detail) => detail[0] === consts.ARTIST_CANISTERID
-    )[1].Principal,
-    assetCanisterId: artist[0].details.find(
-      (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
-    )[1].Principal,
+    // canisterId: artist[0].details.find(
+    //   (detail) => detail[0] === consts.ARTIST_CANISTERID
+    // )[1].Principal,
+    // assetCanisterId: artist[0].details.find(
+    //   (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
+    // )[1].Principal,
     banner: artist[0].details.find((detail) => detail[0] === "bannerAsset")
       ? getUrl(
           consts.ASSET_CANISTER_ID_ARTIST,
@@ -153,6 +153,7 @@ function parseArtist(artist) {
         )
       : "https://images.unsplash.com/photo-1651135094094-7f2a48224da8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1MjcxNTgwMA&ixlib=rb-1.2.1&q=80&w=1080",
   };
+  console.log(artist[0].details.find((detail) => detail[0] === "bannerAsset"));
   return parseArtist;
 }
 
@@ -172,10 +173,10 @@ async function addArtist(artist, username) {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.add(artist);
-  const resultCreateCanister = await actor.createArtistCan();
+  // const resultCreateCanister = await actor.createArtistCan();
   localStorage.setItem("username", username);
   console.log("[ADD ARTIST] => ", result);
-  console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
+  // console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
   return result;
 }
 
@@ -238,16 +239,7 @@ async function getPostsByCreation() {
   return result;
 }
 
-// async function artistRegistryActor(identity) {
-//   return await createArtistRegistryActor(artistRegistryCId, {
-//     agentOptions: {
-//       identity: identity,
-//     },
-//   });
-// }
-
 async function createPost(post, blob) {
-  console.log("[PAYLOAD] => ", { postBasics: post, postImage: blob });
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });
@@ -336,6 +328,7 @@ async function removeGallery(id) {
 }
 
 async function addLike(id) {
+  console.log(id);
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
   const result = await actor.addLike(id);

@@ -61,6 +61,7 @@ function ArtDetail({
   const [isLoadingForComments, setIsLoadingForComments] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [typeDelete, setTypeDelete] = useState("");
+
   return (
     <Box>
       <Box style={{ padding: 16 }}>
@@ -443,16 +444,22 @@ function ArtDetail({
             "aria-labelledby": `basic-button-post-${commentSelected}`,
           }}
         >
-          {localStorage.getItem("username") === commentUsername && (
-            <MenuItem
-              onClick={async () => {
-                setOpenDelete(true);
-                setTypeDelete("comment");
-              }}
-            >
-              Delete
-            </MenuItem>
-          )}
+          <MenuItem
+            onClick={async () => {
+              service.addLike(commentId);
+              setCommentSelected(undefined);
+              setAnchorElActionMenu(null);
+              setOpenActionMenu(false);
+              setCommentId(undefined);
+              // setIsReply(commentSelected);
+              // setCommentSelected(undefined);
+              // setAnchorElActionMenu(null);
+              // setOpenActionMenu(false);
+            }}
+          >
+            Like
+          </MenuItem>
+
           <MenuItem
             onClick={async () => {
               setIsReply(commentSelected);
@@ -463,6 +470,16 @@ function ArtDetail({
           >
             Reply
           </MenuItem>
+          {localStorage.getItem("username") === commentUsername && (
+            <MenuItem
+              onClick={async () => {
+                setOpenDelete(true);
+                setTypeDelete("comment");
+              }}
+            >
+              Delete
+            </MenuItem>
+          )}
         </Menu>
       )}
 

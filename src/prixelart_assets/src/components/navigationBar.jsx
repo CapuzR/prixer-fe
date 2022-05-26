@@ -1,5 +1,6 @@
 import React from "react";
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -11,7 +12,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
 import HomeIcon from "@mui/icons-material/Home";
-// import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
@@ -26,9 +26,10 @@ function NavigationBar({
   setIsCreateArt,
   setIsCrateGallery,
   navigate,
-  artist,
   params,
 }) {
+  const location = useLocation();
+  console.log(location);
   return (
     <Paper
       elevation={5}
@@ -43,7 +44,12 @@ function NavigationBar({
       }}
     >
       <Box style={{ width: "20%", textAlign: "center" }}>
-        <IconButton color="primary" onClick={() => navigate("/main")}>
+        <IconButton
+          onClick={() => navigate("/main")}
+          style={{
+            color: location.pathname === "/main" ? "#2D2D2D" : "#C5C5C5",
+          }}
+        >
           <HomeIcon fontSize="large" />
         </IconButton>
       </Box>
@@ -114,12 +120,22 @@ function NavigationBar({
         </Menu>
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
-        <IconButton color="primary" onClick={() => navigate("/explore")}>
+        <IconButton
+          color="primary"
+          onClick={() => navigate("/explore")}
+          style={{
+            color: location.pathname === "/explore" ? "#2D2D2D" : "#C5C5C5",
+          }}
+        >
           <SearchIcon fontSize="large" />
         </IconButton>
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
         <IconButton
+          style={{
+            color:
+              location.pathname.split("/")[1] === "u" ? "#2D2D2D" : "#C5C5C5",
+          }}
           color="primary"
           onClick={() => {
             if (params === localStorage.getItem("username")) {
