@@ -68,6 +68,7 @@ function Profile() {
   const [search, setSearch] = useState("");
   const [openDelete, setOpenDelete] = useState(false);
   const [typeDelete, setTypeDelete] = useState("");
+  const [imageBanner, setImageBanner] = useState();
 
   ///FORM PROFILE
   const [username, setUsername] = useState("");
@@ -350,7 +351,9 @@ function Profile() {
                 display: "flex",
                 height: 100,
 
-                backgroundImage: `url(${artist?.banner})`,
+                backgroundImage: `url(${
+                  imageBanner ? imageBanner : artist?.banner
+                })`,
                 backgroundSize: "cover",
                 alignItems: "flex-start",
                 padding: "8px",
@@ -718,6 +721,7 @@ function Profile() {
     }
 
     const resizedString = await convertToBase64(file);
+    setImageBanner(resizedString);
     const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
     const parseCameras = artist.cameras.map((camera) => {
       return {
@@ -740,8 +744,8 @@ function Profile() {
         ["displayName", { Text: artist.displayName }],
         // ["avatarAsset", { Vec: { False: null } }],
         ["bannerAsset", { Vec: [{ Slice: data }, { True: null }] }],
-        ["canisterId", { Principal: artist.canisterId }],
-        ["assetCanId", { Principal: artist.assetCanisterId }],
+        // ["canisterId", { Principal: artist.canisterId }],
+        // ["assetCanId", { Principal: artist.assetCanisterId }],
         ["location", { Text: artist.location }],
         ["email", { Text: artist.email }],
         ["phone", { Text: artist.phone }],
