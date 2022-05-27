@@ -67,7 +67,7 @@ function ArtForm({
   const [severity, setSeverity] = useState(undefined);
 
   return (
-    <Box style={{ padding: 24 }}>
+    <Box style={{ padding: 24, maxWidth: 1000, margin: "auto" }}>
       {/* <Button
         disabled={!artist}
         onClick={async () => {
@@ -295,7 +295,7 @@ function ArtForm({
                       alt="image"
                       style={{
                         width: "100%",
-                        maxHeight: 500,
+                        maxHeight: 184,
                         objectFit: "contain",
                       }}
                     />
@@ -307,7 +307,7 @@ function ArtForm({
                   </Button>
                 ) : (
                   <Button fullWidth component="label">
-                    <AddPhotoAlternateIcon style={{ height: 112, width: 80 }} />
+                    <AddPhotoAlternateIcon style={{ height: 184, width: 80 }} />
                     <input
                       type="file"
                       hidden

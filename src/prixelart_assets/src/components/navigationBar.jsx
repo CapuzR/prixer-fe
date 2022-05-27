@@ -40,6 +40,7 @@ function NavigationBar({
         position: "fixed",
         display: "flex",
         alignItems: "center",
+        // maxWidth: 1000,
       }}
     >
       <Box style={{ width: "20%", textAlign: "center" }}>

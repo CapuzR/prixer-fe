@@ -34,7 +34,7 @@ function GalleryForm({
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <Box style={{ padding: 24 }}>
+    <Box style={{ padding: 24, maxWidth: 1000, margin: "auto" }}>
       <Box style={{ display: "flex", alignItems: "center" }}>
         <IconButton color="primary" onClick={() => navigate(-1)}>
           <ArrowBackIcon fontSize="medium" />

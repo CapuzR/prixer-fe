@@ -61,10 +61,9 @@ function ArtDetail({
   const [isLoadingForComments, setIsLoadingForComments] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [typeDelete, setTypeDelete] = useState("");
-  console.log(comments);
   return (
     <Box>
-      <Box style={{ padding: 16 }}>
+      <Box style={{ padding: 16, maxWidth: 1000, margin: "auto" }}>
         <Box style={{ display: "flex", alignItems: "center" }}>
           <IconButton
             style={{ position: "absolute" }}
@@ -97,7 +96,7 @@ function ArtDetail({
           maxHeight: mobileBreakpoint && 650,
         }}
       />
-      <Box style={{ padding: 16 }}>
+      <Box style={{ padding: 16, maxWidth: 1000, margin: "auto" }}>
         <Box style={{ display: "flex" }}>
           <Box>
             <Box style={{ display: "flex", alignItems: "center" }}>

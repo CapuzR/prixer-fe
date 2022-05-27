@@ -89,6 +89,9 @@ function Main() {
                   alignItems: "center",
                   paddingLeft: 12,
                   paddingRight: 12,
+
+                  maxWidth: 1000,
+                  margin: "auto",
                 }}
               >
                 <Avatar
@@ -125,7 +128,14 @@ function Main() {
                   </IconButton>
                 </Box>
               </Box>
-              <Box style={{ marginTop: 4, marginBottom: 4 }}>
+              <Box
+                style={{
+                  marginTop: 4,
+                  marginBottom: 4,
+                  maxWidth: 1000,
+                  margin: "auto",
+                }}
+              >
                 <img
                   onClick={() => navigate(`/post/${item.postId}`)}
                   src={service.getUrl(
@@ -150,6 +160,8 @@ function Main() {
                     display: "flex",
                     alignItems: "center",
                     color: "white",
+                    maxWidth: 1000,
+                    margin: "auto",
                   }}
                 >
                   <IconButton

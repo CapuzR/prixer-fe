@@ -203,7 +203,7 @@ function Profile() {
             <CircularProgress />
           </Box>
         ) : isEditProfile ? (
-          <Box style={{ padding: 16 }}>
+          <Box style={{ padding: 16, maxWidth: 1000, margin: "auto" }}>
             <Box style={{ display: "flex", alignItems: "center" }}>
               <IconButton
                 color="primary"
@@ -352,7 +352,12 @@ function Profile() {
                 height: 100,
 
                 backgroundImage: `url(${
-                  imageBanner ? imageBanner : artist?.banner
+                  imageBanner
+                    ? imageBanner
+                    : service.getUrl(
+                        consts.ASSET_CANISTER_ID_ARTIST,
+                        `B${artist?.principal.toText()}`
+                      )
                 })`,
                 backgroundSize: "cover",
                 alignItems: "flex-start",
@@ -475,7 +480,14 @@ function Profile() {
               </Box>
             </Box>
             {!isLoading && profileScreen === consts.PROFILE_SCREEN_ART && (
-              <Box style={{ width: "100%", padding: 16 }}>
+              <Box
+                style={{
+                  width: "100%",
+                  padding: 16,
+                  maxWidth: 1000,
+                  margin: "auto",
+                }}
+              >
                 <SearchBar search={search} setSearch={setSearch} />
               </Box>
             )}
@@ -733,7 +745,6 @@ function Profile() {
         Text: lens.Text,
       };
     });
-    // console.log(parsedCameras);
     await service.updateArtist({
       description: "Artista de prueba",
       details: [

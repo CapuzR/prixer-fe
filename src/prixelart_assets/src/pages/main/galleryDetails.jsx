@@ -60,7 +60,9 @@ function GalleryDetails() {
       }}
     >
       <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
-      <Box style={{ paddingTop: toolbarHeight }}>
+      <Box
+        style={{ paddingTop: toolbarHeight, maxWidth: 1000, margin: "auto" }}
+      >
         {posts ? (
           <GalleryDetailList
             navigate={navigate}

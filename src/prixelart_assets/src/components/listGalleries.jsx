@@ -25,7 +25,7 @@ function ListGalleries({
   const [isLoading, setIsLoading] = useState(undefined);
 
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} style={{ maxWidth: 1000, margin: "auto" }}>
       {galleries?.map((item, index) => (
         <Grid key={index} item xs={12} sm={4} md={4} lg={4} xl={3}>
           <Card

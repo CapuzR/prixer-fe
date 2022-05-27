@@ -11,7 +11,11 @@ import service from "../pages/service";
 
 function ListArts({ arts, navigate, setDetails, details, search }) {
   return (
-    <Masonry columns={3} spacing={0.2}>
+    <Masonry
+      columns={3}
+      spacing={0.2}
+      style={{ maxWidth: 1000, margin: "auto" }}
+    >
       {arts
         ?.filter((item) =>
           item.post.postBasics.title

@@ -132,6 +132,8 @@ function Registry({}) {
             style={{
               padding: isAddFirstArt ? "0px" : "32px",
               paddingTop: isAddFirstArt ? "0px" : "16px",
+              maxWidth: 1000,
+              margin: "auto",
             }}
           >
             {isAddFirstArt ? (
