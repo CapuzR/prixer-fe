@@ -49,6 +49,7 @@ const service = {
 export default service;
 
 async function onSignInStoic() {
+  console.log(StoicIdentity);
   const identity = await StoicIdentity.load();
   if (identity !== false) {
     return identity;
@@ -60,6 +61,7 @@ async function onSignInStoic() {
 
 async function onSignOutStoic() {
   const identity = await StoicIdentity.load();
+
   if (identity !== false) {
     StoicIdentity.disconnect();
     return true;

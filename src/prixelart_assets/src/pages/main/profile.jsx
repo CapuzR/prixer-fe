@@ -12,6 +12,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
@@ -33,7 +34,6 @@ import ListArts from "../../components/listArts";
 import DialogFollowers from "../../components/dialogFollowers";
 import ListGalleries from "../../components/listGalleries";
 import SearchBar from "../../components/searchBar";
-import DialogConfirmDelete from "../../components/dialogConfirmDelete";
 
 function Profile() {
   const navigate = useNavigate();
@@ -66,8 +66,6 @@ function Profile() {
   const [isDialogFollowersOpen, setIsDialogFollowersOpen] = useState(false);
   const [viewDialogFollowers, setViewDialogFollowers] = useState("");
   const [search, setSearch] = useState("");
-  const [openDelete, setOpenDelete] = useState(false);
-  const [typeDelete, setTypeDelete] = useState("");
   const [imageBanner, setImageBanner] = useState();
 
   ///FORM PROFILE
@@ -423,13 +421,13 @@ function Profile() {
                   Edit profile
                 </MenuItem>
                 <MenuItem
-                  style={{ color: "red" }}
                   onClick={async () => {
-                    setOpenDelete(true);
-                    setTypeDelete("profile");
+                    navigate("/settings");
+                    // setOpenDelete(true);
+                    // setTypeDelete("profile");
                   }}
                 >
-                  Delete profile
+                  Settings
                 </MenuItem>
               </Menu>
             </Box>
@@ -610,20 +608,6 @@ function Profile() {
       >
         <Alert severity={severity}>{message}</Alert>
       </Snackbar>
-      <DialogConfirmDelete
-        open={openDelete}
-        setOpen={setOpenDelete}
-        type={typeDelete}
-        onDelete={async () => {
-          setIsLoading(true);
-          setOpenDelete(false);
-          setAnchorElActionMenuProfile(null);
-          setOpenActionMenuProfile(false);
-          await service.deleteArtist();
-          navigate("/login");
-          setIsLoading(false);
-        }}
-      />
     </div>
   );
 
