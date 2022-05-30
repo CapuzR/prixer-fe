@@ -24,13 +24,14 @@ import service from "../service";
 import Navbar from "../../components/navbar";
 import NavigationBar from "../../components/navigationBar";
 import consts from "../../consts/index";
+import Sidebar from "../../components/sidebar";
 
 const toolbarHeight = 68;
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function Explore() {
+function Explore({ window }) {
   const navigate = useNavigate();
   const toolbarHeight = 68;
   const theme = useTheme();
@@ -45,28 +46,16 @@ function Explore() {
   const [posts, setPosts] = useState();
   const [detailsPost, setDetailsPost] = useState();
   const [unfollowLoading, SetUnfollowLoading] = useState(false);
+  const [isOpenSideMenu, setIsOpenSideManu] = useState(false);
 
-  // useEffect(() => {
-  //   async function init() {
-  //     if (!localStorage.getItem("wallet")) navigate("/login");
-  //     setIsLoading(true);
-  //     const details = await service.getArtistDetailsByUsername(
-  //       localStorage.getItem("username")
-  //     );
-  //     console.log(details, "DETAILS");
-  //     setIsLoading(false);
-  //   }
-  //   init();
-  // }, []);
+  const drawerwidth = isOpenSideMenu ? 240 : 80;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   useEffect(() => {
     async function initExplore() {
       if (!localStorage.getItem("wallet")) navigate("/login");
       setIsLoading(true);
-      // const details = await service.getArtistDetailsByUsername(
-      //   localStorage.getItem("username")
-      // );
-
       const posts = await service.getPostsByCreation();
       setIsLoading(false);
 
@@ -82,6 +71,12 @@ function Explore() {
       }}
     >
       <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
+      <Sidebar
+        drawerwidth={drawerwidth}
+        handleDrawerToggle={handleDrawerToggle}
+        container={container}
+        isOpenSideMenu={isOpenSideMenu}
+      />
       <Box style={{ paddingTop: toolbarHeight, paddingBottom: 80 }}>
         {isLoading ? (
           <Box
@@ -304,6 +299,10 @@ function Explore() {
       )}
     </div>
   );
+
+  function handleDrawerToggle() {
+    setIsOpenSideManu(!isOpenSideMenu);
+  }
 
   function onLogout() {
     service.onSignOutStoic();

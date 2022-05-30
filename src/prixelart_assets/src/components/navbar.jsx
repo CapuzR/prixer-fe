@@ -7,7 +7,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import logo from "../assets/prixelart.png";
 
-function Navbar({ toolbarHeight, onLogout, isAuth }) {
+function Navbar({ toolbarHeight, onLogout, isAuth, isOpenSideMenu }) {
   return (
     <MuiAppBar
       position="fixed"
@@ -17,7 +17,15 @@ function Navbar({ toolbarHeight, onLogout, isAuth }) {
       }}
     >
       <Toolbar style={{ alignItems: "center", height: toolbarHeight }}>
-        <img src={logo} alt="logo" style={{ width: 128 }} />
+        <img
+          src={logo}
+          alt="logo"
+          style={{
+            width: 128,
+            display: isOpenSideMenu ? "none" : "",
+            marginLeft: 72,
+          }}
+        />
         <IconButton
           style={{ color: "white", marginLeft: "auto" }}
           onClick={onLogout}

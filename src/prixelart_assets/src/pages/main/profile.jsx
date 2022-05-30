@@ -34,8 +34,9 @@ import ListArts from "../../components/listArts";
 import DialogFollowers from "../../components/dialogFollowers";
 import ListGalleries from "../../components/listGalleries";
 import SearchBar from "../../components/searchBar";
+import Sidebar from "../../components/sidebar";
 
-function Profile() {
+function Profile({ window }) {
   const navigate = useNavigate();
   const params = useParams();
   const toolbarHeight = 68;
@@ -67,6 +68,7 @@ function Profile() {
   const [viewDialogFollowers, setViewDialogFollowers] = useState("");
   const [search, setSearch] = useState("");
   const [imageBanner, setImageBanner] = useState();
+  const [isOpenSideMenu, setIsOpenSideManu] = useState(false);
 
   ///FORM PROFILE
   const [username, setUsername] = useState("");
@@ -125,6 +127,9 @@ function Profile() {
   const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+  const drawerwidth = isOpenSideMenu ? 240 : 80;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   useEffect(() => {
     async function init() {
@@ -192,7 +197,17 @@ function Profile() {
         height: "100vh",
       }}
     >
-      <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
+      <Navbar
+        onLogout={onLogout}
+        toolbarHeight={toolbarHeight}
+        isOpenSideMenu={isOpenSideMenu}
+      />
+      <Sidebar
+        drawerwidth={drawerwidth}
+        handleDrawerToggle={handleDrawerToggle}
+        container={container}
+        isOpenSideMenu={isOpenSideMenu}
+      />
       <Box style={{ paddingTop: toolbarHeight }}>
         {isLoading ? (
           <Box
@@ -808,6 +823,10 @@ function Profile() {
     const data = [...new Uint8Array(await resizedImage.arrayBuffer())];
     setImageProfile(resizedString);
     setAssetProfile(data);
+  }
+
+  function handleDrawerToggle() {
+    setIsOpenSideManu(!isOpenSideMenu);
   }
 
   function getGalleryImage(id) {

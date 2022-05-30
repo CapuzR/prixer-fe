@@ -25,12 +25,13 @@ import service from "../service";
 import consts from "../../consts/index";
 import Navbar from "../../components/navbar";
 import NavigationBar from "../../components/navigationBar";
+import Sidebar from "../../components/sidebar";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function Main() {
+function Main({ window }) {
   const navigate = useNavigate();
   const toolbarHeight = 68;
   const theme = useTheme();
@@ -45,6 +46,11 @@ function Main() {
   const [posts, setPosts] = useState();
   const [detailsPost, setDetailsPost] = useState();
   const [unfollowLoading, SetUnfollowLoading] = useState(false);
+  const [isOpenSideMenu, setIsOpenSideManu] = useState(false);
+
+  const drawerwidth = isOpenSideMenu ? 240 : 80;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   useEffect(() => {
     async function init() {
@@ -66,6 +72,12 @@ function Main() {
       }}
     >
       <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
+      <Sidebar
+        drawerwidth={drawerwidth}
+        handleDrawerToggle={handleDrawerToggle}
+        container={container}
+        isOpenSideMenu={isOpenSideMenu}
+      />
       <Box style={{ paddingTop: toolbarHeight, paddingBottom: 80 }}>
         {!posts ? (
           <Box
@@ -293,6 +305,10 @@ function Main() {
       )}
     </div>
   );
+
+  function handleDrawerToggle() {
+    setIsOpenSideManu(!isOpenSideMenu);
+  }
 
   function onLogout() {
     service.onSignOutStoic();
