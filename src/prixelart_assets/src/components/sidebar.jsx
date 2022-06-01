@@ -23,6 +23,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import StarIcon from "@mui/icons-material/Star";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import { Typography } from "@mui/material";
 
@@ -50,7 +51,12 @@ function Sidebar(props) {
             </div>
           </div>
         ) : (
-          <></>
+          <IconButton
+            style={{ color: "white", marginTop: -15 }}
+            onClick={props.handleDrawerToggle}
+          >
+            <MenuIcon fontSize="large" />
+          </IconButton>
         )}
       </div>
       {props.isOpenSideMenu ? (

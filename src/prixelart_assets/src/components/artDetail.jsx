@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import * as React from "react";
 
 import Box from "@mui/material/Box";
@@ -27,6 +27,10 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import CircularProgress from "@mui/material/CircularProgress";
 import DateObject from "react-date-object";
+
+import Slide from "@mui/material/Slide";
+import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
 import consts from "../consts/index";
 import service from "../pages/service";
@@ -61,6 +65,14 @@ function ArtDetail({
   const [isLoadingForComments, setIsLoadingForComments] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [typeDelete, setTypeDelete] = useState("");
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [message, setMessage] = useState(undefined);
+  const [severity, setSeverity] = useState(undefined);
+
+  const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
   return (
     <Box>
       <Box style={{ padding: 16, maxWidth: 1000, margin: "auto" }}>
@@ -227,6 +239,10 @@ function ArtDetail({
               id={"scroll-btn"}
               disabled={comment === ""}
               onClick={async () => {
+                setIsSnackbarOpen(true);
+                setSeverity("info");
+                setMessage("Comment sent");
+
                 onAddComment(comment);
 
                 await service.createComment(post.postId, {
@@ -236,6 +252,9 @@ function ArtDetail({
                     details: [],
                   },
                 });
+                setIsSnackbarOpen(true);
+                setSeverity("success");
+                setMessage("comment posted successfully");
               }}
             >
               Send
@@ -408,6 +427,10 @@ function ArtDetail({
                   id={"scroll-btn"}
                   disabled={commentToReply === ""}
                   onClick={async () => {
+                    setIsSnackbarOpen(true);
+                    setSeverity("info");
+                    setMessage("Reply sent");
+
                     const formatComment = [
                       JSON.parse(localStorage.getItem("_scApp")).principal,
                       localStorage.getItem("username"),
@@ -431,6 +454,9 @@ function ArtDetail({
                         details: [],
                       },
                     });
+                    setIsSnackbarOpen(true);
+                    setSeverity("success");
+                    setMessage("Reply posted successfully");
                   }}
                 >
                   Send
@@ -515,8 +541,29 @@ function ArtDetail({
           }
         }}
       />
+      <Snackbar
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        onClose={handleCloseSnackbar}
+        open={isSnackbarOpen}
+        TransitionComponent={SlideTransition}
+        style={{ display: isSnackbarOpen ? "flex" : "none" }}
+      >
+        <Alert severity={severity}>{message}</Alert>
+      </Snackbar>
     </Box>
   );
+
+  function SlideTransition(props) {
+    return <Slide {...props} direction="left" />;
+  }
+
+  function handleCloseSnackbar(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+    setIsSnackbarOpen(false);
+  }
 
   function handleLikePost() {
     const currentPost = { ...post };

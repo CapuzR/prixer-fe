@@ -12,7 +12,7 @@ function SearchBar({ search, setSearch }) {
       fullWidth
       variant="outlined"
       id="input-with-icon-textfield"
-      placeholder="search art..."
+      placeholder="search post..."
       size="small"
       value={search}
       onChange={(event) => setSearch(event.target.value)}

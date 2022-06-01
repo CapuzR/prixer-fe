@@ -452,7 +452,7 @@ function Profile({ window }) {
                 display: "flex",
                 marginLeft: !mobileBreakpoint ? 16 : "auto",
                 marginRight: !mobileBreakpoint ? 16 : "auto",
-                maxWidth: mobileBreakpoint && 750,
+                maxWidth: mobileBreakpoint && 600,
               }}
             >
               <Box style={{ width: "50%", marginRight: "16px" }}>
@@ -497,7 +497,7 @@ function Profile({ window }) {
                 style={{
                   width: "100%",
                   padding: 16,
-                  maxWidth: 1000,
+                  maxWidth: 633,
                   margin: "auto",
                 }}
               >

@@ -184,6 +184,9 @@ function ArtForm({
                     },
                   },
                 });
+                setIsSnackbarOpen(true);
+                setSeverity("sucess");
+                setMessage("Post update successfully");
                 setIsEditPost(false);
               } else {
                 service.createPost(
@@ -262,7 +265,7 @@ function ArtForm({
             marginLeft: !firstArt && "auto",
             color: "#5DBB63",
             position: firstArt && "absolute",
-            right: firstArt && 35,
+            right: firstArt && 220,
           }}
         >
           {isUpdate ? "Update" : "Add"}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import * as React from "react";
 
-import Compressor from "compressorjs";
 import { readAndCompressImage } from "browser-image-resizer";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
@@ -10,14 +9,11 @@ import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import Fab from "@mui/material/Fab";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
-import CircularProgress from "@mui/material/CircularProgress";
 
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
@@ -33,7 +29,7 @@ import service from "../service";
 import Navbar from "../../components/navbar";
 import ArtForm from "../../components/artForm";
 
-function Registry({}) {
+function Registry() {
   const regexForEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const regexForPhone = /^[0-9]*$/;
   const regexForName = /^[a-zA-Z\s]*$/;
@@ -86,6 +82,7 @@ function Registry({}) {
   const [selectedCameras, setSelectedCameras] = useState([]);
   const [selectedLens, setSelectedLens] = useState([]);
   const [isAddFirstArt, setIsAddFirstArt] = useState(false);
+  const [unit, setUnit] = useState("");
 
   ///FORM ART
   const [artTitle, setArtTitle] = useState("");
@@ -98,6 +95,8 @@ function Registry({}) {
   const [aboutArt, setAboutArt] = useState("");
   const [galleryArt, setGalleryArt] = useState("");
   const [artLocation, setArtLocation] = useState("");
+  const [choosePlan, setChoosePlan] = useState();
+  const [setupStotage, setSetupStorage] = useState();
   const [asset, setAsset] = useState();
   const [blob, setBlob] = useState();
   const [artist, setArtist] = useState();
@@ -170,6 +169,199 @@ function Registry({}) {
                   galleries={[]}
                   firstArt={true}
                 />
+              </>
+            ) : choosePlan ? (
+              <>
+                <Box style={{ padding: 24, maxWidth: 1000, margin: "auto" }}>
+                  <Box style={{ display: "flex", alignItems: "center" }}>
+                    <Typography
+                      variant="h6"
+                      style={{
+                        textAlign: "center",
+                        width: "-webkit-fill-available",
+                      }}
+                    >
+                      Choose your plan
+                    </Typography>
+                  </Box>
+                  <Grid container spacing={1}>
+                    <Paper
+                      elevation={5}
+                      style={{
+                        padding: "24px 24px 0px 24px",
+                        marginTop: 14,
+                        width: "100%",
+                        height: "calc(100vh - 300px)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Grid container spacing={1}>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={12}
+                          lg={12}
+                          xl={12}
+                          style={{ marginBottom: 32 }}
+                        >
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <div style={{ width: "70%" }}>
+                              <Button
+                                variant="contained"
+                                fullWidth
+                                style={{ display: "block", borderRadius: 20 }}
+                                onClick={() => setIsAddFirstArt(true)}
+                              >
+                                <h2>SOCIALS</h2>
+                                <p>able to post with thumbnails</p>
+                              </Button>
+                            </div>
+                            <div style={{ textAlign: "center", width: "30%" }}>
+                              Free
+                            </div>
+                          </div>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <div style={{ width: "70%" }}>
+                              <Button
+                                variant="outlined"
+                                fullWidth
+                                style={{ display: "block", borderRadius: 20 }}
+                                onClick={() => {
+                                  setChoosePlan(false);
+                                  setSetupStorage(true);
+                                }}
+                              >
+                                <h2>SOCIALS + OWN</h2>
+                                <p>able to store and own my photos</p>
+                              </Button>
+                            </div>
+                            <div style={{ textAlign: "center", width: "30%" }}>
+                              <div>$7/GB</div>
+                              <div>Year</div>
+                            </div>
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </Grid>
+                </Box>
+              </>
+            ) : setupStotage ? (
+              <>
+                <Box style={{ padding: 24, maxWidth: 1000, margin: "auto" }}>
+                  <Box style={{ display: "flex", alignItems: "center" }}>
+                    <Typography
+                      variant="h6"
+                      style={{
+                        textAlign: "center",
+                        width: "-webkit-fill-available",
+                      }}
+                    >
+                      Setup your storage
+                    </Typography>
+                    <Button
+                      style={{
+                        color: "#5DBB63",
+                        position: "absolute",
+                        right: 235,
+                      }}
+                      onClick={() => {
+                        setSetupStorage(false);
+                        setIsAddFirstArt(true);
+                      }}
+                    >
+                      CREATE
+                    </Button>
+                  </Box>
+                  <Grid container spacing={1}>
+                    <Paper
+                      elevation={5}
+                      style={{
+                        padding: "24px 24px 24px 24px",
+                        marginTop: 14,
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        height: "calc(100vh - 450px)",
+                      }}
+                    >
+                      <Grid container spacing={1}>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={12}
+                          lg={12}
+                          xl={12}
+                          style={{ marginBottom: 32 }}
+                        >
+                          <div style={{ marginBottom: 8 }}>
+                            <Typography variant="h6">
+                              Choose your storage units
+                            </Typography>
+                          </div>
+                          <div>
+                            <FormControl
+                              style={{ marginBottom: 4 }}
+                              required
+                              fullWidth
+                            >
+                              <InputLabel id="type-label">Units</InputLabel>
+                              <Select
+                                labelId="type-label"
+                                id="type-label-select"
+                                label="units"
+                                value={unit}
+                                onChange={(event) =>
+                                  setUnit(event.target.value)
+                                }
+                              >
+                                {[
+                                  { id: 1, name: "1 unit: $6 GB" },
+                                  { id: 2, name: "2 units: $12 GB" },
+                                ].map((type) => (
+                                  <MenuItem value={type.name} key={type.id}>
+                                    {type.name}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </div>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                          <div style={{ marginBottom: 8 }}>
+                            <Typography variant="h6">
+                              Include principals to control your storage
+                            </Typography>
+                          </div>
+                          <div>
+                            <TextField
+                              fullWidth
+                              type="text"
+                              label="Principals"
+                              variant="outlined"
+                              multiline
+                              rows={5}
+                              // value={about}
+                              required
+                              // onChange={(event) => setAbout(event.target.value)}
+                            />
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </Grid>
+                </Box>
               </>
             ) : (
               <>
@@ -261,7 +453,7 @@ function Registry({}) {
                       style={{
                         color: "#5DBB63",
                         position: "absolute",
-                        right: 35,
+                        right: 235,
                       }}
                     >
                       Create
@@ -739,7 +931,7 @@ function Registry({}) {
 
   async function onCreateArtist(artist, username) {
     setIsLoading(true);
-    setIsAddFirstArt(true);
+    setChoosePlan(true);
     Promise.all([
       service.addArtist(artist, username),
       service.relPrincipalWithUsername(username),
@@ -748,7 +940,6 @@ function Registry({}) {
         const artist = await service.getArtist();
         const parseArtist = service.parseArtist(artist);
         setArtist(parseArtist);
-        // navigate("/main");
       })
       .catch(console.log);
   }
