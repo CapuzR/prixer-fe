@@ -73,7 +73,7 @@ function Sidebar(props) {
               style={{ width: 100, height: 100 }}
               src={service.getUrl(
                 consts.ASSET_CANISTER_ID_ARTIST,
-                `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
+                `A${JSON.parse(localStorage.getItem("_scApp"))?.principal}`
               )}
             ></Avatar>
           </div>
@@ -121,7 +121,7 @@ function Sidebar(props) {
             <Avatar
               src={service.getUrl(
                 consts.ASSET_CANISTER_ID_ARTIST,
-                `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
+                `A${JSON.parse(localStorage.getItem("_scApp"))?.principal}`
               )}
               style={{ width: 50, height: 50 }}
             />

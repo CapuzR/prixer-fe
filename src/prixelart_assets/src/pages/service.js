@@ -170,13 +170,14 @@ async function relPrincipalWithUsername(username) {
   return result;
 }
 
-async function addArtist(artist, username) {
+async function addArtist(artist, username, fullName) {
   artist.principal_id = Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
   const result = await actor.add(artist);
   // const resultCreateCanister = await actor.createArtistCan();
   localStorage.setItem("username", username);
+  localStorage.setItem("fullname", fullName);
   console.log("[ADD ARTIST] => ", result);
   // console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
   return result;

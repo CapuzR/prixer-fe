@@ -53,6 +53,9 @@ function GalleryForm({
               setSeverity("error");
               setMessage("please complete the form");
             } else {
+              setIsSnackbarOpen(true);
+              setSeverity("success");
+              setMessage("gallery created successfully");
               service.createGallery({
                 artistPpal: JSON.parse(localStorage.getItem("_scApp"))
                   .principal,

@@ -84,7 +84,7 @@ function Profile({ window }) {
   const [imageProfile, setImageProfile] = useState(
     service.getUrl(
       consts.ASSET_CANISTER_ID_ARTIST,
-      `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
+      `A${JSON.parse(localStorage.getItem("_scApp"))?.principal}`
     )
   );
 
@@ -133,6 +133,7 @@ function Profile({ window }) {
 
   useEffect(() => {
     async function init() {
+      console.log(localStorage.getItem("wallet"));
       if (!localStorage.getItem("wallet")) navigate("/login");
       setIsLoading(true);
       if (params.username === localStorage.getItem("username")) {

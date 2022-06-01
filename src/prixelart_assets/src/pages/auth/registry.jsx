@@ -446,7 +446,8 @@ function Registry() {
                               ).principal,
                               thumbnail: "",
                             },
-                            username
+                            username,
+                            `${givenName} ${familyName}`
                           );
                         }
                       }}
@@ -929,7 +930,7 @@ function Registry() {
     navigate("/login");
   }
 
-  async function onCreateArtist(artist, username) {
+  async function onCreateArtist(artist, username, fullname) {
     setIsLoading(true);
     setChoosePlan(true);
     Promise.all([
