@@ -586,9 +586,9 @@ function Profile({ window }) {
                   }
                 />
               ) : profileScreen === consts.PROFILE_SCREEN_COLLECTIONS ? (
-                <ListCollections artist={artist} />
+                <ListCollections artist={artist} navigate={navigate} />
               ) : (
-                <ListServices artist={artist}  />
+                <ListServices artist={artist} />
               )}
             </Box>
           </>

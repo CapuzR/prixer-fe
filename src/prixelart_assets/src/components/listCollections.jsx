@@ -8,7 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 
-function ListCollections({ collections = [0, 1, 2, 3, 4], artist }) {
+function ListCollections({ collections = [0, 1, 2, 3, 4], artist, navigate }) {
   return (
     <>
       <Grid container spacing={1} style={{ maxWidth: 1000, margin: "auto" }}>
@@ -32,11 +32,12 @@ function ListCollections({ collections = [0, 1, 2, 3, 4], artist }) {
         )}
         {collections.map((collection, index) => (
           <Grid key={index} item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <Card>
+            <Card
+              onClick={() =>
+                navigate(`/collection/${index}/${artist.username}`)
+              }
+            >
               <CardMedia
-                // onClick={() =>
-                //   navigate(`/gallery/${item.id}/posts/${username}`)
-                // }
                 component="img"
                 height="180"
                 image={

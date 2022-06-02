@@ -11,6 +11,7 @@ import Auth from "../pages/auth";
 import Registry from "../pages/auth/registry";
 import AddArt from "../pages/main/addArt";
 import AddGallery from "../pages/main/addGallery";
+import CollectionDetail from "../pages/main/collectionDetails";
 import Explore from "../pages/main/explore";
 import GalleryDetails from "../pages/main/galleryDetails";
 import Main from "../pages/main/index";
@@ -33,6 +34,10 @@ export const AppRouter = () => {
         <Route
           path="/gallery/:galleryId/posts/:username"
           element={<GalleryDetails />}
+        />
+        <Route
+          path="/collection/:collectionId/:username"
+          element={<CollectionDetail />}
         />
         <Route path="/settings" element={<ProfileSettings />} />
         <Route path="*" element={<Navigate to="/main" />} />
