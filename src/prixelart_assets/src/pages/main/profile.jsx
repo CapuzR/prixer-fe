@@ -35,6 +35,8 @@ import DialogFollowers from "../../components/dialogFollowers";
 import ListGalleries from "../../components/listGalleries";
 import SearchBar from "../../components/searchBar";
 import Sidebar from "../../components/sidebar";
+import ListCollections from "../../components/listCollections";
+import ListServices from "../../components/listServices";
 
 function Profile({ window }) {
   const navigate = useNavigate();
@@ -133,7 +135,6 @@ function Profile({ window }) {
 
   useEffect(() => {
     async function init() {
-      console.log(localStorage.getItem("wallet"));
       if (!localStorage.getItem("wallet")) navigate("/login");
       setIsLoading(true);
       if (params.username === localStorage.getItem("username")) {
@@ -145,6 +146,7 @@ function Profile({ window }) {
           .then(([artist, detailsProfile, galleries]) => {
             setGalleries(galleries.ok);
             const parseArtist = service.parseArtist(artist);
+            setImageBanner(parseArtist.banner);
             setArtist(parseArtist);
             setDetails(detailsProfile.ok);
             setIsGuest(false);
@@ -202,6 +204,7 @@ function Profile({ window }) {
         onLogout={onLogout}
         toolbarHeight={toolbarHeight}
         isOpenSideMenu={isOpenSideMenu}
+        mobileBreakpoint={mobileBreakpoint}
       />
       <Sidebar
         drawerwidth={drawerwidth}
@@ -456,15 +459,15 @@ function Profile({ window }) {
                 maxWidth: mobileBreakpoint && 600,
               }}
             >
-              <Box style={{ width: "50%", marginRight: "16px" }}>
+              <Box style={{ width: "25%", paddingRight: 8 }}>
                 <Button
                   disabled={isLoading}
                   style={{
                     textTransform: "capitalize",
                     background:
-                      profileScreen !== consts.PROFILE_SCREEN_ART && "white",
+                      profileScreen === consts.PROFILE_SCREEN_ART && "white",
                     color:
-                      profileScreen !== consts.PROFILE_SCREEN_ART && "#000000",
+                      profileScreen === consts.PROFILE_SCREEN_ART && "#000000",
                   }}
                   variant="contained"
                   fullWidth
@@ -473,7 +476,49 @@ function Profile({ window }) {
                   Posts
                 </Button>
               </Box>
-              <Box style={{ width: "50%" }}>
+              <Box style={{ width: "25%", paddingRight: 8 }}>
+                <Button
+                  disabled={isLoading}
+                  style={{
+                    textTransform: "capitalize",
+                    background:
+                      profileScreen === consts.PROFILE_SCREEN_COLLECTIONS &&
+                      "white",
+                    color:
+                      profileScreen === consts.PROFILE_SCREEN_COLLECTIONS &&
+                      "#000000",
+                  }}
+                  variant="contained"
+                  fullWidth
+                  onClick={() =>
+                    setProfileScreen(consts.PROFILE_SCREEN_COLLECTIONS)
+                  }
+                >
+                  Collections
+                </Button>
+              </Box>
+              <Box style={{ width: "25%", paddingRight: 8 }}>
+                <Button
+                  disabled={isLoading}
+                  style={{
+                    textTransform: "capitalize",
+                    background:
+                      profileScreen === consts.PROFILE_SCREEN_SERVICES &&
+                      "white",
+                    color:
+                      profileScreen === consts.PROFILE_SCREEN_SERVICES &&
+                      "#000000",
+                  }}
+                  variant="contained"
+                  fullWidth
+                  onClick={() =>
+                    setProfileScreen(consts.PROFILE_SCREEN_SERVICES)
+                  }
+                >
+                  Services
+                </Button>
+              </Box>
+              <Box style={{ width: "25%", paddingRight: 0 }}>
                 <Button
                   disabled={isLoading}
                   variant="contained"
@@ -481,9 +526,11 @@ function Profile({ window }) {
                   style={{
                     textTransform: "capitalize",
                     background:
-                      profileScreen === consts.PROFILE_SCREEN_ART && "white",
+                      profileScreen === consts.PROFILE_SCREEN_GALLERIES &&
+                      "white",
                     color:
-                      profileScreen === consts.PROFILE_SCREEN_ART && "#000000",
+                      profileScreen === consts.PROFILE_SCREEN_GALLERIES &&
+                      "#000000",
                   }}
                   onClick={() =>
                     setProfileScreen(consts.PROFILE_SCREEN_GALLERIES)
@@ -524,7 +571,7 @@ function Profile({ window }) {
                   }
                   setDetails={setDetails}
                 />
-              ) : (
+              ) : profileScreen === consts.PROFILE_SCREEN_GALLERIES ? (
                 <ListGalleries
                   getGalleryImage={getGalleryImage}
                   galleries={galleries}
@@ -538,6 +585,10 @@ function Profile({ window }) {
                       : params.username
                   }
                 />
+              ) : profileScreen === consts.PROFILE_SCREEN_COLLECTIONS ? (
+                <ListCollections artist={artist} />
+              ) : (
+                <ListServices artist={artist}  />
               )}
             </Box>
           </>

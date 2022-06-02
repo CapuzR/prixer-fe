@@ -11,6 +11,8 @@ export default {
   UPDATE_ARTIST_SCREEN_USER: "artist",
   UPDATE_ARTIST_SCREEN_TOOLS: "tools",
   PROFILE_SCREEN_ART: "art",
+  PROFILE_SCREEN_SERVICES: "services",
+  PROFILE_SCREEN_COLLECTIONS: "collections",
   PROFILE_SCREEN_GALLERIES: "galleries",
   ARTIST_CAMERAS: "cameras",
   ARTIST_LENS: "lens",

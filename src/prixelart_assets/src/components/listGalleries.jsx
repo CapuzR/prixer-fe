@@ -36,69 +36,80 @@ function ListGalleries({
 
   return (
     <Grid container spacing={1} style={{ maxWidth: 1000, margin: "auto" }}>
-      {galleries?.map((item, index) => (
-        <Grid key={index} item xs={12} sm={4} md={4} lg={4} xl={3}>
-          <Card>
-            <CardMedia
-              onClick={() => navigate(`/gallery/${item.id}/posts/${username}`)}
-              component="img"
-              height="180"
-              image={getGalleryImage(item.id)}
-              alt="image"
-            />
-            <CardContent>
-              <Box
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+      {galleries?.length === 0 ? (
+        <div
+          style={{ display: "flex", width: "100%", justifyContent: "center" }}
+        >
+          No galleries
+        </div>
+      ) : (
+        galleries?.map((item, index) => (
+          <Grid key={index} item xs={12} sm={4} md={4} lg={4} xl={3}>
+            <Card>
+              <CardMedia
+                onClick={() =>
+                  navigate(`/gallery/${item.id}/posts/${username}`)
+                }
+                component="img"
+                height="180"
+                image={getGalleryImage(item.id)}
+                alt="image"
+              />
+              <CardContent>
                 <Box
                   style={{
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
-                  <Typography gutterBottom variant="h5" component="div">
-                    {item.name}
-                  </Typography>
-                </Box>
-                <Box style={{ marginLeft: "auto" }}>
-                  <IconButton
-                    color="primary"
-                    onClick={async () => {
-                      setIsLoading(item.id);
-                      await service.removeGallery(item.id);
-                      setIsSnackbarOpen(true);
-                      setSeverity("success");
-                      setMessage("gallery deleted successfully");
-
-                      setIsLoading(undefined);
-                      setGalleries(
-                        galleries.filter((galery) => galery.id !== item.id)
-                      );
-                      const newData = { ...details };
-                      newData.galleriesQty = parseInt(newData.galleriesQty) - 1;
-                      setDetails(newData);
+                  <Box
+                    style={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
                     }}
                   >
-                    {isLoading === item.id ? (
-                      <CircularProgress size={32} />
-                    ) : (
-                      <DeleteIcon />
-                    )}
-                  </IconButton>
-                </Box>
-              </Box>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {item.name}
+                    </Typography>
+                  </Box>
+                  <Box style={{ marginLeft: "auto" }}>
+                    <IconButton
+                      color="primary"
+                      onClick={async () => {
+                        setIsLoading(item.id);
+                        await service.removeGallery(item.id);
+                        setIsSnackbarOpen(true);
+                        setSeverity("success");
+                        setMessage("gallery deleted successfully");
 
-              <Typography variant="body2" color="text.secondary">
-                {item.description}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
+                        setIsLoading(undefined);
+                        setGalleries(
+                          galleries.filter((galery) => galery.id !== item.id)
+                        );
+                        const newData = { ...details };
+                        newData.galleriesQty =
+                          parseInt(newData.galleriesQty) - 1;
+                        setDetails(newData);
+                      }}
+                    >
+                      {isLoading === item.id ? (
+                        <CircularProgress size={32} />
+                      ) : (
+                        <DeleteIcon />
+                      )}
+                    </IconButton>
+                  </Box>
+                </Box>
+
+                <Typography variant="body2" color="text.secondary">
+                  {item.description}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))
+      )}
       <Snackbar
         autoHideDuration={3000}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

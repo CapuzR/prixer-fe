@@ -10,7 +10,19 @@ import consts from "../consts/index";
 import service from "../pages/service";
 
 function ListArts({ arts, navigate, setDetails, details, search }) {
-  return (
+  return !arts ? (
+    <div
+      style={{
+        display: "flex",
+        width: "100%",
+        justifyContent: "center",
+        maxWidth: 1000,
+        margin: "auto",
+      }}
+    >
+      No posts
+    </div>
+  ) : (
     <Masonry
       columns={3}
       spacing={0.2}

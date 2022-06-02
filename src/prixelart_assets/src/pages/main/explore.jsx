@@ -70,7 +70,11 @@ function Explore({ window }) {
         height: "100vh",
       }}
     >
-      <Navbar onLogout={onLogout} toolbarHeight={toolbarHeight} />
+      <Navbar
+        onLogout={onLogout}
+        toolbarHeight={toolbarHeight}
+        mobileBreakpoint={mobileBreakpoint}
+      />
       <Sidebar
         drawerwidth={drawerwidth}
         handleDrawerToggle={handleDrawerToggle}
