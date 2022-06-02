@@ -315,72 +315,82 @@ function CollectionDetail({ window }) {
               </Box>
             </Box>
             <Box style={{ padding: 16, paddingBottom: 72 }}>
-              <Grid
-                container
-                spacing={1}
-                style={{ maxWidth: 1000, margin: "auto" }}
-              >
-                {[1, 2, 3, 4, 5].map((nft, index) => (
-                  <Grid item xs={12} sm={4} md={4} lg={4} xl={3} key={index}>
-                    <Card>
-                      <CardMedia
-                        // onClick={() =>
-                        //   navigate(`/gallery/${item.id}/posts/${username}`)
-                        // }
-                        component="img"
-                        height="180"
-                        image={
-                          "https://images.unsplash.com/photo-1653287606739-087b7e6a0843?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NDEzNTk4Mg&ixlib=rb-1.2.1&q=80&w=1080"
-                        }
-                        alt="image"
-                      />
-                      <CardContent>
-                        <Box style={{ display: "flex", alignItems: "center" }}>
-                          <Typography variant="h6" component="div">
-                            Titulo
-                          </Typography>
-                          {/* <IconButton
+              {collectionScreem === consts.COLLECTION_SCREEN_NFTS ? (
+                <Grid
+                  container
+                  spacing={1}
+                  style={{ maxWidth: 1000, margin: "auto" }}
+                >
+                  {[1, 2, 3, 4, 5].map((nft, index) => (
+                    <Grid item xs={12} sm={4} md={4} lg={4} xl={3} key={index}>
+                      <Card>
+                        <CardMedia
+                          // onClick={() =>
+                          //   navigate(`/gallery/${item.id}/posts/${username}`)
+                          // }
+                          component="img"
+                          height="180"
+                          image={
+                            "https://images.unsplash.com/photo-1653287606739-087b7e6a0843?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NDEzNTk4Mg&ixlib=rb-1.2.1&q=80&w=1080"
+                          }
+                          alt="image"
+                        />
+                        <CardContent>
+                          <Box
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <Typography variant="h6" component="div">
+                              Titulo
+                            </Typography>
+                            {/* <IconButton
                         color="primary"
                         style={{ marginLeft: "auto" }}
                       >
                         <MoreHorizIcon />
                       </IconButton> */}
-                        </Box>
-                        <Box style={{ display: "flex", marginTop: 18 }}>
-                          <Typography variant="body2">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit.
-                          </Typography>
-                        </Box>
+                          </Box>
+                          <Box style={{ display: "flex", marginTop: 18 }}>
+                            <Typography variant="body2">
+                              Lorem ipsum dolor sit amet, consectetur
+                              adipisicing elit.
+                            </Typography>
+                          </Box>
 
-                        <Box
-                          style={{
-                            marginTop: 16,
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Button
+                          <Box
                             style={{
-                              textTransform: "capitalize",
-                              borderRadius: 10,
+                              marginTop: 16,
+                              display: "flex",
+                              alignItems: "center",
                             }}
-                            variant="contained"
                           >
-                            Buy
-                          </Button>
-                          <Typography
-                            style={{ marginLeft: "auto" }}
-                            variant="body2"
-                          >
-                            130 ICP
-                          </Typography>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
+                            <Button
+                              style={{
+                                textTransform: "capitalize",
+                                borderRadius: 10,
+                              }}
+                              variant="contained"
+                            >
+                              Buy
+                            </Button>
+                            <Typography
+                              style={{ marginLeft: "auto" }}
+                              variant="body2"
+                            >
+                              130 ICP
+                            </Typography>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : collectionScreem === consts.COLLECTION_SCREEN_DETAILS ? (
+                <>Details</>
+              ) : collectionScreem === consts.COLLECTION_SCREEN_CONSUMER ? (
+                <>Detalle de cliente</>
+              ) : (
+                <></>
+              )}
             </Box>
           </Box>
         )}
