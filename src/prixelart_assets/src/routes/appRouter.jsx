@@ -17,7 +17,8 @@ import GalleryDetails from "../pages/main/galleryDetails";
 import Main from "../pages/main/index";
 import PostDetails from "../pages/main/postDetails";
 import Profile from "../pages/main/profile";
-import ProfileSettings from "../pages/main/profileSettings";
+import SettingsNFTS from "../pages/main/settingsNFTs";
+import SettingsStorage from "../pages/main/settingsStorage";
 
 export const AppRouter = () => {
   return (
@@ -39,7 +40,9 @@ export const AppRouter = () => {
           path="/collection/:collectionId/:username"
           element={<CollectionDetail />}
         />
-        <Route path="/settings" element={<ProfileSettings />} />
+        <Route path="/settings/storage" element={<SettingsStorage />} />
+        <Route path="/settings/collections" element={<SettingsNFTS />} />
+
         <Route path="*" element={<Navigate to="/main" />} />
       </Routes>
     </Router>

@@ -10,6 +10,10 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import EditIcon from "@mui/icons-material/Edit";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -37,6 +41,7 @@ import SearchBar from "../../components/searchBar";
 import Sidebar from "../../components/sidebar";
 import ListCollections from "../../components/listCollections";
 import ListServices from "../../components/listServices";
+import ProfileSettingsMobile from "../../components/profileSettingsMobile";
 
 function Profile({ window }) {
   const navigate = useNavigate();
@@ -71,6 +76,7 @@ function Profile({ window }) {
   const [search, setSearch] = useState("");
   const [imageBanner, setImageBanner] = useState();
   const [isOpenSideMenu, setIsOpenSideManu] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   ///FORM PROFILE
   const [username, setUsername] = useState("");
@@ -211,6 +217,7 @@ function Profile({ window }) {
         handleDrawerToggle={handleDrawerToggle}
         container={container}
         isOpenSideMenu={isOpenSideMenu}
+        setIsOpenSideManu={setIsOpenSideManu}
       />
       <Box style={{ paddingTop: toolbarHeight }}>
         {isLoading ? (
@@ -437,17 +444,25 @@ function Profile({ window }) {
                     setIsEditProfile(true);
                   }}
                 >
-                  Edit profile
+                  <ListItemIcon>
+                    <EditIcon color="primary" fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText> Edit profile</ListItemText>
                 </MenuItem>
-                <MenuItem
-                  onClick={async () => {
-                    navigate("/settings");
-                    // setOpenDelete(true);
-                    // setTypeDelete("profile");
-                  }}
-                >
-                  Settings
-                </MenuItem>
+                {!mobileBreakpoint && (
+                  <MenuItem
+                    onClick={() => {
+                      setIsSettingsOpen(true);
+                      setAnchorElActionMenuProfile(null);
+                      setOpenActionMenuProfile(false);
+                    }}
+                  >
+                    <ListItemIcon>
+                      <SettingsIcon color="primary" fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText> Settings</ListItemText>
+                  </MenuItem>
+                )}
               </Menu>
             </Box>
             <Box
@@ -463,13 +478,16 @@ function Profile({ window }) {
                 <Button
                   disabled={isLoading}
                   style={{
+                    borderRadius: 0,
                     textTransform: "capitalize",
                     background:
                       profileScreen === consts.PROFILE_SCREEN_ART && "white",
                     color:
                       profileScreen === consts.PROFILE_SCREEN_ART && "#000000",
+                    borderBottom:
+                      profileScreen === consts.PROFILE_SCREEN_ART &&
+                      "2px solid #000000",
                   }}
-                  variant="contained"
                   fullWidth
                   onClick={() => setProfileScreen(consts.PROFILE_SCREEN_ART)}
                 >
@@ -480,6 +498,7 @@ function Profile({ window }) {
                 <Button
                   disabled={isLoading}
                   style={{
+                    borderRadius: 0,
                     textTransform: "capitalize",
                     background:
                       profileScreen === consts.PROFILE_SCREEN_COLLECTIONS &&
@@ -487,8 +506,10 @@ function Profile({ window }) {
                     color:
                       profileScreen === consts.PROFILE_SCREEN_COLLECTIONS &&
                       "#000000",
+                    borderBottom:
+                      profileScreen === consts.PROFILE_SCREEN_COLLECTIONS &&
+                      "2px solid #000000",
                   }}
-                  variant="contained"
                   fullWidth
                   onClick={() =>
                     setProfileScreen(consts.PROFILE_SCREEN_COLLECTIONS)
@@ -501,6 +522,7 @@ function Profile({ window }) {
                 <Button
                   disabled={isLoading}
                   style={{
+                    borderRadius: "0px",
                     textTransform: "capitalize",
                     background:
                       profileScreen === consts.PROFILE_SCREEN_SERVICES &&
@@ -508,8 +530,10 @@ function Profile({ window }) {
                     color:
                       profileScreen === consts.PROFILE_SCREEN_SERVICES &&
                       "#000000",
+                    borderBottom:
+                      profileScreen === consts.PROFILE_SCREEN_SERVICES &&
+                      "2px solid #000000",
                   }}
-                  variant="contained"
                   fullWidth
                   onClick={() =>
                     setProfileScreen(consts.PROFILE_SCREEN_SERVICES)
@@ -521,20 +545,24 @@ function Profile({ window }) {
               <Box style={{ width: "25%", paddingRight: 0 }}>
                 <Button
                   disabled={isLoading}
-                  variant="contained"
                   fullWidth
                   style={{
                     textTransform: "capitalize",
+                    borderRadius: 0,
                     background:
                       profileScreen === consts.PROFILE_SCREEN_GALLERIES &&
                       "white",
                     color:
                       profileScreen === consts.PROFILE_SCREEN_GALLERIES &&
                       "#000000",
+                    borderBottom:
+                      profileScreen === consts.PROFILE_SCREEN_GALLERIES &&
+                      "2px solid #000000",
                   }}
                   onClick={() =>
                     setProfileScreen(consts.PROFILE_SCREEN_GALLERIES)
                   }
+                  PROFILE_SCREEN_SERVICES
                 >
                   Galleries
                 </Button>
@@ -675,6 +703,12 @@ function Profile({ window }) {
       >
         <Alert severity={severity}>{message}</Alert>
       </Snackbar>
+      {!mobileBreakpoint && (
+        <ProfileSettingsMobile
+          open={isSettingsOpen}
+          setOpen={setIsSettingsOpen}
+        />
+      )}
     </div>
   );
 

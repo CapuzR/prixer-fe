@@ -81,6 +81,7 @@ function Main({ window }) {
         handleDrawerToggle={handleDrawerToggle}
         container={container}
         isOpenSideMenu={isOpenSideMenu}
+        setIsOpenSideManu={setIsOpenSideManu}
       />
       <Box style={{ paddingTop: toolbarHeight, paddingBottom: 80 }}>
         {!posts ? (

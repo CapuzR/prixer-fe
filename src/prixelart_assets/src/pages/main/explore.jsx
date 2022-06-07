@@ -9,7 +9,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Fab from "@mui/material/Fab";
 import MenuItem from "@mui/material/MenuItem";
-import MuiAlert from "@mui/material/Alert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
@@ -25,11 +24,6 @@ import Navbar from "../../components/navbar";
 import NavigationBar from "../../components/navigationBar";
 import consts from "../../consts/index";
 import Sidebar from "../../components/sidebar";
-
-const toolbarHeight = 68;
-const Alert = forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 function Explore({ window }) {
   const navigate = useNavigate();

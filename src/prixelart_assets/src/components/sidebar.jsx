@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as React from "react";
 import PropTypes from "prop-types";
 
@@ -15,6 +15,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
 import logo from "../assets/prixelart.png";
 
 import consts from "../consts/index";
@@ -22,14 +23,34 @@ import service from "../pages/service";
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import StarIcon from "@mui/icons-material/Star";
+import SettingsIcon from "@mui/icons-material/Settings";
+import StorageIcon from "@mui/icons-material/Storage";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import MenuIcon from "@mui/icons-material/Menu";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { Typography } from "@mui/material";
+
+import service from "../pages/service";
+import DialogConfirmDelete from "./dialogConfirmDelete";
 
 function Sidebar(props) {
   const location = useLocation();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [openSecurity, setOpenSecurity] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [typeDelete, setTypeDelete] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!props.isOpenSideMenu) {
+      setOpen(false);
+      setOpenSecurity(false);
+    }
+  }, [props.isOpenSideMenu]);
+
   const drawer = (
     <div style={{ width: "auto", textAlign: "center", marginTop: "15px" }}>
       <div style={{ marginBottom: "74px", marginTop: "12px" }}>
@@ -136,68 +157,167 @@ function Sidebar(props) {
         }}
       />
       {props.isOpenSideMenu ? (
-        <List style={{ width: "90%" }}>
-          <ListItem disablePadding style={{ marginBottom: "8px" }}>
-            <ListItemButton
-              onClick={() =>
-                location.pathname === "/main"
-                  ? console.log("")
-                  : navigate("/main")
-              }
-              style={{
-                backgroundColor:
-                  location.pathname === "/main" ? "rgb(33 32 37)" : "",
+        <>
+          <List style={{ width: "90%" }}>
+            <ListItem disablePadding style={{ marginBottom: "8px" }}>
+              <ListItemButton
+                onClick={() =>
+                  location.pathname === "/main"
+                    ? console.log("")
+                    : navigate("/main")
+                }
+                style={{
+                  backgroundColor:
+                    location.pathname === "/main" ? "rgb(33 32 37)" : "",
 
-                borderRadius: "0px 20px 20px 0px",
-              }}
-            >
-              <ListItemIcon>
-                <HomeIcon style={{ color: "#FFFFFF" }} />
-              </ListItemIcon>
-              <ListItemText style={{ color: "#FFFFFF" }} primary="Feed" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding style={{ marginBottom: "8px" }}>
-            <ListItemButton
-              style={{
-                backgroundColor:
-                  location.pathname === "/explore" ? "rgb(33 32 37)" : "",
-                borderRadius: "0px 20px 20px 0px",
-              }}
-              onClick={() =>
-                location.pathname === "/explore"
-                  ? console.log("")
-                  : navigate("/explore")
-              }
-            >
-              <ListItemIcon>
-                <SearchIcon style={{ color: "#FFFFFF" }} />
-              </ListItemIcon>
-              <ListItemText style={{ color: "#FFFFFF" }} primary="Explore" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding style={{ marginBottom: "8px" }}>
-            <ListItemButton
-              style={{
-                backgroundColor:
+                  borderRadius: "0px 20px 20px 0px",
+                }}
+              >
+                <ListItemIcon>
+                  <HomeIcon style={{ color: "#FFFFFF" }} />
+                </ListItemIcon>
+                <ListItemText style={{ color: "#FFFFFF" }} primary="Feed" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding style={{ marginBottom: "8px" }}>
+              <ListItemButton
+                style={{
+                  backgroundColor:
+                    location.pathname === "/explore" ? "rgb(33 32 37)" : "",
+                  borderRadius: "0px 20px 20px 0px",
+                }}
+                onClick={() =>
+                  location.pathname === "/explore"
+                    ? console.log("")
+                    : navigate("/explore")
+                }
+              >
+                <ListItemIcon>
+                  <SearchIcon style={{ color: "#FFFFFF" }} />
+                </ListItemIcon>
+                <ListItemText style={{ color: "#FFFFFF" }} primary="Explore" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding style={{ marginBottom: "8px" }}>
+              <ListItemButton
+                style={{
+                  backgroundColor:
+                    location.pathname.split("/")[1] === "u"
+                      ? "rgb(33 32 37)"
+                      : "",
+                  borderRadius: "0px 20px 20px 0px",
+                }}
+                onClick={() =>
                   location.pathname.split("/")[1] === "u"
-                    ? "rgb(33 32 37)"
-                    : "",
-                borderRadius: "0px 20px 20px 0px",
-              }}
-              onClick={() =>
-                location.pathname.split("/")[1] === "u"
-                  ? console.log()
-                  : navigate(`/u/${localStorage.getItem("username")}`)
-              }
-            >
-              <ListItemIcon>
-                <AccountCircleIcon style={{ color: "#FFFFFF" }} />
-              </ListItemIcon>
-              <ListItemText style={{ color: "#FFFFFF" }} primary="Profile" />
-            </ListItemButton>
-          </ListItem>
-        </List>
+                    ? console.log()
+                    : navigate(`/u/${localStorage.getItem("username")}`)
+                }
+              >
+                <ListItemIcon>
+                  <AccountCircleIcon style={{ color: "#FFFFFF" }} />
+                </ListItemIcon>
+                <ListItemText style={{ color: "#FFFFFF" }} primary="Profile" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+          <List
+            style={{
+              position: "absolute",
+              bottom: 0,
+              width: "100%",
+            }}
+          >
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List
+                component="div"
+                disablePadding
+                style={{ backgroundColor: "rgb(0 0 0 / 5%)" }}
+              >
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  onClick={() => navigate("/settings/storage")}
+                >
+                  <ListItemIcon>
+                    <StorageIcon style={{ color: "#FFFFFF" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    style={{ color: "#FFFFFF" }}
+                    primary="Storage"
+                  />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  onClick={() => navigate("/settings/collections")}
+                >
+                  <ListItemIcon>{/* <StorageIcon /> */}</ListItemIcon>
+                  <ListItemText style={{ color: "#FFFFFF" }} primary="NFTs" />
+                </ListItemButton>
+                <Collapse in={openSecurity} timeout="auto" unmountOnExit>
+                  <List
+                    component="div"
+                    disablePadding
+                    style={{ backgroundColor: "rgb(0 0 0 / 12%)" }}
+                  >
+                    <ListItemButton
+                      sx={{ pl: 4 }}
+                      onClick={() => {
+                        setOpenDelete(true);
+                        setTypeDelete("profile");
+                      }}
+                    >
+                      <ListItemIcon>
+                        {/* <VpnKeyIcon style={{ color: "#FFFFFF" }} /> */}{" "}
+                      </ListItemIcon>
+                      <ListItemText
+                        style={{ color: "red" }}
+                        primary="Delete profile"
+                      />
+                    </ListItemButton>
+                  </List>
+                </Collapse>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  onClick={() => setOpenSecurity(!openSecurity)}
+                >
+                  <ListItemIcon>
+                    <VpnKeyIcon style={{ color: "#FFFFFF" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    style={{ color: "#FFFFFF" }}
+                    primary="Security"
+                  />
+                  {!openSecurity ? (
+                    <ExpandLess style={{ color: "#FFFFFF" }} />
+                  ) : (
+                    <ExpandMore style={{ color: "#FFFFFF" }} />
+                  )}
+                </ListItemButton>
+              </List>
+            </Collapse>
+            <ListItem disablePadding style={{ marginBottom: "8px" }}>
+              <ListItemButton
+                // style={{
+                //   backgroundColor:
+                //     location.pathname.split("/")[1] === "u"
+                //       ? "rgb(33 32 37)"
+                //       : "",
+                //   borderRadius: "0px 20px 20px 0px",
+                // }}
+                onClick={() => setOpen(!open)}
+              >
+                <ListItemIcon>
+                  <SettingsIcon style={{ color: "#FFFFFF" }} />
+                </ListItemIcon>
+                <ListItemText style={{ color: "#FFFFFF" }} primary="Settings" />
+                {!open ? (
+                  <ExpandLess style={{ color: "#FFFFFF" }} />
+                ) : (
+                  <ExpandMore style={{ color: "#FFFFFF" }} />
+                )}
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </>
       ) : (
         <>
           <div
@@ -272,6 +392,25 @@ function Sidebar(props) {
                   <AccountCircleIcon fontSize="large" />
                 </IconButton>
               </div>
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  width: "100%",
+                }}
+              >
+                <IconButton
+                  style={{
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    props.setIsOpenSideManu(true);
+                    setOpen(true);
+                  }}
+                >
+                  <SettingsIcon fontSize="large" />
+                </IconButton>
+              </div>
             </>
           </div>
         </>
@@ -281,7 +420,6 @@ function Sidebar(props) {
         style={{
           color: "white",
           bottom: "15px",
-          position: "absolute",
           width: "100%",
         }}
       >
@@ -339,6 +477,18 @@ function Sidebar(props) {
           {drawer}
         </Drawer>
       )}
+      <DialogConfirmDelete
+        open={openDelete}
+        setOpen={setOpenDelete}
+        type={typeDelete}
+        onDelete={async () => {
+          setIsLoading(true);
+          setOpenDelete(false);
+          await service.deleteArtist();
+          navigate("/login");
+          setIsLoading(false);
+        }}
+      />
     </>
   );
 }

@@ -247,10 +247,15 @@ function CollectionDetail({ window }) {
                 maxWidth: mobileBreakpoint && 600,
               }}
             >
-              <Box style={{ width: "33.33%", paddingRight: 8 }}>
+              <Box style={{ width: "50%", paddingRight: 8 }}>
                 <Button
                   disabled={isLoading}
                   style={{
+                    borderBottom:
+                      collectionScreem === consts.COLLECTION_SCREEN_NFTS &&
+                      "2px solid #000000",
+
+                    borderRadius: 0,
                     textTransform: "capitalize",
                     background:
                       collectionScreem === consts.COLLECTION_SCREEN_NFTS &&
@@ -259,7 +264,6 @@ function CollectionDetail({ window }) {
                       collectionScreem === consts.COLLECTION_SCREEN_NFTS &&
                       "#000000",
                   }}
-                  variant="contained"
                   fullWidth
                   onClick={() =>
                     setCollectionScreem(consts.COLLECTION_SCREEN_NFTS)
@@ -268,10 +272,11 @@ function CollectionDetail({ window }) {
                   NFTS
                 </Button>
               </Box>
-              <Box style={{ width: "33.33%", paddingRight: 8 }}>
+              <Box style={{ width: "50%", paddingRight: 8 }}>
                 <Button
                   disabled={isLoading}
                   style={{
+                    borderRadius: 0,
                     textTransform: "capitalize",
                     background:
                       collectionScreem === consts.COLLECTION_SCREEN_DETAILS &&
@@ -279,38 +284,16 @@ function CollectionDetail({ window }) {
                     color:
                       collectionScreem === consts.COLLECTION_SCREEN_DETAILS &&
                       "#000000",
+                    borderBottom:
+                      collectionScreem === consts.COLLECTION_SCREEN_DETAILS &&
+                      "2px solid #000000",
                   }}
-                  variant="contained"
                   fullWidth
                   onClick={() =>
                     setCollectionScreem(consts.COLLECTION_SCREEN_DETAILS)
                   }
                 >
                   Details
-                </Button>
-              </Box>
-              <Box style={{ width: "33.33%" }}>
-                <Button
-                  disabled={isLoading}
-                  style={{
-                    textTransform: "capitalize",
-                    background:
-                      collectionScreem === consts.COLLECTION_SCREEN_CONSUMER &&
-                      "white",
-                    color:
-                      collectionScreem === consts.COLLECTION_SCREEN_CONSUMER &&
-                      "#000000",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                  variant="contained"
-                  fullWidth
-                  onClick={() =>
-                    setCollectionScreem(consts.COLLECTION_SCREEN_CONSUMER)
-                  }
-                >
-                  Satisfied clients
                 </Button>
               </Box>
             </Box>
