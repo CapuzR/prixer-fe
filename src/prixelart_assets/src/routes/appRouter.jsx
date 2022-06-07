@@ -11,6 +11,7 @@ import Auth from "../pages/auth";
 import Registry from "../pages/auth/registry";
 import AddArt from "../pages/main/addArt";
 import AddGallery from "../pages/main/addGallery";
+import AddService from "../pages/main/addService";
 import CollectionDetail from "../pages/main/collectionDetails";
 import Explore from "../pages/main/explore";
 import GalleryDetails from "../pages/main/galleryDetails";
@@ -42,6 +43,7 @@ export const AppRouter = () => {
         />
         <Route path="/settings/storage" element={<SettingsStorage />} />
         <Route path="/settings/collections" element={<SettingsNFTS />} />
+        <Route path="/addService" element={<AddService />} />
 
         <Route path="*" element={<Navigate to="/main" />} />
       </Routes>

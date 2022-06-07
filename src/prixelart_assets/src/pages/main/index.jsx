@@ -294,8 +294,18 @@ function Main({ window }) {
                 navigate("/addArt");
               }}
             >
-              Create Art
+              Add post
             </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setAnchorElActionMenu(null);
+                setOpenActionMenu(false);
+                navigate("/addService");
+              }}
+            >
+              Add service
+            </MenuItem>
+
             <MenuItem
               onClick={() => {
                 setAnchorElActionMenu(null);
@@ -303,7 +313,7 @@ function Main({ window }) {
                 navigate("/addGallery");
               }}
             >
-              Create Gallery
+              Add gallery
             </MenuItem>
           </Menu>
         </>

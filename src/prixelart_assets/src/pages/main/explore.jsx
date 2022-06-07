@@ -74,6 +74,7 @@ function Explore({ window }) {
         handleDrawerToggle={handleDrawerToggle}
         container={container}
         isOpenSideMenu={isOpenSideMenu}
+        setIsOpenSideManu={setIsOpenSideManu}
       />
       <Box style={{ paddingTop: toolbarHeight, paddingBottom: 80 }}>
         {isLoading ? (
@@ -269,7 +270,6 @@ function Explore({ window }) {
             onClose={() => {
               setAnchorElActionMenu(null);
               setOpenActionMenu(false);
-              navigate("/addArt");
             }}
             MenuListProps={{
               "aria-labelledby": "basic-button",
@@ -279,9 +279,20 @@ function Explore({ window }) {
               onClick={() => {
                 setAnchorElActionMenu(null);
                 setOpenActionMenu(false);
+                navigate("/addArt");
               }}
             >
               Add post
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setAnchorElActionMenu(null);
+                setOpenActionMenu(false);
+                 navigate("/addService");
+             
+              }}
+            >
+              Add service
             </MenuItem>
             <MenuItem
               onClick={() => {

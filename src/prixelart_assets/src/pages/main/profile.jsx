@@ -674,6 +674,16 @@ function Profile({ window }) {
                   onClick={() => {
                     setAnchorElActionMenu(null);
                     setOpenActionMenu(false);
+                    navigate("/addService");;
+                  }}
+                >
+                  Add service
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    setAnchorElActionMenu(null);
+                    setOpenActionMenu(false);
                     navigate("/addGallery");
                   }}
                 >

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as React from "react";
 
 import Grid from "@mui/material/Grid";
@@ -8,9 +8,16 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ServiceForm from "./serviceForm";
+
 function ListServices({ services = [0, 1, 2, 3, 4], artist }) {
-  return (
+  const [isUpdateService, setIsUpdateService] = useState(false);
+
+  return isUpdateService ? (
+    <ServiceForm isUpdate={true} setIsUpdateService={setIsUpdateService} />
+  ) : (
     <>
       <Grid container spacing={1} style={{ maxWidth: 1000, margin: "auto" }}>
         {services?.length === 0 ? (
@@ -50,9 +57,17 @@ function ListServices({ services = [0, 1, 2, 3, 4], artist }) {
                   <Typography gutterBottom variant="h6" component="div">
                     Titulo
                   </Typography>
-                  <IconButton color="primary" style={{ marginLeft: "auto" }}>
-                    <MoreHorizIcon />
-                  </IconButton>
+                  <Box style={{ marginLeft: "auto" }}>
+                    <IconButton color="primary">
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton
+                      color="primary"
+                      onClick={() => setIsUpdateService(true)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Box>
                 </Box>
                 <Box style={{ display: "flex", marginTop: 18 }}>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos

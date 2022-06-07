@@ -109,6 +109,16 @@ function NavigationBar({
           </MenuItem>
           <MenuItem
             onClick={() => {
+              navigate("/addService");
+              setIsCrateGallery(true);
+              setAnchorElActionMenu(null);
+              setOpenActionMenu(false);
+            }}
+          >
+            Add service
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
               setIsCrateGallery(true);
               setAnchorElActionMenu(null);
               setOpenActionMenu(false);
