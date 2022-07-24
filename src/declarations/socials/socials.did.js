@@ -28,15 +28,16 @@ export const idlFactory = ({ IDL }) => {
   });
   const CommentCreate = IDL.Record({ 'commentBasics' : CommentBasics });
   const SuggestionCreate = IDL.Record({ 'comment' : CommentCreate });
-  const Result_10 = IDL.Variant({
+  const Result_12 = IDL.Variant({
     'ok' : IDL.Vec(IDL.Principal),
     'err' : Error,
   });
-  const Result_9 = IDL.Variant({
+  const Result_11 = IDL.Variant({
     'ok' : IDL.Tuple(IDL.Principal, IDL.Principal),
     'err' : Error,
   });
   const CommentCreate__1 = IDL.Record({ 'commentBasics' : CommentBasics });
+  const Result_10 = IDL.Variant({ 'ok' : IDL.Text, 'err' : Error });
   const GalleryCreate = IDL.Record({
     'name' : IDL.Text,
     'galleryBanner' : IDL.Opt(IDL.Text),
@@ -62,8 +63,8 @@ export const idlFactory = ({ IDL }) => {
     'artistPrincipal' : IDL.Principal,
     'followedByCaller' : IDL.Bool,
   });
-  const Result_8 = IDL.Variant({ 'ok' : IDL.Vec(Follow), 'err' : Error });
-  const Result_1 = IDL.Variant({ 'ok' : IDL.Nat, 'err' : Error });
+  const Result_9 = IDL.Variant({ 'ok' : IDL.Vec(Follow), 'err' : Error });
+  const Result_2 = IDL.Variant({ 'ok' : IDL.Nat, 'err' : Error });
   const Suggestion = IDL.Record({
     'createdAt' : IDL.Int,
     'comment' : CommentCreate,
@@ -73,36 +74,6 @@ export const idlFactory = ({ IDL }) => {
     'createdAt' : IDL.Int,
     'commentBasics' : CommentBasics,
   });
-  const PostRead__1 = IDL.Record({
-    'suggestions' : IDL.Opt(
-      IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Suggestion))
-    ),
-    'post' : Post,
-    'artistUsername' : IDL.Text,
-    'likesQty' : IDL.Int,
-    'comments' : IDL.Opt(
-      IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment))
-    ),
-    'likedByCaller' : IDL.Bool,
-    'postId' : IDL.Text,
-  });
-  const ArtistRead = IDL.Record({
-    'postsQty' : IDL.Nat,
-    'followedByCaller' : IDL.Bool,
-    'postsRead' : IDL.Opt(IDL.Vec(PostRead__1)),
-    'followersQty' : IDL.Nat,
-    'galleriesQty' : IDL.Nat,
-    'followsQty' : IDL.Nat,
-  });
-  const Result_7 = IDL.Variant({ 'ok' : ArtistRead, 'err' : Error });
-  const Comment__1 = IDL.Record({
-    'createdAt' : IDL.Int,
-    'commentBasics' : CommentBasics,
-  });
-  const Result_6 = IDL.Variant({
-    'ok' : IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment__1)),
-    'err' : Error,
-  });
   const PostRead = IDL.Record({
     'suggestions' : IDL.Opt(
       IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Suggestion))
@@ -110,13 +81,72 @@ export const idlFactory = ({ IDL }) => {
     'post' : Post,
     'artistUsername' : IDL.Text,
     'likesQty' : IDL.Int,
+    'artistPrincipal' : IDL.Principal,
     'comments' : IDL.Opt(
-      IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Comment))
+      IDL.Vec(
+        IDL.Tuple(
+          IDL.Principal,
+          IDL.Text,
+          IDL.Text,
+          Comment,
+          IDL.Nat,
+          IDL.Principal,
+        )
+      )
     ),
     'likedByCaller' : IDL.Bool,
     'postId' : IDL.Text,
   });
-  const Result_2 = IDL.Variant({ 'ok' : IDL.Vec(PostRead), 'err' : Error });
+  const ArtistRead = IDL.Record({
+    'postsQty' : IDL.Nat,
+    'followedByCaller' : IDL.Bool,
+    'postsRead' : IDL.Opt(IDL.Vec(PostRead)),
+    'followersQty' : IDL.Nat,
+    'galleriesQty' : IDL.Nat,
+    'followsQty' : IDL.Nat,
+  });
+  const Result_8 = IDL.Variant({ 'ok' : ArtistRead, 'err' : Error });
+  const Comment__1 = IDL.Record({
+    'createdAt' : IDL.Int,
+    'commentBasics' : CommentBasics,
+  });
+  const Result_7 = IDL.Variant({
+    'ok' : IDL.Vec(
+      IDL.Tuple(
+        IDL.Principal,
+        IDL.Text,
+        IDL.Text,
+        Comment__1,
+        IDL.Nat,
+        IDL.Principal,
+      )
+    ),
+    'err' : Error,
+  });
+  const PostRead__1 = IDL.Record({
+    'suggestions' : IDL.Opt(
+      IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Suggestion))
+    ),
+    'post' : Post,
+    'artistUsername' : IDL.Text,
+    'likesQty' : IDL.Int,
+    'artistPrincipal' : IDL.Principal,
+    'comments' : IDL.Opt(
+      IDL.Vec(
+        IDL.Tuple(
+          IDL.Principal,
+          IDL.Text,
+          IDL.Text,
+          Comment,
+          IDL.Nat,
+          IDL.Principal,
+        )
+      )
+    ),
+    'likedByCaller' : IDL.Bool,
+    'postId' : IDL.Text,
+  });
+  const Result_3 = IDL.Variant({ 'ok' : IDL.Vec(PostRead__1), 'err' : Error });
   const Gallery = IDL.Record({
     'id' : IDL.Text,
     'name' : IDL.Text,
@@ -125,16 +155,17 @@ export const idlFactory = ({ IDL }) => {
     'description' : IDL.Text,
     'artistPpal' : IDL.Principal,
   });
-  const Result_5 = IDL.Variant({ 'ok' : IDL.Vec(Gallery), 'err' : Error });
-  const Result_4 = IDL.Variant({ 'ok' : PostRead, 'err' : Error });
+  const Result_6 = IDL.Variant({ 'ok' : IDL.Vec(Gallery), 'err' : Error });
+  const Result_5 = IDL.Variant({ 'ok' : PostRead__1, 'err' : Error });
   const Suggestion__1 = IDL.Record({
     'createdAt' : IDL.Int,
     'comment' : CommentCreate,
   });
-  const Result_3 = IDL.Variant({
+  const Result_4 = IDL.Variant({
     'ok' : IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Text, IDL.Text, Suggestion__1)),
     'err' : Error,
   });
+  const Result_1 = IDL.Variant({ 'ok' : IDL.Vec(ArtistRead), 'err' : Error });
   const GalleryUpdate = IDL.Record({
     'id' : IDL.Text,
     'name' : IDL.Text,
@@ -145,45 +176,41 @@ export const idlFactory = ({ IDL }) => {
     'postBasics' : PostBasics,
     'postId' : IDL.Text,
   });
-  const anon_class_20_1 = IDL.Service({
+  const anon_class_22_1 = IDL.Service({
     'addFollow' : IDL.Func([IDL.Text], [Result], []),
     'addLike' : IDL.Func([IDL.Text], [Result], []),
     'addSuggestion' : IDL.Func([IDL.Text, SuggestionCreate], [Result], []),
-    'artistsCommentsSize' : IDL.Func([IDL.Principal], [IDL.Nat], ['query']),
     'authorize' : IDL.Func([IDL.Principal], [Result], ['query']),
-    'authorizedArr' : IDL.Func([], [Result_10], ['query']),
-    'commentsSize' : IDL.Func([], [IDL.Nat], ['query']),
-    'createAssetCan' : IDL.Func([], [Result_9], []),
-    'createComment' : IDL.Func([IDL.Text, CommentCreate__1], [Result], []),
+    'authorizedArr' : IDL.Func([], [Result_12], ['query']),
+    'createAssetCan' : IDL.Func([], [Result_11], []),
+    'createComment' : IDL.Func([IDL.Text, CommentCreate__1], [Result_10], []),
     'createGallery' : IDL.Func([GalleryCreate], [Result], []),
     'createPost' : IDL.Func([PostCreate], [Result], []),
-    'readArtistFollowers' : IDL.Func([IDL.Text], [Result_8], ['query']),
-    'readArtistFollowersQty' : IDL.Func([IDL.Text], [Result_1], ['query']),
-    'readArtistFollows' : IDL.Func([IDL.Text], [Result_8], ['query']),
-    'readArtistFollowsQty' : IDL.Func([IDL.Text], [Result_1], ['query']),
-    'readArtistProfile' : IDL.Func([IDL.Text], [Result_7], ['query']),
-    'readComments' : IDL.Func([IDL.Text], [Result_6], ['query']),
-    'readCommentsQty' : IDL.Func([IDL.Text], [Result_1], ['query']),
-    'readFirstCommentById' : IDL.Func([IDL.Text], [IDL.Text], ['query']),
-    'readFirstPostId' : IDL.Func([IDL.Principal], [IDL.Text], ['query']),
+    'readArtistFollowers' : IDL.Func([IDL.Text], [Result_9], ['query']),
+    'readArtistFollowersQty' : IDL.Func([IDL.Text], [Result_2], ['query']),
+    'readArtistFollows' : IDL.Func([IDL.Text], [Result_9], ['query']),
+    'readArtistFollowsQty' : IDL.Func([IDL.Text], [Result_2], ['query']),
+    'readArtistProfile' : IDL.Func([IDL.Text], [Result_8], ['query']),
+    'readComments' : IDL.Func([IDL.Text], [Result_7], ['query']),
+    'readCommentsQty' : IDL.Func([IDL.Text], [Result_2], ['query']),
     'readFollowsPostsByCreation' : IDL.Func(
         [IDL.Text, IDL.Int, IDL.Int],
-        [Result_2],
+        [Result_3],
         ['query'],
       ),
-    'readGalleriesByArtist' : IDL.Func([IDL.Text], [Result_5], ['query']),
-    'readLikesQtyByArtist' : IDL.Func([IDL.Text], [Result_1], ['query']),
-    'readLikesQtyByTarget' : IDL.Func([IDL.Text], [Result_1], ['query']),
-    'readPostById' : IDL.Func([IDL.Text], [Result_4], ['query']),
-    'readPostSuggestions' : IDL.Func([IDL.Text], [Result_3], ['query']),
-    'readPostsByCreation' : IDL.Func([IDL.Int, IDL.Int], [Result_2], ['query']),
+    'readGalleriesByArtist' : IDL.Func([IDL.Text], [Result_6], ['query']),
+    'readLikesQtyByArtist' : IDL.Func([IDL.Text], [Result_2], ['query']),
+    'readLikesQtyByTarget' : IDL.Func([IDL.Text], [Result_2], ['query']),
+    'readPostById' : IDL.Func([IDL.Text], [Result_5], ['query']),
+    'readPostSuggestions' : IDL.Func([IDL.Text], [Result_4], ['query']),
+    'readPostsByCreation' : IDL.Func([IDL.Int, IDL.Int], [Result_3], ['query']),
     'readPostsByGallery' : IDL.Func(
         [IDL.Text, IDL.Int, IDL.Int],
-        [Result_2],
+        [Result_3],
         ['query'],
       ),
-    'readSuggestionsQtyByArtist' : IDL.Func([IDL.Text], [Result_1], ['query']),
-    'readSuggestionsQtyByPost' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'readSuggestionsQtyByArtist' : IDL.Func([IDL.Text], [Result_2], ['query']),
+    'readSuggestionsQtyByPost' : IDL.Func([IDL.Text], [Result_2], ['query']),
     'relPrincipalWithUsername' : IDL.Func(
         [IDL.Principal, IDL.Text],
         [Result],
@@ -196,10 +223,11 @@ export const idlFactory = ({ IDL }) => {
     'removeLike' : IDL.Func([IDL.Text], [Result], []),
     'removePost' : IDL.Func([IDL.Text], [Result], []),
     'removeSuggestion' : IDL.Func([IDL.Text, IDL.Text], [Result], []),
+    'searchArtistByUsername' : IDL.Func([IDL.Text], [Result_1], []),
     'updateArtGallery' : IDL.Func([GalleryUpdate], [Result], []),
     'updatePost' : IDL.Func([PostUpdate], [Result], []),
   });
-  return anon_class_20_1;
+  return anon_class_22_1;
 };
 export const init = ({ IDL }) => {
   const InitOptions = IDL.Record({ 'authorized' : IDL.Vec(IDL.Principal) });

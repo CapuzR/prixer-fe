@@ -1,35 +1,31 @@
-type anon_class_20_1 = 
+type anon_class_22_1 = 
  service {
    addFollow: (text) -> (Result);
    addLike: (text) -> (Result);
    addSuggestion: (text, SuggestionCreate) -> (Result);
-   artistsCommentsSize: (principal) -> (nat) query;
    authorize: (principal) -> (Result) query;
-   authorizedArr: () -> (Result_10) query;
-   commentsSize: () -> (nat) query;
-   createAssetCan: () -> (Result_9);
-   createComment: (text, CommentCreate__1) -> (Result);
+   authorizedArr: () -> (Result_12) query;
+   createAssetCan: () -> (Result_11);
+   createComment: (text, CommentCreate__1) -> (Result_10);
    createGallery: (GalleryCreate) -> (Result);
    createPost: (PostCreate) -> (Result);
-   readArtistFollowers: (text) -> (Result_8) query;
-   readArtistFollowersQty: (text) -> (Result_1) query;
-   readArtistFollows: (text) -> (Result_8) query;
-   readArtistFollowsQty: (text) -> (Result_1) query;
-   readArtistProfile: (text) -> (Result_7) query;
-   readComments: (text) -> (Result_6) query;
-   readCommentsQty: (text) -> (Result_1) query;
-   readFirstCommentById: (text) -> (text) query;
-   readFirstPostId: (principal) -> (text) query;
-   readFollowsPostsByCreation: (text, int, int) -> (Result_2) query;
-   readGalleriesByArtist: (text) -> (Result_5) query;
-   readLikesQtyByArtist: (text) -> (Result_1) query;
-   readLikesQtyByTarget: (text) -> (Result_1) query;
-   readPostById: (text) -> (Result_4) query;
-   readPostSuggestions: (text) -> (Result_3) query;
-   readPostsByCreation: (int, int) -> (Result_2) query;
-   readPostsByGallery: (text, int, int) -> (Result_2) query;
-   readSuggestionsQtyByArtist: (text) -> (Result_1) query;
-   readSuggestionsQtyByPost: (text) -> (Result_1) query;
+   readArtistFollowers: (text) -> (Result_9) query;
+   readArtistFollowersQty: (text) -> (Result_2) query;
+   readArtistFollows: (text) -> (Result_9) query;
+   readArtistFollowsQty: (text) -> (Result_2) query;
+   readArtistProfile: (text) -> (Result_8) query;
+   readComments: (text) -> (Result_7) query;
+   readCommentsQty: (text) -> (Result_2) query;
+   readFollowsPostsByCreation: (text, int, int) -> (Result_3) query;
+   readGalleriesByArtist: (text) -> (Result_6) query;
+   readLikesQtyByArtist: (text) -> (Result_2) query;
+   readLikesQtyByTarget: (text) -> (Result_2) query;
+   readPostById: (text) -> (Result_5) query;
+   readPostSuggestions: (text) -> (Result_4) query;
+   readPostsByCreation: (int, int) -> (Result_3) query;
+   readPostsByGallery: (text, int, int) -> (Result_3) query;
+   readSuggestionsQtyByArtist: (text) -> (Result_2) query;
+   readSuggestionsQtyByPost: (text) -> (Result_2) query;
    relPrincipalWithUsername: (principal, text) -> (Result);
    removeArtist: () -> (Result);
    removeComment: (text, text) -> (Result);
@@ -38,6 +34,7 @@ type anon_class_20_1 =
    removeLike: (text) -> (Result);
    removePost: (text) -> (Result);
    removeSuggestion: (text, text) -> (Result);
+   searchArtistByUsername: (text) -> (Result_1);
    updateArtGallery: (GalleryUpdate) -> (Result);
    updatePost: (PostUpdate) -> (Result);
  };
@@ -55,22 +52,14 @@ type Suggestion =
 type Result_9 = 
  variant {
    err: Error;
-   ok: record {
-         principal;
-         principal;
-       };
+   ok: vec Follow;
  };
 type Result_8 = 
  variant {
    err: Error;
-   ok: vec Follow;
- };
-type Result_7 = 
- variant {
-   err: Error;
    ok: ArtistRead;
  };
-type Result_6 = 
+type Result_7 = 
  variant {
    err: Error;
    ok: vec record {
@@ -78,19 +67,21 @@ type Result_6 =
              text;
              text;
              Comment__1;
+             nat;
+             principal;
            };
  };
-type Result_5 = 
+type Result_6 = 
  variant {
    err: Error;
    ok: vec Gallery;
  };
-type Result_4 = 
+type Result_5 = 
  variant {
    err: Error;
-   ok: PostRead;
+   ok: PostRead__1;
  };
-type Result_3 = 
+type Result_4 = 
  variant {
    err: Error;
    ok: vec record {
@@ -100,20 +91,38 @@ type Result_3 =
              Suggestion__1;
            };
  };
+type Result_3 = 
+ variant {
+   err: Error;
+   ok: vec PostRead__1;
+ };
 type Result_2 = 
  variant {
    err: Error;
-   ok: vec PostRead;
+   ok: nat;
  };
-type Result_10 = 
+type Result_12 = 
  variant {
    err: Error;
    ok: vec principal;
  };
+type Result_11 = 
+ variant {
+   err: Error;
+   ok: record {
+         principal;
+         principal;
+       };
+ };
+type Result_10 = 
+ variant {
+   err: Error;
+   ok: text;
+ };
 type Result_1 = 
  variant {
    err: Error;
-   ok: nat;
+   ok: vec ArtistRead;
  };
 type Result = 
  variant {
@@ -127,12 +136,15 @@ type PostUpdate =
  };
 type PostRead__1 = 
  record {
+   artistPrincipal: principal;
    artistUsername: text;
    comments: opt vec record {
                        principal;
                        text;
                        text;
                        Comment;
+                       nat;
+                       principal;
                      };
    likedByCaller: bool;
    likesQty: int;
@@ -147,12 +159,15 @@ type PostRead__1 =
  };
 type PostRead = 
  record {
+   artistPrincipal: principal;
    artistUsername: text;
    comments: opt vec record {
                        principal;
                        text;
                        text;
                        Comment;
+                       nat;
+                       principal;
                      };
    likedByCaller: bool;
    likesQty: int;
@@ -168,7 +183,7 @@ type PostRead =
 type PostCreate = 
  record {
    postBasics: PostBasics;
-   postImage: blob;
+   postImage: vec nat8;
  };
 type PostBasics = 
  record {
@@ -269,6 +284,6 @@ type ArtistRead =
    followsQty: nat;
    galleriesQty: nat;
    postsQty: nat;
-   postsRead: opt vec PostRead__1;
+   postsRead: opt vec PostRead;
  };
-service : (InitOptions) -> anon_class_20_1
+service : (InitOptions) -> anon_class_22_1

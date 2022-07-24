@@ -3,30 +3,36 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 
 import CssBaseline from "@mui/material/CssBaseline";
-import "./app.css";
-
+import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   ThemeProvider as MuiThemeProvider,
   createTheme,
+  useTheme,
 } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 
-import { AppRouter } from "./routes/appRouter";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#2D2D2D",
-    },
-  },
-});
+import { AppRouter } from "./router.jsx";
+import { PrixerProvider } from "./context/provider";
+import "./app.css";
 
 function PrixerApp() {
+  const themeQuery = useTheme();
+  const mobileBreakpoint = useMediaQuery(themeQuery.breakpoints.up("md"));
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#2D2D2D",
+      },
+    },
+  });
+
   return (
     <MuiThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AppRouter />
+        <PrixerProvider>
+          <AppRouter isMobile={mobileBreakpoint ? false : true} />
+        </PrixerProvider>
       </ThemeProvider>
     </MuiThemeProvider>
   );

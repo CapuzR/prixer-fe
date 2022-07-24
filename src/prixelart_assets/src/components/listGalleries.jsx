@@ -1,41 +1,25 @@
-import React, { useState, forwardRef } from "react";
+import React from "react";
 import * as React from "react";
 
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
+import {
+  Box,
+  IconButton,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CircularProgress from "@mui/material/CircularProgress";
-import Snackbar from "@mui/material/Snackbar";
-import Slide from "@mui/material/Slide";
-import MuiAlert from "@mui/material/Alert";
 
-import service from "../pages/service";
-
-function ListGalleries({
-  galleries,
-  navigate,
-  setGalleries,
-  setDetails,
-  details,
-  username,
+const ListGalleries = ({
+  galleries = [],
   getGalleryImage,
-}) {
-  const Alert = forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-  const [message, setMessage] = useState(undefined);
-  const [severity, setSeverity] = useState(undefined);
-  const [isLoading, setIsLoading] = useState(undefined);
-
+  deleteGallery,
+  showGalleryDetails,
+}) => {
   return (
-    <Grid container spacing={1} style={{ maxWidth: 1000, margin: "auto" }}>
+    <Grid container spacing={1}>
       {galleries?.length === 0 ? (
         <div
           style={{ display: "flex", width: "100%", justifyContent: "center" }}
@@ -47,9 +31,7 @@ function ListGalleries({
           <Grid key={index} item xs={12} sm={4} md={4} lg={4} xl={3}>
             <Card>
               <CardMedia
-                onClick={() =>
-                  navigate(`/gallery/${item.id}/posts/${username}`)
-                }
+                onClick={() => showGalleryDetails(item.id)}
                 component="img"
                 height="180"
                 image={getGalleryImage(item.id)}
@@ -76,28 +58,13 @@ function ListGalleries({
                   <Box style={{ marginLeft: "auto" }}>
                     <IconButton
                       color="primary"
-                      onClick={async () => {
-                        setIsLoading(item.id);
-                        await service.removeGallery(item.id);
-                        setIsSnackbarOpen(true);
-                        setSeverity("success");
-                        setMessage("gallery deleted successfully");
-
-                        setIsLoading(undefined);
-                        setGalleries(
-                          galleries.filter((galery) => galery.id !== item.id)
-                        );
-                        const newData = { ...details };
-                        newData.galleriesQty =
-                          parseInt(newData.galleriesQty) - 1;
-                        setDetails(newData);
-                      }}
+                      onClick={() => deleteGallery(item.id)}
                     >
-                      {isLoading === item.id ? (
+                      {/* {isLoading === item.id ? (
                         <CircularProgress size={32} />
-                      ) : (
-                        <DeleteIcon />
-                      )}
+                      ) : ( */}
+                      <DeleteIcon />
+                      {/* )} */}
                     </IconButton>
                   </Box>
                 </Box>
@@ -110,29 +77,8 @@ function ListGalleries({
           </Grid>
         ))
       )}
-      <Snackbar
-        autoHideDuration={3000}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        onClose={handleCloseSnackbar}
-        open={isSnackbarOpen}
-        TransitionComponent={SlideTransition}
-        style={{ display: isSnackbarOpen ? "flex" : "none" }}
-      >
-        <Alert severity={severity}>{message}</Alert>
-      </Snackbar>
     </Grid>
   );
-}
-
-function SlideTransition(props) {
-  return <Slide {...props} direction="left" />;
-}
-
-function handleCloseSnackbar(event, reason) {
-  if (reason === "clickaway") {
-    return;
-  }
-  setIsSnackbarOpen(false);
-}
+};
 
 export default ListGalleries;

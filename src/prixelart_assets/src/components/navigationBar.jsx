@@ -1,6 +1,6 @@
 import React from "react";
 import * as React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -16,19 +16,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
 import StarIcon from "@mui/icons-material/Star";
+import ActionButton from "./actionButton";
 
-function NavigationBar({
-  openActionMenu,
-  hanleOpenActionMenu,
-  setAnchorElActionMenu,
-  anchorElActionMenu,
-  setOpenActionMenu,
-  setIsCreateArt,
-  setIsCrateGallery,
-  navigate,
-  params,
-}) {
+function NavigationBar({ username }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const params = useParams();
   return (
     <Paper
       elevation={5}
@@ -40,14 +33,13 @@ function NavigationBar({
         position: "fixed",
         display: "flex",
         alignItems: "center",
-        // maxWidth: 1000,
       }}
     >
       <Box style={{ width: "20%", textAlign: "center" }}>
         <IconButton
-          onClick={() => navigate("/main")}
+          onClick={() => navigate("/feed")}
           style={{
-            color: location.pathname === "/main" ? "#2D2D2D" : "#C5C5C5",
+            color: location.pathname === "/feed" ? "#2D2D2D" : "#C5C5C5",
           }}
         >
           <HomeIcon fontSize="large" />
@@ -75,64 +67,12 @@ function NavigationBar({
           marginTop: -45,
         }}
       >
-        <Fab
-          color="primary"
-          id="basic-button"
-          aria-controls={openActionMenu ? "basic-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={openActionMenu ? "true" : undefined}
-          onClick={hanleOpenActionMenu}
-        >
-          <AddIcon />
-        </Fab>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorElActionMenu}
-          open={openActionMenu}
-          onClose={() => {
-            setOpenActionMenu(false);
-            setAnchorElActionMenu(null);
-          }}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <MenuItem
-            onClick={() => {
-              setIsCreateArt(true);
-              setAnchorElActionMenu(null);
-              setOpenActionMenu(false);
-              navigate("/addArt");
-            }}
-          >
-            Add post
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate("/addService");
-              setIsCrateGallery(true);
-              setAnchorElActionMenu(null);
-              setOpenActionMenu(false);
-            }}
-          >
-            Add service
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setIsCrateGallery(true);
-              setAnchorElActionMenu(null);
-              setOpenActionMenu(false);
-              navigate("/addGallery");
-            }}
-          >
-            Add gallery
-          </MenuItem>
-        </Menu>
+        <ActionButton isMobile={true} />
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
         <IconButton
-          color="primary"
           onClick={() => navigate("/explore")}
+          color="primary"
           style={{
             color: location.pathname === "/explore" ? "#2D2D2D" : "#C5C5C5",
           }}
@@ -148,10 +88,10 @@ function NavigationBar({
           }}
           color="primary"
           onClick={() => {
-            if (params === localStorage.getItem("username")) {
+            if (params === username) {
               return false;
             } else {
-              navigate(`/u/${localStorage.getItem("username")}`);
+              navigate(`/u/${username}`);
             }
           }}
         >

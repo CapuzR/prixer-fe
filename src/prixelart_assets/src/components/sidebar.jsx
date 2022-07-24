@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import * as React from "react";
-import PropTypes from "prop-types";
 
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -16,10 +15,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-import logo from "../assets/prixelart.png";
+// import logo from "../assets/prixelart.png";
 
 import consts from "../consts/index";
-import service from "../pages/service";
+import service from "../pages_old/service";
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -32,7 +31,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { Typography } from "@mui/material";
 
-import service from "../pages/service";
+import service from "../service";
 import DialogConfirmDelete from "./dialogConfirmDelete";
 
 function Sidebar(props) {
@@ -40,9 +39,6 @@ function Sidebar(props) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openSecurity, setOpenSecurity] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
-  const [typeDelete, setTypeDelete] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!props.isOpenSideMenu) {
@@ -63,10 +59,12 @@ function Sidebar(props) {
             }}
           >
             <div>
-              <img src={logo} style={{ width: 150 }} alt="logo" />
+              <img src={""} style={{ width: 150 }} alt="logo" />
             </div>
             <div style={{ marginLeft: "auto", marginRight: "8px" }}>
-              <IconButton onClick={props.handleDrawerToggle}>
+              <IconButton
+                onClick={() => props.handleSidebar(!props.isOpenSideMenu)}
+              >
                 <ChevronLeftIcon style={{ color: "#FFFFFF" }} />
               </IconButton>
             </div>
@@ -74,7 +72,7 @@ function Sidebar(props) {
         ) : (
           <IconButton
             style={{ color: "white", marginTop: -15 }}
-            onClick={props.handleDrawerToggle}
+            onClick={() => props.handleSidebar(!props.isOpenSideMenu)}
           >
             <MenuIcon fontSize="large" />
           </IconButton>
@@ -99,35 +97,7 @@ function Sidebar(props) {
             ></Avatar>
           </div>
           <div style={{ color: "#FFFFFF", overflowWrap: "break-word" }}>
-            <Typography variant="h6">{`${localStorage.getItem(
-              "fullname"
-            )}`}</Typography>
-          </div>
-          <div
-            style={{
-              marginBottom: "8px",
-              color: "#FFFFFF",
-              overflowWrap: "break-word",
-            }}
-          ></div>
-          <div
-            style={{
-              marginTop: 16,
-              padding: 4,
-              paddingTop: 0,
-              paddingBottom: 0,
-            }}
-          >
-            <p style={{ wordBreak: "break-word", color: "#FFFFFF" }}>
-              {/* <strong>Grupos:</strong>
-              {` ${filterGroups?.map((item) => ` ${item.name}`)} `} */}
-            </p>
-          </div>
-          <div style={{ padding: 4, paddingTop: 0 }}>
-            <p style={{ wordBreak: "break-word", color: "#FFFFFF" }}>
-              {/* <strong>Habilidades:</strong>
-              {` ${filterAbilities?.map((item) => ` ${item.name}`)} `} */}
-            </p>
+            <Typography variant="h6">{`${props.fullName}`}</Typography>
           </div>
         </div>
       ) : (
@@ -138,7 +108,9 @@ function Sidebar(props) {
             marginBottom: "24px",
           }}
         >
-          <IconButton onClick={props.handleDrawerToggle}>
+          <IconButton
+            onClick={() => props.handleSidebar(!props.isOpenSideMenu)}
+          >
             <Avatar
               src={service.getUrl(
                 consts.ASSET_CANISTER_ID_ARTIST,
@@ -162,13 +134,13 @@ function Sidebar(props) {
             <ListItem disablePadding style={{ marginBottom: "8px" }}>
               <ListItemButton
                 onClick={() =>
-                  location.pathname === "/main"
+                  location.pathname === "/feed"
                     ? console.log("")
-                    : navigate("/main")
+                    : navigate("/feed")
                 }
                 style={{
                   backgroundColor:
-                    location.pathname === "/main" ? "rgb(33 32 37)" : "",
+                    location.pathname === "/feed" ? "rgb(33 32 37)" : "",
 
                   borderRadius: "0px 20px 20px 0px",
                 }}
@@ -207,11 +179,7 @@ function Sidebar(props) {
                       : "",
                   borderRadius: "0px 20px 20px 0px",
                 }}
-                onClick={() =>
-                  location.pathname.split("/")[1] === "u"
-                    ? console.log()
-                    : navigate(`/u/${localStorage.getItem("username")}`)
-                }
+                onClick={() => navigate(`/u/${props.username}`)}
               >
                 <ListItemIcon>
                   <AccountCircleIcon style={{ color: "#FFFFFF" }} />
@@ -296,24 +264,14 @@ function Sidebar(props) {
             </Collapse>
             <ListItem disablePadding style={{ marginBottom: "8px" }}>
               <ListItemButton
-                // style={{
-                //   backgroundColor:
-                //     location.pathname.split("/")[1] === "u"
-                //       ? "rgb(33 32 37)"
-                //       : "",
-                //   borderRadius: "0px 20px 20px 0px",
-                // }}
-                onClick={() => setOpen(!open)}
+                onClick={() => {
+                  navigate("/settings");
+                }}
               >
                 <ListItemIcon>
                   <SettingsIcon style={{ color: "#FFFFFF" }} />
                 </ListItemIcon>
                 <ListItemText style={{ color: "#FFFFFF" }} primary="Settings" />
-                {!open ? (
-                  <ExpandLess style={{ color: "#FFFFFF" }} />
-                ) : (
-                  <ExpandMore style={{ color: "#FFFFFF" }} />
-                )}
               </ListItemButton>
             </ListItem>
           </List>
@@ -330,22 +288,17 @@ function Sidebar(props) {
                 <IconButton
                   style={{
                     backgroundColor:
-                      location.pathname === "/main" ? "rgb(33 32 37)" : "",
+                      location.pathname === "/feed" ? "rgb(33 32 37)" : "",
 
                     color: "white",
                   }}
                   onClick={() =>
-                    location.pathname === "/main"
+                    location.pathname === "/feed"
                       ? console.log("")
-                      : navigate("/main")
+                      : navigate("/feed")
                   }
                 >
                   <HomeIcon fontSize="large" />
-                  {/* <img
-                    src={props.page === "chat" ? iconAgent : iconAgentDisable}
-                    style={{ width: "32px" }}
-                    alt="agente"
-                  /> */}
                 </IconButton>
               </div>
               <div
@@ -383,11 +336,7 @@ function Sidebar(props) {
 
                     color: "white",
                   }}
-                  onClick={() =>
-                    location.pathname.split("/")[1] === "u"
-                      ? console.log()
-                      : navigate(`/u/${localStorage.getItem("username")}`)
-                  }
+                  onClick={() => navigate(`/u/${props.username}`)}
                 >
                   <AccountCircleIcon fontSize="large" />
                 </IconButton>
@@ -404,8 +353,7 @@ function Sidebar(props) {
                     color: "white",
                   }}
                   onClick={() => {
-                    props.setIsOpenSideManu(true);
-                    setOpen(true);
+                    navigate("/settings");
                   }}
                 >
                   <SettingsIcon fontSize="large" />
@@ -439,7 +387,7 @@ function Sidebar(props) {
           container={props.container}
           variant="temporary"
           open={props.isOpenSideMenu}
-          onClose={props.handleDrawerToggle}
+          onClose={() => props.handleSidebar(!props.isOpenSideMenu)}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
@@ -465,7 +413,7 @@ function Sidebar(props) {
               "0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)",
           }}
           sx={{
-            display: { xs: "none", md: "block" },
+            display: { sm: "none", md: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: props.drawerwidth,
@@ -477,28 +425,8 @@ function Sidebar(props) {
           {drawer}
         </Drawer>
       )}
-      <DialogConfirmDelete
-        open={openDelete}
-        setOpen={setOpenDelete}
-        type={typeDelete}
-        onDelete={async () => {
-          setIsLoading(true);
-          setOpenDelete(false);
-          await service.deleteArtist();
-          navigate("/login");
-          setIsLoading(false);
-        }}
-      />
     </>
   );
 }
-
-Sidebar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default Sidebar;

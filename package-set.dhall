@@ -24,6 +24,12 @@ let
         version = "v0.2.0",
         dependencies = [ "base" ]
       },
+       { 
+        name = "crypto",
+        repo = "https://github.com/aviate-labs/crypto.mo",
+        version = "v0.2.0",
+        dependencies = [ "base", "encoding" ]
+      },
       { 
         name = "encoding",
         repo = "https://github.com/aviate-labs/encoding.mo",

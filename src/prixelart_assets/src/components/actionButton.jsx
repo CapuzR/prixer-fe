@@ -1,62 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import * as React from "react";
-import Fab from "@mui/material/Fab";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
 
+import { Fab, Menu, MenuItem } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-function ActionButton({
-  openCreation,
-  handleClickCreation,
-  anchorElCreation,
-  openCreation,
-  setAnchorElCreation,
-  setIsCreateArt,
-  setIsCrateGallery,
-}) {
+const ActionButton = ({ isMobile }) => {
+  const [openActionMenu, setOpenActionMenu] = useState(false);
+  const [anchorElActionMenu, setAnchorElActionMenu] = useState(null);
+
+  const navigate = useNavigate();
+
   return (
     <>
-      {/* <Fab
+      <Fab
         color="primary"
         id="basic-button"
-        aria-controls={openCreation ? "basic-menu" : undefined}
+        aria-controls={openActionMenu ? "basic-menu" : undefined}
         aria-haspopup="true"
-        aria-expanded={openCreation ? "true" : undefined}
-        onClick={handleClickCreation}
-        style={{ position: "fixed", bottom: 16, right: 16 }}
+        aria-expanded={openActionMenu ? "true" : undefined}
+        onClick={(event) => {
+          setOpenActionMenu(!openActionMenu);
+          setAnchorElActionMenu(event.currentTarget);
+        }}
+        style={{
+          position: !isMobile && "fixed",
+          bottom: !isMobile && 16,
+          right: !isMobile && 16,
+        }}
       >
         <AddIcon />
       </Fab>
       <Menu
         id="basic-menu"
-        anchorEl={anchorElCreation}
-        open={openCreation}
-        onClose={() => setAnchorElCreation(null)}
+        anchorEl={anchorElActionMenu}
+        open={openActionMenu}
+        onClose={() => {
+          setAnchorElActionMenu();
+          setOpenActionMenu(false);
+        }}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
       >
         <MenuItem
           onClick={() => {
-            setIsCreateArt(true);
-            setAnchorElCreation(null);
+            setAnchorElActionMenu(null);
+            setOpenActionMenu(false);
+            navigate("/form/post");
           }}
         >
-          Create Art
+          Add post
         </MenuItem>
         <MenuItem
           onClick={() => {
-            setIsCrateGallery(true);
-            setAnchorElCreation(null);
+            setAnchorElActionMenu(null);
+            setOpenActionMenu(false);
+            navigate("/form/service");
           }}
         >
-          Create Gallery
+          Add service
         </MenuItem>
-      </Menu> */}
+
+        <MenuItem
+          onClick={() => {
+            setAnchorElActionMenu(null);
+            setOpenActionMenu(false);
+            navigate("/form/gallery");
+          }}
+        >
+          Add gallery
+        </MenuItem>
+      </Menu>
     </>
   );
-}
+};
 
 export default ActionButton;

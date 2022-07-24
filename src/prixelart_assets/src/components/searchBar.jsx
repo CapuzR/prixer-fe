@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 
 import SearchIcon from "@mui/icons-material/Search";
 
-function SearchBar({ search, setSearch }) {
+const SearchBar = ({ search, handleSearch }) => {
   return (
     <TextField
       fullWidth
@@ -15,7 +15,7 @@ function SearchBar({ search, setSearch }) {
       placeholder="search post..."
       size="small"
       value={search}
-      onChange={(event) => setSearch(event.target.value)}
+      onChange={(event) => handleSearch(event.target.value)}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
@@ -25,6 +25,6 @@ function SearchBar({ search, setSearch }) {
       }}
     />
   );
-}
+};
 
 export default SearchBar;

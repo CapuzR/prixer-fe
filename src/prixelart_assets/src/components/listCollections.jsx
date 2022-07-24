@@ -8,10 +8,14 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 
-function ListCollections({ collections = [0, 1, 2, 3, 4], artist, navigate }) {
+const ListCollections = ({ collections = [0, 1, 2, 3, 4], isMobile }) => {
   return (
     <>
-      <Grid container spacing={1} style={{ maxWidth: 1000, margin: "auto" }}>
+      <Grid
+        container
+        spacing={!isMobile && 1}
+        style={{ maxWidth: 1000, margin: "auto" }}
+      >
         {collections?.length === 0 ? (
           <div
             style={{ display: "flex", width: "100%", justifyContent: "center" }}
@@ -27,15 +31,23 @@ function ListCollections({ collections = [0, 1, 2, 3, 4], artist, navigate }) {
               variant="h6"
               className="mint-hl"
               style={{ textDecoration: "underline" }}
-            >{`Mint ${artist.username} working hours`}</Typography>
+            >{`Mint ggrnado working hours`}</Typography>
           </div>
         )}
         {collections.map((collection, index) => (
-          <Grid key={index} item xs={12} sm={12} md={4} lg={4} xl={4}>
+          <Grid
+            key={index}
+            xs={12}
+            sm={12}
+            md={6}
+            lg={4}
+            xl={4}
+            style={{ paddingTop: isMobile && 8 }}
+          >
             <Card
-              onClick={() =>
-                navigate(`/collection/${index}/${artist.username}`)
-              }
+            //   onClick={() =>
+            //     navigate(`/collection/${index}/${artist.username}`)
+            //   }
             >
               <CardMedia
                 component="img"
@@ -88,6 +100,6 @@ function ListCollections({ collections = [0, 1, 2, 3, 4], artist, navigate }) {
       </Grid>
     </>
   );
-}
+};
 
 export default ListCollections;

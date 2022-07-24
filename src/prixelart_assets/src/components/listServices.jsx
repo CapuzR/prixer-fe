@@ -1,45 +1,64 @@
-import React, { useState } from "react";
+import React from "react";
 import * as React from "react";
 
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
+import {
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Box,
+  IconButton,
+} from "@mui/material";
+
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ServiceForm from "./serviceForm";
 
-function ListServices({ services = [0, 1, 2, 3, 4], artist }) {
-  const [isUpdateService, setIsUpdateService] = useState(false);
-
-  return isUpdateService ? (
-    <ServiceForm isUpdate={true} setIsUpdateService={setIsUpdateService} />
-  ) : (
+const ListServices = ({ services = [1, 2, 3, 4], isMobile }) => {
+  return (
     <>
-      <Grid container spacing={1} style={{ maxWidth: 1000, margin: "auto" }}>
+      <Grid
+        container
+        spacing={!isMobile && 1}
+        style={{ maxWidth: 1000, margin: "auto" }}
+      >
         {services?.length === 0 ? (
           <div
-            style={{ display: "flex", width: "100%", justifyContent: "center" }}
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+            }}
           >
             No services
           </div>
         ) : (
           <div
-            style={{ display: "flex", width: "100%", justifyContent: "center" }}
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+            }}
           >
             <Typography
               onClick={(event) => console.log(event)}
               variant="h6"
               className="mint-hl"
               style={{ textDecoration: "underline" }}
-            >{`Mint ${artist.username} working hours`}</Typography>
+            >{`Mint ggranado working hours`}</Typography>
           </div>
         )}
         {services.map((service, index) => (
-          <Grid key={index} item xs={12} sm={12} md={12} lg={12} xl={6}>
+          <Grid
+            key={index}
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            lg={4}
+            xl={4}
+            style={{ paddingTop: isMobile && 8 }}
+          >
             <Card>
               <CardMedia
                 // onClick={() =>
@@ -63,7 +82,7 @@ function ListServices({ services = [0, 1, 2, 3, 4], artist }) {
                     </IconButton>
                     <IconButton
                       color="primary"
-                      onClick={() => setIsUpdateService(true)}
+                      //   onClick={() => setIsUpdateService(true)}
                     >
                       <EditIcon />
                     </IconButton>
@@ -82,6 +101,6 @@ function ListServices({ services = [0, 1, 2, 3, 4], artist }) {
       </Grid>
     </>
   );
-}
+};
 
 export default ListServices;
