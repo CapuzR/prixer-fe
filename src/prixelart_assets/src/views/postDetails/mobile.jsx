@@ -27,6 +27,7 @@ const MobileView = ({
   artist,
   updatePost,
   deletePost,
+  galleries,
 }) => {
   const navigate = useNavigate();
   return (
@@ -80,6 +81,7 @@ const MobileView = ({
             handleIsUpdatePost={handleIsUpdatePost}
             post={post}
             updatePost={updatePost}
+            galleries={galleries}
           />
         ) : (
           <InfoPost
@@ -94,6 +96,8 @@ const MobileView = ({
             createComment={createComment}
             onAddComment={onAddComment}
             isMobile={isMobile}
+            deletePost={deletePost}
+            galleries={galleries}
           />
         )}
       </Box>

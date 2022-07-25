@@ -32,6 +32,7 @@ const DesktopView = ({
   artist,
   updatePost,
   deletePost,
+  galleries,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -106,6 +107,7 @@ const DesktopView = ({
               handleIsUpdatePost={handleIsUpdatePost}
               post={post}
               updatePost={updatePost}
+              galleries={galleries}
             />
           ) : (
             <InfoPost
@@ -120,6 +122,7 @@ const DesktopView = ({
               onAddComment={onAddComment}
               createComment={createComment}
               deletePost={deletePost}
+              galleries={galleries}
             />
           )}
         </Box>

@@ -15,7 +15,7 @@ const PostsDetails = ({ isMobile }) => {
   const [post, setPost] = useState();
   const [camera, setCamera] = useState("");
   const [lens, setLens] = useState("");
-  console.log(post);
+  console.log(state);
   const onLogout = async () => {
     await service.onSignOutStoic();
     localStorage.clear();
@@ -158,6 +158,7 @@ const PostsDetails = ({ isMobile }) => {
       artist={state.user}
       updatePost={updatePost}
       deletePost={deletePost}
+      galleries={state.galleries}
     />
   ) : (
     <DesktopView
@@ -180,6 +181,7 @@ const PostsDetails = ({ isMobile }) => {
       artist={state.user}
       updatePost={updatePost}
       deletePost={deletePost}
+      galleries={state.galleries}
     />
   );
 };

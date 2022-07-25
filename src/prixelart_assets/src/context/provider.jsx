@@ -47,8 +47,8 @@ export const PrixerProvider = ({ children }) => {
     details.followsQty = parseInt(details.followsQty);
     details.postsQty = parseInt(details.postsQty);
     details.galleriesQty = parseInt(details.galleriesQty);
-    details.postsRead[0].forEach((item) =>
-      item.comments[0].forEach(
+    details.postsRead[0]?.forEach((item) =>
+      item.comments[0]?.forEach(
         (comment) => delete comment[3] && delete comment[4]
       )
     );
