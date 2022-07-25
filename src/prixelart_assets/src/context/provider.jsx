@@ -45,8 +45,14 @@ export const PrixerProvider = ({ children }) => {
   const setPostsDetails = (details) => {
     details.followersQty = parseInt(details.followersQty);
     details.followsQty = parseInt(details.followsQty);
-    details.galleriesQty = parseInt(details.galleriesQty);
     details.postsQty = parseInt(details.postsQty);
+    details.galleriesQty = parseInt(details.galleriesQty);
+    details.postsRead[0].forEach((item) =>
+      item.comments[0].forEach(
+        (comment) => delete comment[3] && delete comment[4]
+      )
+    );
+    console.log(details);
     if (details.postsRead.length === 0) {
       details.postsRead = [[]];
     } else {

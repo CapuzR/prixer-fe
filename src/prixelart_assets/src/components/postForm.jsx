@@ -36,7 +36,6 @@ function PostForm({
   post,
   updatePost,
 }) {
-  console.log(post);
   const navigate = useNavigate();
   const [artTitle, setArtTitle] = useState(
     post ? post.post.postBasics.title : ""

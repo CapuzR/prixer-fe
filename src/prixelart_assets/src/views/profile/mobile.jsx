@@ -39,6 +39,7 @@ const MobileView = ({
   isUpdateProfile,
   updateArtist,
   showGalleryDetails,
+  setBanner,
 }) => {
   return (
     <Box style={{ height: "calc(100vh - 60px)" }}>
@@ -74,7 +75,12 @@ const MobileView = ({
           </Box>
         ) : (
           <>
-            <Banner banner={banner} />
+            <Banner
+              banner={banner}
+              updateArtist={updateArtist}
+              artist={artist}
+              setBanner={setBanner}
+            />
             <PaperProfile
               artist={artist}
               isMobile={isMobile}

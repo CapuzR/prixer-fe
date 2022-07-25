@@ -152,15 +152,20 @@ const parseArtist = (artist) => {
     // assetCanisterId: artist[0].details.find(
     //   (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
     // )[1].Principal,
-    banner:
-      "https://images.unsplash.com/photo-1651135094094-7f2a48224da8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1MjcxNTgwMA&ixlib=rb-1.2.1&q=80&w=1080",
+    banner: artist[0].details.find((detail) => detail[0] === "bannerAsset")
+      ? getUrl(
+          consts.ASSET_CANISTER_ID_ARTIST,
+          `B${JSON.parse(localStorage.getItem("_scApp")).principal}`
+        )
+      : "https://images.unsplash.com/photo-1651135094094-7f2a48224da8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1MjcxNTgwMA&ixlib=rb-1.2.1&q=80&w=1080",
   };
   // artist[0].details.find((detail) => detail[0] === "bannerAsset")
-  //   ? getUrl(
-  //       consts.ASSET_CANISTER_ID_ARTIST,
-  //       `B${JSON.parse(localStorage.getItem("_scApp")).principal}`
-  //     )
+  // ? getUrl(
+  //     consts.ASSET_CANISTER_ID_ARTIST,
+  //     `B${JSON.parse(localStorage.getItem("_scApp")).principal}`
+  //   )
   //   : console.log(parseArtist);
+  console.log(parseArtist);
   return parseArtist;
 };
 

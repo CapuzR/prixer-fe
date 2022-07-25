@@ -207,7 +207,7 @@ function RegistryForm({
                     ["displayName", { Text: displayName }],
                     [
                       "avatarAsset",
-                      { Vec: [{ Slice: avatarAsset }, { key: null }] },
+                      { Vec: [{ Slice: avatarAsset }, { True: null }] },
                     ],
                     ["bannerAsset", { Vec: [{ False: null }] }],
                     ["location", { Text: location }],

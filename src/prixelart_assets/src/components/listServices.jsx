@@ -17,11 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const ListServices = ({ services = [1, 2, 3, 4], isMobile }) => {
   return (
     <>
-      <Grid
-        container
-        spacing={!isMobile && 1}
-        style={{ maxWidth: 1000, margin: "auto" }}
-      >
+      <Grid container spacing={!isMobile && 1}>
         {services?.length === 0 ? (
           <div
             style={{

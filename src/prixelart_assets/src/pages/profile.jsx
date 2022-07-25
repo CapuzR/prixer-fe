@@ -42,9 +42,13 @@ const Profile = ({ isMobile }) => {
         const result = await Promise.all([
           service.getArtistDetailsByUsername(state.user.username),
           service.getGalleriesByArtist(state.user.username),
+          service.getArtistByPrincipal(),
         ]);
+        console.log(result);
         setPostsDetails(result[0].ok);
         setGalleries(result[1].ok);
+        const parseArtist = service.parseArtist(result[2]);
+        setUser(parseArtist);
       } else {
         const result = await Promise.all([
           service.getArtistByUsername(params.username),
@@ -176,7 +180,6 @@ const Profile = ({ isMobile }) => {
   };
 
   const updateArtist = async (artist) => {
-    console.log(artist);
     try {
       const result = await Promise.all([
         service.updateArtist(artist),
@@ -185,7 +188,7 @@ const Profile = ({ isMobile }) => {
       const artistDB = await service.getArtistByPrincipal();
       const parseArtist = service.parseArtist(artistDB);
       setUser(parseArtist);
-      navigate("/explore");
+      window.location.reload();
     } catch (err) {
       console.log(err);
       console.log("[Err in updateProfile profile.jsx]");
@@ -228,6 +231,7 @@ const Profile = ({ isMobile }) => {
         isUpdateProfile={isUpdateProfile}
         updateArtist={updateArtist}
         showGalleryDetails={showGalleryDetails}
+        setBanner={setBanner}
       />
     ) : (
       <DesktopView
@@ -263,6 +267,7 @@ const Profile = ({ isMobile }) => {
         isUpdateProfile={isUpdateProfile}
         updateArtist={updateArtist}
         showGalleryDetails={showGalleryDetails}
+        setBanner={setBanner}
       />
     )
   ) : (

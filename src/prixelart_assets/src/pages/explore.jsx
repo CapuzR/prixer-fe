@@ -25,7 +25,7 @@ const Explore = ({ isMobile }) => {
         service.readPostsByCreation(state.user.username),
         service.getArtistByPrincipal(),
       ]);
-      console.log(result);
+     
       const parsetArtist = service.parseArtist(result[1]);
       setUser(parsetArtist);
       setExplore(result[0].ok);

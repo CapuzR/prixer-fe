@@ -16,14 +16,12 @@ import {
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import consts from "../consts";
 import { service } from "../service";
 

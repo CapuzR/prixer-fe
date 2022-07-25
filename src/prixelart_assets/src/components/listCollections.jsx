@@ -11,11 +11,7 @@ import Box from "@mui/material/Box";
 const ListCollections = ({ collections = [0, 1, 2, 3, 4], isMobile }) => {
   return (
     <>
-      <Grid
-        container
-        spacing={!isMobile && 1}
-        style={{ maxWidth: 1000, margin: "auto" }}
-      >
+      <Grid container spacing={!isMobile && 1}>
         {collections?.length === 0 ? (
           <div
             style={{ display: "flex", width: "100%", justifyContent: "center" }}
@@ -42,6 +38,7 @@ const ListCollections = ({ collections = [0, 1, 2, 3, 4], isMobile }) => {
             md={6}
             lg={4}
             xl={4}
+            item
             style={{ paddingTop: isMobile && 8 }}
           >
             <Card
