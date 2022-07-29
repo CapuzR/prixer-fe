@@ -72,6 +72,7 @@ export const PrixerProvider = ({ children }) => {
   };
 
   const setFeed = (feed) => {
+    
     feed.forEach((el) => {
       el.artistPrincipal =
         typeof el.artistPrincipal !== "string"

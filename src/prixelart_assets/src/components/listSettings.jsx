@@ -6,7 +6,7 @@ import StorageIcon from "@mui/icons-material/Storage";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import InfoIcon from "@mui/icons-material/Info";
 
-const ListSettings = ({ isMobile }) => {
+const ListSettings = ({ isMobile, handleScreen }) => {
   return (
     <Box>
       <Grid container spacing={1}>
@@ -20,7 +20,7 @@ const ListSettings = ({ isMobile }) => {
               alignItems: "center",
               justifyContent: "center",
             }}
-            //   onClick={() => onAcceptmembership("free")}
+            onClick={() => handleScreen("storage")}
           >
             <Box style={{ textAlign: "center" }}>
               <Typography variant="h5">

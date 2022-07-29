@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+// const CopyPlugin = require("copy-webpack-plugin");
 
 function initCanisterEnv() {
   let localCanisters, prodCanisters;
@@ -96,14 +96,14 @@ module.exports = {
       template: path.join(__dirname, asset_entry),
       cache: false,
     }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.join(__dirname, "src", frontendDirectory, "assets"),
-          to: path.join(__dirname, "dist", frontendDirectory),
-        },
-      ],
-    }),
+    // new CopyPlugin({
+    //   patterns: [
+    //     {
+    //       from: path.join(__dirname, "src", frontendDirectory, "assets"),
+    //       to: path.join(__dirname, "dist", frontendDirectory),
+    //     },
+    //   ],
+    // }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
       ...canisterEnvVariables,

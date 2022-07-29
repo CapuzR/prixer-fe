@@ -1,24 +1,30 @@
-type anon_class_18_1 = 
+type anon_class_26_1 = 
  service {
    add: (Metadata) -> (Result);
    assignUsername: (text) -> (Result);
-   createArtistCan: () -> (Result_4);
-   createAssetCan: () -> (Result_4);
+   balance: () -> (nat) query;
+   createArtistCan: () -> (Result_8);
+   createAssetCan: () -> (Result_8);
+   createInvoice: (text, nat) -> (Result_7);
    get: (principal) -> (opt Metadata) query;
-   getAll: () -> (Result_3) query;
+   getAll: () -> (Result_6) query;
    getByUsername: (text) -> (opt Metadata) query;
    getCanMemInfo: () -> () query;
+   getInvoice: (nat) -> (Result_5) query;
    getPrincipalByUsername: (text) -> (vec principal) query;
    getUsernamesByPrincipal: (principal) -> (vec text) query;
-   getWhitelistedArtists: () -> (Result_2);
-   isArtistWhitelisted: (principal) -> (Result_1);
+   getWhitelistedArtists: () -> (Result_4);
+   isArtistWhitelisted: (principal) -> (Result_3);
+   isVerifyPayment: (nat) -> (Result_2);
    name: () -> (text) query;
    remove: (principal) -> (Result);
+   transferAuthNFT: (principal, principal, text) -> (Result_1);
    update: (Metadata) -> (Result);
    usernameExist: (text) -> (bool) query;
+   wallet_receive: () -> ();
    whitelistArtists: (vec principal) -> (Result);
  };
-type Result_4 = 
+type Result_8 = 
  variant {
    err: Error;
    ok: record {
@@ -26,7 +32,12 @@ type Result_4 =
          principal;
        };
  };
-type Result_3 = 
+type Result_7 = 
+ variant {
+   err: InvoiceError;
+   ok: CreateInvoiceResult;
+ };
+type Result_6 = 
  variant {
    err: Error;
    ok: vec record {
@@ -34,15 +45,30 @@ type Result_3 =
              Metadata;
            };
  };
-type Result_2 = 
+type Result_5 = 
+ variant {
+   err: InvoiceError;
+   ok: Invoice;
+ };
+type Result_4 = 
  variant {
    err: Error;
    ok: vec principal;
  };
-type Result_1 = 
+type Result_3 = 
  variant {
    err: Error;
    ok: bool;
+ };
+type Result_2 = 
+ variant {
+   err: InvoiceError;
+   ok: text;
+ };
+type Result_1 = 
+ variant {
+   err: Error__1;
+   ok;
  };
 type Result = 
  variant {
@@ -61,10 +87,44 @@ type Metadata =
    principal_id: principal;
    thumbnail: text;
  };
+type InvoiceError = 
+ record {
+   kind:
+    variant {
+      BadFee;
+      InsufficientFunds;
+      InvalidAccount;
+      InvalidDestination;
+      InvalidInvoiceId;
+      InvalidToken;
+      NotAuthorized;
+      NotFound;
+      NotYet;
+      Other;
+    };
+   message: opt text;
+ };
+type Invoice = 
+ record {
+   amount: nat;
+   creator: principal;
+   destination: text;
+   id: nat;
+   token: text;
+ };
 type InitOptions = 
  record {
    admins: vec principal;
    artistWhitelist: vec principal;
+ };
+type Error__1 = 
+ variant {
+   AuthorizedPrincipalLimitReached: nat;
+   FailedToWrite: text;
+   Immutable;
+   InvalidRequest;
+   NotFound;
+   Unauthorized;
  };
 type Error = 
  variant {
@@ -85,4 +145,9 @@ type DetailValue =
    U64: nat64;
    Vec: vec DetailValue;
  };
-service : (InitOptions) -> anon_class_18_1
+type CreateInvoiceResult = 
+ record {
+   invoice: Invoice;
+   subAccount: text;
+ };
+service : (InitOptions) -> anon_class_26_1

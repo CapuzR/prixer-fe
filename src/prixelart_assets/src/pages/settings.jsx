@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,9 @@ import { service } from "../service.js";
 const Settings = ({ isMobile }) => {
   const navigate = useNavigate();
   const { state, handleSidebar, setFeed } = useContext(PrixerContext);
+  const [screen, setScreen] = useState("settings");
+  const [isLoading, setIsLoading] = useState(false);
+  const [invoice, setInvoice] = useState();
 
   const onLogout = async () => {
     await service.onSignOutStoic();
@@ -19,6 +22,37 @@ const Settings = ({ isMobile }) => {
 
   const handleNavigation = (path) => {
     navigate(path);
+  };
+
+  const handleScreen = (view) => {
+    setScreen(view);
+  };
+  const createInvoice = async (amount) => {
+    try {
+      setIsLoading(true);
+      const result = await service.createInvoice("ICP", amount);
+      setInvoice(result.ok);
+
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
+      console.log("[Error in create invoice settings.jsx");
+    }
+  };
+
+  const transfer = async (account, amount) => {
+    return await service.transfer(account, amount);
+  };
+
+  const verifyPayment = async (invoiceId) => {
+    try {
+      const result = await service.verifyInvoice(invoiceId);
+      console.log(result, "RESULT");
+    } catch (err) {
+      console.log(err);
+      console.log("[Err in varifyPayment settings.jsx]");
+    }
   };
 
   useEffect(() => {
@@ -32,6 +66,13 @@ const Settings = ({ isMobile }) => {
       fullName={state.user.fullName}
       username={state.user.username}
       handleNavigation={handleNavigation}
+      screen={screen}
+      handleScreen={handleScreen}
+      createInvoice={createInvoice}
+      isLoading={isLoading}
+      invoice={invoice}
+      transfer={transfer}
+      verifyPayment={verifyPayment}
     />
   ) : (
     <DesktopView
@@ -42,6 +83,13 @@ const Settings = ({ isMobile }) => {
       fullName={state.user.fullName}
       username={state.user.username}
       handleNavigation={handleNavigation}
+      screen={screen}
+      handleScreen={handleScreen}
+      createInvoice={createInvoice}
+      isLoading={isLoading}
+      invoice={invoice}
+      transfer={transfer}
+      verifyPayment={verifyPayment}
     />
   );
 };

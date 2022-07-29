@@ -1,5 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import * as React from "react";
+
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 
 import {
   Box,
@@ -14,7 +23,29 @@ import {
   InputLabel,
 } from "@mui/material";
 
-function StorageConfig({ isMobile, onSetupStorageUnits }) {
+function StorageConfig({
+  isMobile,
+  onSetupStorageUnits,
+  isLoading,
+  invoice,
+  transfer,
+  verifyPayment,
+}) {
+  const [amount, setAmount] = useState(4);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const isConfirmPayment = async () => {
+    const transferResponse = await transfer(
+      invoice.subAccount,
+      parseInt(invoice.invoice.amount)
+    );
+    if (transferResponse) {
+      await verifyPayment(invoice.invoice.id);
+    } else {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <Box style={{ padding: 12 }}>
       <Box
@@ -36,7 +67,11 @@ function StorageConfig({ isMobile, onSetupStorageUnits }) {
         </Box>
         <Box style={{ marginLeft: "auto" }}>
           <Button
-            onClick={() => onSetupStorageUnits()}
+            onClick={() =>
+              Promise.resolve(onSetupStorageUnits(amount * 100000000))
+                .then(() => setIsOpen(true))
+                .catch(console.log)
+            }
             style={{
               color: "#5DBB63",
             }}
@@ -66,14 +101,14 @@ function StorageConfig({ isMobile, onSetupStorageUnits }) {
                   labelId="type-label"
                   id="type-label-select"
                   label="units"
-                  //   value={unit}
-                  //   onChange={(event) => setUnit(event.target.value)}
+                  value={amount}
+                  onChange={(event) => setAmount(event.target.value)}
                 >
                   {[
-                    { id: 1, name: "1 unit: $6 GB" },
-                    { id: 2, name: "2 units: $12 GB" },
+                    { id: 1, name: "1 unit: $6 GB", value: 4 },
+                    { id: 2, name: "2 units: $12 GB", value: 8 },
                   ].map((type) => (
-                    <MenuItem value={type.name} key={type.id}>
+                    <MenuItem value={type.value} key={type.id}>
                       {type.name}
                     </MenuItem>
                   ))}
@@ -103,6 +138,32 @@ function StorageConfig({ isMobile, onSetupStorageUnits }) {
           </Grid>
         </Grid>
       </Paper>
+      {invoice && (
+        <Dialog
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Payment confirmation"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <Box>{`
+Do you want to confirm the payment for the amount ${
+                parseInt(invoice.invoice.amount) / 100000000
+              } of ICP?`}</Box>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+            <Button onClick={() => isConfirmPayment()} autoFocus>
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </Box>
   );
 }

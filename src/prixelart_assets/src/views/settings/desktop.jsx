@@ -10,6 +10,7 @@ import ActionButton from "../../components/actionButton";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListSettings from "../../components/listSettings";
+import StorageConfig from "../../components/storageConfig";
 
 const DesktopView = ({
   onLogout,
@@ -20,9 +21,33 @@ const DesktopView = ({
   username,
   isMobile,
   handleNavigation,
+  screen,
+  handleScreen,
+  createInvoice,
+  isLoading,
+  invoice,
+  transfer,
+  verifyPayment,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
+  const currentScreen = () => {
+    switch (screen) {
+      case "settings":
+        return <ListSettings isMobile={isMobile} handleScreen={handleScreen} />;
+      case "storage":
+        return (
+          <StorageConfig
+            onSetupStorageUnits={createInvoice}
+            invoice={invoice}
+            transfer={transfer}
+            verifyPayment={verifyPayment}
+          />
+        );
+      default:
+        return <ListSettings isMobile={isMobile} handleScreen={handleScreen} />;
+    }
+  };
 
   return (
     <Box style={{ height: "calc(100vh - 60px)" }}>
@@ -55,7 +80,15 @@ const DesktopView = ({
               marginBottom: 24,
             }}
           >
-            <IconButton color="primary" onClick={() => handleNavigation(-1)}>
+            <IconButton
+              disabled={isLoading}
+              color="primary"
+              onClick={() =>
+                screen !== "settings"
+                  ? handleScreen("settings")
+                  : handleNavigation(-1)
+              }
+            >
               <ArrowBackIcon fontSize="medium" />
             </IconButton>
             <Box
@@ -70,7 +103,7 @@ const DesktopView = ({
               </Typography>
             </Box>
           </Box>
-          <ListSettings isMobile={isMobile} />
+          {currentScreen()}
         </Box>
       </Box>
       <ActionButton />

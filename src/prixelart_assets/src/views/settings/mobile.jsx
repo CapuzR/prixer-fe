@@ -9,11 +9,37 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const MobileView = ({
   onLogout,
-
+  window,
+  fullName,
+  handleSidebar,
+  isOpenSidebar,
   username,
   isMobile,
   handleNavigation,
+  screen,
+  handleScreen,
+  createInvoice,
+  isLoading,
+  invoice,
+  transfer,
 }) => {
+  const currentScreen = () => {
+    switch (screen) {
+      case "settings":
+        return <ListSettings isMobile={isMobile} handleScreen={handleScreen} />;
+      case "storage":
+        return (
+          <StorageConfig
+            onSetupStorageUnits={createInvoice}
+            invoice={invoice}
+            transfer={transfer}
+          />
+        );
+      default:
+        return <ListSettings isMobile={isMobile} handleScreen={handleScreen} />;
+    }
+  };
+
   return (
     <Box style={{ height: "calc(100vh - 60px)" }}>
       <Navbar onLogout={onLogout} />
@@ -39,9 +65,13 @@ const MobileView = ({
             }}
           >
             <IconButton
+              disabled={isLoading}
               color="primary"
-              onClick={() => handleNavigation(-1)}
-              style={{ position: "absolute" }}
+              onClick={() =>
+                screen !== "settings"
+                  ? handleScreen("settings")
+                  : handleNavigation(-1)
+              }
             >
               <ArrowBackIcon fontSize="medium" />
             </IconButton>
@@ -57,7 +87,7 @@ const MobileView = ({
               </Typography>
             </Box>
           </Box>
-          <ListSettings isMobile={isMobile} />
+          {currentScreen()}
         </Box>
       </Box>
       <NavigationBar username={username} />

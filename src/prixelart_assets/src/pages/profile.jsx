@@ -123,7 +123,7 @@ const Profile = ({ isMobile }) => {
     }
   };
 
-  const showPostDetails = (id, post) => {
+  const showPostDetails = (id) => {
     navigate(`/post/${id}/details`);
   };
   const showGalleryDetails = (id) => {

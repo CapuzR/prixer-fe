@@ -1,4 +1,10 @@
 import type { Principal } from '@dfinity/principal';
+import type { ActorMethod } from '@dfinity/agent';
+
+export interface CreateInvoiceResult {
+  'subAccount' : string,
+  'invoice' : Invoice,
+}
 export type DetailValue = { 'I64' : bigint } |
   { 'U64' : bigint } |
   { 'Vec' : Array<DetailValue> } |
@@ -12,9 +18,35 @@ export type Error = { 'NotAuthorized' : null } |
   { 'BadParameters' : null } |
   { 'Unknown' : string } |
   { 'NonExistentItem' : null };
+export type Error__1 = { 'Immutable' : null } |
+  { 'NotFound' : null } |
+  { 'Unauthorized' : null } |
+  { 'InvalidRequest' : null } |
+  { 'AuthorizedPrincipalLimitReached' : bigint } |
+  { 'FailedToWrite' : string };
 export interface InitOptions {
   'artistWhitelist' : Array<Principal>,
   'admins' : Array<Principal>,
+}
+export interface Invoice {
+  'id' : bigint,
+  'creator' : Principal,
+  'destination' : string,
+  'token' : string,
+  'amount' : bigint,
+}
+export interface InvoiceError {
+  'kind' : { 'InvalidAccount' : null } |
+    { 'InvalidDestination' : null } |
+    { 'NotYet' : null } |
+    { 'NotFound' : null } |
+    { 'NotAuthorized' : null } |
+    { 'BadFee' : null } |
+    { 'InvalidToken' : null } |
+    { 'InvalidInvoiceId' : null } |
+    { 'Other' : null } |
+    { 'InsufficientFunds' : null },
+  'message' : [] | [string],
 }
 export interface Metadata {
   'thumbnail' : string,
@@ -26,31 +58,45 @@ export interface Metadata {
 }
 export type Result = { 'ok' : null } |
   { 'err' : Error };
-export type Result_1 = { 'ok' : boolean } |
+export type Result_1 = { 'ok' : null } |
+  { 'err' : Error__1 };
+export type Result_2 = { 'ok' : string } |
+  { 'err' : InvoiceError };
+export type Result_3 = { 'ok' : boolean } |
   { 'err' : Error };
-export type Result_2 = { 'ok' : Array<Principal> } |
+export type Result_4 = { 'ok' : Array<Principal> } |
   { 'err' : Error };
-export type Result_3 = { 'ok' : Array<[Principal, Metadata]> } |
+export type Result_5 = { 'ok' : Invoice } |
+  { 'err' : InvoiceError };
+export type Result_6 = { 'ok' : Array<[Principal, Metadata]> } |
   { 'err' : Error };
-export type Result_4 = { 'ok' : [Principal, Principal] } |
+export type Result_7 = { 'ok' : CreateInvoiceResult } |
+  { 'err' : InvoiceError };
+export type Result_8 = { 'ok' : [Principal, Principal] } |
   { 'err' : Error };
-export interface anon_class_18_1 {
-  'add' : (arg_0: Metadata) => Promise<Result>,
-  'assignUsername' : (arg_0: string) => Promise<Result>,
-  'createArtistCan' : () => Promise<Result_4>,
-  'createAssetCan' : () => Promise<Result_4>,
-  'get' : (arg_0: Principal) => Promise<[] | [Metadata]>,
-  'getAll' : () => Promise<Result_3>,
-  'getByUsername' : (arg_0: string) => Promise<[] | [Metadata]>,
-  'getCanMemInfo' : () => Promise<undefined>,
-  'getPrincipalByUsername' : (arg_0: string) => Promise<Array<Principal>>,
-  'getUsernamesByPrincipal' : (arg_0: Principal) => Promise<Array<string>>,
-  'getWhitelistedArtists' : () => Promise<Result_2>,
-  'isArtistWhitelisted' : (arg_0: Principal) => Promise<Result_1>,
-  'name' : () => Promise<string>,
-  'remove' : (arg_0: Principal) => Promise<Result>,
-  'update' : (arg_0: Metadata) => Promise<Result>,
-  'usernameExist' : (arg_0: string) => Promise<boolean>,
-  'whitelistArtists' : (arg_0: Array<Principal>) => Promise<Result>,
+export interface anon_class_26_1 {
+  'add' : ActorMethod<[Metadata], Result>,
+  'assignUsername' : ActorMethod<[string], Result>,
+  'balance' : ActorMethod<[], bigint>,
+  'createArtistCan' : ActorMethod<[], Result_8>,
+  'createAssetCan' : ActorMethod<[], Result_8>,
+  'createInvoice' : ActorMethod<[string, bigint], Result_7>,
+  'get' : ActorMethod<[Principal], [] | [Metadata]>,
+  'getAll' : ActorMethod<[], Result_6>,
+  'getByUsername' : ActorMethod<[string], [] | [Metadata]>,
+  'getCanMemInfo' : ActorMethod<[], undefined>,
+  'getInvoice' : ActorMethod<[bigint], Result_5>,
+  'getPrincipalByUsername' : ActorMethod<[string], Array<Principal>>,
+  'getUsernamesByPrincipal' : ActorMethod<[Principal], Array<string>>,
+  'getWhitelistedArtists' : ActorMethod<[], Result_4>,
+  'isArtistWhitelisted' : ActorMethod<[Principal], Result_3>,
+  'isVerifyPayment' : ActorMethod<[bigint], Result_2>,
+  'name' : ActorMethod<[], string>,
+  'remove' : ActorMethod<[Principal], Result>,
+  'transferAuthNFT' : ActorMethod<[Principal, Principal, string], Result_1>,
+  'update' : ActorMethod<[Metadata], Result>,
+  'usernameExist' : ActorMethod<[string], boolean>,
+  'wallet_receive' : ActorMethod<[], undefined>,
+  'whitelistArtists' : ActorMethod<[Array<Principal>], Result>,
 }
-export interface _SERVICE extends anon_class_18_1 {}
+export interface _SERVICE extends anon_class_26_1 {}

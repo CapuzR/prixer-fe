@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   HashRouter as Router,
   Routes,
@@ -19,6 +19,8 @@ import Registry from "./pages/registry.jsx";
 import Settings from "./pages/settings.jsx";
 
 export const AppRouter = ({ isMobile }) => {
+  console.log(localStorage.getItem("wallet"));
+
   return (
     <Router>
       <Routes>

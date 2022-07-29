@@ -7,10 +7,6 @@
       "source": ["src/prixelart_assets/assets", "dist/prixelart_assets/"],
       "type": "assets"
     },
-    "socialAssets": {
-      "main": "../socials/actorClasses/asset/assetCanister.mo",
-      "type": "motoko"
-    },
     "socials": {
       "main": "../socials/src/main.mo",
       "type": "motoko"
@@ -18,15 +14,24 @@
     "artistRegistry": {
       "main": "../artist-registry/src/main.mo",
       "type": "motoko"
+    },
+    "ledger": {
+      "type": "custom",
+      "wasm": "ledger.wasm",
+      "candid": "ledger.public.did",
+      "build": []
     }
   },
   "defaults": {
+    "replica": {
+      "subnet_type": "system"
+    },
     "build": {
       "args": "",
       "packtool": "vessel sources"
     }
   },
-  "dfx": "0.9.3",
+  "dfx": "0.11.0",
   "networks": {
     "local": {
       "bind": "127.0.0.1:8000",

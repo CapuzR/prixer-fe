@@ -3,10 +3,16 @@ import { createActor as createSocialsActor } from "../../declarations/socials";
 import { canisterId as socialsCId } from "../../declarations/socials/index.js";
 import { createActor as createArtistRegistryActor } from "../../declarations/artistRegistry";
 import { canisterId as artistRegistryCId } from "../../declarations/artistRegistry/index.js";
-// import { createActor as _artistCanister } from "../idl/index.js";
+import { createActor as createLedgerActor } from "../../declarations/ledger";
+import { canisterId as ledgerCId } from "../../declarations/ledger/index.js";
+// import { createActor as _artistCanister } from "../idl/index.js";0
 // import { createActor as _storeCanister } from "../idl/indexStore.js";
 import { Principal } from "@dfinity/principal";
+
+import { fromHex } from "./utlis";
 import consts from "./consts";
+
+console.log(ledgerCId);
 
 const getUrl = (canisterId, id) => {
   const network =
@@ -37,12 +43,6 @@ const onSignInPlug = async () => {
   } catch (e) {
     console.log(e);
   }
-  // if (identity) {
-  //   console.log(identity);
-  //   return identity;
-  // } else {
-  //   return false;
-  // }
 };
 
 const onSignOutStoic = async () => {
@@ -71,9 +71,18 @@ const socialsActor = async (identity) => {
   });
 };
 
+const ledgerActor = async (identity) => {
+  return await createLedgerActor(ledgerCId, {
+    agentOptions: {
+      identity: identity,
+    },
+  });
+};
+
 const getArtistByPrincipal = async () => {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
+
   const result = await actor.get(
     Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
@@ -85,6 +94,7 @@ const addArtist = async (artist) => {
   artist.principal_id = Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
+  console.log(actor);
   const result = await actor.add(artist);
   // const resultCreateCanister = await actor.createArtistCan();
   console.log("[ADD ARTIST] => ", result);
@@ -325,6 +335,46 @@ const removePost = async (id) => {
   return result;
 };
 
+const createInvoice = async (token, amount) => {
+  const identity = await onSignInStoic();
+  const actor = await artistRegistryActor(identity);
+  const result = await actor.createInvoice(token, amount);
+  console.log("[CREATE INVOICE] => ", result);
+  return result;
+};
+
+const transfer = async (account, amount) => {
+  const identity = await onSignInStoic();
+  const actor = await ledgerActor(identity);
+  console.log(actor);
+  try {
+    const result = await actor.transfer({
+      to: [...new Uint8Array(fromHex(account))],
+      fee: { e8s: 10000 },
+      from_subaccount: [],
+      created_at_time: [],
+      memo: 0,
+      amount: { e8s: amount },
+    });
+    if (result.Ok) {
+      return true;
+    } else {
+      alert("Insuficient founds");
+      return false;
+    }
+  } catch (err) {
+    console.log(err, "[Err in transfer method service.js]");
+  }
+};
+
+const verifyInvoice = async (invoiceId) => {
+  const identity = await onSignInStoic();
+  const actor = await artistRegistryActor(identity);
+  const result = await actor.isVerifyPayment(invoiceId);
+  console.log("[VERIFY INVOICE] => ", result);
+  return result;
+};
+
 function scrollToBottom() {
   const chatContainer = document.getElementById("scroll-btn");
   chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -360,4 +410,7 @@ export const service = {
   onSignInPlug,
   updatePost,
   removePost,
+  createInvoice,
+  transfer,
+  verifyInvoice,
 };
