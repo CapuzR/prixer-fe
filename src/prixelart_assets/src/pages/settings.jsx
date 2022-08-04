@@ -27,10 +27,10 @@ const Settings = ({ isMobile }) => {
   const handleScreen = (view) => {
     setScreen(view);
   };
-  const createInvoice = async (amount) => {
+  const createInvoice = async (amount, quantity) => {
     try {
       setIsLoading(true);
-      const result = await service.createInvoice("ICP", amount);
+      const result = await service.createInvoice("ICP", amount, quantity);
       setInvoice(result.ok);
 
       setIsLoading(false);

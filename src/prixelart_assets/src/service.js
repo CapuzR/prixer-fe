@@ -335,10 +335,11 @@ const removePost = async (id) => {
   return result;
 };
 
-const createInvoice = async (token, amount) => {
+const createInvoice = async (token, amount, quantity) => {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
-  const result = await actor.createInvoice(token, amount);
+  console.log(token, amount, quantity);
+  const result = await actor.createInvoice(token, amount, quantity);
   console.log("[CREATE INVOICE] => ", result);
   return result;
 };

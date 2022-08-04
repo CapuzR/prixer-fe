@@ -38,10 +38,10 @@ const MobileView = ({ onLoginStoic, onLoginPlug }) => {
             >
               Connect stoic
             </Button>
-            <PlugConnect
+            {/* <PlugConnect
               whitelist={["canister-id"]}
               onConnectCallback={() => console.log("Some callback")}
-            />
+            /> */}
             {/* <Button
               variant="contained"
               style={{ textTransform: "capitalize", borderRadius: 10 }}

@@ -38,14 +38,14 @@ const DesktopView = ({ onLogin, onLoginStoic, onLoginPlug }) => {
             >
               Connect stoic
             </Button>
-            <PlugConnect
+            {/* <PlugConnect
               dark
               whitelist={[
                 "rkp4c-7iaaa-aaaaa-aaaca-cai",
                 "rrkah-fqaaa-aaaaa-aaaaq-cai",
               ]}
               onConnectCallback={() => alert("PASE")}
-            />
+            /> */}
             {/* <Button
               variant="contained"
               style={{ textTransform: "capitalize", borderRadius: 10 }}

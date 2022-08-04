@@ -6,13 +6,10 @@ import Navbar from "../../components/navbar";
 import ListSettings from "../../components/listSettings";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import StorageConfig from "../../components/storageConfig";
 
 const MobileView = ({
   onLogout,
-  window,
-  fullName,
-  handleSidebar,
-  isOpenSidebar,
   username,
   isMobile,
   handleNavigation,
@@ -22,6 +19,7 @@ const MobileView = ({
   isLoading,
   invoice,
   transfer,
+  verifyPayment,
 }) => {
   const currentScreen = () => {
     switch (screen) {
@@ -33,6 +31,7 @@ const MobileView = ({
             onSetupStorageUnits={createInvoice}
             invoice={invoice}
             transfer={transfer}
+            verifyPayment={verifyPayment}
           />
         );
       default:

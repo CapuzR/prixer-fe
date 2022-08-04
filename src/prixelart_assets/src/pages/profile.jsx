@@ -44,7 +44,7 @@ const Profile = ({ isMobile }) => {
           service.getGalleriesByArtist(state.user.username),
           service.getArtistByPrincipal(),
         ]);
-        console.log(result);
+
         setPostsDetails(result[0].ok);
         setGalleries(result[1].ok);
         const parseArtist = service.parseArtist(result[2]);

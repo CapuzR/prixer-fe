@@ -32,6 +32,8 @@ function StorageConfig({
   verifyPayment,
 }) {
   const [amount, setAmount] = useState(4);
+  const [quantity, setQuantity] = useState(2);
+  console.log(verifyPayment);
   const [isOpen, setIsOpen] = useState(false);
 
   const isConfirmPayment = async () => {
@@ -45,7 +47,6 @@ function StorageConfig({
       setIsOpen(false);
     }
   };
-
   return (
     <Box style={{ padding: 12 }}>
       <Box
@@ -68,7 +69,7 @@ function StorageConfig({
         <Box style={{ marginLeft: "auto" }}>
           <Button
             onClick={() =>
-              Promise.resolve(onSetupStorageUnits(amount * 100000000))
+              Promise.resolve(onSetupStorageUnits(amount * 100000000, quantity))
                 .then(() => setIsOpen(true))
                 .catch(console.log)
             }
@@ -102,11 +103,14 @@ function StorageConfig({
                   id="type-label-select"
                   label="units"
                   value={amount}
-                  onChange={(event) => setAmount(event.target.value)}
+                  onChange={(event) => {
+                    setAmount(event.target.value);
+                    setQuantity(event.target.value === 4 ? 1 : 2);
+                  }}
                 >
                   {[
-                    { id: 1, name: "1 unit: $6 GB", value: 4 },
-                    { id: 2, name: "2 units: $12 GB", value: 8 },
+                    { id: 1, name: "1 unit: $6 GB", value: 4, quantity: 1 },
+                    { id: 2, name: "2 units: $12 GB", value: 8, quantity: 2 },
                   ].map((type) => (
                     <MenuItem value={type.value} key={type.id}>
                       {type.name}

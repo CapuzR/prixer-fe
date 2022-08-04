@@ -1,6 +1,10 @@
 import type { Principal } from '@dfinity/principal';
 import type { ActorMethod } from '@dfinity/agent';
 
+export interface CreateCanistersResult {
+  'assetCanisters' : Array<string>,
+  'canisterId' : string,
+}
 export interface CreateInvoiceResult {
   'subAccount' : string,
   'invoice' : Invoice,
@@ -33,6 +37,7 @@ export interface Invoice {
   'creator' : Principal,
   'destination' : string,
   'token' : string,
+  'quantity' : bigint,
   'amount' : bigint,
 }
 export interface InvoiceError {
@@ -60,7 +65,7 @@ export type Result = { 'ok' : null } |
   { 'err' : Error };
 export type Result_1 = { 'ok' : null } |
   { 'err' : Error__1 };
-export type Result_2 = { 'ok' : string } |
+export type Result_2 = { 'ok' : CreateCanistersResult } |
   { 'err' : InvoiceError };
 export type Result_3 = { 'ok' : boolean } |
   { 'err' : Error };
@@ -78,9 +83,8 @@ export interface anon_class_26_1 {
   'add' : ActorMethod<[Metadata], Result>,
   'assignUsername' : ActorMethod<[string], Result>,
   'balance' : ActorMethod<[], bigint>,
-  'createArtistCan' : ActorMethod<[], Result_8>,
   'createAssetCan' : ActorMethod<[], Result_8>,
-  'createInvoice' : ActorMethod<[string, bigint], Result_7>,
+  'createInvoice' : ActorMethod<[string, bigint, bigint], Result_7>,
   'get' : ActorMethod<[Principal], [] | [Metadata]>,
   'getAll' : ActorMethod<[], Result_6>,
   'getByUsername' : ActorMethod<[string], [] | [Metadata]>,

@@ -41,6 +41,7 @@ export const idlFactory = ({ IDL }) => {
     'creator' : IDL.Principal,
     'destination' : IDL.Text,
     'token' : IDL.Text,
+    'quantity' : IDL.Nat,
     'amount' : IDL.Nat,
   });
   const CreateInvoiceResult = IDL.Record({
@@ -76,7 +77,14 @@ export const idlFactory = ({ IDL }) => {
     'err' : Error,
   });
   const Result_3 = IDL.Variant({ 'ok' : IDL.Bool, 'err' : Error });
-  const Result_2 = IDL.Variant({ 'ok' : IDL.Text, 'err' : InvoiceError });
+  const CreateCanistersResult = IDL.Record({
+    'assetCanisters' : IDL.Vec(IDL.Text),
+    'canisterId' : IDL.Text,
+  });
+  const Result_2 = IDL.Variant({
+    'ok' : CreateCanistersResult,
+    'err' : InvoiceError,
+  });
   const Error__1 = IDL.Variant({
     'Immutable' : IDL.Null,
     'NotFound' : IDL.Null,
@@ -90,9 +98,8 @@ export const idlFactory = ({ IDL }) => {
     'add' : IDL.Func([Metadata], [Result], []),
     'assignUsername' : IDL.Func([IDL.Text], [Result], []),
     'balance' : IDL.Func([], [IDL.Nat], ['query']),
-    'createArtistCan' : IDL.Func([], [Result_8], []),
     'createAssetCan' : IDL.Func([], [Result_8], []),
-    'createInvoice' : IDL.Func([IDL.Text, IDL.Nat], [Result_7], []),
+    'createInvoice' : IDL.Func([IDL.Text, IDL.Nat, IDL.Nat], [Result_7], []),
     'get' : IDL.Func([IDL.Principal], [IDL.Opt(Metadata)], ['query']),
     'getAll' : IDL.Func([], [Result_6], ['query']),
     'getByUsername' : IDL.Func([IDL.Text], [IDL.Opt(Metadata)], ['query']),

@@ -3,9 +3,8 @@ type anon_class_26_1 =
    add: (Metadata) -> (Result);
    assignUsername: (text) -> (Result);
    balance: () -> (nat) query;
-   createArtistCan: () -> (Result_8);
    createAssetCan: () -> (Result_8);
-   createInvoice: (text, nat) -> (Result_7);
+   createInvoice: (text, nat, nat) -> (Result_7);
    get: (principal) -> (opt Metadata) query;
    getAll: () -> (Result_6) query;
    getByUsername: (text) -> (opt Metadata) query;
@@ -63,7 +62,7 @@ type Result_3 =
 type Result_2 = 
  variant {
    err: InvoiceError;
-   ok: text;
+   ok: CreateCanistersResult;
  };
 type Result_1 = 
  variant {
@@ -110,6 +109,7 @@ type Invoice =
    creator: principal;
    destination: text;
    id: nat;
+   quantity: nat;
    token: text;
  };
 type InitOptions = 
@@ -149,5 +149,10 @@ type CreateInvoiceResult =
  record {
    invoice: Invoice;
    subAccount: text;
+ };
+type CreateCanistersResult = 
+ record {
+   assetCanisters: vec text;
+   canisterId: text;
  };
 service : (InitOptions) -> anon_class_26_1
