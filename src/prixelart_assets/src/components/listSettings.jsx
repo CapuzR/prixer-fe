@@ -20,7 +20,7 @@ const ListSettings = ({ isMobile, handleScreen }) => {
               alignItems: "center",
               justifyContent: "center",
             }}
-            onClick={() => handleScreen("storage")}
+            onClick={() => handleScreen("list_storage")}
           >
             <Box style={{ textAlign: "center" }}>
               <Typography variant="h5">

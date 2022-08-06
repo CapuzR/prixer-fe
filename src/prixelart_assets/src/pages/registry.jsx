@@ -13,6 +13,8 @@ const Registry = ({ isMobile }) => {
   const [screen, setScreen] = useState(consts.registry_artist_form_view);
   const { state, setUser } = useContext(PrixerContext);
 
+  const [invoice, setInvoice] = useState();
+
   const onLogout = async () => {
     await service.onSignOutStoic();
     localStorage.clear();
@@ -78,6 +80,30 @@ const Registry = ({ isMobile }) => {
     navigate("/explore");
   };
 
+  const createInvoice = async (amount, quantity) => {
+    try {
+      const result = await service.createInvoice("ICP", amount, quantity);
+      setInvoice(result.ok);
+    } catch (err) {
+      console.log(err);
+      console.log("[Error in create invoice settings.jsx");
+    }
+  };
+
+  const transfer = async (account, amount) => {
+    return await service.transfer(account, amount);
+  };
+
+  const verifyPayment = async (invoiceId) => {
+    try {
+      const result = await service.verifyInvoice(invoiceId);
+      console.log(result, "RESULT");
+    } catch (err) {
+      console.log(err);
+      console.log("[Err in varifyPayment settings.jsx]");
+    }
+  };
+
   useEffect(() => {
     init();
   }, []);
@@ -93,6 +119,10 @@ const Registry = ({ isMobile }) => {
       artist={state.user}
       onSkip={onSkip}
       createPost={createPost}
+      createInvoice={createInvoice}
+      invoice={invoice}
+      transfer={transfer}
+      verifyPayment={verifyPayment}
     />
   ) : (
     <DesktopView
@@ -106,6 +136,10 @@ const Registry = ({ isMobile }) => {
       artist={state.user}
       onSkip={onSkip}
       createPost={createPost}
+      createInvoice={createInvoice}
+      invoice={invoice}
+      transfer={transfer}
+      verifyPayment={verifyPayment}
     />
   );
 };

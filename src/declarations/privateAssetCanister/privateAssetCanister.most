@@ -1,0 +1,15 @@
+// Version: 1.0.0
+type AssetEncoding =
+  {
+    certified : Bool;
+    content_chunks : [[Nat8]];
+    modified : Int;
+    sha256 : [Nat8];
+    total_length : Nat
+  };
+type Key = Text;
+type StableAsset = {content_type : Text; encodings : [(Text, AssetEncoding)]};
+actor {
+  stable var stableAssets : [(Key, StableAsset)];
+  stable var stableAuthorized : [Principal]
+};

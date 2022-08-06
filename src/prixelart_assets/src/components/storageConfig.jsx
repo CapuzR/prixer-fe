@@ -32,8 +32,8 @@ function StorageConfig({
   verifyPayment,
 }) {
   const [amount, setAmount] = useState(4);
-  const [quantity, setQuantity] = useState(2);
-  console.log(verifyPayment);
+  const [quantity, setQuantity] = useState(1);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const isConfirmPayment = async () => {

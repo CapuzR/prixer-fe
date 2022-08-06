@@ -17,6 +17,9 @@ const AddPost = ({ isMobile }) => {
     navigate("/");
   };
 
+
+  
+  console.log(state);
   const createPost = async (post, blob) => {
     try {
       const result = await service.createPost(post, blob);

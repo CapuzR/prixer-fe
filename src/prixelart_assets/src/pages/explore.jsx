@@ -18,15 +18,16 @@ const Explore = ({ isMobile }) => {
     localStorage.clear();
     navigate("/");
   };
-
+  console.log(state);
   const init = async () => {
     try {
       const result = await Promise.all([
         service.readPostsByCreation(state.user.username),
         service.getArtistByPrincipal(),
       ]);
-     
+
       const parsetArtist = service.parseArtist(result[1]);
+      console.log(parsetArtist);
       setUser(parsetArtist);
       setExplore(result[0].ok);
     } catch (err) {

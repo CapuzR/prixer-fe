@@ -24,7 +24,7 @@ const consts = {
   ARTIST_CAMERAS: "cameras",
   ARTIST_LENS: "lens",
   ARTIST_CANISTERID: "canisterId",
-  ARTIST_ASSETCANISTERID: "assetCanId",
+  ARTIST_ASSETCANISTERID: "assetCanisters",
   ENTER_KEY_CODE: "Enter",
   ASSET_CANISTER_ID_ARTIST: "rno2w-sqaaa-aaaaa-aaacq-cai",
   ASSET_CANISTER_ID_SOCIALS: "r7inp-6aaaa-aaaaa-aaabq-cai",

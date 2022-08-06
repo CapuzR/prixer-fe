@@ -13,6 +13,7 @@ export const idlFactory = ({ IDL }) => {
       'Text' : IDL.Text,
       'True' : IDL.Null,
       'False' : IDL.Null,
+      'VecText' : IDL.Vec(IDL.Text),
       'Float' : IDL.Float64,
       'Principal' : IDL.Principal,
     })

@@ -1,6 +1,8 @@
 import { StoicIdentity } from "ic-stoic-identity";
 import { createActor as createSocialsActor } from "../../declarations/socials";
 import { canisterId as socialsCId } from "../../declarations/socials/index.js";
+import { createActor as createActorPrivate } from "../../declarations/privateCanister";
+import { createActor as createAssetActorPrivate } from "../../declarations/privateAssetCanister";
 import { createActor as createArtistRegistryActor } from "../../declarations/artistRegistry";
 import { canisterId as artistRegistryCId } from "../../declarations/artistRegistry/index.js";
 import { createActor as createLedgerActor } from "../../declarations/ledger";
@@ -11,8 +13,6 @@ import { Principal } from "@dfinity/principal";
 
 import { fromHex } from "./utlis";
 import consts from "./consts";
-
-console.log(ledgerCId);
 
 const getUrl = (canisterId, id) => {
   const network =
@@ -79,6 +79,22 @@ const ledgerActor = async (identity) => {
   });
 };
 
+const _canisterActor = async (identity, id) => {
+  return await createActorPrivate(id, {
+    agentOptions: {
+      identity: identity,
+    },
+  });
+};
+
+const _AssetCanisterActor = async (identity, id) => {
+  return await createAssetActorPrivate(id, {
+    agentOptions: {
+      identity: identity,
+    },
+  });
+};
+
 const getArtistByPrincipal = async () => {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
@@ -114,7 +130,7 @@ const relPrincipalWithUsername = async (username) => {
 };
 
 const parseArtist = (artist) => {
-  console.log(artist, "ARTIST");
+  console.log(artist);
   const parseArtist = {
     fullName: artist[0]?.name,
     principal: artist[0]?.principal_id,
@@ -156,12 +172,20 @@ const parseArtist = (artist) => {
     lens: artist[0].details.find(
       (detail) => detail[0] === consts.ARTIST_LENS
     )[1].Vec,
-    // canisterId: artist[0].details.find(
-    //   (detail) => detail[0] === consts.ARTIST_CANISTERID
-    // )[1].Principal,
-    // assetCanisterId: artist[0].details.find(
-    //   (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
-    // )[1].Principal,
+    canisterId: artist[0].details.find(
+      (detail) => detail[0] === consts.ARTIST_CANISTERID
+    )
+      ? artist[0].details.find(
+          (detail) => detail[0] === consts.ARTIST_CANISTERID
+        )[1].Text
+      : " ",
+    assetCanisterId: artist[0].details.find(
+      (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
+    )
+      ? artist[0].details.find(
+          (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
+        )[1].VecText
+      : "",
     banner: artist[0].details.find((detail) => detail[0] === "bannerAsset")
       ? getUrl(
           consts.ASSET_CANISTER_ID_ARTIST,
@@ -174,8 +198,11 @@ const parseArtist = (artist) => {
   //     consts.ASSET_CANISTER_ID_ARTIST,
   //     `B${JSON.parse(localStorage.getItem("_scApp")).principal}`
   //   )
-  //   : console.log(parseArtist);
-  console.log(parseArtist);
+  // const identity = await onSignInStoic();
+  // console.log(parseArtist);
+  // const actorPrivate = await _canisterActor(identity, parseArtist.canisterId);
+  // const result = await actorPrivate.getContractInfo();
+  // console.log(result);
   return parseArtist;
 };
 
@@ -184,6 +211,27 @@ const createPost = async (post, blob) => {
   const actor = await socialsActor(identity);
   const result = await actor.createPost({ postBasics: post, postImage: blob });
   console.log("[CREATE POST] => ", result);
+  return result;
+};
+
+const _canisterContactInfo = async (id) => {
+  const identity = await onSignInStoic();
+  const actor = await _canisterActor(identity, id);
+  const result = await actor.getContractInfo();
+  console.log("[_CANISTER GET CONTRACT INFO] => ", result);
+  return result;
+};
+
+const _assetCanisterContractInfo = async (id) => {
+  const identity = await onSignInStoic();
+  const actor = await _AssetCanisterActor(identity, id);
+  const result = await actor.getContractInfo();
+  result.canisterId = id;
+  result.cycles = Number(result.cycles);
+  result.heapSize = Number(result.heapSize);
+  result.maxLiveSize = Number(result.maxLiveSize);
+  result.memorySize = Number(result.memorySize);
+  console.log("[_ASSETCANISTER GET CONTRACT INFO] => ", result);
   return result;
 };
 
@@ -414,4 +462,8 @@ export const service = {
   createInvoice,
   transfer,
   verifyInvoice,
+  _canisterActor,
+  _AssetCanisterActor,
+  _canisterContactInfo,
+  _assetCanisterContractInfo,
 };

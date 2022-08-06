@@ -18,6 +18,10 @@ const DesktopView = ({
   artist,
   onSkip,
   createPost,
+  createInvoice,
+  invoice,
+  transfer,
+  verifyPayment,
 }) => {
   return (
     <Box
@@ -39,7 +43,10 @@ const DesktopView = ({
         ) : screen === consts.registry_storage_form_view ? (
           <StorageConfig
             isMobile={isMobile}
-            onSetupStorageUnits={onSetupStorageUnits}
+            onSetupStorageUnits={createInvoice}
+            invoice={invoice}
+            transfer={transfer}
+            verifyPayment={verifyPayment}
           />
         ) : (
           <PostForm

@@ -1,6 +1,13 @@
 import React, { useContext } from "react";
 import * as React from "react";
-import { Box, Paper, Grid, Typography, IconButton } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Grid,
+  Typography,
+  IconButton,
+  Button,
+} from "@mui/material";
 
 import Navbar from "../../components/navbar";
 import Sidebar from "../../components/sidebar";
@@ -11,6 +18,7 @@ import ActionButton from "../../components/actionButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListSettings from "../../components/listSettings";
 import StorageConfig from "../../components/storageConfig";
+import ListCanisters from "../../components/listCanisters";
 
 const DesktopView = ({
   onLogout,
@@ -28,6 +36,9 @@ const DesktopView = ({
   invoice,
   transfer,
   verifyPayment,
+  artist,
+  _canisterContractInfo,
+  _assetCanisterContractInfo,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -35,13 +46,21 @@ const DesktopView = ({
     switch (screen) {
       case "settings":
         return <ListSettings isMobile={isMobile} handleScreen={handleScreen} />;
-      case "storage":
+      case "storage_config":
         return (
           <StorageConfig
             onSetupStorageUnits={createInvoice}
             invoice={invoice}
             transfer={transfer}
             verifyPayment={verifyPayment}
+          />
+        );
+      case "list_storage":
+        return (
+          <ListCanisters
+            artist={artist}
+            _canisterContractInfo={_canisterContractInfo}
+            _assetCanisterContractInfo={_assetCanisterContractInfo}
           />
         );
       default:
@@ -85,7 +104,9 @@ const DesktopView = ({
               color="primary"
               onClick={() =>
                 screen !== "settings"
-                  ? handleScreen("settings")
+                  ? screen === "list_storage"
+                    ? handleScreen("settings")
+                    : handleScreen("list_storage")
                   : handleNavigation(-1)
               }
             >
@@ -102,6 +123,23 @@ const DesktopView = ({
                 Settings
               </Typography>
             </Box>
+            {screen === "list_storage" && (
+              <Box
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                }}
+              >
+                <Button
+                  onClick={() => handleScreen("storage_config")}
+                  style={{
+                    color: "#5DBB63",
+                  }}
+                >
+                  Add
+                </Button>
+              </Box>
+            )}
           </Box>
           {currentScreen()}
         </Box>

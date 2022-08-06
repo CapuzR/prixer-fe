@@ -31,6 +31,7 @@ export const PrixerProvider = ({ children }) => {
       type: types.create_account,
       payload: user,
     });
+    console.log(user, "USEr");
     localStorage.setItem("account", JSON.stringify(user));
   };
 
@@ -72,7 +73,6 @@ export const PrixerProvider = ({ children }) => {
   };
 
   const setFeed = (feed) => {
-    
     feed.forEach((el) => {
       el.artistPrincipal =
         typeof el.artistPrincipal !== "string"

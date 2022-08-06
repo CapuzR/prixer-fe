@@ -13,6 +13,10 @@ const Settings = ({ isMobile }) => {
   const [screen, setScreen] = useState("settings");
   const [isLoading, setIsLoading] = useState(false);
   const [invoice, setInvoice] = useState();
+  const [_canisterContractInfo, _setCanisterContractInfo] = useState();
+  const [_assetCanisterContractInfo, _setAssetCanisterContractInfo] = useState(
+    []
+  );
 
   const onLogout = async () => {
     await service.onSignOutStoic();
@@ -32,7 +36,6 @@ const Settings = ({ isMobile }) => {
       setIsLoading(true);
       const result = await service.createInvoice("ICP", amount, quantity);
       setInvoice(result.ok);
-
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
@@ -55,8 +58,45 @@ const Settings = ({ isMobile }) => {
     }
   };
 
+  const getContractInfo = async () => {
+    try {
+      const result = await service._canisterContactInfo(state.user.canisterId);
+      result.cycles = Number(result.cycles);
+      result.heapSize = Number(result.heapSize);
+      result.maxLiveSize = Number(result.maxLiveSize);
+      result.memorySize = Number(result.memorySize);
+      _setCanisterContractInfo(result);
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+      console.log("[Err in get _canisterContractInfo settings.jsx]");
+    }
+  };
+
+  const getAssetContractInfo = async () => {
+    try {
+      const promises = state.user.assetCanisterId.map((canister) =>
+        service._assetCanisterContractInfo(canister)
+      );
+      const result = await Promise.all(promises);
+      _setAssetCanisterContractInfo(result);
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+      console.log("[Err in get _canisterContractInfo settings.jsx]");
+    }
+  };
+
   useEffect(() => {
     if (!localStorage.getItem("wallet")) onLogout();
+  }, []);
+
+  useEffect(() => {
+    getContractInfo();
+  }, []);
+
+  useEffect(() => {
+    getAssetContractInfo();
   }, []);
 
   return isMobile ? (
@@ -73,6 +113,9 @@ const Settings = ({ isMobile }) => {
       invoice={invoice}
       transfer={transfer}
       verifyPayment={verifyPayment}
+      artist={state.user}
+      _canisterContractInfo={_canisterContractInfo}
+      _assetCanisterContractInfo={_assetCanisterContractInfo}
     />
   ) : (
     <DesktopView
@@ -90,6 +133,9 @@ const Settings = ({ isMobile }) => {
       invoice={invoice}
       transfer={transfer}
       verifyPayment={verifyPayment}
+      artist={state.user}
+      _canisterContractInfo={_canisterContractInfo}
+      _assetCanisterContractInfo={_assetCanisterContractInfo}
     />
   );
 };

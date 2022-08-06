@@ -1,0 +1,61 @@
+// Version: 1.0.0
+type Art = {artBasics : ArtBasics; createdAt : Int; thumbnail : Text};
+type ArtBasics =
+  {
+    artType : Text;
+    description : Text;
+    details : [(Text, DetailValue)];
+    tags : [Text];
+    title : Text
+  };
+type Art__1 = Art;
+type AssocList<K, V> = List<(K, V)>;
+type AssocList__1<K, V> = AssocList<K, V>;
+type Branch<K, V> = {left : Trie<K, V>; right : Trie<K, V>; size : Nat};
+type DetailValue =
+  {
+    #False;
+    #Float : Float;
+    #I64 : Int64;
+    #Principal : Principal;
+    #Slice : [Nat8];
+    #Text : Text;
+    #True;
+    #U64 : Nat64;
+    #Vec : [DetailValue];
+    #VecText : [Text]
+  };
+type Hash = Nat32;
+type Key<K> = {hash : Hash; key : K};
+type Leaf<K, V> = {keyvals : AssocList__1<Key<K>, V>; size : Nat};
+type List<T> = ?(T, List<T>);
+type NFTMetadataExt =
+  {
+    name : Text;
+    principal : Principal;
+    prixelart : ?Text;
+    socials : [?(Text, Text)];
+    supply : ?Nat;
+    symbol : Text;
+    website : ?Text
+  };
+type Trie<K, V> = {#branch : Branch<K, V>; #empty; #leaf : Leaf<K, V>};
+actor {
+  stable var artistRegistry : Principal;
+  stable var arts :
+    {#branch : Branch<Text, Art__1>; #empty; #leaf : Leaf<Text, Art__1>};
+  stable var assetCanisterIds : [Principal];
+  stable var authorized : [Principal];
+  stable var canisterMeta :
+    {
+      description : Text;
+      details : [(Text, DetailValue)];
+      frontend : ?[Text];
+      name : Text;
+      principal_id : Principal;
+      thumbnail : Text
+    };
+  stable var nftCanisters : [NFTMetadataExt];
+  stable var owners : [Principal];
+  stable var registryName : Text
+};

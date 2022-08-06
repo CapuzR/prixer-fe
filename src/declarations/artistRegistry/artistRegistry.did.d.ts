@@ -16,6 +16,7 @@ export type DetailValue = { 'I64' : bigint } |
   { 'Text' : string } |
   { 'True' : null } |
   { 'False' : null } |
+  { 'VecText' : Array<string> } |
   { 'Float' : number } |
   { 'Principal' : Principal };
 export type Error = { 'NotAuthorized' : null } |
