@@ -9,13 +9,21 @@ import { service } from "../service.js";
 
 const Settings = ({ isMobile }) => {
   const navigate = useNavigate();
-  const { state, handleSidebar, setFeed } = useContext(PrixerContext);
+  const {
+    state,
+    handleSidebar,
+    setFeed,
+    setPrivateCanisterInfo,
+    setAssetPrivateCanisterInfo,
+  } = useContext(PrixerContext);
   const [screen, setScreen] = useState("settings");
   const [isLoading, setIsLoading] = useState(false);
   const [invoice, setInvoice] = useState();
-  const [_canisterContractInfo, _setCanisterContractInfo] = useState();
+  const [_canisterContractInfo, _setCanisterContractInfo] = useState(
+    state.privateCanisterInfo
+  );
   const [_assetCanisterContractInfo, _setAssetCanisterContractInfo] = useState(
-    []
+    state.privateAssetCanisterInfo
   );
 
   const onLogout = async () => {
@@ -65,7 +73,7 @@ const Settings = ({ isMobile }) => {
       result.heapSize = Number(result.heapSize);
       result.maxLiveSize = Number(result.maxLiveSize);
       result.memorySize = Number(result.memorySize);
-      _setCanisterContractInfo(result);
+      setPrivateCanisterInfo(result);
       console.log(result);
     } catch (err) {
       console.log(err);
@@ -79,7 +87,7 @@ const Settings = ({ isMobile }) => {
         service._assetCanisterContractInfo(canister)
       );
       const result = await Promise.all(promises);
-      _setAssetCanisterContractInfo(result);
+      setAssetPrivateCanisterInfo(result);
       console.log(result);
     } catch (err) {
       console.log(err);

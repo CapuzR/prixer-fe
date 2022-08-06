@@ -2,6 +2,16 @@ import { types } from "../types";
 
 export const PrixerReducer = (state = {}, action) => {
   switch (action.type) {
+    case types.get_asset_private_canister_info:
+      return {
+        ...state,
+        privateAssetCanisterInfo: action.payload,
+      };
+    case types.get_private_canister_info:
+      return {
+        ...state,
+        privateCanisterInfo: action.payload,
+      };
     case types.create_account:
       return {
         ...state,

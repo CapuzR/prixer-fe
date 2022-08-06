@@ -12,7 +12,12 @@ const init = () => {
   const explore = JSON.parse(localStorage.getItem("explore"));
   const galleries = JSON.parse(localStorage.getItem("galleries"));
   const currentPost = JSON.parse(localStorage.getItem("currentPost"));
-
+  const privateCanisterInfo = JSON.parse(
+    localStorage.getItem("privateCanisterInfo")
+  );
+  const privateAssetCanisterInfo = JSON.parse(
+    localStorage.getItem("privateAssetCanisterInfo")
+  );
   return {
     user: user ? user : undefined,
     isOpenSidebar,
@@ -20,11 +25,31 @@ const init = () => {
     feed: feed ? feed : undefined,
     explore: explore ? explore : undefined,
     galleries: galleries ? galleries : undefined,
+    privateCanisterInfo: privateCanisterInfo ? privateCanisterInfo : undefined,
+    privateAssetCanisterInfo: privateAssetCanisterInfo
+      ? privateAssetCanisterInfo
+      : [],
   };
 };
 
 export const PrixerProvider = ({ children }) => {
   const [state, dispatch] = useReducer(PrixerReducer, {}, init);
+
+  const setPrivateCanisterInfo = (info) => {
+    dispatch({
+      type: types.get_private_canister_info,
+      payload: info,
+    });
+    localStorage.setItem("privateCanisterInfo", JSON.stringify(info));
+  };
+
+  const setAssetPrivateCanisterInfo = (info) => {
+    dispatch({
+      type: types.get_asset_private_canister_info,
+      payload: info,
+    });
+    localStorage.setItem("privateAssetCanisterInfo", JSON.stringify(info));
+  };
 
   const setUser = (user) => {
     dispatch({
@@ -138,6 +163,8 @@ export const PrixerProvider = ({ children }) => {
         setExplore: setExplore,
         setGalleries: setGalleries,
         setCurrentPost: setCurrentPost,
+        setPrivateCanisterInfo: setPrivateCanisterInfo,
+        setAssetPrivateCanisterInfo: setAssetPrivateCanisterInfo,
       }}
     >
       {children}
