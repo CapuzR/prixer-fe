@@ -129,7 +129,10 @@ const MobileView = ({
                   showGalleryDetails={showGalleryDetails}
                 />
               ) : screen === consts.PROFILE_SCREEN_COLLECTIONS ? (
-                <ListCollections isMobile={isMobile} />
+                <ListCollections
+                  isMobile={isMobile}
+                  collections={artist.collections}
+                />
               ) : (
                 <ListServices isMobile={isMobile} />
               )}

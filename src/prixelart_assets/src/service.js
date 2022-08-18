@@ -4,6 +4,8 @@ import { canisterId as socialsCId } from "../../declarations/socials/index.js";
 import { createActor as createActorPrivate } from "../../declarations/privateCanister";
 import { createActor as createAssetActorPrivate } from "../../declarations/privateAssetCanister";
 import { createActor as createArtistRegistryActor } from "../../declarations/artistRegistry";
+import { createActor as createActorNFT } from "../../declarations/nft";
+
 import { canisterId as artistRegistryCId } from "../../declarations/artistRegistry/index.js";
 import { createActor as createLedgerActor } from "../../declarations/ledger";
 import { canisterId as ledgerCId } from "../../declarations/ledger/index.js";
@@ -95,14 +97,52 @@ const _AssetCanisterActor = async (identity, id) => {
   });
 };
 
+const _CanisterNFT = async (identity, id) => {
+  return await createActorNFT(id, {
+    agentOptions: {
+      identity: identity,
+    },
+  });
+};
+
+const _mintNFT = async (id, payload) => {
+  const identity = await onSignInStoic();
+  const actor = await _CanisterNFT(identity, id);
+  const result = await actor.mint(payload);
+  console.log("[MINT NFT] => ", result);
+  return result;
+};
+
+const _listNFT = async (id) => {
+  const identity = await onSignInStoic();
+  const actor = await _CanisterNFT(identity, id);
+  const result = await actor.listAssets();
+  console.log("[LIST NFT] => ", result);
+  return result;
+};
+
+const _getNFTByIndex = async (id, index) => {
+  const identity = await onSignInStoic();
+  const actor = await _CanisterNFT(identity, id);
+  const result = await actor.tokenByIndex(index);
+  console.log("[ GET NFT BY INDEX ] => ", result);
+  return result;
+};
+
+const _publishNFTCollection = async (id) => {
+  const identity = await onSignInStoic();
+  const actor = await _CanisterNFT(identity, id);
+  const result = await actor.init();
+  console.log("[ PUBLUSH NFT COLLECTIONS ] => ", result);
+  return result;
+};
+
 const getArtistByPrincipal = async () => {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
-
   const result = await actor.get(
     Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
   );
-  console.log("[GET ARTIST BY PRINCIPAL] => ", result);
   return result;
 };
 
@@ -110,10 +150,8 @@ const addArtist = async (artist) => {
   artist.principal_id = Principal.fromText(artist.principal_id);
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
-  console.log(actor);
   const result = await actor.add(artist);
   // const resultCreateCanister = await actor.createArtistCan();
-  console.log("[ADD ARTIST] => ", result);
   // console.log("[ADD ARTIST CANISTER] => ", resultCreateCanister);
   return result;
 };
@@ -219,6 +257,23 @@ const _canisterContactInfo = async (id) => {
   const actor = await _canisterActor(identity, id);
   const result = await actor.getContractInfo();
   console.log("[_CANISTER GET CONTRACT INFO] => ", result);
+  return result;
+};
+
+const _createNFTCanister = async (id, payload) => {
+  const identity = await onSignInStoic();
+  const actor = await _canisterActor(identity, id);
+  payload.creator = Principal.fromText(payload.creator);
+  const result = await actor.createNFTCan(payload.nFTMetadata, payload.creator);
+  console.log("[_CANISTER CREATE NFT CAN] => ", result);
+  return result;
+};
+
+const _getNFTCan = async (id) => {
+  const identity = await onSignInStoic();
+  const actor = await _canisterActor(identity, id);
+  const result = await actor.getNFTCan();
+  console.log("[_CANISTER GET NFT CAN] => ", result);
   return result;
 };
 
@@ -395,7 +450,6 @@ const createInvoice = async (token, amount, quantity) => {
 const transfer = async (account, amount) => {
   const identity = await onSignInStoic();
   const actor = await ledgerActor(identity);
-  console.log(actor);
   try {
     const result = await actor.transfer({
       to: [...new Uint8Array(fromHex(account))],
@@ -466,4 +520,11 @@ export const service = {
   _AssetCanisterActor,
   _canisterContactInfo,
   _assetCanisterContractInfo,
+  _createNFTCanister,
+  _getNFTCan,
+  _CanisterNFT,
+  _mintNFT,
+  _listNFT,
+  _getNFTByIndex,
+  _publishNFTCollection,
 };

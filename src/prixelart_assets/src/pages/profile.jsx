@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Principal } from "@dfinity/principal";
 
 import MobileView from "../views/profile/mobile.jsx";
 import DesktopView from "../views/profile/desktop.jsx";
@@ -44,10 +45,15 @@ const Profile = ({ isMobile }) => {
           service.getGalleriesByArtist(state.user.username),
           service.getArtistByPrincipal(),
         ]);
-
         setPostsDetails(result[0].ok);
         setGalleries(result[1].ok);
         const parseArtist = service.parseArtist(result[2]);
+        const collections = await service._getNFTCan(parseArtist.canisterId);
+        collections.forEach((el) => {
+          el.supply = Number(el.supply[0]);
+          el.principal = el.principal.toText();
+        });
+        parseArtist.collections = collections;
         setUser(parseArtist);
       } else {
         const result = await Promise.all([

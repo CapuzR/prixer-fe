@@ -5,9 +5,11 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import AddCollection from "./pages/addCollection.jsx";
 import AddGallery from "./pages/addGallery.jsx";
 import AddPost from "./pages/addPost.jsx";
 import AddService from "./pages/addService.jsx";
+import DetailsCollection from "./pages/detailsCollections.jsx";
 import Explore from "./pages/explore.jsx";
 import Feed from "./pages/feed.jsx";
 import GalleryDetails from "./pages/galleryDetails.jsx";
@@ -31,12 +33,26 @@ export const AppRouter = ({ isMobile }) => {
         <Route path="/explore" element={<Explore isMobile={isMobile} />} />
         <Route path="/form/post" element={<AddPost isMobile={isMobile} />} />
         <Route
+          path="/collection/:collectionId"
+          element={<DetailsCollection isMobile={isMobile} />}
+        />
+
+        <Route
+          path="/collection/:collectionId/mint"
+          element={<DetailsCollection isMobile={isMobile} />}
+        />
+
+        <Route
           path="/form/gallery"
           element={<AddGallery isMobile={isMobile} />}
         />
         <Route
           path="/form/service"
           element={<AddService isMobile={isMobile} />}
+        />
+        <Route
+          path="/form/collection"
+          element={<AddCollection isMobile={isMobile} />}
         />
         <Route
           path="/post/:postId/details"

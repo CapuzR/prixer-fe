@@ -71,6 +71,15 @@ const ActionButton = ({ isMobile }) => {
         >
           Add gallery
         </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchorElActionMenu(null);
+            setOpenActionMenu(false);
+            navigate("/form/collection");
+          }}
+        >
+          Add collection
+        </MenuItem>
       </Menu>
     </>
   );
