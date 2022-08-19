@@ -58,7 +58,7 @@ const Settings = ({ isMobile }) => {
 
   const verifyPayment = async (invoiceId) => {
     try {
-      const result = await service.verifyInvoice(invoiceId);
+      const result = await service.verifyInvoice(invoiceId, "storage");
       console.log(result, "RESULT");
     } catch (err) {
       console.log(err);

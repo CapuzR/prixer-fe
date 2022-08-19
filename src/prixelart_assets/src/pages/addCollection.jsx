@@ -11,10 +11,55 @@ import consts from "../consts.js";
 const AddCollection = ({ isMobile }) => {
   const { state, handleSidebar } = useContext(PrixerContext);
   const navigate = useNavigate();
+  const [invoice, setInvoice] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
   const onLogout = async () => {
     await service.onSignOutStoic();
     localStorage.clear();
     navigate("/");
+  };
+
+  const createInvoice = async (amount, quantity) => {
+    try {
+      setIsLoading(true);
+      const result = await service.createInvoice("ICP", amount, quantity);
+      setInvoice(result.ok);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
+      console.log("[Error in create invoice settings.jsx");
+    }
+  };
+
+  const transfer = async (account, amount) => {
+    return await service.transfer(account, amount);
+  };
+
+  const verifyPayment = async (
+    invoiceId,
+    name,
+    symbol,
+    suplay,
+    website,
+    prixelart
+  ) => {
+    try {
+      const result = await service.verifyInvoice(invoiceId, "collection");
+      if (result.ok.ok) {
+        const resultNFTCan = await createCollection(
+          name,
+          symbol,
+          suplay,
+          website,
+          prixelart
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      console.log("[Err in varifyPayment settings.jsx]");
+    }
   };
 
   const createCollection = async (
@@ -54,6 +99,10 @@ const AddCollection = ({ isMobile }) => {
       isMobile={isMobile}
       onLogout={onLogout}
       createCollection={createCollection}
+      createInvoice={createInvoice}
+      transfer={transfer}
+      verifyPayment={verifyPayment}
+      invoice={invoice}
     />
   ) : (
     <DesktopView
@@ -64,6 +113,10 @@ const AddCollection = ({ isMobile }) => {
       isOpenSidebar={state.isOpenSidebar}
       fullName={state.user.fullName}
       createCollection={createCollection}
+      createInvoice={createInvoice}
+      transfer={transfer}
+      verifyPayment={verifyPayment}
+      invoice={invoice}
     />
   );
 };

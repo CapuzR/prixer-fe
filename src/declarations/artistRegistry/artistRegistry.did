@@ -14,7 +14,7 @@ type anon_class_26_1 =
    getUsernamesByPrincipal: (principal) -> (vec text) query;
    getWhitelistedArtists: () -> (Result_4);
    isArtistWhitelisted: (principal) -> (Result_3);
-   isVerifyPayment: (nat) -> (Result_2);
+   isVerifyPayment: (nat, text) -> (Result_2);
    name: () -> (text) query;
    remove: (principal) -> (Result);
    transferAuthNFT: (principal, principal, text) -> (Result_1);
@@ -155,5 +155,6 @@ type CreateCanistersResult =
  record {
    assetCanisters: vec text;
    canisterId: text;
+   ok: bool;
  };
 service : (InitOptions) -> anon_class_26_1

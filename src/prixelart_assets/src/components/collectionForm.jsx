@@ -10,17 +10,50 @@ import {
   Grid,
   TextField,
   Avatar,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const CollectionForm = ({ isMobile, createCollection }) => {
+const CollectionForm = ({
+  isMobile,
+  createInvoice,
+  transfer,
+  verifyPayment,
+  invoice,
+}) => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [supply, setSupply] = useState(0);
   const [website, setWebsite] = useState("");
   const [prixelart, setPrixelart] = useState("");
-  console.log(prixelart);
+
+  const [amount, setAmount] = useState(4);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const isConfirmPayment = async () => {
+    const transferResponse = await transfer(
+      invoice.subAccount,
+      parseInt(invoice.invoice.amount)
+    );
+    if (transferResponse) {
+      await verifyPayment(
+        invoice.invoice.id,
+        name,
+        symbol,
+        supply,
+        website,
+        prixelart
+      );
+    } else {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <>
       <Box style={{ padding: 12 }}>
@@ -56,8 +89,14 @@ const CollectionForm = ({ isMobile, createCollection }) => {
                     : "#5DBB63",
               }}
               onClick={() =>
-                createCollection(name, symbol, supply, website, prixelart)
+                Promise.resolve(createInvoice(amount * 100000000, 0))
+                  .then(() => setIsOpen(true))
+                  .catch(console.log)
               }
+              // onClick={() =>
+
+              // createCollection(name, symbol, supply, website, prixelart)
+              // }
             >
               Add
             </Button>
@@ -131,6 +170,32 @@ const CollectionForm = ({ isMobile, createCollection }) => {
           </Box>
         </Paper>
       </Box>
+      {invoice && (
+        <Dialog
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Payment confirmation"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <Box>{`
+                Do you want to confirm the payment for the amount ${
+                  parseInt(invoice.invoice.amount) / 100000000
+                } of ICP?`}</Box>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+            <Button onClick={() => isConfirmPayment()} autoFocus>
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </>
   );
 };

@@ -6,7 +6,28 @@ import NavigationBar from "../../components/navigationBar";
 import Navbar from "../../components/navbar";
 import CollectionForm from "../../components/collectionForm";
 
-const MobileView = ({ onLogout, username, isMobile, createCollection }) => {
+const MobileView = ({
+  onLogout,
+  username,
+  isMobile,
+  createCollection,
+  createInvoice,
+  transfer,
+  verifyPayment,
+  invoice,
+}) => {
+  const isConfirmPayment = async () => {
+    const transferResponse = await transfer(
+      invoice.subAccount,
+      parseInt(invoice.invoice.amount)
+    );
+    if (transferResponse) {
+      await verifyPayment(invoice.invoice.id);
+    } else {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <Box style={{ height: "calc(100vh - 60px)" }}>
       <Navbar onLogout={onLogout} />
@@ -20,6 +41,10 @@ const MobileView = ({ onLogout, username, isMobile, createCollection }) => {
             <CollectionForm
               isMobile={isMobile}
               createCollection={createCollection}
+              createInvoice={createInvoice}
+              transfer={transfer}
+              verifyPayment={verifyPayment}
+              invoice={invoice}
             />
           </Box>
         </Box>

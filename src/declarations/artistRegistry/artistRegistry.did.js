@@ -79,6 +79,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Result_3 = IDL.Variant({ 'ok' : IDL.Bool, 'err' : Error });
   const CreateCanistersResult = IDL.Record({
+    'ok' : IDL.Bool,
     'assetCanisters' : IDL.Vec(IDL.Text),
     'canisterId' : IDL.Text,
   });
@@ -118,7 +119,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'getWhitelistedArtists' : IDL.Func([], [Result_4], []),
     'isArtistWhitelisted' : IDL.Func([IDL.Principal], [Result_3], []),
-    'isVerifyPayment' : IDL.Func([IDL.Nat], [Result_2], []),
+    'isVerifyPayment' : IDL.Func([IDL.Nat, IDL.Text], [Result_2], []),
     'name' : IDL.Func([], [IDL.Text], ['query']),
     'remove' : IDL.Func([IDL.Principal], [Result], []),
     'transferAuthNFT' : IDL.Func(

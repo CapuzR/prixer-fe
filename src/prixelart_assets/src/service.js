@@ -470,10 +470,10 @@ const transfer = async (account, amount) => {
   }
 };
 
-const verifyInvoice = async (invoiceId) => {
+const verifyInvoice = async (invoiceId, invoiceType) => {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
-  const result = await actor.isVerifyPayment(invoiceId);
+  const result = await actor.isVerifyPayment(invoiceId, invoiceType);
   console.log("[VERIFY INVOICE] => ", result);
   return result;
 };

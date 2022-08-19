@@ -96,7 +96,8 @@ const Registry = ({ isMobile }) => {
 
   const verifyPayment = async (invoiceId) => {
     try {
-      const result = await service.verifyInvoice(invoiceId);
+      const result = await service.verifyInvoice(invoiceId, "storage");
+      handleScreen(consts.registry_post_form_view);
       console.log(result, "RESULT");
     } catch (err) {
       console.log(err);

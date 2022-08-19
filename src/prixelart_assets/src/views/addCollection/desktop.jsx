@@ -1,6 +1,14 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import * as React from "react";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 
 import Navbar from "../../components/navbar";
 import Sidebar from "../../components/sidebar";
@@ -16,6 +24,10 @@ const Desktop = ({
   window,
   fullName,
   createCollection,
+  createInvoice,
+  transfer,
+  verifyPayment,
+  invoice,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -41,7 +53,13 @@ const Desktop = ({
           style={{ maxWidth: 1000, marginLeft: "auto", marginRight: "auto" }}
         >
           <Box style={{ textAlign: "center" }}>
-            <CollectionForm createCollection={createCollection} />
+            <CollectionForm
+              createCollection={createCollection}
+              createInvoice={createInvoice}
+              transfer={transfer}
+              verifyPayment={verifyPayment}
+              invoice={invoice}
+            />
           </Box>
         </Box>
       </Box>

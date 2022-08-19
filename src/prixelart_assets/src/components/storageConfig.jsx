@@ -155,7 +155,7 @@ function StorageConfig({
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               <Box>{`
-Do you want to confirm the payment for the amount ${
+        Do you want to confirm the payment for the amount ${
                 parseInt(invoice.invoice.amount) / 100000000
               } of ICP?`}</Box>
             </DialogContentText>

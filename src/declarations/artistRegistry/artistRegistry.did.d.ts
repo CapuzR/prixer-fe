@@ -2,6 +2,7 @@ import type { Principal } from '@dfinity/principal';
 import type { ActorMethod } from '@dfinity/agent';
 
 export interface CreateCanistersResult {
+  'ok' : boolean,
   'assetCanisters' : Array<string>,
   'canisterId' : string,
 }
@@ -95,7 +96,7 @@ export interface anon_class_26_1 {
   'getUsernamesByPrincipal' : ActorMethod<[Principal], Array<string>>,
   'getWhitelistedArtists' : ActorMethod<[], Result_4>,
   'isArtistWhitelisted' : ActorMethod<[Principal], Result_3>,
-  'isVerifyPayment' : ActorMethod<[bigint], Result_2>,
+  'isVerifyPayment' : ActorMethod<[bigint, string], Result_2>,
   'name' : ActorMethod<[], string>,
   'remove' : ActorMethod<[Principal], Result>,
   'transferAuthNFT' : ActorMethod<[Principal, Principal, string], Result_1>,
