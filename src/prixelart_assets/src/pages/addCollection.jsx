@@ -83,7 +83,6 @@ const AddCollection = ({ isMobile }) => {
         creator: JSON.parse(localStorage.getItem("_scApp")).principal,
       });
       navigate(-1);
-      console.log(result);
     } catch (err) {
       console.log(err);
       console.log("[ERR] => Error in create collection addCollection.jsx");

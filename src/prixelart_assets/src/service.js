@@ -113,10 +113,24 @@ const _mintNFT = async (id, payload) => {
   return result;
 };
 
+const _authorizeNFT = async (id, payload) => {
+  const identity = await onSignInStoic();
+  const actor = await _CanisterNFT(identity, id);
+  payload.p = Principal.fromText(payload.p);
+  const result = await actor.authorize(payload);
+  console.log("[AUTHORIZE NFT] => ", result);
+  return result;
+};
+
 const _listNFT = async (id) => {
   const identity = await onSignInStoic();
   const actor = await _CanisterNFT(identity, id);
-  const result = await actor.listAssets();
+  const list = await actor.listAssets();
+  const result = list.map((nft) => ({
+    id: nft[0],
+    name: nft[2][0].name,
+    image: `http://${id}.localhost:8000/nft/${nft[0]}`,
+  }));
   console.log("[LIST NFT] => ", result);
   return result;
 };
@@ -527,4 +541,5 @@ export const service = {
   _listNFT,
   _getNFTByIndex,
   _publishNFTCollection,
+  _authorizeNFT,
 };

@@ -34,6 +34,7 @@ const DesktopView = ({
   mintNFT,
   onBack,
   publishCollection,
+  tokens,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -136,37 +137,39 @@ const DesktopView = ({
                     spacing={1}
                     style={{ maxWidth: 1000, margin: "auto" }}
                   >
-                    {[1, 2, 3, 4, 5].map((nft, index) => (
+                    {tokens.map((nft, index) => (
                       <Grid
                         item
                         xs={12}
                         sm={4}
                         md={4}
                         lg={4}
-                        xl={3}
-                        key={index}
+                        xl={}
+                        key={nft.id}
                       >
                         <Card>
                           <CardMedia
                             component="img"
-                            height="180"
-                            image={
-                              "https://images.unsplash.com/photo-1653287606739-087b7e6a0843?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NDEzNTk4Mg&ixlib=rb-1.2.1&q=80&w=1080"
-                            }
+                            height="250"
+                            image={nft.image}
                             alt="image"
+                              style={{ objectFit: "contain " }}
                           />
                           <CardContent>
                             <Box
-                              style={{ display: "flex", alignItems: "center" }}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
                             >
                               <Typography variant="h6" component="div">
-                                Titulo
+                                {nft.name}
                               </Typography>
                             </Box>
                             <Box style={{ display: "flex", marginTop: 18 }}>
                               <Typography variant="body2">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit.
+                                {/* Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit. */}
                               </Typography>
                             </Box>
 

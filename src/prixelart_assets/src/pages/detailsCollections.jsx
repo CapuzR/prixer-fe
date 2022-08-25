@@ -13,6 +13,7 @@ const DetailsCollection = ({ isMobile }) => {
   const [isMint, setIsMint] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
+  const [tokens, setTokens] = useState([]);
   const onLogout = async () => {
     await service.onSignOutStoic();
     localStorage.clear();
@@ -34,7 +35,19 @@ const DetailsCollection = ({ isMobile }) => {
   const mintNFT = async (payload) => {
     try {
       const result = await service._mintNFT(params.collectionId, payload);
-      if (result.ok) setIsMint(false);
+      if (result.ok) {
+        listNFT(params.collectionId);
+        setIsMint(false);
+      }
+    } catch (err) {
+      console.log(err);
+      console.log("[ERR IN MINT NFT]");
+    }
+  };
+
+  const authorize = async (payload) => {
+    try {
+      const result = await service._authorizeNFT(params.collectionId, payload);
     } catch (err) {
       console.log(err);
       console.log("[ERR IN MINT NFT]");
@@ -49,6 +62,25 @@ const DetailsCollection = ({ isMobile }) => {
       console.log("[ERR IN MINT NFT]");
     }
   };
+
+  const listNFT = async (id) => {
+    try {
+      const result = await service._listNFT(id);
+      setTokens(result);
+    } catch (err) {
+      console.log(err);
+      console.log("[ERR IN LIST NFT]");
+    }
+  };
+
+  useEffect(() => {
+    listNFT(params.collectionId);
+    // authorize({
+    //   id: params.collectionId,
+    //   p: params.collectionId,
+    //   isAuthorized: true,
+    // });
+  }, []);
 
   return isMobile ? (
     <MobileView
@@ -65,6 +97,7 @@ const DetailsCollection = ({ isMobile }) => {
       onBack={onBack}
       mintNFT={mintNFT}
       publishCollection={publishCollection}
+      tokens={tokens}
     />
   ) : (
     <DesktopView
@@ -82,6 +115,7 @@ const DetailsCollection = ({ isMobile }) => {
       onBack={onBack}
       mintNFT={mintNFT}
       publishCollection={publishCollection}
+      tokens={tokens}
     />
   );
 };

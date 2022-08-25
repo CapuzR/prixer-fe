@@ -220,7 +220,15 @@ export const idlFactory = ({ IDL }) => {
     'isAuthorized' : IDL.Func([IDL.Text, IDL.Principal], [IDL.Bool], ['query']),
     'listAssets' : IDL.Func(
         [],
-        [IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text, IDL.Nat))],
+        [
+          IDL.Vec(
+            IDL.Tuple(
+              IDL.Text,
+              IDL.Tuple(IDL.Opt(IDL.Principal), IDL.Vec(IDL.Principal)),
+              Properties,
+            )
+          ),
+        ],
         ['query'],
       ),
     'mint' : IDL.Func([Egg], [Result], []),

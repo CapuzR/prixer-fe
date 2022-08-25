@@ -187,11 +187,15 @@ type NFT =
     (StreamingCallbackResponse) query;
    init: () -> ();
    isAuthorized: (text, principal) -> (bool) query;
-   listAssets: () -> (vec record {
-                            text;
-                            text;
-                            nat;
-                          }) query;
+   listAssets: () ->
+    (vec record {
+           text;
+           record {
+             opt principal;
+             vec principal;
+           };
+           Properties;
+         }) query;
    mint: (Egg) -> (Result);
    nftStreamingCallback: (StreamingCallbackToken) ->
     (StreamingCallbackResponse) query;

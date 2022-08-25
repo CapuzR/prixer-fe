@@ -97,7 +97,10 @@ export interface NFT {
   >,
   'init' : ActorMethod<[], undefined>,
   'isAuthorized' : ActorMethod<[string, Principal], boolean>,
-  'listAssets' : ActorMethod<[], Array<[string, string, bigint]>>,
+  'listAssets' : ActorMethod<
+    [],
+    Array<[string, [[] | [Principal], Array<Principal>], Properties]>,
+  >,
   'mint' : ActorMethod<[Egg], Result>,
   'nftStreamingCallback' : ActorMethod<
     [StreamingCallbackToken],
