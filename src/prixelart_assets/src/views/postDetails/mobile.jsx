@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, IconButton, Typography } from "@mui/material";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import NavigationBar from "../../components/navigationBar";
 import Navbar from "../../components/navbar";
@@ -28,6 +29,10 @@ const MobileView = ({
   updatePost,
   deletePost,
   galleries,
+  isLoading,
+  onRemoveComment,
+  deleteComment,
+  isDelete,
 }) => {
   const navigate = useNavigate();
   return (
@@ -39,35 +44,39 @@ const MobileView = ({
           paddingBottom: 60,
         }}
       >
-        <Box
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: 8,
-            paddingTop: 4,
-          }}
-        >
-          <IconButton
-            color="primary"
-            onClick={() =>
-              isUpdatePost ? handleIsUpdatePost(false) : navigate(-1)
-            }
-            style={{ position: "absolute" }}
-          >
-            <ArrowBackIcon fontSize="medium" />
-          </IconButton>
+        {!isUpdatePost && (
           <Box
             style={{
               display: "flex",
-              justifyContent: "center",
-              width: "100%",
+              alignItems: "center",
+              marginBottom: 8,
+              paddingTop: 4,
             }}
           >
-            <Typography variant={isMobile ? "h5" : "h4"}>
-              Post details
-            </Typography>
+            <IconButton
+              disabled={isDelete ? isLoading : false}
+              color="primary"
+              onClick={() =>
+                isUpdatePost ? handleIsUpdatePost(false) : navigate(-1)
+              }
+              style={{ position: "absolute" }}
+            >
+              <ArrowBackIcon fontSize="medium" />
+            </IconButton>
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <Typography variant={isMobile ? "h5" : "h4"}>
+                Post details
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        )}
+
         {isUpdatePost ? (
           <PostForm
             isMobile={isMobile}
@@ -82,7 +91,14 @@ const MobileView = ({
             post={post}
             updatePost={updatePost}
             galleries={galleries}
+            isLoading={isLoading}
           />
+        ) : !isDelete && isLoading ? (
+          <Box
+            style={{ marginTop: 32, justifyContent: "center", display: "flex" }}
+          >
+            <CircularProgress />
+          </Box>
         ) : (
           <InfoPost
             post={post}
@@ -98,10 +114,18 @@ const MobileView = ({
             isMobile={isMobile}
             deletePost={deletePost}
             galleries={galleries}
+            onRemoveComment={onRemoveComment}
+            deleteComment={deleteComment}
+            isDelete={isDelete}
+            isLoading={isLoading}
           />
         )}
       </Box>
-      <NavigationBar username={username} />
+      <NavigationBar
+        username={username}
+        isLoading={isUpdatePost ? isLoading : isDelete ? isLoading : false}
+        isUpdatePost={isUpdatePost}
+      />
     </Box>
   );
 };

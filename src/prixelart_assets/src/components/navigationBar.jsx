@@ -18,7 +18,7 @@ import AddIcon from "@mui/icons-material/Add";
 import StarIcon from "@mui/icons-material/Star";
 import ActionButton from "./actionButton";
 
-function NavigationBar({ username }) {
+function NavigationBar({ username, isLoading }) {
   const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
@@ -37,6 +37,7 @@ function NavigationBar({ username }) {
     >
       <Box style={{ width: "20%", textAlign: "center" }}>
         <IconButton
+          disabled={isLoading}
           onClick={() => navigate("/feed")}
           style={{
             color: location.pathname === "/feed" ? "#2D2D2D" : "#C5C5C5",
@@ -46,7 +47,7 @@ function NavigationBar({ username }) {
         </IconButton>
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
-        <IconButton color="primary">
+        <IconButton color="primary" disabled={isLoading}>
           <Typography
             style={{
               fontSize: 32,
@@ -67,10 +68,11 @@ function NavigationBar({ username }) {
           marginTop: -45,
         }}
       >
-        <ActionButton isMobile={true} />
+        <ActionButton isMobile={true} isLoading={isLoading} />
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
         <IconButton
+          disabled={isLoading}
           onClick={() => navigate("/explore")}
           color="primary"
           style={{
@@ -82,6 +84,7 @@ function NavigationBar({ username }) {
       </Box>
       <Box style={{ width: "20%", textAlign: "center" }}>
         <IconButton
+          disabled={isLoading}
           style={{
             color:
               location.pathname.split("/")[1] === "u" ? "#2D2D2D" : "#C5C5C5",

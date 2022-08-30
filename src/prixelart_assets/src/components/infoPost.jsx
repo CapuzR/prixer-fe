@@ -38,6 +38,10 @@ const InfoPost = ({
   onAddComment,
   createComment,
   deletePost,
+  onRemoveComment,
+  deleteComment,
+  isDelete,
+  isLoading,
 }) => {
   const [isShowInputComment, setIsShowInputComment] = useState(false);
   const [comment, setComment] = useState("");
@@ -59,6 +63,7 @@ const InfoPost = ({
               display: "block",
               width: "100%",
               maxHeight: 700,
+              objectFit: "contain",
             }}
           />
         </Box>
@@ -68,6 +73,7 @@ const InfoPost = ({
               {post?.post?.postBasics?.title}
             </Typography>
             <IconButton
+              disabled={isDelete ? isLoading : false}
               color="primary"
               onClick={() => {
                 if (post?.likedByCaller) {
@@ -85,11 +91,13 @@ const InfoPost = ({
               <Box style={{ marginLeft: "auto" }}>
                 <IconButton
                   color="primary"
+                  disabled={isDelete ? isLoading : false}
                   onClick={() => deletePost(post.postId)}
                 >
                   <DeleteIcon />
                 </IconButton>
                 <IconButton
+                  disabled={isDelete ? isLoading : false}
                   color="primary"
                   onClick={() => handleIsUpdatePost(true)}
                 >
@@ -142,6 +150,7 @@ const InfoPost = ({
               <FormControl fullWidth>
                 <OutlinedInput
                   multiline
+                  disabled={isDelete ? isLoading : false}
                   size="small"
                   rows={3}
                   maxRows={3}
@@ -164,6 +173,7 @@ const InfoPost = ({
                 />
               </FormControl>
               <Button
+                disabled={isDelete ? isLoading : false}
                 variant="outlined"
                 style={{
                   textTransform: "capitalize",
@@ -201,6 +211,7 @@ const InfoPost = ({
                 setIsShowInputComment(true);
                 service.scrollToBottom();
               }}
+              className="pointer"
             >
               Add a new comment
             </Box>
@@ -230,7 +241,7 @@ const InfoPost = ({
                   // setIsLoadingForComments(false);
                   // setComments(result.ok);
                 }}
-                style={{ marginLeft: 8, width: "100%" }}
+                style={{ marginLeft: 8, width: "80%" }}
               >
                 <Box style={{ fontSize: 14, fontWeight: "bold" }}>
                   {comment[1]}
@@ -255,6 +266,7 @@ const InfoPost = ({
                 </Box>
                 <Box style={{ display: "flex", alignItems: "end" }}>
                   <Box
+                    className="pointer"
                     style={{
                       fontSize: 14,
                       textDecoration: "underline",
@@ -262,25 +274,58 @@ const InfoPost = ({
                       paddingRight: 12,
                     }}
                     onClick={() => {
-                      setIsShowInputComment(true);
-                      service.scrollToBottom();
+                      if (isLoading) {
+                        console.log();
+                      } else {
+                        setIsShowInputComment(true);
+                        service.scrollToBottom();
+                      }
                     }}
                   >
                     Show replys
                   </Box>
                   <Box
+                    className="pointer"
                     style={{
                       fontSize: 14,
                       textDecoration: "underline",
+                      paddingRight: username === comment[1] && 12,
                       // paddingBottom: 8,
                     }}
                     onClick={() => {
-                      setIsShowInputComment(true);
-                      service.scrollToBottom();
+                      if (isLoading) {
+                        console.log();
+                      } else {
+                        addLike(comment[2]);
+                      }
+                      // setIsShowInputComment(true);
+                      // service.scrollToBottom();
                     }}
                   >
                     Like
                   </Box>
+                  {username === comment[1] && (
+                    <Box
+                      className="pointer"
+                      style={{
+                        fontSize: 14,
+                        textDecoration: "underline",
+                        // paddingBottom: 8,
+                      }}
+                      onClick={() => {
+                        if (isLoading) {
+                          console.log();
+                        } else {
+                          onRemoveComment(comment[2]);
+                          deleteComment(comment[2]);
+                        }
+                        // setIsShowInputComment(true);
+                        // service.scrollToBottom();
+                      }}
+                    >
+                      Delete
+                    </Box>
+                  )}
                 </Box>
               </Box>
             </Box>

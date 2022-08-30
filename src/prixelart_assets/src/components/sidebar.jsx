@@ -71,6 +71,7 @@ function Sidebar(props) {
           </div>
         ) : (
           <IconButton
+            disabled={props.isLoading}
             style={{ color: "white", marginTop: -15 }}
             onClick={() => props.handleSidebar(!props.isOpenSideMenu)}
           >
@@ -109,6 +110,7 @@ function Sidebar(props) {
           }}
         >
           <IconButton
+            disabled={props.isLoading}
             onClick={() => props.handleSidebar(!props.isOpenSideMenu)}
           >
             <Avatar
@@ -286,6 +288,7 @@ function Sidebar(props) {
             <>
               <div>
                 <IconButton
+                  disabled={props.isLoading}
                   style={{
                     backgroundColor:
                       location.pathname === "/feed" ? "rgb(33 32 37)" : "",
@@ -307,6 +310,7 @@ function Sidebar(props) {
                 }}
               >
                 <IconButton
+                  disabled={props.isLoading}
                   style={{
                     backgroundColor:
                       location.pathname === "/explore" ? "rgb(33 32 37)" : "",
@@ -328,6 +332,7 @@ function Sidebar(props) {
                 }}
               >
                 <IconButton
+                  disabled={props.isLoading}
                   style={{
                     backgroundColor:
                       location.pathname.split("/")[1] === "u"
@@ -349,6 +354,7 @@ function Sidebar(props) {
                 }}
               >
                 <IconButton
+                  disabled={props.isLoading}
                   style={{
                     color: "white",
                   }}

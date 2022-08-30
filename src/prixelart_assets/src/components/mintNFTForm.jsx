@@ -15,7 +15,7 @@ import {
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-function MintNFTForm({ isMobile, onBack, mintNFT }) {
+function MintNFTForm({ isMobile, onBack, mintNFT, isLoading }) {
   const [avatar, setAvatar] = useState(undefined);
   const [avatarAsset, setAvatarAsset] = useState(undefined);
   const [name, setName] = useState("");
@@ -62,10 +62,6 @@ function MintNFTForm({ isMobile, onBack, mintNFT }) {
     setAvatar(resizedString);
   };
 
-  const isDisabled = () => {
-    return !name || !avatar ? true : false;
-  };
-
   return (
     <Box style={{ padding: 12 }}>
       <Box
@@ -75,10 +71,15 @@ function MintNFTForm({ isMobile, onBack, mintNFT }) {
           marginBottom: 8,
         }}
       >
-        <IconButton color="primary" onClick={() => onBack()}>
-          <ArrowBackIcon fontSize="medium" />
-        </IconButton>
-
+        <Box style={{ width: isMobile ? "20%" : "10%" }}>
+          <IconButton
+            color="primary"
+            onClick={() => onBack()}
+            disabled={isLoading}
+          >
+            <ArrowBackIcon fontSize="medium" />
+          </IconButton>
+        </Box>
         <Box
           style={{
             display: "flex",
@@ -97,7 +98,9 @@ function MintNFTForm({ isMobile, onBack, mintNFT }) {
           <Button
             style={{
               color: "#5DBB63",
+              width: isMobile ? "20%" : "10%",
             }}
+            disabled={isLoading}
             onClick={() =>
               mintNFT({
                 payload: {
@@ -128,14 +131,20 @@ function MintNFTForm({ isMobile, onBack, mintNFT }) {
                 style={{ width: "120px", height: "120px" }}
                 src={avatar}
               />
-              <input hidden type="file" onChange={handleChangeAvatar} />
+              <input
+                hidden
+                type="file"
+                onChange={handleChangeAvatar}
+                disabled={isLoading}
+              />
             </IconButton>
           </Box>
           <Grid container spacing={2} style={{ marginTop: "32px" }}>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
+                disabled={isLoading}
                 type="text"
-                label="Username"
+                label="Name"
                 variant="outlined"
                 required
                 fullWidth

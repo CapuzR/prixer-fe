@@ -21,16 +21,16 @@ const AddCollection = ({ isMobile }) => {
   };
 
   const createInvoice = async (amount, quantity) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const result = await service.createInvoice("ICP", amount, quantity);
       setInvoice(result.ok);
       setIsLoading(false);
     } catch (err) {
-      setIsLoading(false);
       console.log(err);
       console.log("[Error in create invoice settings.jsx");
     }
+    setIsLoading(false);
   };
 
   const transfer = async (account, amount) => {
@@ -45,6 +45,7 @@ const AddCollection = ({ isMobile }) => {
     website,
     prixelart
   ) => {
+    setIsLoading(true);
     try {
       const result = await service.verifyInvoice(invoiceId, "collection");
       if (result.ok.ok) {
@@ -60,16 +61,11 @@ const AddCollection = ({ isMobile }) => {
       console.log(err);
       console.log("[Err in varifyPayment settings.jsx]");
     }
+    setIsLoading(false);
   };
 
-  const createCollection = async (
-    name,
-    symbol,
-    suplay,
-    website,
-
-    prixelart
-  ) => {
+  const createCollection = async (name, symbol, suplay, website, prixelart) => {
+    setIsLoading(true);
     try {
       const result = await service._createNFTCanister(state.user.canisterId, {
         nFTMetadata: {
@@ -87,6 +83,7 @@ const AddCollection = ({ isMobile }) => {
       console.log(err);
       console.log("[ERR] => Error in create collection addCollection.jsx");
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -102,6 +99,8 @@ const AddCollection = ({ isMobile }) => {
       transfer={transfer}
       verifyPayment={verifyPayment}
       invoice={invoice}
+      isLoading={isLoading}
+      setIsLoading={setIsLoading}
     />
   ) : (
     <DesktopView
@@ -116,6 +115,8 @@ const AddCollection = ({ isMobile }) => {
       transfer={transfer}
       verifyPayment={verifyPayment}
       invoice={invoice}
+      isLoading={isLoading}
+      setIsLoading={setIsLoading}
     />
   );
 };

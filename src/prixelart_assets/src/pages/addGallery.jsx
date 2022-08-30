@@ -9,7 +9,8 @@ import { service } from "../service.js";
 import consts from "../consts.js";
 
 const AddGallery = ({ isMobile }) => {
-  const { state, handleSidebar } = useContext(PrixerContext);
+  const { state, handleSidebar, setGalleries } = useContext(PrixerContext);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const onLogout = async () => {
@@ -19,13 +20,17 @@ const AddGallery = ({ isMobile }) => {
   };
 
   const createGallery = async (gallery) => {
+    setIsLoading(true);
     try {
       const result = await service.createGallery(gallery);
+      const galleries = await service.getGalleriesByArtist(state.user.username);
+      setGalleries(galleries.ok);
       navigate(-1);
     } catch (err) {
       console.log(err);
       console.log("[ERR] => Error in create gallery addGallery.jsx");
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -41,6 +46,7 @@ const AddGallery = ({ isMobile }) => {
       artist={state.user}
       createGallery={createGallery}
       galleries={state.galleries}
+      isLoading={isLoading}
     />
   ) : (
     <DesktopView
@@ -52,6 +58,7 @@ const AddGallery = ({ isMobile }) => {
       fullName={state.user.fullName}
       createGallery={createGallery}
       galleries={state.galleries}
+      isLoading={isLoading}
     />
   );
 };

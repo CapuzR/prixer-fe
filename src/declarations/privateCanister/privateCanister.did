@@ -1,9 +1,9 @@
-type Result_5 = 
+type Result_8 = 
  variant {
    err: Error;
    ok: text;
  };
-type Result_4 = 
+type Result_7 = 
  variant {
    err: Error;
    ok: record {
@@ -11,15 +11,30 @@ type Result_4 =
          principal;
        };
  };
-type Result_3 = 
+type Result_6 = 
+ variant {
+   err: InvoiceError;
+   ok: CreateInvoiceResult;
+ };
+type Result_5 = 
  variant {
    err: Error;
    ok: NFTMetadataExt;
  };
-type Result_2 = 
+type Result_4 = 
  variant {
    err: Error;
    ok: vec principal;
+ };
+type Result_3 = 
+ variant {
+   err: InvoiceError;
+   ok: Invoice;
+ };
+type Result_2 = 
+ variant {
+   err: InvoiceError;
+   ok;
  };
 type Result_1 = 
  variant {
@@ -80,6 +95,32 @@ type Metadata =
    principal_id: principal;
    thumbnail: text;
  };
+type InvoiceError = 
+ record {
+   kind:
+    variant {
+      BadFee;
+      InsufficientFunds;
+      InvalidAccount;
+      InvalidDestination;
+      InvalidInvoiceId;
+      InvalidToken;
+      NotAuthorized;
+      NotFound;
+      NotYet;
+      Other;
+    };
+   message: opt text;
+ };
+type Invoice = 
+ record {
+   amount: nat;
+   creator: principal;
+   destination: text;
+   id: nat;
+   quantity: nat;
+   token: text;
+ };
 type Error = 
  variant {
    BadParameters;
@@ -100,6 +141,11 @@ type DetailValue =
    Vec: vec DetailValue;
    VecText: vec text;
  };
+type CreateInvoiceResult = 
+ record {
+   invoice: Invoice;
+   subAccount: text;
+ };
 type ContractInfo = 
  record {
    cycles: nat;
@@ -110,17 +156,20 @@ type ContractInfo =
 type ArtistCanister = 
  service {
    artistMetadata: () -> (Metadata__1) query;
-   authorizedArr: () -> (Result_2) query;
-   createArt: (ArtUpdate) -> (Result_5);
-   createAssetCan: () -> (Result_4);
-   createNFTCan: (NFTMetadata, principal) -> (Result_3);
+   authorizedArr: () -> (Result_4) query;
+   createArt: (ArtUpdate) -> (Result_8);
+   createAssetCan: () -> (Result_7);
+   createInvoice: (text, nat, nat) -> (Result_6);
+   createNFTCan: (NFTMetadata, principal) -> (Result_5);
    deleteArt: (text) -> (Result);
-   getAssetCanIds: () -> (Result_2) query;
+   getAssetCanIds: () -> (Result_4) query;
    getCanIds: () -> (vec principal) query;
    getCanisterId: () -> (principal) query;
    getContractInfo: () -> (ContractInfo) query;
+   getInvoice: (nat) -> (Result_3) query;
    getNFTCan: () -> (vec NFTMetadataExt) query;
    initNFTCan: (principal, principal) -> (Result);
+   isVerifyPayment: (nat, principal, text, principal) -> (Result_2);
    name: () -> (text) query;
    privReadArtById: (text) -> (Result_1) query;
    updateArt: (ArtUpdate, text) -> (Result);

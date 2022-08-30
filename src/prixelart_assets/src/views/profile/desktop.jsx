@@ -46,6 +46,7 @@ const DesktopView = ({
   updateArtist,
   showGalleryDetails,
   setBanner,
+  isLoading,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -144,6 +145,7 @@ const DesktopView = ({
                   {screen === consts.PROFILE_SCREEN_ART ? (
                     postsDetails && (
                       <ListPosts
+                        isLoading={isLoading}
                         search={search}
                         showPostDetails={showPostDetails}
                         addLike={addLike}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Principal } from "@dfinity/principal";
 
 import MobileView from "../views/profile/mobile.jsx";
 import DesktopView from "../views/profile/desktop.jsx";
@@ -12,14 +11,8 @@ import consts from "../consts.js";
 const Profile = ({ isMobile }) => {
   const navigate = useNavigate();
   const params = useParams();
-  const {
-    state,
-    handleSidebar,
-    setPostsDetails,
-    setUser,
-    setGalleries,
-    setCurrentPost,
-  } = useContext(PrixerContext);
+  const { state, handleSidebar, setPostsDetails, setUser, setGalleries } =
+    useContext(PrixerContext);
   const [isUpdateProfile, setIsUpdateprofile] = useState(false);
   const [banner, setBanner] = useState(
     params.username === state.user.username ? state?.user?.banner : ""
@@ -27,8 +20,8 @@ const Profile = ({ isMobile }) => {
   const [screen, setScreen] = useState(consts.PROFILE_SCREEN_ART);
   const [userGuest, setUserGuest] = useState([]);
   const [postsDetailsGuest, setPostsDetailsGuest] = useState([]);
-  // const [galleries, setGalleries] = useState([]);
   const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const onLogout = async () => {
     await service.onSignOutStoic();
@@ -37,6 +30,7 @@ const Profile = ({ isMobile }) => {
   };
 
   const init = async () => {
+    setIsLoading(true);
     try {
       if (!localStorage.getItem("wallet")) onLogout();
       if (params.username === state.user.username) {
@@ -72,6 +66,7 @@ const Profile = ({ isMobile }) => {
       console.log(err);
       console.log("[ERR] => Error in init profile.jsx");
     }
+    setIsLoading(false);
   };
   const handleScreen = (view) => {
     setScreen(view);
@@ -118,7 +113,7 @@ const Profile = ({ isMobile }) => {
 
   const deleteGallery = async (id) => {
     try {
-      setGalleries(galleries.filter((gallery) => gallery.id !== id));
+      setGalleries(state.galleries.filter((gallery) => gallery.id !== id));
       const newData = { ...state.postsDetails };
       newData.galleriesQty = parseInt(newData.galleriesQty) - 1;
       setPostsDetails(newData);
@@ -238,6 +233,7 @@ const Profile = ({ isMobile }) => {
         updateArtist={updateArtist}
         showGalleryDetails={showGalleryDetails}
         setBanner={setBanner}
+        isLoading={isLoading}
       />
     ) : (
       <DesktopView
@@ -274,6 +270,7 @@ const Profile = ({ isMobile }) => {
         updateArtist={updateArtist}
         showGalleryDetails={showGalleryDetails}
         setBanner={setBanner}
+        isLoading={isLoading}
       />
     )
   ) : (

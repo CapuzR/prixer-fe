@@ -4,7 +4,7 @@ type ArtBasics =
   {
     artType : Text;
     description : Text;
-    details : [(Text, DetailValue)];
+    details : [(Text, DetailValue__1)];
     tags : [Text];
     title : Text
   };
@@ -12,7 +12,7 @@ type Art__1 = Art;
 type AssocList<K, V> = List<(K, V)>;
 type AssocList__1<K, V> = AssocList<K, V>;
 type Branch<K, V> = {left : Trie<K, V>; right : Trie<K, V>; size : Nat};
-type DetailValue =
+type DetailValue__1 =
   {
     #False;
     #Float : Float;
@@ -22,7 +22,7 @@ type DetailValue =
     #Text : Text;
     #True;
     #U64 : Nat64;
-    #Vec : [DetailValue];
+    #Vec : [DetailValue__1];
     #VecText : [Text]
   };
 type Hash = Nat32;
@@ -49,7 +49,7 @@ actor {
   stable var canisterMeta :
     {
       description : Text;
-      details : [(Text, DetailValue)];
+      details : [(Text, DetailValue__1)];
       frontend : ?[Text];
       name : Text;
       principal_id : Principal;

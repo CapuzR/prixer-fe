@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const GalleryForm = ({ isMobile, createGallery }) => {
+const GalleryForm = ({ isMobile, createGallery, isLoading }) => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [about, setAbout] = useState("");
@@ -30,7 +30,11 @@ const GalleryForm = ({ isMobile, createGallery }) => {
           marginBottom: 8,
         }}
       >
-        <IconButton color="primary" onClick={() => navigate(-1)}>
+        <IconButton
+          color="primary"
+          onClick={() => navigate(-1)}
+          disabled={isLoading}
+        >
           <ArrowBackIcon fontSize="medium" />
         </IconButton>
         <Box
@@ -44,6 +48,7 @@ const GalleryForm = ({ isMobile, createGallery }) => {
         </Box>
         <Box style={{ marginLeft: "auto" }}>
           <Button
+            disabled={isLoading || isDisabled()}
             onClick={() =>
               createGallery({
                 artistPpal: JSON.parse(localStorage.getItem("_scApp"))
@@ -54,10 +59,10 @@ const GalleryForm = ({ isMobile, createGallery }) => {
               })
             }
             style={{
-              color: isDisabled() ? "#C5C5C5" : "#5DBB63",
+              color: isDisabled() || isLoading ? "#C5C5C5" : "#5DBB63",
             }}
           >
-            Create
+            Add
           </Button>
         </Box>
       </Box>
@@ -68,7 +73,7 @@ const GalleryForm = ({ isMobile, createGallery }) => {
         <Grid container spacing={1}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <TextField
-              //   disabled={isLoading}
+              disabled={isLoading}
               type="text"
               label="Title"
               variant="outlined"
@@ -80,7 +85,7 @@ const GalleryForm = ({ isMobile, createGallery }) => {
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <TextField
-              //   disabled={isLoading}
+              disabled={isLoading}
               type="text"
               label="About"
               variant="outlined"

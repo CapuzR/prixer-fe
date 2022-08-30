@@ -10,15 +10,15 @@ import {
   CardMedia,
   CardContent,
   Button,
+
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import Navbar from "../../components/navbar";
 import Sidebar from "../../components/sidebar";
 import ActionButton from "../../components/actionButton";
 import MintNFTForm from "../../components/mintNFTForm";
-// import { service } from "../../service";
-// import consts from "../../consts";
+
 
 const DesktopView = ({
   onLogout,
@@ -35,6 +35,10 @@ const DesktopView = ({
   onBack,
   publishCollection,
   tokens,
+  createInvoice,
+  setIsOpen,
+  isLoading,
+  isPayment
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -49,6 +53,7 @@ const DesktopView = ({
         handleSidebar={handleSidebar}
         fullName={fullName}
         username={username}
+        isLoading={isMint ? isLoading : isPayment ? isLoading : false}
       />
       <Box
         style={{
@@ -64,8 +69,16 @@ const DesktopView = ({
           }}
         >
           {isMint ? (
-            <MintNFTForm mintNFT={mintNFT} onBack={onBack} />
-          ) : (
+            <MintNFTForm mintNFT={mintNFT} onBack={onBack} isLoading={isLoading}/>
+          ) : !isPayment && isLoading ? <Box
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 32,
+              }}
+            >
+              <CircularProgress />
+            </Box> : (
             <>
               <Box
                 style={{
@@ -74,14 +87,17 @@ const DesktopView = ({
                   marginBottom: 8,
                 }}
               >
+                <Box style={{width:isMobile ? "20%" : "10%"}}>
+
                 <IconButton
+                                              disabled={isLoading}
                   color="primary"
                   onClick={() => navigate(-1)}
-                  style={{ position: "absolute" }}
                 >
                   <ArrowBackIcon fontSize="medium" />
                 </IconButton>
-
+</Box>
+                
                 <Box
                   style={{
                     display: "flex",
@@ -98,7 +114,9 @@ const DesktopView = ({
                 </Box>
                 <Box style={{ marginLeft: "auto" }}>
                   <Button
+                                                disabled={isLoading}
                     style={{
+                      width:isMobile ? "20%" : "10%",
                       color: "#5DBB63",
                     }}
                     onClick={() => handleView(true)}
@@ -181,12 +199,18 @@ const DesktopView = ({
                               }}
                             >
                               <Button
+                              disabled={isLoading}
                                 style={{
                                   textTransform: "capitalize",
                                   borderRadius: 10,
                                 }}
                                 variant="contained"
-                              >
+                             
+                             onClick={()=>  Promise.resolve(createInvoice(2 * 100000000, nft.id))
+                                              .then(() => setIsOpen(true))
+                                              .catch(console.log)}
+                             
+                             >
                                 Buy
                               </Button>
                               <Typography
@@ -207,7 +231,7 @@ const DesktopView = ({
           )}
         </Box>
       </Box>
-      <ActionButton />
+      <ActionButton  isLoading={isMint ? isLoading : isPayment ? isLoading : false}/>
     </Box>
   );
 };

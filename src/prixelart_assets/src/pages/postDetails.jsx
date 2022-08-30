@@ -10,12 +10,14 @@ import { service } from "../service.js";
 const PostsDetails = ({ isMobile }) => {
   const navigate = useNavigate();
   const params = useParams();
-  const { state, handleSidebar } = useContext(PrixerContext);
+  const { state, handleSidebar, setPostsDetails } = useContext(PrixerContext);
   const [isUpdatePost, setIsUpdatePost] = useState(false);
   const [post, setPost] = useState();
   const [camera, setCamera] = useState("");
   const [lens, setLens] = useState("");
-  console.log(state);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+
   const onLogout = async () => {
     await service.onSignOutStoic();
     localStorage.clear();
@@ -27,8 +29,10 @@ const PostsDetails = ({ isMobile }) => {
   };
 
   const init = async () => {
+    setIsLoading(true);
     try {
       const result = await service.getPostByID(params.postId);
+
       setPost(result.ok);
       setCamera(
         result.ok.post?.postBasics?.details.find(
@@ -44,26 +48,50 @@ const PostsDetails = ({ isMobile }) => {
       console.log(err);
       console.log("[Error  init postDetails.jsx]");
     }
+    setIsLoading(false);
   };
 
   const updatePost = async (post, postId) => {
+    setIsLoading(true);
     const result = await service.updatePost(post, postId);
+    const postResult = await service.getPostByID(params.postId);
+    setPost(postResult.ok);
+    setCamera(
+      postResult.ok.post?.postBasics?.details.find(
+        (item) => item[0] === "camera"
+      )[1].Vec[0].Text
+    );
+    setLens(
+      postResult.ok.post?.postBasics?.details.find(
+        (item) => item[0] === "lens"
+      )[1].Vec[0].Text
+    );
     handleIsUpdatePost(false);
     try {
     } catch (err) {
       console.log(err);
       console.log("[Err in update post in postDetails.jsx]");
     }
+    setIsLoading(false);
   };
 
   const deletePost = async (postId) => {
+    setIsLoading(true);
+    setIsDelete(true);
     try {
       const result = await service.removePost(postId);
+      const profile = await service.getArtistDetailsByUsername(
+        state.user.username
+      );
+      setPostsDetails(profile.ok);
+
       navigate(-1);
     } catch (err) {
       console.log(err);
       console.log("[Err in delete post in postDetails.jsx]");
     }
+    setIsLoading(false);
+    setIsDelete(false);
   };
 
   const onAddComment = (comment) => {
@@ -105,6 +133,23 @@ const PostsDetails = ({ isMobile }) => {
     }
   };
 
+  const deleteComment = async (commentId) => {
+    try {
+      const result = await service.removeComment(post.postId, commentId);
+    } catch (err) {
+      console.log(err);
+      console.log("[Err in create comment in postDetails.jsx]");
+    }
+  };
+
+  const onRemoveComment = (currentComment) => {
+    const newComments = post?.comments[0]?.filter((comment) => {
+      return comment[2] !== currentComment;
+    });
+    post.comments[0] = newComments;
+    setPost({ ...post });
+  };
+
   const addLike = async (id) => {
     try {
       const result = await service.addLike(id);
@@ -137,8 +182,8 @@ const PostsDetails = ({ isMobile }) => {
 
   useEffect(() => {
     if (!localStorage.getItem("wallet")) onLogout();
-    if (isUpdatePost === false) init();
-  }, [isUpdatePost]);
+    init();
+  }, []);
 
   return isMobile ? (
     <MobileView
@@ -159,6 +204,10 @@ const PostsDetails = ({ isMobile }) => {
       updatePost={updatePost}
       deletePost={deletePost}
       galleries={state.galleries}
+      isLoading={isLoading}
+      onRemoveComment={onRemoveComment}
+      deleteComment={deleteComment}
+      isDelete={isDelete}
     />
   ) : (
     <DesktopView
@@ -182,6 +231,10 @@ const PostsDetails = ({ isMobile }) => {
       updatePost={updatePost}
       deletePost={deletePost}
       galleries={state.galleries}
+      isLoading={isLoading}
+      onRemoveComment={onRemoveComment}
+      deleteComment={deleteComment}
+      isDelete={isDelete}
     />
   );
 };

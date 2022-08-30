@@ -15,19 +15,9 @@ const MobileView = ({
   transfer,
   verifyPayment,
   invoice,
+  isLoading,
+  setIsLoading,
 }) => {
-  const isConfirmPayment = async () => {
-    const transferResponse = await transfer(
-      invoice.subAccount,
-      parseInt(invoice.invoice.amount)
-    );
-    if (transferResponse) {
-      await verifyPayment(invoice.invoice.id);
-    } else {
-      setIsOpen(false);
-    }
-  };
-
   return (
     <Box style={{ height: "calc(100vh - 60px)" }}>
       <Navbar onLogout={onLogout} />
@@ -45,11 +35,13 @@ const MobileView = ({
               transfer={transfer}
               verifyPayment={verifyPayment}
               invoice={invoice}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
             />
           </Box>
         </Box>
       </Box>
-      <NavigationBar username={username} />
+      <NavigationBar username={username} isLoading={isLoading} />
     </Box>
   );
 };

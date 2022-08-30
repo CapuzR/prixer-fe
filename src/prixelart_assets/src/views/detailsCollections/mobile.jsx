@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import NavigationBar from "../../components/navigationBar";
 import Navbar from "../../components/navbar";
@@ -26,6 +27,9 @@ const MobileView = ({
   isMint,
   mintNFT,
   tokens,
+  isLoading,
+  onBack,
+  isPayment,
 }) => {
   const navigate = useNavigate();
   return (
@@ -38,7 +42,21 @@ const MobileView = ({
         }}
       >
         {isMint ? (
-          <MintNFTForm mintNFT={mintNFT} onBack={onBack} />
+          <MintNFTForm
+            mintNFT={mintNFT}
+            onBack={onBack}
+            isLoading={isLoading}
+          />
+        ) : !isPayment && isLoading ? (
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: 32,
+            }}
+          >
+            <CircularProgress />
+          </Box>
         ) : (
           <>
             <Box
@@ -48,9 +66,15 @@ const MobileView = ({
                 marginBottom: 8,
               }}
             >
-              <IconButton color="primary" onClick={() => navigate(-1)}>
-                <ArrowBackIcon fontSize="medium" />
-              </IconButton>
+              <Box style={{ width: isMobile ? "20%" : "10%" }}>
+                <IconButton
+                  color="primary"
+                  onClick={() => navigate(-1)}
+                  disabled={isLoading}
+                >
+                  <ArrowBackIcon fontSize="medium" />
+                </IconButton>
+              </Box>
 
               <Box
                 style={{
@@ -66,8 +90,11 @@ const MobileView = ({
                   {`Collection ${collection.name}`}
                 </Typography>
               </Box>
-              <Box style={{ marginLeft: "auto" }}>
+              <Box
+                style={{ marginLeft: "auto", width: isMobile ? "20%" : "10%" }}
+              >
                 <Button
+                  disabled={isLoading}
                   style={{
                     color: "#5DBB63",
                   }}
@@ -90,7 +117,7 @@ const MobileView = ({
                   variant="h6"
                   className="mint-hl"
                   style={{ textDecoration: "underline" }}
-                >{`NFTs`}</Typography>
+                >{`Publish collection`}</Typography>
               </div>
               <Grid container spacing={1} style={{ maxWidth: 1000 }}>
                 {tokens.map((nft, index) => (
@@ -111,12 +138,6 @@ const MobileView = ({
                           <Typography variant="h6" component="div">
                             Titulo
                           </Typography>
-                          {/* <IconButton
-                        color="primary"
-                        style={{ marginLeft: "auto" }}
-                      >
-                        <MoreHorizIcon />
-                      </IconButton> */}
                         </Box>
                         <Box style={{ display: "flex", marginTop: 18 }}>
                           <Typography variant="body2">
@@ -133,6 +154,7 @@ const MobileView = ({
                           }}
                         >
                           <Button
+                            disabled={isLoading}
                             style={{
                               textTransform: "capitalize",
                               borderRadius: 10,
@@ -157,7 +179,10 @@ const MobileView = ({
           </>
         )}
       </Box>
-      <NavigationBar username={username} />
+      <NavigationBar
+        username={username}
+        isLoading={isMint ? isLoading : isPayment ? isLoading : false}
+      />
     </Box>
   );
 };

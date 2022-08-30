@@ -19,7 +19,7 @@ const Desktop = ({
   onLogout,
   username,
   isOpenSidebar,
-  isMobile,
+
   handleSidebar,
   window,
   fullName,
@@ -28,6 +28,8 @@ const Desktop = ({
   transfer,
   verifyPayment,
   invoice,
+  isLoading,
+  setIsLoading,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -43,6 +45,7 @@ const Desktop = ({
         handleSidebar={handleSidebar}
         username={username}
         fullName={fullName}
+        isLoading={isLoading}
       />
       <Box
         style={{
@@ -59,12 +62,14 @@ const Desktop = ({
               transfer={transfer}
               verifyPayment={verifyPayment}
               invoice={invoice}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
             />
           </Box>
         </Box>
       </Box>
 
-      <ActionButton />
+      <ActionButton isLoading={isLoading} />
     </Box>
   );
 };

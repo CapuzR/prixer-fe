@@ -6,7 +6,13 @@ import NavigationBar from "../../components/navigationBar";
 import Navbar from "../../components/navbar";
 import GalleryForm from "../../components/galleryForm";
 
-const MobileView = ({ onLogout, username, isMobile, createGallery }) => {
+const MobileView = ({
+  onLogout,
+  username,
+  isMobile,
+  createGallery,
+  isLoading,
+}) => {
   return (
     <Box style={{ height: "calc(100vh - 60px)" }}>
       <Navbar onLogout={onLogout} />
@@ -17,11 +23,15 @@ const MobileView = ({ onLogout, username, isMobile, createGallery }) => {
       >
         <Box style={{ maxWidth: 1000 }}>
           <Box style={{ textAlign: "center" }}>
-            <GalleryForm isMobile={isMobile} createGallery={createGallery} />
+            <GalleryForm
+              isMobile={isMobile}
+              createGallery={createGallery}
+              isLoading={isLoading}
+            />
           </Box>
         </Box>
       </Box>
-      <NavigationBar username={username} />
+      <NavigationBar username={username} isLoading={isLoading} />
     </Box>
   );
 };

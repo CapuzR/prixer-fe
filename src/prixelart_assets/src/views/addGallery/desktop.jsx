@@ -16,7 +16,8 @@ const Desktop = ({
   window,
   fullName,
   createGallery,
-  galleries,
+
+  isLoading,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -32,6 +33,7 @@ const Desktop = ({
         handleSidebar={handleSidebar}
         username={username}
         fullName={fullName}
+        isLoading={isLoading}
       />
       <Box
         style={{
@@ -42,11 +44,15 @@ const Desktop = ({
           style={{ maxWidth: 1000, marginLeft: "auto", marginRight: "auto" }}
         >
           <Box style={{ textAlign: "center" }}>
-            <GalleryForm isMobile={isMobile} createGallery={createGallery} />
+            <GalleryForm
+              isMobile={isMobile}
+              createGallery={createGallery}
+              isLoading={isLoading}
+            />
           </Box>
         </Box>
       </Box>
-      <ActionButton />
+      <ActionButton isLoading={isLoading} />
     </Box>
   );
 };

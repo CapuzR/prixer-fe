@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, IconButton, Typography } from "@mui/material";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import Navbar from "../../components/navbar";
 import Sidebar from "../../components/sidebar";
@@ -33,6 +34,10 @@ const DesktopView = ({
   updatePost,
   deletePost,
   galleries,
+  isLoading,
+  onRemoveComment,
+  deleteComment,
+  isDelete,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -48,6 +53,7 @@ const DesktopView = ({
         handleSidebar={handleSidebar}
         fullName={fullName}
         username={username}
+        isLoading={isUpdatePost ? isLoading : isDelete ? true : false}
       />
       <Box
         style={{
@@ -108,7 +114,18 @@ const DesktopView = ({
               post={post}
               updatePost={updatePost}
               galleries={galleries}
+              isLoading={isLoading}
             />
+          ) : !isDelete && isLoading ? (
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 32,
+              }}
+            >
+              <CircularProgress />
+            </Box>
           ) : (
             <InfoPost
               post={post}
@@ -123,12 +140,19 @@ const DesktopView = ({
               createComment={createComment}
               deletePost={deletePost}
               galleries={galleries}
+              artist={artist}
+              onRemoveComment={onRemoveComment}
+              deleteComment={deleteComment}
+              isDelete={isDelete}
+              isLoading={isLoading}
             />
           )}
         </Box>
       </Box>
 
-      <ActionButton />
+      <ActionButton
+        isLoading={isUpdatePost ? isLoading : isDelete ? true : false}
+      />
     </Box>
   );
 };

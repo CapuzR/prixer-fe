@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import { Fab, Menu, MenuItem } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const ActionButton = ({ isMobile }) => {
+const ActionButton = ({ isMobile, isLoading }) => {
   const [openActionMenu, setOpenActionMenu] = useState(false);
   const [anchorElActionMenu, setAnchorElActionMenu] = useState(null);
 
@@ -14,6 +15,7 @@ const ActionButton = ({ isMobile }) => {
   return (
     <>
       <Fab
+        disabled={isLoading}
         color="primary"
         id="basic-button"
         aria-controls={openActionMenu ? "basic-menu" : undefined}
@@ -29,7 +31,11 @@ const ActionButton = ({ isMobile }) => {
           right: !isMobile && 16,
         }}
       >
-        <AddIcon />
+        {isLoading ? (
+          <CircularProgress style={{ color: "#FFFFFF" }} />
+        ) : (
+          <AddIcon />
+        )}
       </Fab>
       <Menu
         id="basic-menu"

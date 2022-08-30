@@ -18,7 +18,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-4
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import { service } from "../service";
@@ -35,6 +35,7 @@ function PostForm({
   handleIsUpdatePost,
   post,
   updatePost,
+  isLoading,
 }) {
   const navigate = useNavigate();
   const [artTitle, setArtTitle] = useState(
@@ -161,14 +162,18 @@ function PostForm({
         }}
       >
         {!isFirstArt && (
-          <IconButton
-            color="primary"
-            onClick={() =>
-              !isUpdate ? navigate(-1) : handleIsUpdatePost(false)
-            }
-          >
-            <ArrowBackIcon fontSize="medium" />
-          </IconButton>
+          <Box style={{ width: isMobile ? "20%" : "10%" }}>
+            <IconButton
+              style={{ display: "flex" }}
+              color="primary"
+              disabled={isLoading}
+              onClick={() =>
+                !isUpdate ? navigate(-1) : handleIsUpdatePost(false)
+              }
+            >
+              <ArrowBackIcon fontSize="medium" />
+            </IconButton>
+          </Box>
         )}
         <Box
           style={{
@@ -181,11 +186,11 @@ function PostForm({
             {!isUpdate ? "Add post" : "Update post"}
           </Typography>
         </Box>
-        <Box style={{ marginLeft: "auto" }}>
+        <Box style={{ marginLeft: "auto", width: isMobile ? "20%" : "10%" }}>
           <Button
-            disabled={isDisabled()}
+            disabled={isDisabled() || isLoading}
             style={{
-              color: isDisabled() ? "#C5C5C5" : "#5DBB63",
+              color: isDisabled() || isLoading ? "#C5C5C5" : "#5DBB63",
             }}
             onClick={() => {
               if (isUpdate) {
@@ -263,7 +268,7 @@ function PostForm({
               }
             }}
           >
-            {!isUpdate ? "Create" : "Update"}
+            {!isUpdate ? "Add" : "Update"}
           </Button>
         </Box>
       </Box>
@@ -283,6 +288,7 @@ function PostForm({
                 />
                 {!isUpdate && (
                   <input
+                    disabled={isLoading}
                     type="file"
                     hidden
                     onChange={(event) => handleChange(event, false)}
@@ -294,6 +300,7 @@ function PostForm({
                 <AddPhotoAlternateIcon style={{ height: 184, width: 80 }} />
                 {!isUpdate && (
                   <input
+                    disabled={isLoading}
                     type="file"
                     hidden
                     onChange={(event) => handleChange(event, false)}
@@ -306,6 +313,7 @@ function PostForm({
             <Box style={{ display: "flex", marginBottom: 8 }}>
               <Box style={{ width: "50%", marginRight: 4 }}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Title"
                   variant="outlined"
@@ -316,7 +324,12 @@ function PostForm({
                 />
               </Box>
               <Box style={{ width: "50%" }}>
-                <FormControl style={{ marginBottom: 4 }} required fullWidth>
+                <FormControl
+                  disabled={isLoading}
+                  style={{ marginBottom: 4, textAlign: "justify" }}
+                  required
+                  fullWidth
+                >
                   <InputLabel id="type-label">Type</InputLabel>
                   <Select
                     labelId="type-label"
@@ -339,7 +352,12 @@ function PostForm({
             </Box>
             <Box style={{ display: "flex", marginBottom: 8 }}>
               <Box style={{ width: "50%", marginRight: 4 }}>
-                <FormControl style={{ marginBottom: 4 }} required fullWidth>
+                <FormControl
+                  disabled={isLoading}
+                  style={{ marginBottom: 4, textAlign: "justify" }}
+                  required
+                  fullWidth
+                >
                   <InputLabel id="category-label">Category</InputLabel>
                   <Select
                     labelId="category-label"
@@ -361,6 +379,7 @@ function PostForm({
               </Box>
               <Box style={{ width: "50%" }}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Location"
                   value={artLocation}
@@ -373,7 +392,12 @@ function PostForm({
             </Box>
             <Box style={{ display: "flex" }}>
               <Box style={{ width: "50%", marginRight: 4 }}>
-                <FormControl style={{ marginBottom: 4 }} required fullWidth>
+                <FormControl
+                  disabled={isLoading}
+                  style={{ marginBottom: 4, textAlign: "justify" }}
+                  required
+                  fullWidth
+                >
                   <InputLabel id="camera-label">Camera</InputLabel>
                   <Select
                     required
@@ -382,7 +406,7 @@ function PostForm({
                     value={artCamera}
                     onChange={(event) => setArtCamera(event.target.value)}
                     label="Camera"
-                    disabled={!artist}
+                    disabled={!artist || isLoading}
                   >
                     {artist ? (
                       artist.cameras.map((art, index) => (
@@ -397,7 +421,12 @@ function PostForm({
                 </FormControl>
               </Box>
               <Box style={{ width: "50%" }}>
-                <FormControl required fullWidth>
+                <FormControl
+                  disabled={isLoading}
+                  required
+                  fullWidth
+                  style={{ textAlign: "justify" }}
+                >
                   <InputLabel id="camera-label">Lenses</InputLabel>
                   <Select
                     labelId="camera-label"
@@ -405,7 +434,7 @@ function PostForm({
                     value={lensArt}
                     onChange={(event) => setLensArt(event.target.value)}
                     label="Lens"
-                    disabled={!artist}
+                    disabled={!artist || isLoading}
                   >
                     {artist ? (
                       artist.lens.map((art, index) => (
@@ -421,29 +450,35 @@ function PostForm({
               </Box>
             </Box>
           </Grid>
-          {!isFirstArt && (
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-              <FormControl style={{ marginBottom: 4 }} fullWidth>
-                <InputLabel id="gallery-label">Gallery</InputLabel>
-                <Select
-                  labelId="gallery-label"
-                  id="gallery-select"
-                  value={galleryArt}
-                  onChange={(event) => setGalleryArt(event.target.value)}
-                  label="Labels"
-                  disabled={!galleries}
+          {!isFirstArt &&
+            galleries?.length >
+            (
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <FormControl
+                  disabled={isLoading}
+                  style={{ marginBottom: 4 }}
+                  fullWidth
                 >
-                  {galleries ? (
-                    galleries.map((gallery) => (
-                      <MenuItem value={gallery.id}>{gallery.name}</MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem>Loading...</MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-            </Grid>
-          )}
+                  <InputLabel id="gallery-label">Gallery</InputLabel>
+                  <Select
+                    labelId="gallery-label"
+                    id="gallery-select"
+                    value={galleryArt}
+                    onChange={(event) => setGalleryArt(event.target.value)}
+                    label="Labels"
+                    disabled={!galleries}
+                  >
+                    {galleries ? (
+                      galleries.map((gallery) => (
+                        <MenuItem value={gallery.id}>{gallery.name}</MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem>Loading...</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+              </Grid>
+            )}
 
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <TextField
@@ -457,12 +492,14 @@ function PostForm({
               value={aboutArt}
               onChange={(event) => setAboutArt(event.target.value)}
               required
+              disabled={isLoading}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <TextField
               placeholder="Labels"
               fullWidth
+              disabled={isLoading}
               value={tagValue}
               onChange={(event) => setTagValue(event.target.value)}
               InputProps={{
@@ -470,6 +507,7 @@ function PostForm({
                   <InputAdornment position="end">
                     <IconButton
                       onClick={() => addTags(tagValue)}
+                      disabled={isLoading}
                       color="primary"
                     >
                       <AddBoxIcon />
@@ -482,6 +520,7 @@ function PostForm({
           <Box style={{ marginTop: "8px", padding: 8 }}>
             {tagsArt?.map((tg) => (
               <Chip
+                disabled={isLoading}
                 key={tg}
                 label={tg}
                 variant="outlined"

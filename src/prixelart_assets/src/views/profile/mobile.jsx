@@ -103,7 +103,7 @@ const MobileView = ({
                 <SearchBar search={search} handleSearch={handleSearch} />
               )}
             </Box>
-            <Box>
+            <Box style={{ padding: 8 }}>
               {screen === consts.PROFILE_SCREEN_ART ? (
                 postsDetails && (
                   <ListPosts

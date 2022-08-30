@@ -125,6 +125,7 @@ const _authorizeNFT = async (id, payload) => {
 const _listNFT = async (id) => {
   const identity = await onSignInStoic();
   const actor = await _CanisterNFT(identity, id);
+
   const list = await actor.listAssets();
   const result = list.map((nft) => ({
     id: nft[0],
@@ -182,7 +183,6 @@ const relPrincipalWithUsername = async (username) => {
 };
 
 const parseArtist = (artist) => {
-  console.log(artist);
   const parseArtist = {
     fullName: artist[0]?.name,
     principal: artist[0]?.principal_id,
@@ -269,17 +269,41 @@ const createPost = async (post, blob) => {
 const _canisterContactInfo = async (id) => {
   const identity = await onSignInStoic();
   const actor = await _canisterActor(identity, id);
+
   const result = await actor.getContractInfo();
   console.log("[_CANISTER GET CONTRACT INFO] => ", result);
   return result;
 };
-
 const _createNFTCanister = async (id, payload) => {
   const identity = await onSignInStoic();
   const actor = await _canisterActor(identity, id);
   payload.creator = Principal.fromText(payload.creator);
   const result = await actor.createNFTCan(payload.nFTMetadata, payload.creator);
   console.log("[_CANISTER CREATE NFT CAN] => ", result);
+  return result;
+};
+
+const _createInvoice = async (token, amount, quantity, id) => {
+  const identity = await onSignInStoic();
+  const actor = await _canisterActor(identity, id);
+  console.log(actor);
+  console.log(token, amount, quantity);
+  const result = await actor.createInvoice(token, amount, quantity);
+  console.log("[CREATE INVOICE] => ", result);
+  return result;
+};
+
+const _verifyPayment = async (invoiceId, nftCanId, tokenId, to, id) => {
+  console.log(invoiceId, nftCanId, tokenId, to, id);
+  const identity = await onSignInStoic();
+  const actor = await _canisterActor(identity, id);
+  const result = await actor.isVerifyPayment(
+    invoiceId,
+    Principal.fromText(nftCanId),
+    tokenId,
+    Principal.fromText(to)
+  );
+  console.log("[Verify INVOICE] => ", result);
   return result;
 };
 
@@ -542,4 +566,6 @@ export const service = {
   _getNFTByIndex,
   _publishNFTCollection,
   _authorizeNFT,
+  _createInvoice,
+  _verifyPayment,
 };

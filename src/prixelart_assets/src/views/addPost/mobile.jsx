@@ -12,6 +12,7 @@ const MobileView = ({
   isMobile,
   artist,
   createPost,
+  isLoading,
 }) => {
   return (
     <Box style={{ height: "calc(100vh - 60px)", overflow: "scroll" }}>
@@ -30,11 +31,12 @@ const MobileView = ({
               artist={artist}
               onSkip={console.log}
               createPost={createPost}
+              isLoading={isLoading}
             />
           </Box>
         </Box>
       </Box>
-      <NavigationBar username={username} />
+      <NavigationBar username={username} isLoading={isLoading} />
     </Box>
   );
 };

@@ -18,6 +18,7 @@ const Desktop = ({
   artist,
   createPost,
   galleries,
+  isLoading,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -32,6 +33,7 @@ const Desktop = ({
         handleSidebar={handleSidebar}
         username={username}
         fullName={fullName}
+        isLoading={isLoading}
       />
       <Box
         style={{
@@ -48,11 +50,12 @@ const Desktop = ({
               onSkip={console.log}
               createPost={createPost}
               galleries={galleries}
+              isLoading={isLoading}
             />
           </Box>
         </Box>
       </Box>
-      <ActionButton />
+      <ActionButton isLoading={isLoading} />
     </Box>
   );
 };

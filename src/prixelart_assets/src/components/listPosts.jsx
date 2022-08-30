@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import * as React from "react";
 import Masonry from "@mui/lab/Masonry";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
+import Skeleton from "@mui/material/Skeleton";
 
 import consts from "../consts/index";
 import service from "../pages_old/service";
@@ -16,6 +17,7 @@ const ListPosts = ({
   addLike,
   removeLike,
   handleLikePost,
+  isLoading,
 }) => {
   return posts.length === 0 ? (
     <div

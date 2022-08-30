@@ -24,6 +24,8 @@ const CollectionForm = ({
   transfer,
   verifyPayment,
   invoice,
+  isLoading,
+  setIsLoading,
 }) => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -36,6 +38,7 @@ const CollectionForm = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const isConfirmPayment = async () => {
+    setIsLoading(true);
     const transferResponse = await transfer(
       invoice.subAccount,
       parseInt(invoice.invoice.amount)
@@ -52,6 +55,7 @@ const CollectionForm = ({
     } else {
       setIsOpen(false);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -64,7 +68,12 @@ const CollectionForm = ({
             marginBottom: 8,
           }}
         >
-          <IconButton color="primary" onClick={() => navigate(-1)}>
+          <IconButton
+            disabled={isLoading}
+            color="primary"
+            onClick={() => navigate(-1)}
+            disabled={isLoading}
+          >
             <ArrowBackIcon fontSize="medium" />
           </IconButton>
 
@@ -81,10 +90,22 @@ const CollectionForm = ({
           </Box>
           <Box style={{ marginLeft: "auto" }}>
             <Button
-              disabled={!name || !supply || !symbol || !website || !prixelart}
+              disabled={
+                !name ||
+                !supply ||
+                !symbol ||
+                !website ||
+                !prixelart ||
+                isLoading
+              }
               style={{
                 color:
-                  !name || !supply || !symbol || !website || !prixelart
+                  !name ||
+                  !supply ||
+                  !symbol ||
+                  !website ||
+                  !prixelart ||
+                  isLoading
                     ? "#C5C5C5"
                     : "#5DBB63",
               }}
@@ -113,6 +134,7 @@ const CollectionForm = ({
             <Grid container spacing={2} style={{ marginTop: "32px" }}>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Name"
                   variant="outlined"
@@ -124,6 +146,7 @@ const CollectionForm = ({
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Symbol"
                   variant="outlined"
@@ -135,6 +158,7 @@ const CollectionForm = ({
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <TextField
+                  disabled={isLoading}
                   type="number"
                   label="Supplay"
                   variant="outlined"
@@ -146,6 +170,7 @@ const CollectionForm = ({
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Website"
                   variant="outlined"
@@ -157,6 +182,7 @@ const CollectionForm = ({
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Prixelart"
                   variant="outlined"
@@ -189,8 +215,14 @@ const CollectionForm = ({
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setIsOpen(false)}>Cancel</Button>
-            <Button onClick={() => isConfirmPayment()} autoFocus>
+            <Button disabled={isLoading} onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              disabled={isLoading}
+              onClick={() => isConfirmPayment()}
+              autoFocus
+            >
               Confirm
             </Button>
           </DialogActions>
