@@ -1,19 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import * as React from "react";
-import {
-  Box,
-  Paper,
-  Grid,
-  Typography,
-  IconButton,
-  Button,
-} from "@mui/material";
+import { Box, Typography, IconButton, Button } from "@mui/material";
 
 import Navbar from "../../components/navbar";
 import Sidebar from "../../components/sidebar";
 import ActionButton from "../../components/actionButton";
-// import { service } from "../../service";
-// import consts from "../../consts";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListSettings from "../../components/listSettings";
@@ -39,13 +30,25 @@ const DesktopView = ({
   artist,
   _canisterContractInfo,
   _assetCanisterContractInfo,
+  verifyPaymentWH,
+  setIsLoading,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
   const currentScreen = () => {
     switch (screen) {
       case "settings":
-        return <ListSettings isMobile={isMobile} handleScreen={handleScreen} />;
+        return (
+          <ListSettings
+            isMobile={isMobile}
+            handleScreen={handleScreen}
+            createInvoice={createInvoice}
+            isLoading={isLoading}
+            invoice={invoice}
+            verifyPaymentWH={verifyPaymentWH}
+            artist={artist}
+          />
+        );
       case "storage_config":
         return (
           <StorageConfig
@@ -53,6 +56,8 @@ const DesktopView = ({
             invoice={invoice}
             transfer={transfer}
             verifyPayment={verifyPayment}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         );
       case "list_storage":
@@ -64,7 +69,17 @@ const DesktopView = ({
           />
         );
       default:
-        return <ListSettings isMobile={isMobile} handleScreen={handleScreen} />;
+        return (
+          <ListSettings
+            isMobile={isMobile}
+            handleScreen={handleScreen}
+            createInvoice={createInvoice}
+            isLoading={isLoading}
+            invoice={invoice}
+            verifyPaymentWH={verifyPaymentWH}
+            artist={artist}
+          />
+        );
     }
   };
 
@@ -78,6 +93,7 @@ const DesktopView = ({
         handleSidebar={handleSidebar}
         fullName={fullName}
         username={username}
+        isLoading={isLoading}
       />
       <Box
         style={{
@@ -144,7 +160,7 @@ const DesktopView = ({
           {currentScreen()}
         </Box>
       </Box>
-      <ActionButton />
+      <ActionButton isLoading={isLoading} />
     </Box>
   );
 };

@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Fab, Menu, MenuItem } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CircularProgress from "@mui/material/CircularProgress";
+import { PrixerContext } from "../context/index";
 
 const ActionButton = ({ isMobile, isLoading }) => {
   const [openActionMenu, setOpenActionMenu] = useState(false);
   const [anchorElActionMenu, setAnchorElActionMenu] = useState(null);
-
+  const { state } = useContext(PrixerContext);
   const navigate = useNavigate();
 
   return (
@@ -58,15 +59,17 @@ const ActionButton = ({ isMobile, isLoading }) => {
         >
           Add post
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setAnchorElActionMenu(null);
-            setOpenActionMenu(false);
-            navigate("/form/service");
-          }}
-        >
-          Add service
-        </MenuItem>
+        {state.user?.canisterId && (
+          <MenuItem
+            onClick={() => {
+              setAnchorElActionMenu(null);
+              setOpenActionMenu(false);
+              navigate("/form/service");
+            }}
+          >
+            Add service
+          </MenuItem>
+        )}
 
         <MenuItem
           onClick={() => {
@@ -77,15 +80,17 @@ const ActionButton = ({ isMobile, isLoading }) => {
         >
           Add gallery
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setAnchorElActionMenu(null);
-            setOpenActionMenu(false);
-            navigate("/form/collection");
-          }}
-        >
-          Add collection
-        </MenuItem>
+        {state.user?.canisterId && (
+          <MenuItem
+            onClick={() => {
+              setAnchorElActionMenu(null);
+              setOpenActionMenu(false);
+              navigate("/form/collection");
+            }}
+          >
+            Add collection
+          </MenuItem>
+        )}
       </Menu>
     </>
   );

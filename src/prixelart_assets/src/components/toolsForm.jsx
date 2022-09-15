@@ -47,6 +47,7 @@ function ToolsForm({
   setSelectedCameras,
   selectedLens,
   setSelectedLens,
+  isLoadig,
 }) {
   const addCameras = (id) => {
     const tool = tools.find((tl) => tl.id === id);
@@ -73,6 +74,7 @@ function ToolsForm({
           <Typography variant="h5">Cameras</Typography>
           <FormControl style={{ marginBottom: 4 }} required fullWidth>
             <Select
+              disabled={isLoadig}
               required
               labelId="camera-label"
               id="camera-label-select"
@@ -96,6 +98,7 @@ function ToolsForm({
                 variant="outlined"
                 style={{ marginBottom: "8px" }}
                 key={index}
+                disabled={isLoadig}
                 onDelete={() => {
                   setSelectedCameras(
                     selectedCameras.filter((tl) => tl !== item)
@@ -117,6 +120,7 @@ function ToolsForm({
           <IconButton
             size="large"
             color="primary"
+            disabled={isLoadig}
             onClick={() => addCameras(camera)}
           >
             <AddBoxIcon fontSize="large" color="primary" />
@@ -133,6 +137,7 @@ function ToolsForm({
             <Select
               labelId="lenses-label"
               id="lenses-label-select"
+              disabled={isLoadig}
               value={lens}
               onChange={(event) => setLens(event.target.value)}
             >
@@ -153,7 +158,11 @@ function ToolsForm({
                 style={{ marginBottom: "8px" }}
                 variant="outlined"
                 key={index}
+                disabled={isLoadig}
                 onDelete={() => {
+                  1;
+                  1;
+
                   setSelectedLens(selectedLens.filter((tl) => tl !== tool));
                 }}
               />
@@ -170,6 +179,7 @@ function ToolsForm({
           style={{ justifyContent: "center", display: "flex" }}
         >
           <IconButton
+            disabled={isLoadig}
             size="large"
             onClick={() => addLens(lens)}
             color="primary"

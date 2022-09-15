@@ -1,11 +1,11 @@
 import React from "react";
 import * as React from "react";
 import { Box, Button } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
-import PlugConnect from "@psychedelic/plug-connect";
 import Navbar from "../../components_old/navbar.jsx";
 
-const MobileView = ({ onLoginStoic, onLoginPlug }) => {
+const MobileView = ({ onLoginStoic, onLoginPlug, isLoading }) => {
   return (
     <Box
       style={{
@@ -28,15 +28,24 @@ const MobileView = ({ onLoginStoic, onLoginPlug }) => {
         >
           <Box>
             <Button
+              disabled={isLoading}
               variant="contained"
+              color="primary"
               style={{
                 textTransform: "capitalize",
                 marginRight: 8,
                 borderRadius: 8,
+                width: 150,
+                maxHeight: 36.5,
+                background: "#2D2D2D",
               }}
               onClick={() => onLoginStoic()}
             >
-              Connect stoic
+              {isLoading ? (
+                <CircularProgress style={{ color: "#FFFFFF" }} size={24} />
+              ) : (
+                "Connect stoic"
+              )}
             </Button>
             {/* <PlugConnect
               whitelist={["canister-id"]}

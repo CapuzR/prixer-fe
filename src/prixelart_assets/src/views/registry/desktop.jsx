@@ -22,6 +22,7 @@ const DesktopView = ({
   invoice,
   transfer,
   verifyPayment,
+  isLoading,
 }) => {
   return (
     <Box
@@ -34,7 +35,11 @@ const DesktopView = ({
       <Navbar onLogout={onLogout} />
       <Box style={{ paddingTop: 60 }}>
         {screen === consts.registry_artist_form_view ? (
-          <RegistryForm isMobile={isMobile} createArtist={createArtist} />
+          <RegistryForm
+            isMobile={isMobile}
+            createArtist={createArtist}
+            isLoading={isLoading}
+          />
         ) : screen === consts.registry_payment_form_view ? (
           <Membership
             isMobile={isMobile}
@@ -47,6 +52,7 @@ const DesktopView = ({
             invoice={invoice}
             transfer={transfer}
             verifyPayment={verifyPayment}
+            isLoading={isLoading}
           />
         ) : (
           <PostForm

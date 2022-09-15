@@ -177,6 +177,7 @@ type NFT =
    assetRequest: (AssetRequest) -> (Result_2);
    authorize: (AuthorizeRequest) -> (Result_2);
    balanceOf: (principal) -> (vec text) query;
+   burm: (text) -> (Result_2);
    getAuthorized: (text) -> (vec principal) query;
    getContractInfo: () -> (ContractInfo);
    getEventCallbackStatus: () -> (CallbackStatus);

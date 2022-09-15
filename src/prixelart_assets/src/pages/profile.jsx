@@ -1,12 +1,23 @@
 import React, { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Principal } from "@dfinity/principal";
 
 import MobileView from "../views/profile/mobile.jsx";
 import DesktopView from "../views/profile/desktop.jsx";
 import { PrixerContext } from "../context/index.jsx";
 import { service } from "../service.js";
 import consts from "../consts.js";
+
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Box,
+} from "@mui/material";
 
 const Profile = ({ isMobile }) => {
   const navigate = useNavigate();
@@ -22,6 +33,11 @@ const Profile = ({ isMobile }) => {
   const [postsDetailsGuest, setPostsDetailsGuest] = useState([]);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [invoice, setInvoice] = useState();
+  const [isPayment, setIsPayment] = useState(false);
+  const [token, setToken] = useState();
+  const [tokens, setTokens] = useState();
+  const [isOpen, setIsOpen] = useState(false);
 
   const onLogout = async () => {
     await service.onSignOutStoic();
@@ -43,11 +59,31 @@ const Profile = ({ isMobile }) => {
         setGalleries(result[1].ok);
         const parseArtist = service.parseArtist(result[2]);
         const collections = await service._getNFTCan(parseArtist.canisterId);
-        collections.forEach((el) => {
-          el.supply = Number(el.supply[0]);
-          el.principal = el.principal.toText();
-        });
-        parseArtist.collections = collections;
+        if (collections.length > 0) {
+          const filterCollections = collections?.filter(
+            (el) =>
+              el.name.split("-")[0] !== "WH" && el.name.split("-")[0] !== "SE"
+          );
+          filterCollections?.forEach((el) => {
+            el.supply = Number(el.supply[0]);
+            el.principal = el.principal.toText();
+          });
+          parseArtist.collections = filterCollections;
+          parseArtist.WHCanister = collections
+            ?.find((collection) => collection.name.split("-")[0] === "WH")
+            .principal.toText();
+          parseArtist.servicesCanister = collections
+            ?.map(
+              (collection) =>
+                collection.name.split("-")[0] === "SE" && {
+                  ...collection,
+                  supply: Number(collection.supply[0]),
+                  principal: collection.principal.toText(),
+                }
+            )
+            .filter((i) => i);
+        }
+
         setUser(parseArtist);
       } else {
         const result = await Promise.all([
@@ -154,11 +190,11 @@ const Profile = ({ isMobile }) => {
       params.username === state.user.username
         ? state.postsDetails
         : postsDetailsGuest;
-    console.log(posts);
+
     const currentPost = posts.postsRead[0].findIndex(
       (post) => post.postId === postId
     );
-    console.log(posts.postsRead[0][currentPost]);
+
     if (posts.postsRead[0][currentPost].likedByCaller) {
       posts.postsRead[0][currentPost].likesQty =
         parseInt(posts.postsRead[0][currentPost].likesQty) - 1;
@@ -196,82 +232,263 @@ const Profile = ({ isMobile }) => {
     }
   };
 
+  const createInvoice = async (amount, tokenId) => {
+    setIsLoading(true);
+    setIsPayment(true);
+
+    try {
+      setToken(tokenId);
+      // setIsLoading(true);
+      const result = await service._createInvoice(
+        "ICP",
+        amount,
+        1,
+        state.user.canisterId
+      );
+      setInvoice(result.ok);
+      setIsOpen(true);
+    } catch (err) {
+      // setIsLoading(false);
+      console.log(err);
+      console.log("[Error in create invoice settings.jsx");
+    }
+    setIsLoading(false);
+    setIsPayment(false);
+  };
+
+  const transfer = async (account, amount) => {
+    return await service.transfer(account, amount);
+  };
+
+  const isConfirmPayment = async () => {
+    setIsLoading(true);
+    setIsPayment(true);
+    const transferResponse = await transfer(
+      invoice.subAccount,
+      parseInt(invoice.invoice.amount)
+    );
+    if (transferResponse) {
+      await verifyPayment(invoice.invoice.id, token);
+      setIsOpen(false);
+    } else {
+      setIsOpen(false);
+    }
+    setIsLoading(false);
+    setIsPayment(false);
+  };
+
+  const verifyPayment = async (invoiceId, tokenId) => {
+    setIsLoading(true);
+    setIsPayment(true);
+
+    try {
+      const result = await service._verifyPayment(
+        invoiceId,
+        state.user.WHCanister,
+        tokenId,
+        JSON.parse(localStorage.getItem("_scApp")).principal,
+        state.user.canisterId
+      );
+    } catch (err) {
+      console.log(err);
+      console.log("[Err in varifyPayment collectionDeetails.jsx]");
+    }
+    setIsLoading(false);
+    setIsPayment(false);
+  };
+
+  const listNFT = async (id) => {
+    setIsLoading(true);
+    try {
+      const result = await service._listNFT(id);
+      setTokens(result);
+
+      return result;
+    } catch (err) {
+      console.log("[ERR IN LIST NFT]");
+    }
+    setIsLoading(false);
+  };
+
+  const _verifyPayment = async (id) => {
+    setIsLoading(true);
+    setIsPayment(true);
+    try {
+      // const result = await service.burm(state.user.WHCanister, id);
+      // if (result.ok) {
+      await service.isVerifyTransferWH(
+        state.user.canisterId,
+        state.user.WHCanister,
+        id
+      );
+      // }
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+      console.log("[Err in varifyPayment collectionDeetails.jsx]");
+    }
+    setIsLoading(false);
+    setIsPayment(false);
+  };
+
+  const _createInvoice = async () => {
+    setIsLoading(true);
+    setIsPayment(true);
+    try {
+      const result = await service._createInvoice(
+        "ICP",
+        1,
+        1,
+        state.user.canisterId
+      );
+      setInvoice(result.ok);
+    } catch (err) {
+      console.log(err);
+      console.log("[Error in create invoice settings.jsx");
+    }
+    setIsLoading(false);
+    setIsPayment(false);
+  };
+
+  const mintNFT = async (serviceId, payload) => {
+    setIsLoading(true);
+    try {
+      const result = await service._mintNFT(serviceId, payload);
+    } catch (err) {
+      console.log(err);
+      console.log("[ERR IN MINT NFT]");
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     init();
+    if (state.user.WHCanister) listNFT(state.user.WHCanister);
   }, [params]);
 
+  useEffect(async () => {
+    await service.balanceOf(state.user.WHCanister);
+  }, []);
   return state.user ? (
     isMobile ? (
-      <MobileView
-        isMobile={isMobile}
-        onLogout={onLogout}
-        artist={
-          params.username === state.user.username ? state?.user : userGuest
-        }
-        banner={banner}
-        handleScreen={handleScreen}
-        screen={screen}
-        username={state?.user?.username}
-        postsDetails={
-          params.username === state.user.username
-            ? state.postsDetails
-            : postsDetailsGuest
-        }
-        handleSearch={handleSearch}
-        search={search}
-        getGalleryImage={getGalleryImage}
-        galleries={state.galleries ? state.galleries : []}
-        params={params.username}
-        handleFollowers={handleFollowers}
-        deleteGallery={deleteGallery}
-        showPostDetails={showPostDetails}
-        addLike={addLike}
-        removeLike={removeLike}
-        handleLikePost={handleLikePost}
-        handleUpdateProfile={handleUpdateProfile}
-        isUpdateProfile={isUpdateProfile}
-        updateArtist={updateArtist}
-        showGalleryDetails={showGalleryDetails}
-        setBanner={setBanner}
-        isLoading={isLoading}
-      />
+      <>
+        <MobileView
+          isMobile={isMobile}
+          onLogout={onLogout}
+          artist={
+            params.username === state.user.username ? state?.user : userGuest
+          }
+          banner={banner}
+          handleScreen={handleScreen}
+          screen={screen}
+          username={state?.user?.username}
+          postsDetails={
+            params.username === state.user.username
+              ? state.postsDetails
+              : postsDetailsGuest
+          }
+          handleSearch={handleSearch}
+          search={search}
+          getGalleryImage={getGalleryImage}
+          galleries={state.galleries ? state.galleries : []}
+          params={params.username}
+          handleFollowers={handleFollowers}
+          deleteGallery={deleteGallery}
+          showPostDetails={showPostDetails}
+          addLike={addLike}
+          removeLike={removeLike}
+          handleLikePost={handleLikePost}
+          handleUpdateProfile={handleUpdateProfile}
+          isUpdateProfile={isUpdateProfile}
+          updateArtist={updateArtist}
+          showGalleryDetails={showGalleryDetails}
+          setBanner={setBanner}
+          isLoading={isLoading}
+          createInvoice={createInvoice}
+          tokens={tokens}
+          services={state.user.servicesCanister}
+          _createInvoice={_createInvoice}
+          setIsOpen={setIsOpen}
+        />
+      </>
     ) : (
-      <DesktopView
-        isMobile={isMobile}
-        onLogout={onLogout}
-        artist={
-          params.username === state.user.username ? state?.user : userGuest
-        }
-        handleSidebar={handleSidebar}
-        isOpenSidebar={state?.isOpenSidebar}
-        banner={banner}
-        handleScreen={handleScreen}
-        screen={screen}
-        username={state?.user?.username}
-        postsDetails={
-          params.username === state.user.username
-            ? state.postsDetails
-            : postsDetailsGuest
-        }
-        handleSearch={handleSearch}
-        search={search}
-        getGalleryImage={getGalleryImage}
-        galleries={state.galleries ? state.galleries : []}
-        fullName={state?.user?.fullName}
-        params={params.username}
-        handleFollowers={handleFollowers}
-        deleteGallery={deleteGallery}
-        showPostDetails={showPostDetails}
-        addLike={addLike}
-        removeLike={removeLike}
-        handleLikePost={handleLikePost}
-        handleUpdateProfile={handleUpdateProfile}
-        isUpdateProfile={isUpdateProfile}
-        updateArtist={updateArtist}
-        showGalleryDetails={showGalleryDetails}
-        setBanner={setBanner}
-        isLoading={isLoading}
-      />
+      <>
+        <DesktopView
+          isMobile={isMobile}
+          onLogout={onLogout}
+          artist={
+            params.username === state.user.username ? state?.user : userGuest
+          }
+          handleSidebar={handleSidebar}
+          isOpenSidebar={state?.isOpenSidebar}
+          banner={banner}
+          handleScreen={handleScreen}
+          screen={screen}
+          username={state?.user?.username}
+          postsDetails={
+            params.username === state.user.username
+              ? state.postsDetails
+              : postsDetailsGuest
+          }
+          handleSearch={handleSearch}
+          search={search}
+          getGalleryImage={getGalleryImage}
+          galleries={state.galleries ? state.galleries : []}
+          fullName={state?.user?.fullName}
+          params={params.username}
+          handleFollowers={handleFollowers}
+          deleteGallery={deleteGallery}
+          showPostDetails={showPostDetails}
+          addLike={addLike}
+          removeLike={removeLike}
+          handleLikePost={handleLikePost}
+          handleUpdateProfile={handleUpdateProfile}
+          isUpdateProfile={isUpdateProfile}
+          updateArtist={updateArtist}
+          showGalleryDetails={showGalleryDetails}
+          setBanner={setBanner}
+          isLoading={isLoading}
+          createInvoice={createInvoice}
+          tokens={tokens}
+          services={state.user.servicesCanister}
+          _createInvoice={_createInvoice}
+          setIsOpen={setIsOpen}
+        />
+        {invoice && (
+          <Dialog
+            open={isOpen}
+            onClose={() => {
+              setIsOpen(false);
+              setToken(undefined);
+            }}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Payment confirmation"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                <Box>{`
+        You must transfer the necessary amount of working hours to acquire this service`}</Box>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button disabled={isLoading} onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                disabled={isLoading}
+                onClick={() => _verifyPayment(["0"])}
+                // onClick={() => isConfirmPayment()}
+                autoFocus
+              >
+                Confirm
+              </Button>
+            </DialogActions>
+          </Dialog>
+        )}
+      </>
     )
   ) : (
     <></>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import * as React from "react";
 import { Box, Paper } from "@mui/material";
 
@@ -47,10 +47,14 @@ const DesktopView = ({
   showGalleryDetails,
   setBanner,
   isLoading,
+  createInvoice,
+  tokens,
+  services,
+  _createInvoice,
+  setIsOpen,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
-
   return (
     <Box style={{ height: "calc(100vh - 60px)" }}>
       <Navbar onLogout={onLogout} />
@@ -128,6 +132,8 @@ const DesktopView = ({
                   username={username}
                   handleFollowers={handleFollowers}
                   handleUpdateProfile={handleUpdateProfile}
+                  createInvoice={createInvoice}
+                  tokens={tokens}
                 />
                 <Box style={{ padding: 8 }}>
                   <ProfileNavigationButtons
@@ -173,7 +179,12 @@ const DesktopView = ({
                       collections={artist.collections}
                     />
                   ) : (
-                    <ListServices isMobile={isMobile} />
+                    <ListServices
+                      isMobile={isMobile}
+                      services={services}
+                      _createInvoice={_createInvoice}
+                      setIsOpen={setIsOpen}
+                    />
                   )}
                 </Box>
               </Paper>
@@ -181,7 +192,7 @@ const DesktopView = ({
           </>
         )}
       </Box>
-      <ActionButton />
+      <ActionButton isLoading={isLoading} />
     </Box>
   );
 };

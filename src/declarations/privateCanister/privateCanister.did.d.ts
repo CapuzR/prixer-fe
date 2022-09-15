@@ -37,6 +37,7 @@ export interface ArtistCanister {
     [bigint, Principal, string, Principal],
     Result_2,
   >,
+  'isVerifyTransferWH' : ActorMethod<[string, string], Result_2>,
   'name' : ActorMethod<[], string>,
   'privReadArtById' : ActorMethod<[string], Result_1>,
   'updateArt' : ActorMethod<[ArtUpdate, string], Result>,

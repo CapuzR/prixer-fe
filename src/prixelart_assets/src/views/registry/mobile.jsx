@@ -15,7 +15,6 @@ const MobileView = ({
   onAcceptmembership,
   isMobile,
   createArtist,
-  onSetupStorageUnits,
   artist,
   onSkip,
   createPost,
@@ -23,6 +22,7 @@ const MobileView = ({
   invoice,
   transfer,
   verifyPayment,
+  isLoading,
 }) => {
   return (
     <Box
@@ -33,7 +33,11 @@ const MobileView = ({
       <Navbar onLogout={onLogout} />
       <Box style={{ paddingTop: 60 }}>
         {screen === consts.registry_artist_form_view ? (
-          <RegistryForm isMobile={isMobile} createArtist={createArtist} />
+          <RegistryForm
+            isMobile={isMobile}
+            createArtist={createArtist}
+            isLoading={isLoading}
+          />
         ) : screen === consts.registry_payment_form_view ? (
           <Membership
             isMobile={isMobile}

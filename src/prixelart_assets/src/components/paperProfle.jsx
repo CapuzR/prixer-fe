@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as React from "react";
 
 import {
@@ -16,7 +16,7 @@ import {
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import SettingsIcon from "@mui/icons-material/Settings";
-
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import { service } from "../service";
 import consts from "../consts";
 
@@ -28,6 +28,8 @@ const PaperProfile = ({
   username,
   handleFollowers,
   handleUpdateProfile,
+  createInvoice,
+  tokens,
 }) => {
   const [openMenu, setOpenMenu] = useState();
   const [anchorElActionMenu, setAnchorElActionMenu] = useState(null);
@@ -91,6 +93,18 @@ const PaperProfile = ({
           </Box>
         </Box>
         <Box style={{ marginLeft: "auto" }}>
+          {artist.WHCanister && (
+            <IconButton
+              color="primary"
+              id="basic-button-profile"
+              onClick={(event) => {
+                createInvoice(1, tokens[0].id);
+              }}
+            >
+              <LocalGroceryStoreIcon />
+            </IconButton>
+          )}
+
           {params === username ? (
             <IconButton
               color="primary"

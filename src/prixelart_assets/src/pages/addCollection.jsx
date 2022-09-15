@@ -6,7 +6,6 @@ import MobileView from "../views/addCollection/mobile.jsx";
 import DesktopView from "../views/addCollection/desktop.jsx";
 import { PrixerContext } from "../context/index.jsx";
 import { service } from "../service.js";
-import consts from "../consts.js";
 
 const AddCollection = ({ isMobile }) => {
   const { state, handleSidebar } = useContext(PrixerContext);

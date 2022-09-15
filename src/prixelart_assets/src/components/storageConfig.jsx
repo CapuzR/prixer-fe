@@ -30,6 +30,7 @@ function StorageConfig({
   invoice,
   transfer,
   verifyPayment,
+  setIsLoading,
 }) {
   const [amount, setAmount] = useState(4);
   const [quantity, setQuantity] = useState(1);
@@ -37,15 +38,18 @@ function StorageConfig({
   const [isOpen, setIsOpen] = useState(false);
 
   const isConfirmPayment = async () => {
+    setIsLoading(true);
     const transferResponse = await transfer(
       invoice.subAccount,
       parseInt(invoice.invoice.amount)
     );
     if (transferResponse) {
       await verifyPayment(invoice.invoice.id);
+      setIsOpen(false);
     } else {
       setIsOpen(false);
     }
+    setIsLoading(false);
   };
   return (
     <Box style={{ padding: 12 }}>
@@ -68,6 +72,7 @@ function StorageConfig({
         </Box>
         <Box style={{ marginLeft: "auto" }}>
           <Button
+            disabled={isLoading}
             onClick={() =>
               Promise.resolve(onSetupStorageUnits(amount * 100000000, quantity))
                 .then(() => setIsOpen(true))
@@ -99,6 +104,7 @@ function StorageConfig({
               <FormControl style={{ marginBottom: 4 }} required fullWidth>
                 <InputLabel id="type-label">Units</InputLabel>
                 <Select
+                  disabled={isLoading}
                   labelId="type-label"
                   id="type-label-select"
                   label="units"
@@ -128,6 +134,7 @@ function StorageConfig({
             </div>
             <div>
               <TextField
+                disabled={isLoading}
                 fullWidth
                 type="text"
                 label="Principals"
@@ -156,13 +163,19 @@ function StorageConfig({
             <DialogContentText id="alert-dialog-description">
               <Box>{`
         Do you want to confirm the payment for the amount ${
-                parseInt(invoice.invoice.amount) / 100000000
-              } of ICP?`}</Box>
+          parseInt(invoice.invoice.amount) / 100000000
+        } of ICP?`}</Box>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setIsOpen(false)}>Cancel</Button>
-            <Button onClick={() => isConfirmPayment()} autoFocus>
+            <Button disabled={isLoading} onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              disabled={isLoading}
+              onClick={() => isConfirmPayment()}
+              autoFocus
+            >
               Confirm
             </Button>
           </DialogActions>

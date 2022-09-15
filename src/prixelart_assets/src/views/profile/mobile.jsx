@@ -40,6 +40,9 @@ const MobileView = ({
   updateArtist,
   showGalleryDetails,
   setBanner,
+  services,
+  setIsOpen,
+  _createInvoice,
 }) => {
   return (
     <Box style={{ height: "calc(100vh - 60px)" }}>
@@ -134,7 +137,12 @@ const MobileView = ({
                   collections={artist.collections}
                 />
               ) : (
-                <ListServices isMobile={isMobile} />
+                <ListServices
+                  isMobile={isMobile}
+                  services={services}
+                  setIsOpen={setIsOpen}
+                  _createInvoice={_createInvoice}
+                />
               )}
             </Box>
           </>

@@ -141,6 +141,7 @@ export const idlFactory = ({ IDL }) => {
         [Result_2],
         [],
       ),
+    'isVerifyTransferWH' : IDL.Func([IDL.Text, IDL.Text], [Result_2], []),
     'name' : IDL.Func([], [IDL.Text], ['query']),
     'privReadArtById' : IDL.Func([IDL.Text], [Result_1], ['query']),
     'updateArt' : IDL.Func([ArtUpdate, IDL.Text], [Result], []),

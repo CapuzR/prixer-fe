@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,8 +10,10 @@ import { PrixerContext } from "../context/index.jsx";
 
 const Login = ({ isMobile }) => {
   const navigate = useNavigate();
-  const { state, setUser } = useContext(PrixerContext);
+  const { setUser } = useContext(PrixerContext);
+  const [isLoading, setIsLoading] = useState(false);
   const onLoginStoic = async () => {
+    setIsLoading(true);
     await service.onSignInStoic();
     const user = await service.getArtistByPrincipal();
     localStorage.setItem("wallet", "Stoic");
@@ -22,6 +24,7 @@ const Login = ({ isMobile }) => {
       setUser(parseArtist);
       navigate("/explore");
     }
+    setIsLoading(false);
   };
 
   const onLoginPlug = async () => {
@@ -39,12 +42,14 @@ const Login = ({ isMobile }) => {
       onLoginStoic={onLoginStoic}
       isMobile={isMobile}
       onLoginPlug={onLoginPlug}
+      isLoading={isLoading}
     />
   ) : (
     <DesktopView
       onLoginStoic={onLoginStoic}
       isMobile={isMobile}
       onLoginPlug={onLoginPlug}
+      isLoading={isLoading}
     />
   );
 };

@@ -85,6 +85,7 @@ export interface NFT {
   'assetRequest' : ActorMethod<[AssetRequest], Result_2>,
   'authorize' : ActorMethod<[AuthorizeRequest], Result_2>,
   'balanceOf' : ActorMethod<[Principal], Array<string>>,
+  'burm' : ActorMethod<[string], Result_2>,
   'getAuthorized' : ActorMethod<[string], Array<Principal>>,
   'getContractInfo' : ActorMethod<[], ContractInfo>,
   'getEventCallbackStatus' : ActorMethod<[], CallbackStatus>,

@@ -190,6 +190,8 @@ const parseArtist = (artist) => {
       consts.ASSET_CANISTER_ID_ARTIST,
       `A${JSON.parse(localStorage.getItem("_scApp")).principal}`
     ),
+    WHCanister: undefined,
+    servicesCanister: [],
     firstName: artist[0]?.details.find(
       (detail) => detail[0] === consts.ARTIST_FIRSTNAME
     )[1].Text,
@@ -230,7 +232,7 @@ const parseArtist = (artist) => {
       ? artist[0].details.find(
           (detail) => detail[0] === consts.ARTIST_CANISTERID
         )[1].Text
-      : " ",
+      : undefined,
     assetCanisterId: artist[0].details.find(
       (detail) => detail[0] === consts.ARTIST_ASSETCANISTERID
     )
@@ -255,6 +257,7 @@ const parseArtist = (artist) => {
   // const actorPrivate = await _canisterActor(identity, parseArtist.canisterId);
   // const result = await actorPrivate.getContractInfo();
   // console.log(result);
+  console.log(parseArtist, "PARSE");
   return parseArtist;
 };
 
@@ -274,6 +277,17 @@ const _canisterContactInfo = async (id) => {
   console.log("[_CANISTER GET CONTRACT INFO] => ", result);
   return result;
 };
+
+const isVerifyTransferWH = async (id, nftCanId, tokenId) => {
+  const identity = await onSignInStoic();
+  const actor = await _canisterActor(identity, id);
+
+  const result = await actor.isVerifyTransferWH(nftCanId, tokenId);
+
+  console.log("[VERIFY WH CANISTER] => ", result);
+  return result;
+};
+
 const _createNFTCanister = async (id, payload) => {
   const identity = await onSignInStoic();
   const actor = await _canisterActor(identity, id);
@@ -508,6 +522,34 @@ const transfer = async (account, amount) => {
   }
 };
 
+const transferNFT = async (id, tokenId) => {
+  const identity = await onSignInStoic();
+  const actor = await _CanisterNFT(identity, id);
+  const result = await actor.burm(tokenId);
+  console.log("[BURM NFT] => ", result);
+  return result;
+};
+
+const balanceOf = async (id) => {
+  const identity = await onSignInStoic();
+  const actor = await _CanisterNFT(identity, id);
+
+  const result = await actor.balanceOf(
+    Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
+  );
+  console.log("[BalANCE OF] => ", result);
+  return result;
+};
+
+const burm = async (id, tokenId) => {
+  const identity = await onSignInStoic();
+  const actor = await _CanisterNFT(identity, id);
+
+  const result = await actor.burm(tokenId);
+  console.log("[Burm NFT] => ", result);
+  return result;
+};
+
 const verifyInvoice = async (invoiceId, invoiceType) => {
   const identity = await onSignInStoic();
   const actor = await artistRegistryActor(identity);
@@ -568,4 +610,8 @@ export const service = {
   _authorizeNFT,
   _createInvoice,
   _verifyPayment,
+  transferNFT,
+  balanceOf,
+  burm,
+  isVerifyTransferWH,
 };

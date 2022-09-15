@@ -1,6 +1,3 @@
-dfx stop
-dfx start --background --clean
-
 dfx identity use default
 dfx identity remove minter
 dfx identity new --disable-encryption minter

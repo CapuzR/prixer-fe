@@ -2,10 +2,11 @@ import React from "react";
 import * as React from "react";
 import { Box, Button } from "@mui/material";
 import PlugConnect from "@psychedelic/plug-connect";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import Navbar from "../../components_old/navbar.jsx";
 
-const DesktopView = ({ onLogin, onLoginStoic, onLoginPlug }) => {
+const DesktopView = ({ onLogin, onLoginStoic, onLoginPlug, isLoading }) => {
   return (
     <Box
       style={{
@@ -28,6 +29,7 @@ const DesktopView = ({ onLogin, onLoginStoic, onLoginPlug }) => {
         >
           <Box>
             <Button
+              disabled={isLoading}
               variant="contained"
               style={{
                 textTransform: "capitalize",
@@ -36,7 +38,11 @@ const DesktopView = ({ onLogin, onLoginStoic, onLoginPlug }) => {
               }}
               onClick={() => onLoginStoic()}
             >
-              Connect stoic
+              {isLoading ? (
+                <CircularProgress style={{ color: "#FFFFFF" }} size={24} />
+              ) : (
+                "Connect stoic"
+              )}
             </Button>
             {/* <PlugConnect
               dark

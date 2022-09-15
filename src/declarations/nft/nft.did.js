@@ -205,6 +205,7 @@ export const idlFactory = ({ IDL }) => {
     'assetRequest' : IDL.Func([AssetRequest], [Result_2], []),
     'authorize' : IDL.Func([AuthorizeRequest], [Result_2], []),
     'balanceOf' : IDL.Func([IDL.Principal], [IDL.Vec(IDL.Text)], ['query']),
+    'burm' : IDL.Func([IDL.Text], [Result_2], []),
     'getAuthorized' : IDL.Func([IDL.Text], [IDL.Vec(IDL.Principal)], ['query']),
     'getContractInfo' : IDL.Func([], [ContractInfo], []),
     'getEventCallbackStatus' : IDL.Func([], [CallbackStatus], []),

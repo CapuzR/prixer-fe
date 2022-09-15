@@ -12,7 +12,7 @@ const Registry = ({ isMobile }) => {
   const navigate = useNavigate();
   const [screen, setScreen] = useState(consts.registry_artist_form_view);
   const { state, setUser } = useContext(PrixerContext);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [invoice, setInvoice] = useState();
 
   const onLogout = async () => {
@@ -40,6 +40,7 @@ const Registry = ({ isMobile }) => {
   };
 
   const createArtist = async (artist, username) => {
+    setIsLoading(true);
     try {
       const result = await Promise.all([
         service.addArtist(artist),
@@ -52,6 +53,7 @@ const Registry = ({ isMobile }) => {
       console.log(err);
       console.log("[ERR] => Error in create artist registry.jsx");
     }
+    setIsLoading(false);
   };
 
   const onAcceptmembership = (type) => {
@@ -67,6 +69,7 @@ const Registry = ({ isMobile }) => {
   };
 
   const createPost = async (post, blob) => {
+    setIsLoading(true);
     try {
       const result = await service.createPost(post, blob);
       navigate("/explore");
@@ -74,6 +77,7 @@ const Registry = ({ isMobile }) => {
       console.log(err);
       console.log("[ERR] => Error in create post registry.jsx");
     }
+    setIsLoading(false);
   };
 
   const onSkip = async () => {
@@ -81,6 +85,7 @@ const Registry = ({ isMobile }) => {
   };
 
   const createInvoice = async (amount, quantity) => {
+    setIsLoading(true);
     try {
       const result = await service.createInvoice("ICP", amount, quantity);
       setInvoice(result.ok);
@@ -88,6 +93,7 @@ const Registry = ({ isMobile }) => {
       console.log(err);
       console.log("[Error in create invoice settings.jsx");
     }
+    setIsLoading(false);
   };
 
   const transfer = async (account, amount) => {
@@ -95,6 +101,7 @@ const Registry = ({ isMobile }) => {
   };
 
   const verifyPayment = async (invoiceId) => {
+    setIsLoading(true);
     try {
       const result = await service.verifyInvoice(invoiceId, "storage");
       handleScreen(consts.registry_post_form_view);
@@ -103,6 +110,7 @@ const Registry = ({ isMobile }) => {
       console.log(err);
       console.log("[Err in varifyPayment settings.jsx]");
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -124,6 +132,7 @@ const Registry = ({ isMobile }) => {
       invoice={invoice}
       transfer={transfer}
       verifyPayment={verifyPayment}
+      isLoading={isLoading}
     />
   ) : (
     <DesktopView
@@ -141,6 +150,7 @@ const Registry = ({ isMobile }) => {
       invoice={invoice}
       transfer={transfer}
       verifyPayment={verifyPayment}
+      isLoading={isLoading}
     />
   );
 };

@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import * as React from "react";
 
-import { Box, Paper, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Grid,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 import StorageIcon from "@mui/icons-material/Storage";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import InfoIcon from "@mui/icons-material/Info";
+import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 
-const ListSettings = ({ isMobile, handleScreen }) => {
+const ListSettings = ({
+  isMobile,
+  handleScreen,
+  isLoading,
+  createInvoice,
+  invoice,
+  verifyPaymentWH,
+  artist,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
   return (
     <Box>
       <Grid container spacing={1}>
@@ -47,9 +69,7 @@ const ListSettings = ({ isMobile, handleScreen }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              // backgroundColor: "#2D2D2D",
             }}
-            //   onClick={() => onAcceptmembership("premium")}
           >
             <Box>
               <Box style={{ textAlign: "center" }}>
@@ -71,14 +91,15 @@ const ListSettings = ({ isMobile, handleScreen }) => {
               alignItems: "center",
               justifyContent: "center",
             }}
-            //   onClick={() => onAcceptmembership("free")}
+            onClick={() => setIsOpen(true)}
           >
             <Box>
-              <Typography variant="h5">NFT's</Typography>
-              {/* <Typography variant="title">
-                      A
-                    </Typography>
-                    <Typography>A</Typography> */}
+              <Box style={{ textAlign: "center" }}>
+                <Typography variant="h5">
+                  <QueryBuilderIcon style={{ fontSize: 64 }} />
+                </Typography>
+                <Typography variant="title">Working hours</Typography>
+              </Box>
             </Box>
           </Paper>
         </Grid>
@@ -99,9 +120,7 @@ const ListSettings = ({ isMobile, handleScreen }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              // backgroundColor: "#2D2D2D",
             }}
-            //   onClick={() => onAcceptmembership("premium")}
           >
             <Box style={{ textAlign: "center" }}>
               <Typography variant="h5">
@@ -112,6 +131,86 @@ const ListSettings = ({ isMobile, handleScreen }) => {
           </Paper>
         </Grid>
       </Grid>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {!artist.canisterId ? "Info!" : "Confirm!"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <Box>
+              {!artist.canisterId
+                ? "You must generate a private canister"
+                : `Would you like to start selling your Working Hours?`}
+            </Box>
+            <Box>
+              {!artist.canisterId
+                ? "You must generate a canister from the storage section"
+                : `(In this first version, you can only mint 1 working hours)`}
+            </Box>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          {artist.canisterId && (
+            <Button disabled={isLoading} onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+          )}
+          <Button
+            disabled={isLoading}
+            onClick={() =>
+              artist.canisterId
+                ? Promise.resolve(createInvoice(2 * 100000000, 1))
+                    .then(() => setIsOpen(false))
+                    .then(() => setIsOpenConfirm(true))
+                    .catch(console.log)
+                : setIsOpen(false)
+            }
+            autoFocus
+          >
+            Go
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {invoice && (
+        <Dialog
+          open={isOpenConfirm}
+          onClose={() => setIsOpenConfirm(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Payment confirmation"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <Box>{`
+        Do you want to confirm the payment for the amount ${
+          parseInt(invoice.invoice.amount) / 100000000
+        } of ICP?`}</Box>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              disabled={isLoading}
+              onClick={() => setIsOpenConfirm(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              disabled={isLoading}
+              onClick={() => verifyPaymentWH(invoice.invoice.id)}
+              autoFocus
+            >
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </Box>
   );
 };

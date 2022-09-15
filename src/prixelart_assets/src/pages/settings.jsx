@@ -12,9 +12,9 @@ const Settings = ({ isMobile }) => {
   const {
     state,
     handleSidebar,
-    setFeed,
     setPrivateCanisterInfo,
     setAssetPrivateCanisterInfo,
+    setUser,
   } = useContext(PrixerContext);
   const [screen, setScreen] = useState("settings");
   const [isLoading, setIsLoading] = useState(false);
@@ -57,13 +57,18 @@ const Settings = ({ isMobile }) => {
   };
 
   const verifyPayment = async (invoiceId) => {
+    setIsLoading(true);
     try {
       const result = await service.verifyInvoice(invoiceId, "storage");
-      console.log(result, "RESULT");
+      const profile = await service.getArtistByPrincipal();
+
+      const parseArtist = service.parseArtist(profile);
+      setUser(parseArtist);
     } catch (err) {
       console.log(err);
       console.log("[Err in varifyPayment settings.jsx]");
     }
+    setIsLoading(false);
   };
 
   const getContractInfo = async () => {
@@ -95,16 +100,80 @@ const Settings = ({ isMobile }) => {
     }
   };
 
+  const createCollection = async () => {
+    setIsLoading(true);
+    try {
+      const result = await service._createNFTCanister(state.user.canisterId, {
+        nFTMetadata: {
+          name: `WH-${state.user.username}`,
+          symbol: "ICP",
+          supply: [1],
+          website: ["N/A"],
+          socials: [],
+          prixelart: ["N/A"],
+        },
+        creator: JSON.parse(localStorage.getItem("_scApp")).principal,
+      });
+      return result;
+    } catch (err) {
+      console.log(err);
+      console.log("[ERR] => Error in create collection addCollection.jsx");
+    }
+    setIsLoading(false);
+  };
+
+  const mintNFT = async (id, payload) => {
+    return service._mintNFT(id, payload);
+  };
+
+  const verifyPaymentWH = async (invoiceId) => {
+    setIsLoading(true);
+    try {
+      const transferResponse = await transfer(
+        invoice.subAccount,
+        parseInt(invoice.invoice.amount)
+      );
+      if (transferResponse) {
+        const result = await service.verifyInvoice(invoiceId, "collection");
+        if (result.ok.ok) {
+          const resultNFTCan = await createCollection();
+          await mintNFT(resultNFTCan.ok.principal.toText(), {
+            payload: {
+              Payload: [123],
+            },
+            contentType: "WH",
+            owner: [],
+            properties: [
+              {
+                name: "WH",
+                value: { Int: 1 },
+                immutable: true,
+              },
+            ],
+            isPrivate: false,
+          });
+          // await service._publishNFTCollection(
+          //   resultNFTCan.ok.principal.toText()
+          // );
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      console.log("[Err in varifyPaymentWH settings.jsx]");
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     if (!localStorage.getItem("wallet")) onLogout();
   }, []);
 
   useEffect(() => {
-    getContractInfo();
+    if (state.user.canisterId) getContractInfo();
   }, []);
 
   useEffect(() => {
-    getAssetContractInfo();
+    if (state.user.canisterId) getAssetContractInfo();
   }, []);
 
   return isMobile ? (
@@ -124,6 +193,8 @@ const Settings = ({ isMobile }) => {
       artist={state.user}
       _canisterContractInfo={_canisterContractInfo}
       _assetCanisterContractInfo={_assetCanisterContractInfo}
+      verifyPaymentWH={verifyPaymentWH}
+      setIsLoading={setIsLoading}
     />
   ) : (
     <DesktopView
@@ -144,6 +215,8 @@ const Settings = ({ isMobile }) => {
       artist={state.user}
       _canisterContractInfo={_canisterContractInfo}
       _assetCanisterContractInfo={_assetCanisterContractInfo}
+      verifyPaymentWH={verifyPaymentWH}
+      setIsLoading={setIsLoading}
     />
   );
 };

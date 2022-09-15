@@ -27,6 +27,7 @@ const DetailsCollection = ({ isMobile }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPayment, setIsPayment] = useState(false);
+
   const onLogout = async () => {
     await service.onSignOutStoic();
     localStorage.clear();
@@ -77,7 +78,6 @@ const DetailsCollection = ({ isMobile }) => {
         JSON.parse(localStorage.getItem("_scApp")).principal,
         state.user.canisterId
       );
-      console.log(result, "RESULT");
     } catch (err) {
       console.log(err);
       console.log("[Err in varifyPayment collectionDeetails.jsx]");
@@ -99,15 +99,6 @@ const DetailsCollection = ({ isMobile }) => {
       console.log("[ERR IN MINT NFT]");
     }
     setIsLoading(false);
-  };
-
-  const authorize = async (payload) => {
-    try {
-      const result = await service._authorizeNFT(params.collectionId, payload);
-    } catch (err) {
-      console.log(err);
-      console.log("[ERR IN MINT NFT]");
-    }
   };
 
   const publishCollection = async () => {
@@ -138,7 +129,7 @@ const DetailsCollection = ({ isMobile }) => {
     setIsPayment(true);
     try {
       setToken(tokenId);
-      // setIsLoading(true);
+
       const result = await service._createInvoice(
         "ICP",
         amount,
@@ -146,9 +137,7 @@ const DetailsCollection = ({ isMobile }) => {
         state.user.canisterId
       );
       setInvoice(result.ok);
-      // setIsLoading(false);
     } catch (err) {
-      // setIsLoading(false);
       console.log(err);
       console.log("[Error in create invoice settings.jsx");
     }

@@ -170,6 +170,7 @@ type ArtistCanister =
    getNFTCan: () -> (vec NFTMetadataExt) query;
    initNFTCan: (principal, principal) -> (Result);
    isVerifyPayment: (nat, principal, text, principal) -> (Result_2);
+   isVerifyTransferWH: (text, text) -> (Result_2);
    name: () -> (text) query;
    privReadArtById: (text) -> (Result_1) query;
    updateArt: (ArtUpdate, text) -> (Result);

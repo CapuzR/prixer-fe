@@ -39,6 +39,7 @@ function RegistryForm({
   updateCameras,
   updateLens,
   updateArtist,
+  isLoading,
 }) {
   const [screen, setScreen] = useState("user");
   const [avatar, setAvatar] = useState(updateAvatar ? updateAvatar : undefined);
@@ -163,6 +164,7 @@ function RegistryForm({
       >
         {isUpdate && (
           <IconButton
+            disabled={isLoading}
             color="primary"
             onClick={() => handleUpdateProfile(false)}
           >
@@ -185,7 +187,7 @@ function RegistryForm({
             style={{
               color: isDisabled() ? "#C5C5C5" : "#5DBB63",
             }}
-            disabled={isDisabled()}
+            disabled={isDisabled() || isLoading}
             onClick={() => {
               const parseCameras = selectedCameras.map((camera) => ({
                 Text: camera,
@@ -195,7 +197,6 @@ function RegistryForm({
               }));
               const key = !avatarAsset ? "False" : "True";
 
-              
               if (isUpdate) {
                 updateArtist({
                   description: "Artista de prueba",
@@ -285,17 +286,23 @@ function RegistryForm({
         {screen === "user" ? (
           <Box>
             <Box style={{ display: "flex", justifyContent: "center" }}>
-              <IconButton component="label">
+              <IconButton component="label" isabled={isLoading}>
                 <Avatar
                   style={{ width: "120px", height: "120px" }}
                   src={avatar}
                 />
-                <input hidden type="file" onChange={handleChangeAvatar} />
+                <input
+                  hidden
+                  type="file"
+                  onChange={handleChangeAvatar}
+                  disabled={isLoading}
+                />
               </IconButton>
             </Box>
             <Grid container spacing={2} style={{ marginTop: "32px" }}>
               <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Username"
                   variant="outlined"
@@ -307,6 +314,7 @@ function RegistryForm({
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Display name"
                   variant="outlined"
@@ -318,6 +326,7 @@ function RegistryForm({
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Given name"
                   variant="outlined"
@@ -335,6 +344,7 @@ function RegistryForm({
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Family name"
                   variant="outlined"
@@ -352,6 +362,7 @@ function RegistryForm({
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Location"
                   variant="outlined"
@@ -363,6 +374,7 @@ function RegistryForm({
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Email"
                   variant="outlined"
@@ -387,6 +399,7 @@ function RegistryForm({
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
                 <TextField
+                  disabled={isLoading}
                   type="text"
                   label="Phone"
                   variant="outlined"
@@ -411,6 +424,7 @@ function RegistryForm({
                     value={artType}
                     onChange={(event) => setArtType(event.target.value)}
                     label="Type"
+                    disabled={isLoading}
                   >
                     {[
                       { id: 1, name: "Photopgrapher" },
@@ -434,6 +448,7 @@ function RegistryForm({
                   fullWidth
                   value={about}
                   onChange={(e) => setAbout(e.target.value)}
+                  disabled={isLoading}
                 />
               </Grid>
             </Grid>
@@ -448,6 +463,7 @@ function RegistryForm({
             setSelectedCameras={setSelectedCameras}
             selectedLens={selectedLens}
             setSelectedLens={setSelectedLens}
+            isLoading={isLoading}
           />
         )}
         <Box
@@ -470,6 +486,7 @@ function RegistryForm({
             }}
             onClick={() => handleScreen("user")}
             fullWidth
+            disabled={isLoading}
           >
             Basics
           </Button>
@@ -485,6 +502,7 @@ function RegistryForm({
               boxShadow: "none",
             }}
             onClick={() => handleScreen("tools")}
+            disabled={isLoading}
           >
             Cameras & Lenses
           </Button>

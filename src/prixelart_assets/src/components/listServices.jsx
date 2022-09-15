@@ -8,13 +8,10 @@ import {
   CardContent,
   CardMedia,
   Box,
-  IconButton,
+  Button,
 } from "@mui/material";
 
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-
-const ListServices = ({ services = [1, 2, 3, 4], isMobile }) => {
+const ListServices = ({ isMobile, services, _createInvoice, setIsOpen }) => {
   return (
     <>
       <Grid container spacing={!isMobile && 1}>
@@ -70,25 +67,24 @@ const ListServices = ({ services = [1, 2, 3, 4], isMobile }) => {
               <CardContent>
                 <Box style={{ display: "flex", alignItems: "center" }}>
                   <Typography gutterBottom variant="h6" component="div">
-                    Titulo
+                    {service.name.split("-")[1]}
                   </Typography>
                   <Box style={{ marginLeft: "auto" }}>
-                    <IconButton color="primary">
-                      <DeleteIcon />
-                    </IconButton>
-                    <IconButton
+                    <Button
                       color="primary"
-                      //   onClick={() => setIsUpdateService(true)}
+                      variant="contained"
+                      onClick={() =>
+                        Promise.resolve(_createInvoice())
+                          .then(() => setIsOpen(true))
+                          .catch(console.log)
+                      }
                     >
-                      <EditIcon />
-                    </IconButton>
+                      Buy
+                    </Button>
                   </Box>
                 </Box>
                 <Box style={{ display: "flex", marginTop: 18 }}>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                  mollitia est aspernatur, necessitatibus dolore animi at
-                  aliquid eos fugit recusandae, placeat cum odit laboriosam aut
-                  repellat. Odit illum est soluta.
+                  {service.symbol}
                 </Box>
               </CardContent>
             </Card>
