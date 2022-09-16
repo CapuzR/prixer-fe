@@ -3,13 +3,14 @@ type anon_class_26_1 =
    add: (Metadata) -> (Result);
    assignUsername: (text) -> (Result);
    balance: () -> (nat) query;
-   createAssetCan: () -> (Result_8);
-   createInvoice: (text, nat, nat) -> (Result_7);
+   createAssetCan: () -> (Result_9);
+   createInvoice: (text, nat, nat) -> (Result_8);
    get: (principal) -> (opt Metadata) query;
-   getAll: () -> (Result_6) query;
+   getAll: () -> (Result_7) query;
    getByUsername: (text) -> (opt Metadata) query;
    getCanMemInfo: () -> () query;
-   getInvoice: (nat) -> (Result_5) query;
+   getInvoice: (nat) -> (Result_6) query;
+   getInvoicesByPrincipal: (principal) -> (Result_5) query;
    getPrincipalByUsername: (text) -> (vec principal) query;
    getUsernamesByPrincipal: (principal) -> (vec text) query;
    getWhitelistedArtists: () -> (Result_4);
@@ -23,7 +24,7 @@ type anon_class_26_1 =
    wallet_receive: () -> ();
    whitelistArtists: (vec principal) -> (Result);
  };
-type Result_8 = 
+type Result_9 = 
  variant {
    err: Error;
    ok: record {
@@ -31,12 +32,12 @@ type Result_8 =
          principal;
        };
  };
-type Result_7 = 
+type Result_8 = 
  variant {
    err: InvoiceError;
    ok: CreateInvoiceResult;
  };
-type Result_6 = 
+type Result_7 = 
  variant {
    err: Error;
    ok: vec record {
@@ -44,10 +45,18 @@ type Result_6 =
              Metadata;
            };
  };
-type Result_5 = 
+type Result_6 = 
  variant {
    err: InvoiceError;
    ok: Invoice;
+ };
+type Result_5 = 
+ variant {
+   err: InvoiceError;
+   ok: vec record {
+             nat;
+             Invoice;
+           };
  };
 type Result_4 = 
  variant {

@@ -20,24 +20,25 @@ export interface ArtUpdate {
 }
 export interface ArtistCanister {
   'artistMetadata' : ActorMethod<[], Metadata__1>,
-  'authorizedArr' : ActorMethod<[], Result_4>,
-  'createArt' : ActorMethod<[ArtUpdate], Result_8>,
-  'createAssetCan' : ActorMethod<[], Result_7>,
-  'createInvoice' : ActorMethod<[string, bigint, bigint], Result_6>,
-  'createNFTCan' : ActorMethod<[NFTMetadata, Principal], Result_5>,
+  'authorizedArr' : ActorMethod<[], Result_5>,
+  'createArt' : ActorMethod<[ArtUpdate], Result_9>,
+  'createAssetCan' : ActorMethod<[], Result_8>,
+  'createInvoice' : ActorMethod<[string, bigint, bigint], Result_7>,
+  'createNFTCan' : ActorMethod<[NFTMetadata, Principal], Result_6>,
   'deleteArt' : ActorMethod<[string], Result>,
-  'getAssetCanIds' : ActorMethod<[], Result_4>,
+  'getAssetCanIds' : ActorMethod<[], Result_5>,
   'getCanIds' : ActorMethod<[], Array<Principal>>,
   'getCanisterId' : ActorMethod<[], Principal>,
   'getContractInfo' : ActorMethod<[], ContractInfo>,
-  'getInvoice' : ActorMethod<[bigint], Result_3>,
+  'getInvoice' : ActorMethod<[bigint], Result_4>,
+  'getInvoices' : ActorMethod<[], Result_3>,
   'getNFTCan' : ActorMethod<[], Array<NFTMetadataExt>>,
   'initNFTCan' : ActorMethod<[Principal, Principal], Result>,
-  'isVerifyPayment' : ActorMethod<
-    [bigint, Principal, string, Principal],
+  'isVerifyPayment' : ActorMethod<[bigint, Principal], Result_2>,
+  'isVerifyTransferWH' : ActorMethod<
+    [string, Array<string>, bigint, Principal],
     Result_2,
   >,
-  'isVerifyTransferWH' : ActorMethod<[string, string], Result_2>,
   'name' : ActorMethod<[], string>,
   'privReadArtById' : ActorMethod<[string], Result_1>,
   'updateArt' : ActorMethod<[ArtUpdate, string], Result>,
@@ -72,6 +73,7 @@ export interface Invoice {
   'creator' : Principal,
   'destination' : string,
   'token' : string,
+  'tokenIndexes' : Array<string>,
   'quantity' : bigint,
   'amount' : bigint,
 }
@@ -105,6 +107,7 @@ export interface Metadata__1 {
   'principal_id' : Principal,
 }
 export interface NFTMetadata {
+  'value' : [] | [bigint],
   'prixelart' : [] | [string],
   'name' : string,
   'socials' : Array<[] | [[string, string]]>,
@@ -114,6 +117,7 @@ export interface NFTMetadata {
 }
 export interface NFTMetadataExt {
   'principal' : Principal,
+  'value' : [] | [bigint],
   'prixelart' : [] | [string],
   'name' : string,
   'socials' : Array<[] | [[string, string]]>,
@@ -127,16 +131,18 @@ export type Result_1 = { 'ok' : Art } |
   { 'err' : Error };
 export type Result_2 = { 'ok' : null } |
   { 'err' : InvoiceError };
-export type Result_3 = { 'ok' : Invoice } |
+export type Result_3 = { 'ok' : Array<[bigint, Invoice]> } |
   { 'err' : InvoiceError };
-export type Result_4 = { 'ok' : Array<Principal> } |
-  { 'err' : Error };
-export type Result_5 = { 'ok' : NFTMetadataExt } |
-  { 'err' : Error };
-export type Result_6 = { 'ok' : CreateInvoiceResult } |
+export type Result_4 = { 'ok' : Invoice } |
   { 'err' : InvoiceError };
-export type Result_7 = { 'ok' : [Principal, Principal] } |
+export type Result_5 = { 'ok' : Array<Principal> } |
   { 'err' : Error };
-export type Result_8 = { 'ok' : string } |
+export type Result_6 = { 'ok' : NFTMetadataExt } |
+  { 'err' : Error };
+export type Result_7 = { 'ok' : CreateInvoiceResult } |
+  { 'err' : InvoiceError };
+export type Result_8 = { 'ok' : [Principal, Principal] } |
+  { 'err' : Error };
+export type Result_9 = { 'ok' : string } |
   { 'err' : Error };
 export interface _SERVICE extends ArtistCanister {}

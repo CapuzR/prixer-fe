@@ -26,6 +26,9 @@ const Settings = ({ isMobile }) => {
     state.privateAssetCanisterInfo
   );
 
+  const [paymentHistoryPrincipal, setPaymentHistoryPrincipal] = useState([]);
+  const [priInvoice, setPriInvoices] = useState([]);
+
   const onLogout = async () => {
     await service.onSignOutStoic();
     localStorage.clear();
@@ -41,6 +44,7 @@ const Settings = ({ isMobile }) => {
   };
   const createInvoice = async (amount, quantity) => {
     try {
+      console.log(amount);
       setIsLoading(true);
       const result = await service.createInvoice("ICP", amount, quantity);
       setInvoice(result.ok);
@@ -100,7 +104,7 @@ const Settings = ({ isMobile }) => {
     }
   };
 
-  const createCollection = async () => {
+  const createCollection = async (valueCollection) => {
     setIsLoading(true);
     try {
       const result = await service._createNFTCanister(state.user.canisterId, {
@@ -111,6 +115,7 @@ const Settings = ({ isMobile }) => {
           website: ["N/A"],
           socials: [],
           prixelart: ["N/A"],
+          value: [parseInt(valueCollection)],
         },
         creator: JSON.parse(localStorage.getItem("_scApp")).principal,
       });
@@ -123,10 +128,10 @@ const Settings = ({ isMobile }) => {
   };
 
   const mintNFT = async (id, payload) => {
-    return service._mintNFT(id, payload);
+    return service._mintWH(id, payload);
   };
 
-  const verifyPaymentWH = async (invoiceId) => {
+  const verifyPaymentWH = async (invoiceId, valueCollection) => {
     setIsLoading(true);
     try {
       const transferResponse = await transfer(
@@ -136,22 +141,39 @@ const Settings = ({ isMobile }) => {
       if (transferResponse) {
         const result = await service.verifyInvoice(invoiceId, "collection");
         if (result.ok.ok) {
-          const resultNFTCan = await createCollection();
-          await mintNFT(resultNFTCan.ok.principal.toText(), {
-            payload: {
-              Payload: [123],
-            },
-            contentType: "WH",
-            owner: [],
-            properties: [
-              {
-                name: "WH",
-                value: { Int: 1 },
-                immutable: true,
+          const resultNFTCan = await createCollection(valueCollection);
+          await mintNFT(resultNFTCan.ok.principal.toText(), [
+            {
+              payload: {
+                Payload: [123],
               },
-            ],
-            isPrivate: false,
-          });
+              contentType: "WH",
+              owner: [],
+              properties: [
+                {
+                  name: "WH",
+                  value: { Int: parseInt(valueCollection) },
+                  immutable: true,
+                },
+              ],
+              isPrivate: false,
+            },
+            {
+              payload: {
+                Payload: [123],
+              },
+              contentType: "WH",
+              owner: [],
+              properties: [
+                {
+                  name: "WH",
+                  value: { Int: parseInt(valueCollection) },
+                  immutable: true,
+                },
+              ],
+              isPrivate: false,
+            },
+          ]);
           // await service._publishNFTCollection(
           //   resultNFTCan.ok.principal.toText()
           // );
@@ -176,6 +198,17 @@ const Settings = ({ isMobile }) => {
     if (state.user.canisterId) getAssetContractInfo();
   }, []);
 
+  useEffect(async () => {
+    try {
+      const payments = await service.getinvoices();
+      setPaymentHistoryPrincipal(payments.ok);
+      const paymentsPri = await service.getinvoicesPri(state.user.canisterId);
+      setPriInvoices(paymentsPri.ok);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+  console.log(paymentHistoryPrincipal, "ASDASd");
   return isMobile ? (
     <MobileView
       isMobile={isMobile}
@@ -195,6 +228,8 @@ const Settings = ({ isMobile }) => {
       _assetCanisterContractInfo={_assetCanisterContractInfo}
       verifyPaymentWH={verifyPaymentWH}
       setIsLoading={setIsLoading}
+      paymentHistoryPrincipal={paymentHistoryPrincipal}
+      riInvoice={priInvoice}
     />
   ) : (
     <DesktopView
@@ -217,6 +252,8 @@ const Settings = ({ isMobile }) => {
       _assetCanisterContractInfo={_assetCanisterContractInfo}
       verifyPaymentWH={verifyPaymentWH}
       setIsLoading={setIsLoading}
+      paymentHistoryPrincipal={paymentHistoryPrincipal}
+      priInvoice={priInvoice}
     />
   );
 };

@@ -151,6 +151,7 @@ const Registry = ({ isMobile }) => {
       transfer={transfer}
       verifyPayment={verifyPayment}
       isLoading={isLoading}
+      setIsLoading={setIsLoading}
     />
   );
 };

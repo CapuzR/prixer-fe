@@ -52,6 +52,9 @@ const DesktopView = ({
   services,
   _createInvoice,
   setIsOpen,
+  WHMint,
+  setIsOpenWH,
+  setServiceId,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -98,6 +101,7 @@ const DesktopView = ({
               updateCameras={() => artist.cameras.map((camera) => camera.Text)}
               updateLens={() => artist.lens.map((lens) => lens.Text)}
               updateArtist={updateArtist}
+              isLoading={isLoading}
             />
           </Box>
         ) : (
@@ -134,6 +138,8 @@ const DesktopView = ({
                   handleUpdateProfile={handleUpdateProfile}
                   createInvoice={createInvoice}
                   tokens={tokens}
+                  WHMint={WHMint}
+                  setIsOpenWH={setIsOpenWH}
                 />
                 <Box style={{ padding: 8 }}>
                   <ProfileNavigationButtons
@@ -184,6 +190,7 @@ const DesktopView = ({
                       services={services}
                       _createInvoice={_createInvoice}
                       setIsOpen={setIsOpen}
+                      setServiceId={setServiceId}
                     />
                   )}
                 </Box>

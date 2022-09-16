@@ -73,25 +73,28 @@ export type Result_3 = { 'ok' : boolean } |
   { 'err' : Error };
 export type Result_4 = { 'ok' : Array<Principal> } |
   { 'err' : Error };
-export type Result_5 = { 'ok' : Invoice } |
+export type Result_5 = { 'ok' : Array<[bigint, Invoice]> } |
   { 'err' : InvoiceError };
-export type Result_6 = { 'ok' : Array<[Principal, Metadata]> } |
+export type Result_6 = { 'ok' : Invoice } |
+  { 'err' : InvoiceError };
+export type Result_7 = { 'ok' : Array<[Principal, Metadata]> } |
   { 'err' : Error };
-export type Result_7 = { 'ok' : CreateInvoiceResult } |
+export type Result_8 = { 'ok' : CreateInvoiceResult } |
   { 'err' : InvoiceError };
-export type Result_8 = { 'ok' : [Principal, Principal] } |
+export type Result_9 = { 'ok' : [Principal, Principal] } |
   { 'err' : Error };
 export interface anon_class_26_1 {
   'add' : ActorMethod<[Metadata], Result>,
   'assignUsername' : ActorMethod<[string], Result>,
   'balance' : ActorMethod<[], bigint>,
-  'createAssetCan' : ActorMethod<[], Result_8>,
-  'createInvoice' : ActorMethod<[string, bigint, bigint], Result_7>,
+  'createAssetCan' : ActorMethod<[], Result_9>,
+  'createInvoice' : ActorMethod<[string, bigint, bigint], Result_8>,
   'get' : ActorMethod<[Principal], [] | [Metadata]>,
-  'getAll' : ActorMethod<[], Result_6>,
+  'getAll' : ActorMethod<[], Result_7>,
   'getByUsername' : ActorMethod<[string], [] | [Metadata]>,
   'getCanMemInfo' : ActorMethod<[], undefined>,
-  'getInvoice' : ActorMethod<[bigint], Result_5>,
+  'getInvoice' : ActorMethod<[bigint], Result_6>,
+  'getInvoicesByPrincipal' : ActorMethod<[Principal], Result_5>,
   'getPrincipalByUsername' : ActorMethod<[string], Array<Principal>>,
   'getUsernamesByPrincipal' : ActorMethod<[Principal], Array<string>>,
   'getWhitelistedArtists' : ActorMethod<[], Result_4>,

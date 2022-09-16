@@ -87,25 +87,35 @@ type StreamingCallbackResponse =
  };
 type StreamingCallback = func (StreamingCallbackToken) ->
                           (StreamingCallbackResponse) query;
-type Result_6 = 
+type Result_8 = 
+ variant {
+   err: Error;
+   ok: vec text;
+ };
+type Result_7 = 
  variant {
    err: Error;
    ok: principal;
  };
-type Result_5 = 
+type Result_6 = 
  variant {
    err: Error;
    ok: PublicToken;
  };
-type Result_4 = 
+type Result_5 = 
  variant {
    err: Error;
    ok: Chunk;
  };
-type Result_3 = 
+type Result_4 = 
  variant {
    err: Error;
    ok: Metadata;
+ };
+type Result_3 = 
+ variant {
+   err: Error;
+   ok: vec Metadata;
  };
 type Result_2 = 
  variant {
@@ -177,7 +187,8 @@ type NFT =
    assetRequest: (AssetRequest) -> (Result_2);
    authorize: (AuthorizeRequest) -> (Result_2);
    balanceOf: (principal) -> (vec text) query;
-   burm: (text) -> (Result_2);
+   balanceOfPublic: (principal) -> (vec text);
+   burn: (vec text, nat) -> (Result_2);
    getAuthorized: (text) -> (vec principal) query;
    getContractInfo: () -> (ContractInfo);
    getEventCallbackStatus: () -> (CallbackStatus);
@@ -198,15 +209,18 @@ type NFT =
            Properties;
          }) query;
    mint: (Egg) -> (Result);
+   mintWH: (vec Egg) -> (Result_8);
    nftStreamingCallback: (StreamingCallbackToken) ->
     (StreamingCallbackResponse) query;
-   ownerOf: (text) -> (Result_6) query;
+   ownerOf: (text) -> (Result_7) query;
+   ownerOfPublic: (text) -> (Result_7);
    queryProperties: (QueryRequest) -> (Result_1) query;
    staticStreamingCallback: (StreamingCallbackToken) ->
     (StreamingCallbackResponse) query;
-   tokenByIndex: (text) -> (Result_5);
-   tokenChunkByIndex: (text, nat) -> (Result_4);
-   tokenMetadataByIndex: (text) -> (Result_3);
+   tokenByIndex: (text) -> (Result_6);
+   tokenChunkByIndex: (text, nat) -> (Result_5);
+   tokenMetadataByIndex: (text) -> (Result_4);
+   tokenMetadataByOwner: (principal) -> (Result_3);
    transfer: (principal, text) -> (Result_2);
    updateContractOwners: (principal, bool) -> (Result_2);
    updateEventCallback: (UpdateEventCallback) -> ();

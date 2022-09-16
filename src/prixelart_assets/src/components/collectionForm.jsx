@@ -33,6 +33,7 @@ const CollectionForm = ({
   const [supply, setSupply] = useState(0);
   const [website, setWebsite] = useState("");
   const [prixelart, setPrixelart] = useState("");
+  const [valueCollection, setValueCollection] = useState(0);
 
   const [amount, setAmount] = useState(4);
 
@@ -50,7 +51,8 @@ const CollectionForm = ({
         symbol,
         supply,
         website,
-        prixelart
+        prixelart,
+        valueCollection
       );
     } else {
       setIsOpen(false);
@@ -154,6 +156,18 @@ const CollectionForm = ({
                   fullWidth
                   value={symbol}
                   onChange={(event) => setSymbol(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                <TextField
+                  disabled={isLoading}
+                  type="number"
+                  label="Value"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  value={supply}
+                  onChange={(event) => setValueCollection(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>

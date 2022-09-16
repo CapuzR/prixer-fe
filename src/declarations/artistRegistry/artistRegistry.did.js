@@ -33,7 +33,7 @@ export const idlFactory = ({ IDL }) => {
     'NonExistentItem' : IDL.Null,
   });
   const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
-  const Result_8 = IDL.Variant({
+  const Result_9 = IDL.Variant({
     'ok' : IDL.Tuple(IDL.Principal, IDL.Principal),
     'err' : Error,
   });
@@ -64,15 +64,19 @@ export const idlFactory = ({ IDL }) => {
     }),
     'message' : IDL.Opt(IDL.Text),
   });
-  const Result_7 = IDL.Variant({
+  const Result_8 = IDL.Variant({
     'ok' : CreateInvoiceResult,
     'err' : InvoiceError,
   });
-  const Result_6 = IDL.Variant({
+  const Result_7 = IDL.Variant({
     'ok' : IDL.Vec(IDL.Tuple(IDL.Principal, Metadata)),
     'err' : Error,
   });
-  const Result_5 = IDL.Variant({ 'ok' : Invoice, 'err' : InvoiceError });
+  const Result_6 = IDL.Variant({ 'ok' : Invoice, 'err' : InvoiceError });
+  const Result_5 = IDL.Variant({
+    'ok' : IDL.Vec(IDL.Tuple(IDL.Nat, Invoice)),
+    'err' : InvoiceError,
+  });
   const Result_4 = IDL.Variant({
     'ok' : IDL.Vec(IDL.Principal),
     'err' : Error,
@@ -100,13 +104,14 @@ export const idlFactory = ({ IDL }) => {
     'add' : IDL.Func([Metadata], [Result], []),
     'assignUsername' : IDL.Func([IDL.Text], [Result], []),
     'balance' : IDL.Func([], [IDL.Nat], ['query']),
-    'createAssetCan' : IDL.Func([], [Result_8], []),
-    'createInvoice' : IDL.Func([IDL.Text, IDL.Nat, IDL.Nat], [Result_7], []),
+    'createAssetCan' : IDL.Func([], [Result_9], []),
+    'createInvoice' : IDL.Func([IDL.Text, IDL.Nat, IDL.Nat], [Result_8], []),
     'get' : IDL.Func([IDL.Principal], [IDL.Opt(Metadata)], ['query']),
-    'getAll' : IDL.Func([], [Result_6], ['query']),
+    'getAll' : IDL.Func([], [Result_7], ['query']),
     'getByUsername' : IDL.Func([IDL.Text], [IDL.Opt(Metadata)], ['query']),
     'getCanMemInfo' : IDL.Func([], [], ['query']),
-    'getInvoice' : IDL.Func([IDL.Nat], [Result_5], ['query']),
+    'getInvoice' : IDL.Func([IDL.Nat], [Result_6], ['query']),
+    'getInvoicesByPrincipal' : IDL.Func([IDL.Principal], [Result_5], ['query']),
     'getPrincipalByUsername' : IDL.Func(
         [IDL.Text],
         [IDL.Vec(IDL.Principal)],

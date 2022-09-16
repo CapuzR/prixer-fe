@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Principal } from "@dfinity/principal";
 
 import MobileView from "../views/profile/mobile.jsx";
 import DesktopView from "../views/profile/desktop.jsx";
@@ -17,6 +16,7 @@ import {
   DialogContentText,
   DialogTitle,
   Box,
+  TextField,
 } from "@mui/material";
 
 const Profile = ({ isMobile }) => {
@@ -38,7 +38,9 @@ const Profile = ({ isMobile }) => {
   const [token, setToken] = useState();
   const [tokens, setTokens] = useState();
   const [isOpen, setIsOpen] = useState(false);
-
+  const [WHMint, setWHMint] = useState(0);
+  const [isOpenWH, setIsOpenWH] = useState(false);
+  const [serviceId, setServiceId] = useState(undefined);
   const onLogout = async () => {
     await service.onSignOutStoic();
     localStorage.clear();
@@ -58,7 +60,10 @@ const Profile = ({ isMobile }) => {
         setPostsDetails(result[0].ok);
         setGalleries(result[1].ok);
         const parseArtist = service.parseArtist(result[2]);
-        const collections = await service._getNFTCan(parseArtist.canisterId);
+        const collections = parseArtist.canisterId
+          ? await service._getNFTCan(parseArtist.canisterId)
+          : [];
+        console.log(collections);
         if (collections.length > 0) {
           const filterCollections = collections?.filter(
             (el) =>
@@ -67,11 +72,19 @@ const Profile = ({ isMobile }) => {
           filterCollections?.forEach((el) => {
             el.supply = Number(el.supply[0]);
             el.principal = el.principal.toText();
+            el.value = Number(el.value[0]);
           });
           parseArtist.collections = filterCollections;
-          parseArtist.WHCanister = collections
-            ?.find((collection) => collection.name.split("-")[0] === "WH")
-            .principal.toText();
+          parseArtist.WHCanister = {
+            id: collections
+              ?.find((collection) => collection.name.split("-")[0] === "WH")
+              .principal.toText(),
+            value: parseInt(
+              collections?.find(
+                (collection) => collection.name.split("-")[0] === "WH"
+              ).value[0]
+            ),
+          };
           parseArtist.servicesCanister = collections
             ?.map(
               (collection) =>
@@ -79,6 +92,7 @@ const Profile = ({ isMobile }) => {
                   ...collection,
                   supply: Number(collection.supply[0]),
                   principal: collection.principal.toText(),
+                  value: Number(collection.value[0]),
                 }
             )
             .filter((i) => i);
@@ -92,7 +106,43 @@ const Profile = ({ isMobile }) => {
           service.getGalleriesByArtist(params.username),
         ]);
         const parsetArtist = service.parseArtist(result[0]);
-
+        const collections = parseArtist.canisterId
+          ? await service._getNFTCan(parseArtist.canisterId)
+          : [];
+       
+        if (collections.length > 0) {
+          const filterCollections = collections?.filter(
+            (el) =>
+              el.name.split("-")[0] !== "WH" && el.name.split("-")[0] !== "SE"
+          );
+          filterCollections?.forEach((el) => {
+            el.supply = Number(el.supply[0]);
+            el.principal = el.principal.toText();
+            el.value = Number(el.value[0]);
+          });
+          parsetArtist.collections = filterCollections;
+          parsetArtist.WHCanister = {
+            id: collections
+              ?.find((collection) => collection.name.split("-")[0] === "WH")
+              .principal.toText(),
+            value: parseInt(
+              collections?.find(
+                (collection) => collection.name.split("-")[0] === "WH"
+              ).value[0]
+            ),
+          };
+          parsetArtist.servicesCanister = collections
+            ?.map(
+              (collection) =>
+                collection.name.split("-")[0] === "SE" && {
+                  ...collection,
+                  supply: Number(collection.supply[0]),
+                  principal: collection.principal.toText(),
+                  value: Number(collection.value[0]),
+                }
+            )
+            .filter((i) => i);
+        }
         setUserGuest(parsetArtist);
         setBanner(parsetArtist.banner);
         setPostsDetailsGuest(result[1].ok);
@@ -217,6 +267,7 @@ const Profile = ({ isMobile }) => {
   };
 
   const updateArtist = async (artist) => {
+    setIsLoading(true);
     try {
       const result = await Promise.all([
         service.updateArtist(artist),
@@ -230,23 +281,24 @@ const Profile = ({ isMobile }) => {
       console.log(err);
       console.log("[Err in updateProfile profile.jsx]");
     }
+    setIsLoading(false);
   };
 
-  const createInvoice = async (amount, tokenId) => {
+  const createInvoice = async (amount) => {
     setIsLoading(true);
     setIsPayment(true);
 
     try {
-      setToken(tokenId);
       // setIsLoading(true);
       const result = await service._createInvoice(
         "ICP",
         amount,
-        1,
+        parseInt(WHMint),
         state.user.canisterId
       );
       setInvoice(result.ok);
       setIsOpen(true);
+      setIsOpenWH(false);
     } catch (err) {
       // setIsLoading(false);
       console.log(err);
@@ -284,7 +336,7 @@ const Profile = ({ isMobile }) => {
     try {
       const result = await service._verifyPayment(
         invoiceId,
-        state.user.WHCanister,
+        state.user.WHCanister.id,
         tokenId,
         JSON.parse(localStorage.getItem("_scApp")).principal,
         state.user.canisterId
@@ -300,28 +352,38 @@ const Profile = ({ isMobile }) => {
   const listNFT = async (id) => {
     setIsLoading(true);
     try {
-      const result = await service._listNFT(id);
+      const result = await service.balanceOf(
+        id,
+        JSON.parse(localStorage.getItem("_scApp")).principal
+      );
       setTokens(result);
-
+      console.log(result, "RESULT");
       return result;
     } catch (err) {
+      console.log(err);
       console.log("[ERR IN LIST NFT]");
     }
     setIsLoading(false);
   };
 
-  const _verifyPayment = async (id) => {
+  const _verifyPayment = async (ids) => {
     setIsLoading(true);
     setIsPayment(true);
     try {
-      // const result = await service.burm(state.user.WHCanister, id);
-      // if (result.ok) {
-      await service.isVerifyTransferWH(
-        state.user.canisterId,
-        state.user.WHCanister,
-        id
+      const result = await service.burn(
+        state.user.WHCanister.id,
+        ids,
+        invoice.invoice.id
       );
-      // }
+      if (result.ok === null) {
+        await service.isVerifyTransferWH(
+          state.user.canisterId,
+          state.user.WHCanister.id,
+          ids,
+          invoice.invoice.id,
+          serviceId
+        );
+      }
       console.log(result);
     } catch (err) {
       console.log(err);
@@ -331,14 +393,14 @@ const Profile = ({ isMobile }) => {
     setIsPayment(false);
   };
 
-  const _createInvoice = async () => {
+  const _createInvoice = async (value) => {
     setIsLoading(true);
     setIsPayment(true);
     try {
       const result = await service._createInvoice(
         "ICP",
-        1,
-        1,
+        value,
+        value,
         state.user.canisterId
       );
       setInvoice(result.ok);
@@ -363,12 +425,10 @@ const Profile = ({ isMobile }) => {
 
   useEffect(() => {
     init();
-    if (state.user.WHCanister) listNFT(state.user.WHCanister);
+    if (state.user.WHCanister)
+      listNFT(state.user.WHCanister.id, state.user.canisterId);
   }, [params]);
 
-  useEffect(async () => {
-    await service.balanceOf(state.user.WHCanister);
-  }, []);
   return state.user ? (
     isMobile ? (
       <>
@@ -409,6 +469,8 @@ const Profile = ({ isMobile }) => {
           services={state.user.servicesCanister}
           _createInvoice={_createInvoice}
           setIsOpen={setIsOpen}
+          WHMint={WHMint}
+          setIsOpenWH={setIsOpenWH}
         />
       </>
     ) : (
@@ -453,6 +515,9 @@ const Profile = ({ isMobile }) => {
           services={state.user.servicesCanister}
           _createInvoice={_createInvoice}
           setIsOpen={setIsOpen}
+          WHMint={WHMint}
+          setIsOpenWH={setIsOpenWH}
+          setServiceId={setServiceId}
         />
         {invoice && (
           <Dialog
@@ -469,8 +534,13 @@ const Profile = ({ isMobile }) => {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                <Box>{`
-        You must transfer the necessary amount of working hours to acquire this service`}</Box>
+                <Box>
+                  {invoice.invoice.tokenIndexes.length === 0
+                    ? `You must transfer the necessary amount of ${
+                        parseInt(invoice.invoice.amount) / 100000000
+                      } ICP`
+                    : `You must transfer the necessary WH`}
+                </Box>
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -479,8 +549,58 @@ const Profile = ({ isMobile }) => {
               </Button>
               <Button
                 disabled={isLoading}
-                onClick={() => _verifyPayment(["0"])}
-                // onClick={() => isConfirmPayment()}
+                onClick={() =>
+                  invoice.invoice.tokenIndexes.length === 0
+                    ? isConfirmPayment()
+                    : _verifyPayment(invoice.invoice.tokenIndexes)
+                }
+                autoFocus
+              >
+                Confirm
+              </Button>
+            </DialogActions>
+          </Dialog>
+        )}
+
+        {isOpenWH && (
+          <Dialog
+            open={isOpenWH}
+            onClose={() => {
+              setIsOpenWH(false);
+            }}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Payment confirmation"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                <Box>
+                  {`Define how many Working Hours do you want to buy and confirm
+                  that you will pay ${state.user.WHCanister.value} ICP for
+                  each.`}
+                </Box>
+              </DialogContentText>
+
+              <TextField
+                type="number"
+                value={WHMint}
+                onChange={(e) => setWHMint(e.target.value)}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button disabled={isLoading} onClick={() => setIsOpenWH(false)}>
+                Cancel
+              </Button>
+              <Button
+                disabled={isLoading}
+                // onClick={() => _verifyPayment(["0"])}
+                onClick={() =>
+                  createInvoice(
+                    parseInt(WHMint) * 100000000 * state.user.WHCanister.value
+                  )
+                }
                 autoFocus
               >
                 Confirm

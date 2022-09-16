@@ -45,11 +45,9 @@ function StorageConfig({
     );
     if (transferResponse) {
       await verifyPayment(invoice.invoice.id);
-      setIsOpen(false);
-    } else {
-      setIsOpen(false);
     }
     setIsLoading(false);
+    setIsOpen(false);
   };
   return (
     <Box style={{ padding: 12 }}>
@@ -79,7 +77,7 @@ function StorageConfig({
                 .catch(console.log)
             }
             style={{
-              color: "#5DBB63",
+              color: !isLoading && "#5DBB63",
             }}
           >
             Create

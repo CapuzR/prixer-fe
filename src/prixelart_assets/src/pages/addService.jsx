@@ -43,7 +43,8 @@ const addService = ({ isMobile }) => {
     symbol,
     suplay,
     website,
-    prixelart
+    prixelart,
+    valueCollection
   ) => {
     setIsLoading(true);
     try {
@@ -54,7 +55,8 @@ const addService = ({ isMobile }) => {
           symbol,
           suplay,
           website,
-          prixelart
+          prixelart,
+          valueCollection
         );
       }
     } catch (err) {
@@ -64,7 +66,14 @@ const addService = ({ isMobile }) => {
     setIsLoading(false);
   };
 
-  const createCollection = async (name, symbol, suplay, website, prixelart) => {
+  const createCollection = async (
+    name,
+    symbol,
+    suplay,
+    website,
+    prixelart,
+    valueCollection
+  ) => {
     setIsLoading(true);
     try {
       const result = await service._createNFTCanister(state.user.canisterId, {
@@ -75,6 +84,7 @@ const addService = ({ isMobile }) => {
           website: [website],
           socials: [],
           prixelart: [prixelart],
+          value: [parseInt(valueCollection)],
         },
         creator: JSON.parse(localStorage.getItem("_scApp")).principal,
       });

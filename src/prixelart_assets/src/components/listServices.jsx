@@ -11,7 +11,14 @@ import {
   Button,
 } from "@mui/material";
 
-const ListServices = ({ isMobile, services, _createInvoice, setIsOpen }) => {
+const ListServices = ({
+  isMobile,
+  services,
+  _createInvoice,
+  setIsOpen,
+  setServiceId,
+}) => {
+  console.log(services);
   return (
     <>
       <Grid container spacing={!isMobile && 1}>
@@ -74,12 +81,13 @@ const ListServices = ({ isMobile, services, _createInvoice, setIsOpen }) => {
                       color="primary"
                       variant="contained"
                       onClick={() =>
-                        Promise.resolve(_createInvoice())
+                        Promise.resolve(_createInvoice(service.value))
                           .then(() => setIsOpen(true))
+                          .then(() => setServiceId(service.principal))
                           .catch(console.log)
                       }
                     >
-                      Buy
+                      {`Buy (${service.value} WH)`}
                     </Button>
                   </Box>
                 </Box>

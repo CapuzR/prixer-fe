@@ -12,11 +12,13 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
+  TextField,
 } from "@mui/material";
 import StorageIcon from "@mui/icons-material/Storage";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import InfoIcon from "@mui/icons-material/Info";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
+import PaymentIcon from "@mui/icons-material/Payment";
 
 const ListSettings = ({
   isMobile,
@@ -29,6 +31,8 @@ const ListSettings = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+  const [valueCollection, setValueCollection] = useState(0);
+
   return (
     <Box>
       <Grid container spacing={1}>
@@ -103,6 +107,28 @@ const ListSettings = ({
             </Box>
           </Paper>
         </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+          <Paper
+            className="membership-paper"
+            elevation={2}
+            style={{
+              minHeight: 250,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onClick={() => handleScreen("payment_history")}
+          >
+            <Box>
+              <Box style={{ textAlign: "center" }}>
+                <Typography variant="h5">
+                  <PaymentIcon style={{ fontSize: 64 }} />
+                </Typography>
+                <Typography variant="title">Payment history</Typography>
+              </Box>
+            </Box>
+          </Paper>
+        </Grid>
         <Grid
           item
           xs={12}
@@ -150,7 +176,7 @@ const ListSettings = ({
             <Box>
               {!artist.canisterId
                 ? "You must generate a canister from the storage section"
-                : `(In this first version, you can only mint 1 working hours)`}
+                : `(In this first version, you can only mint 2 working hours)`}
             </Box>
           </DialogContentText>
         </DialogContent>
@@ -189,9 +215,17 @@ const ListSettings = ({
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               <Box>{`
-        Do you want to confirm the payment for the amount ${
-          parseInt(invoice.invoice.amount) / 100000000
-        } of ICP?`}</Box>
+              Define your Working Hour price and then confirm that you are paying ${
+                parseInt(invoice.invoice.amount) / 100000000
+              } ICP for the canister creation
+       `}</Box>
+              <Box>
+                <TextField
+                  type="number"
+                  value={valueCollection}
+                  onChange={(e) => setValueCollection(e.target.value)}
+                />
+              </Box>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -203,7 +237,9 @@ const ListSettings = ({
             </Button>
             <Button
               disabled={isLoading}
-              onClick={() => verifyPaymentWH(invoice.invoice.id)}
+              onClick={() =>
+                verifyPaymentWH(invoice.invoice.id, valueCollection)
+              }
               autoFocus
             >
               Confirm

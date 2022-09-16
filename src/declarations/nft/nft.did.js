@@ -151,7 +151,8 @@ export const idlFactory = ({ IDL }) => {
     }),
   });
   const Result = IDL.Variant({ 'ok' : IDL.Text, 'err' : Error });
-  const Result_6 = IDL.Variant({ 'ok' : IDL.Principal, 'err' : Error });
+  const Result_8 = IDL.Variant({ 'ok' : IDL.Vec(IDL.Text), 'err' : Error });
+  const Result_7 = IDL.Variant({ 'ok' : IDL.Principal, 'err' : Error });
   Query.fill(IDL.Record({ 'name' : IDL.Text, 'next' : IDL.Vec(Query) }));
   const QueryMode = IDL.Variant({ 'All' : IDL.Null, 'Some' : IDL.Vec(Query) });
   const QueryRequest = IDL.Record({ 'id' : IDL.Text, 'mode' : QueryMode });
@@ -173,8 +174,8 @@ export const idlFactory = ({ IDL }) => {
     'properties' : Properties,
     'payload' : PayloadResult,
   });
-  const Result_5 = IDL.Variant({ 'ok' : PublicToken, 'err' : Error });
-  const Result_4 = IDL.Variant({ 'ok' : Chunk, 'err' : Error });
+  const Result_6 = IDL.Variant({ 'ok' : PublicToken, 'err' : Error });
+  const Result_5 = IDL.Variant({ 'ok' : Chunk, 'err' : Error });
   const Metadata = IDL.Record({
     'id' : IDL.Text,
     'contentType' : IDL.Text,
@@ -182,7 +183,8 @@ export const idlFactory = ({ IDL }) => {
     'createdAt' : IDL.Int,
     'properties' : Properties,
   });
-  const Result_3 = IDL.Variant({ 'ok' : Metadata, 'err' : Error });
+  const Result_4 = IDL.Variant({ 'ok' : Metadata, 'err' : Error });
+  const Result_3 = IDL.Variant({ 'ok' : IDL.Vec(Metadata), 'err' : Error });
   const UpdateEventCallback = IDL.Variant({
     'Set' : Callback__1,
     'Remove' : IDL.Null,
@@ -205,7 +207,8 @@ export const idlFactory = ({ IDL }) => {
     'assetRequest' : IDL.Func([AssetRequest], [Result_2], []),
     'authorize' : IDL.Func([AuthorizeRequest], [Result_2], []),
     'balanceOf' : IDL.Func([IDL.Principal], [IDL.Vec(IDL.Text)], ['query']),
-    'burm' : IDL.Func([IDL.Text], [Result_2], []),
+    'balanceOfPublic' : IDL.Func([IDL.Principal], [IDL.Vec(IDL.Text)], []),
+    'burn' : IDL.Func([IDL.Vec(IDL.Text), IDL.Nat], [Result_2], []),
     'getAuthorized' : IDL.Func([IDL.Text], [IDL.Vec(IDL.Principal)], ['query']),
     'getContractInfo' : IDL.Func([], [ContractInfo], []),
     'getEventCallbackStatus' : IDL.Func([], [CallbackStatus], []),
@@ -233,21 +236,24 @@ export const idlFactory = ({ IDL }) => {
         ['query'],
       ),
     'mint' : IDL.Func([Egg], [Result], []),
+    'mintWH' : IDL.Func([IDL.Vec(Egg)], [Result_8], []),
     'nftStreamingCallback' : IDL.Func(
         [StreamingCallbackToken],
         [StreamingCallbackResponse],
         ['query'],
       ),
-    'ownerOf' : IDL.Func([IDL.Text], [Result_6], ['query']),
+    'ownerOf' : IDL.Func([IDL.Text], [Result_7], ['query']),
+    'ownerOfPublic' : IDL.Func([IDL.Text], [Result_7], []),
     'queryProperties' : IDL.Func([QueryRequest], [Result_1], ['query']),
     'staticStreamingCallback' : IDL.Func(
         [StreamingCallbackToken],
         [StreamingCallbackResponse],
         ['query'],
       ),
-    'tokenByIndex' : IDL.Func([IDL.Text], [Result_5], []),
-    'tokenChunkByIndex' : IDL.Func([IDL.Text, IDL.Nat], [Result_4], []),
-    'tokenMetadataByIndex' : IDL.Func([IDL.Text], [Result_3], []),
+    'tokenByIndex' : IDL.Func([IDL.Text], [Result_6], []),
+    'tokenChunkByIndex' : IDL.Func([IDL.Text, IDL.Nat], [Result_5], []),
+    'tokenMetadataByIndex' : IDL.Func([IDL.Text], [Result_4], []),
+    'tokenMetadataByOwner' : IDL.Func([IDL.Principal], [Result_3], []),
     'transfer' : IDL.Func([IDL.Principal, IDL.Text], [Result_2], []),
     'updateContractOwners' : IDL.Func(
         [IDL.Principal, IDL.Bool],

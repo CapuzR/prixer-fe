@@ -23,6 +23,7 @@ const DesktopView = ({
   transfer,
   verifyPayment,
   isLoading,
+  setIsLoading,
 }) => {
   return (
     <Box
@@ -53,6 +54,7 @@ const DesktopView = ({
             transfer={transfer}
             verifyPayment={verifyPayment}
             isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         ) : (
           <PostForm

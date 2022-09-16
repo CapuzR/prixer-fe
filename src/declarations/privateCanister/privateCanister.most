@@ -37,6 +37,7 @@ type NFTMetadataExt =
     socials : [?(Text, Text)];
     supply : ?Nat;
     symbol : Text;
+    value : ?Nat;
     website : ?Text
   };
 type Trie<K, V> = {#branch : Branch<K, V>; #empty; #leaf : Leaf<K, V>};

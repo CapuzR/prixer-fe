@@ -21,15 +21,14 @@ import { service } from "../service";
 import consts from "../consts";
 
 const PaperProfile = ({
-  isMobile,
   artist,
   postsDetails,
   params,
   username,
   handleFollowers,
   handleUpdateProfile,
-  createInvoice,
-  tokens,
+
+  setIsOpenWH,
 }) => {
   const [openMenu, setOpenMenu] = useState();
   const [anchorElActionMenu, setAnchorElActionMenu] = useState(null);
@@ -97,9 +96,7 @@ const PaperProfile = ({
             <IconButton
               color="primary"
               id="basic-button-profile"
-              onClick={(event) => {
-                createInvoice(1, tokens[0].id);
-              }}
+              onClick={(event) => setIsOpenWH(true)}
             >
               <LocalGroceryStoreIcon />
             </IconButton>

@@ -185,7 +185,7 @@ function RegistryForm({
         <Box style={{ marginLeft: isUpdate ? "" : "auto" }}>
           <Button
             style={{
-              color: isDisabled() ? "#C5C5C5" : "#5DBB63",
+              color: isDisabled() || isLoading ? "#C5C5C5" : "#5DBB63",
             }}
             disabled={isDisabled() || isLoading}
             onClick={() => {
@@ -278,7 +278,7 @@ function RegistryForm({
               }
             }}
           >
-            {isUpdate ? "Update" : "Create"}{" "}
+            {isUpdate ? "Update" : "Create"}
           </Button>
         </Box>
       </Box>

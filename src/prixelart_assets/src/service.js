@@ -113,6 +113,14 @@ const _mintNFT = async (id, payload) => {
   return result;
 };
 
+const _mintWH = async (id, payload) => {
+  const identity = await onSignInStoic();
+  const actor = await _CanisterNFT(identity, id);
+  const result = await actor.mintWH(payload);
+  console.log("[MINT WH] => ", result);
+  return result;
+};
+
 const _authorizeNFT = async (id, payload) => {
   const identity = await onSignInStoic();
   const actor = await _CanisterNFT(identity, id);
@@ -278,11 +286,22 @@ const _canisterContactInfo = async (id) => {
   return result;
 };
 
-const isVerifyTransferWH = async (id, nftCanId, tokenId) => {
+const isVerifyTransferWH = async (
+  id,
+  nftCanId,
+  tokenId,
+  invoiceId,
+  serviceId
+) => {
   const identity = await onSignInStoic();
   const actor = await _canisterActor(identity, id);
 
-  const result = await actor.isVerifyTransferWH(nftCanId, tokenId);
+  const result = await actor.isVerifyTransferWH(
+    nftCanId,
+    tokenId,
+    invoiceId,
+    Principal.fromText(serviceId)
+  );
 
   console.log("[VERIFY WH CANISTER] => ", result);
   return result;
@@ -302,7 +321,13 @@ const _createInvoice = async (token, amount, quantity, id) => {
   const actor = await _canisterActor(identity, id);
   console.log(actor);
   console.log(token, amount, quantity);
-  const result = await actor.createInvoice(token, amount, quantity);
+  const tokenIndexes = [];
+  const result = await actor.createInvoice(
+    token,
+    amount,
+    quantity
+    // tokenIndexes
+  );
   console.log("[CREATE INVOICE] => ", result);
   return result;
 };
@@ -313,9 +338,7 @@ const _verifyPayment = async (invoiceId, nftCanId, tokenId, to, id) => {
   const actor = await _canisterActor(identity, id);
   const result = await actor.isVerifyPayment(
     invoiceId,
-    Principal.fromText(nftCanId),
-    tokenId,
-    Principal.fromText(to)
+    Principal.fromText(nftCanId)
   );
   console.log("[Verify INVOICE] => ", result);
   return result;
@@ -466,6 +489,24 @@ const updateArtist = async (artist) => {
   return result;
 };
 
+const getinvoices = async () => {
+  const identity = await onSignInStoic();
+  const actor = await artistRegistryActor(identity);
+  const result = await actor.getInvoicesByPrincipal(
+    Principal.fromText(JSON.parse(localStorage.getItem("_scApp")).principal)
+  );
+  console.log("[GET INVOICES] => ", result);
+  return result;
+};
+
+const getinvoicesPri = async (id) => {
+  const identity = await onSignInStoic();
+  const actor = await _canisterActor(identity, id);
+  const result = await actor.getInvoices();
+  console.log("[GET INVOICES PRI] => ", result);
+  return result;
+};
+
 const readPostsByGallery = async (galleryId) => {
   const identity = await onSignInStoic();
   const actor = await socialsActor(identity);
@@ -525,12 +566,13 @@ const transfer = async (account, amount) => {
 const transferNFT = async (id, tokenId) => {
   const identity = await onSignInStoic();
   const actor = await _CanisterNFT(identity, id);
-  const result = await actor.burm(tokenId);
-  console.log("[BURM NFT] => ", result);
+  const result = await actor.burn(tokenId);
+  console.log("[burn NFT] => ", result);
   return result;
 };
 
-const balanceOf = async (id) => {
+const balanceOf = async (id, canId) => {
+  console.log(id, canId);
   const identity = await onSignInStoic();
   const actor = await _CanisterNFT(identity, id);
 
@@ -541,12 +583,12 @@ const balanceOf = async (id) => {
   return result;
 };
 
-const burm = async (id, tokenId) => {
+const burn = async (id, tokenIds, invoiceId) => {
   const identity = await onSignInStoic();
   const actor = await _CanisterNFT(identity, id);
 
-  const result = await actor.burm(tokenId);
-  console.log("[Burm NFT] => ", result);
+  const result = await actor.burn(tokenIds, invoiceId);
+  console.log("[burn NFT] => ", result);
   return result;
 };
 
@@ -612,6 +654,9 @@ export const service = {
   _verifyPayment,
   transferNFT,
   balanceOf,
-  burm,
+  burn,
   isVerifyTransferWH,
+  _mintWH,
+  getinvoices,
+  getinvoicesPri,
 };

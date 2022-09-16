@@ -40,6 +40,7 @@ actor {
       #leaf : Leaf<Principal, Metadata__4>
     };
   stable var assetCanisterIds : [Principal];
+  stable var invoicePpal : [(Nat, Principal)];
   stable var registryName : Text;
   stable var usernamePpal : [(Text, Principal)]
 };

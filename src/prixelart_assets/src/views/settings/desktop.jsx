@@ -10,6 +10,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListSettings from "../../components/listSettings";
 import StorageConfig from "../../components/storageConfig";
 import ListCanisters from "../../components/listCanisters";
+import ListInvoices from "../../components/listInvoices";
 
 const DesktopView = ({
   onLogout,
@@ -32,6 +33,8 @@ const DesktopView = ({
   _assetCanisterContractInfo,
   verifyPaymentWH,
   setIsLoading,
+  paymentHistoryPrincipal,
+  priInvoice,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -70,14 +73,10 @@ const DesktopView = ({
         );
       default:
         return (
-          <ListSettings
-            isMobile={isMobile}
-            handleScreen={handleScreen}
-            createInvoice={createInvoice}
-            isLoading={isLoading}
-            invoice={invoice}
-            verifyPaymentWH={verifyPaymentWH}
-            artist={artist}
+          <ListInvoices
+            type="principal"
+            invoicesSub={paymentHistoryPrincipal}
+            priInvoice={priInvoice}
           />
         );
     }
@@ -121,6 +120,8 @@ const DesktopView = ({
               onClick={() =>
                 screen !== "settings"
                   ? screen === "list_storage"
+                    ? handleScreen("settings")
+                    : screen === "payment_history"
                     ? handleScreen("settings")
                     : handleScreen("list_storage")
                   : handleNavigation(-1)

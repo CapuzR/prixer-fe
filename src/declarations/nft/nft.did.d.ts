@@ -85,7 +85,8 @@ export interface NFT {
   'assetRequest' : ActorMethod<[AssetRequest], Result_2>,
   'authorize' : ActorMethod<[AuthorizeRequest], Result_2>,
   'balanceOf' : ActorMethod<[Principal], Array<string>>,
-  'burm' : ActorMethod<[string], Result_2>,
+  'balanceOfPublic' : ActorMethod<[Principal], Array<string>>,
+  'burn' : ActorMethod<[Array<string>, bigint], Result_2>,
   'getAuthorized' : ActorMethod<[string], Array<Principal>>,
   'getContractInfo' : ActorMethod<[], ContractInfo>,
   'getEventCallbackStatus' : ActorMethod<[], CallbackStatus>,
@@ -103,19 +104,22 @@ export interface NFT {
     Array<[string, [[] | [Principal], Array<Principal>], Properties]>,
   >,
   'mint' : ActorMethod<[Egg], Result>,
+  'mintWH' : ActorMethod<[Array<Egg>], Result_8>,
   'nftStreamingCallback' : ActorMethod<
     [StreamingCallbackToken],
     StreamingCallbackResponse,
   >,
-  'ownerOf' : ActorMethod<[string], Result_6>,
+  'ownerOf' : ActorMethod<[string], Result_7>,
+  'ownerOfPublic' : ActorMethod<[string], Result_7>,
   'queryProperties' : ActorMethod<[QueryRequest], Result_1>,
   'staticStreamingCallback' : ActorMethod<
     [StreamingCallbackToken],
     StreamingCallbackResponse,
   >,
-  'tokenByIndex' : ActorMethod<[string], Result_5>,
-  'tokenChunkByIndex' : ActorMethod<[string, bigint], Result_4>,
-  'tokenMetadataByIndex' : ActorMethod<[string], Result_3>,
+  'tokenByIndex' : ActorMethod<[string], Result_6>,
+  'tokenChunkByIndex' : ActorMethod<[string, bigint], Result_5>,
+  'tokenMetadataByIndex' : ActorMethod<[string], Result_4>,
+  'tokenMetadataByOwner' : ActorMethod<[Principal], Result_3>,
   'transfer' : ActorMethod<[Principal, string], Result_2>,
   'updateContractOwners' : ActorMethod<[Principal, boolean], Result_2>,
   'updateEventCallback' : ActorMethod<[UpdateEventCallback], undefined>,
@@ -161,13 +165,17 @@ export type Result_1 = { 'ok' : Properties } |
   { 'err' : Error };
 export type Result_2 = { 'ok' : null } |
   { 'err' : Error };
-export type Result_3 = { 'ok' : Metadata } |
+export type Result_3 = { 'ok' : Array<Metadata> } |
   { 'err' : Error };
-export type Result_4 = { 'ok' : Chunk } |
+export type Result_4 = { 'ok' : Metadata } |
   { 'err' : Error };
-export type Result_5 = { 'ok' : PublicToken } |
+export type Result_5 = { 'ok' : Chunk } |
   { 'err' : Error };
-export type Result_6 = { 'ok' : Principal } |
+export type Result_6 = { 'ok' : PublicToken } |
+  { 'err' : Error };
+export type Result_7 = { 'ok' : Principal } |
+  { 'err' : Error };
+export type Result_8 = { 'ok' : Array<string> } |
   { 'err' : Error };
 export type StreamingCallback = ActorMethod<
   [StreamingCallbackToken],
