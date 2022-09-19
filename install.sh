@@ -25,6 +25,8 @@ dfx deploy artistRegistry --argument '(record { admins = vec { principal "'$(dfx
 dfx canister call artistRegistry createAssetCan
 dfx canister call artistRegistry whitelistArtists '(vec { principal "6b6h7-jofyl-qgbpt-nhngb-d7bkj-2kskw-udjjc-lvn35-vcjac-kb5f3-2qe" })'
 dfx canister call artistRegistry whitelistArtists '(vec { principal "5ol4m-s6nms-jwn5v-hw36m-n44xo-v62am-ks5nv-2msde-en2pg-bhpmg-pqe" })'
+dfx canister call artistRegistry whitelistArtists '(vec { principal "sjo7b-hulqs-e2tc4-f3j3a-lqcpt-ydfhu-gilv5-tr6vk-3wevj-2aj32-jae" })'
+
 dfx deploy prixelart_assets
 
 
@@ -56,6 +58,13 @@ dfx canister call ledger transfer '( record {
     memo = 0;
     amount = record { e8s = 4_000_000_000 };
 })';
-
+dfx canister call ledger transfer '( record {
+    fee = record { e8s = 10_000 };
+    to = '$(python3 -c 'print("vec{" + ";".join([str(b) for b in bytes.fromhex("b4990a3d17efd1d8e5579401dfac3f8a169ae9dbb15f1559dffa67e094cd6ad4")]) + "}")')';
+    from_subaccount = null;
+    created_at_time = null;
+    memo = 0;
+    amount = record { e8s = 4_000_000_000 };
+})';
 dfx wallet --network local send "${ARTIST_CANID}" 10000000000000
 dfx generate

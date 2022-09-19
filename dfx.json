@@ -20,14 +20,6 @@
       "wasm": "ledger.wasm",
       "candid": "ledger.did",
       "build": []
-    },
-    "privateCanister": {
-      "main": "../artist-registry/src/actorClasses/artist/artistCanister.mo",
-      "type": "motoko"
-    },
-    "nft": {
-      "main": "../artist-registry/src/actorClasses/NFT/main.mo",
-      "type": "motoko"
     }
   },
   "defaults": {

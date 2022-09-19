@@ -166,7 +166,7 @@ const CollectionForm = ({
                   variant="outlined"
                   required
                   fullWidth
-                  value={supply}
+                  value={valueCollection}
                   onChange={(event) => setValueCollection(event.target.value)}
                 />
               </Grid>

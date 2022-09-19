@@ -83,7 +83,7 @@ const AddCollection = ({ isMobile }) => {
           website: [website],
           socials: [],
           prixelart: [prixelart],
-          value: [valueCollection],
+          value: [parseInt(valueCollection)],
         },
         creator: JSON.parse(localStorage.getItem("_scApp")).principal,
       });

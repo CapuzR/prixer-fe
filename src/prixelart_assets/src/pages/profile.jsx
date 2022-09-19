@@ -46,7 +46,7 @@ const Profile = ({ isMobile }) => {
     localStorage.clear();
     navigate("/");
   };
-
+  console.log(userGuest);
   const init = async () => {
     setIsLoading(true);
     try {
@@ -63,7 +63,7 @@ const Profile = ({ isMobile }) => {
         const collections = parseArtist.canisterId
           ? await service._getNFTCan(parseArtist.canisterId)
           : [];
-        console.log(collections);
+
         if (collections.length > 0) {
           const filterCollections = collections?.filter(
             (el) =>
@@ -106,10 +106,10 @@ const Profile = ({ isMobile }) => {
           service.getGalleriesByArtist(params.username),
         ]);
         const parsetArtist = service.parseArtist(result[0]);
-        const collections = parseArtist.canisterId
-          ? await service._getNFTCan(parseArtist.canisterId)
+        const collections = parsetArtist.canisterId
+          ? await service._getNFTCan(parsetArtist.canisterId)
           : [];
-       
+        console.log(collections, "COLLECTIONS");
         if (collections.length > 0) {
           const filterCollections = collections?.filter(
             (el) =>
@@ -294,7 +294,7 @@ const Profile = ({ isMobile }) => {
         "ICP",
         amount,
         parseInt(WHMint),
-        state.user.canisterId
+        userGuest.length === 0 ? state.user.canisterId : userGuest.canisterId
       );
       setInvoice(result.ok);
       setIsOpen(true);
@@ -315,11 +315,13 @@ const Profile = ({ isMobile }) => {
   const isConfirmPayment = async () => {
     setIsLoading(true);
     setIsPayment(true);
+    console.log(invoice);
     const transferResponse = await transfer(
       invoice.subAccount,
       parseInt(invoice.invoice.amount)
     );
     if (transferResponse) {
+      console.log(invoice.invoice.id);
       await verifyPayment(invoice.invoice.id, token);
       setIsOpen(false);
     } else {
@@ -336,10 +338,12 @@ const Profile = ({ isMobile }) => {
     try {
       const result = await service._verifyPayment(
         invoiceId,
-        state.user.WHCanister.id,
+        userGuest.length === 0
+          ? state.user.WHCanister.id
+          : userGuest.WHCanister.id,
         tokenId,
         JSON.parse(localStorage.getItem("_scApp")).principal,
-        state.user.canisterId
+        userGuest.length === 0 ? state.user.canisterId : userGuest.canisterId
       );
     } catch (err) {
       console.log(err);
@@ -578,7 +582,11 @@ const Profile = ({ isMobile }) => {
               <DialogContentText id="alert-dialog-description">
                 <Box>
                   {`Define how many Working Hours do you want to buy and confirm
-                  that you will pay ${state.user.WHCanister.value} ICP for
+                  that you will pay ${
+                    userGuest.length === 0
+                      ? state.user.WHCanister.value
+                      : userGuest.WHCanister.value
+                  } ICP for
                   each.`}
                 </Box>
               </DialogContentText>
@@ -598,7 +606,9 @@ const Profile = ({ isMobile }) => {
                 // onClick={() => _verifyPayment(["0"])}
                 onClick={() =>
                   createInvoice(
-                    parseInt(WHMint) * 100000000 * state.user.WHCanister.value
+                    parseInt(WHMint) * 100000000 * userGuest.length === 0
+                      ? state.user.WHCanister.value
+                      : userGuest.WHCanister.value
                   )
                 }
                 autoFocus
